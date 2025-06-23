@@ -47,7 +47,7 @@ class Company extends Model
         });
 
         static::updating(function (Company $company) {
-            $company->slug = Str::slug($company->title);
+            $company->slug = Str::slug($company->name);
         });
     }
 

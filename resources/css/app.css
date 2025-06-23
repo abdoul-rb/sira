@@ -1,11 +1,22 @@
+/* Import Tailwind CSS framework */
 @import 'tailwindcss';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
+/* Custom theme configuration with system font stack */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Inter var', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Include Tailwind CSS plugins for enhanced form styling and typography */
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+/* Remove default red box-shadow on invalid form elements */
+input:invalid, textarea:invalid, select:invalid {
+    box-shadow: none;
+}
+
+/* Hide elements with x-cloak attribute (used with Alpine.js) until JavaScript loads */
+[x-cloak] {
+    display: none;
 }

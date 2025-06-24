@@ -9,6 +9,6 @@ class DashboardController extends Controller
 {
     public function index(Request $request, string $tenant)
     {
-        dd($tenant, $request->route()->parameter('tenant'));
+        dd($tenant);
     }
 }

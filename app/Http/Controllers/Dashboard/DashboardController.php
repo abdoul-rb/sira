@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request, string $company)
+    public function index(Request $request, string $tenant)
     {
-        dd($company);
+        dd($tenant, $request->route()->parameter('tenant'));
     }
 }

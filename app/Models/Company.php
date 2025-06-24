@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Company extends Model
 {
@@ -50,6 +51,14 @@ class Company extends Model
             $company->slug = Str::slug($company->name);
         });
     }
+
+    /* protected function phone_number(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => decrypt($value),
+            set: fn(string $value) => encrypt($value),
+        );
+    } */
 
 
     /*

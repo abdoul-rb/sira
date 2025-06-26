@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Events\RouteMatched;
 use App\Listeners\SetupTenantListener;
+use Illuminate\Support\Facades\Event;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Enregistrement du listener pour la configuration multi-tenant
-        $this->app['events']->listen(
+        Event::listen(
             RouteMatched::class,
             SetupTenantListener::class
         );

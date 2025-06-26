@@ -14,7 +14,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Log;
 
 class SetupTenantListener
-{    
+{
     /**
      * Durée de cache pour la liste des tenants (30 minutes)
      */
@@ -24,23 +24,26 @@ class SetupTenantListener
 
     public function handle(RouteMatched $event): void
     {
-        $tenant = $event->route->parameter('tenant');
+        // Récupération du paramètre tenant (slug)
+        $tenantSlug = $event->route->parameter('tenant');
 
-        if (is_null($tenant)) {
+        if (is_null($tenantSlug)) {
             return;
         }
 
+        // Récupération des tenants depuis le cache
         $companies = $this->getCachedCompanies();
 
-        if (!in_array($tenant, $companies)) {
-            throw new NotFoundHttpException("Tenant '{$tenant}' not found");
+        // Vérification que le tenant existe
+        if (!in_array($tenantSlug, $companies)) {
+            throw new NotFoundHttpException("Tenant '{$tenantSlug}' not found");
         }
 
         // Configuration de l'URL pour inclure automatiquement le tenant
-        $this->app['url']->defaults(['tenant' => $tenant]);
+        $this->app['url']->defaults(['tenant' => $tenantSlug]);
 
         // Ajout du tenant dans les logs pour faciliter le debugging
-        Log::withContext(['tenant' => $tenant]);
+        Log::withContext(['tenant' => $tenantSlug]);
     }
 
     /**
@@ -52,8 +55,8 @@ class SetupTenantListener
             'tenant_companies_slugs', 
             self::CACHE_TTL, 
             fn() => Company::where('active', true)
-                    ->pluck('slug')
-                    ->toArray()
+                          ->pluck('slug')
+                          ->toArray()
         );
     }
 }

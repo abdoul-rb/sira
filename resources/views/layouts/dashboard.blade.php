@@ -59,7 +59,7 @@
         <div class="lg:pl-72">
             @include('partials.dashboard.__header')
 
-            <main class="py-10 bg-gray-50 min-h-screen" style="border: 1px solid red;">
+            <main class="py-10 px-6 bg-gray-50 min-h-screen">
                 @yield('content')
             </main>
         </div>

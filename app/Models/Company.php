@@ -53,13 +53,13 @@ class Company extends Model
         });
     }
 
-    protected function phone_number(): Attribute
+    /* protected function phone_number(): Attribute
     {
         return Attribute::make(
             get: fn(string $value) => str_starts_with($value, '+225') ? $value : '+225 ' . $value,
             // set: fn(string $value) => encrypt($value),
         );
-    }
+    } */
 
 
     /*

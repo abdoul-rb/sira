@@ -14,8 +14,9 @@ class DashboardController extends Controller
     public function index(Request $request, Company $tenant)
     {
         Log::info("DashboardController::index", ['tenant' => $tenant->slug]);
-        
+
         // Maintenant $tenant est un objet Company complet
         // dd($tenant);
+        return view('dashboard.index');
     }
 }

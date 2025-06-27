@@ -1,0 +1,105 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Product extends Model
+{
+    /** @use HasFactory<\Database\Factories\ProductFactory> */
+    use HasFactory;
+
+    use SoftDeletes;
+
+    protected $fillable = [
+        'company_id',
+        'name',
+        'description',
+        'sku',
+        'price',
+        'stock_quantity',
+    ];
+
+    protected $casts = [
+        'price' => 'decimal:2',
+        'cost_price' => 'decimal:2',
+        'stock_quantity' => 'integer',
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function quotations(): BelongsToMany
+    {
+        return $this->belongsToMany(Quotation::class, 'product_quotation')
+            ->withPivot(['quantity', 'unit_price', 'total_price', 'notes'])
+            ->withTimestamps();
+    }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, 'order_product')
+            ->withPivot(['quantity', 'unit_price', 'total_price', 'notes'])
+            ->withTimestamps();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+
+    public function scopeInStock($query)
+    {
+        return $query->where('stock_quantity', '>', 0);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Methods
+    |--------------------------------------------------------------------------
+    */
+
+    public function getProfitMarginAttribute(): float
+    {
+        if (! $this->cost_price || $this->cost_price == 0) {
+            return 0;
+        }
+
+        return (($this->price - $this->cost_price) / $this->cost_price) * 100;
+    }
+
+    public function updateStock(int $quantity): void
+    {
+        $this->increment('stock_quantity', $quantity);
+    }
+
+    public function decreaseStock(int $quantity): void
+    {
+        $this->decrement('stock_quantity', $quantity);
+    }
+
+    public function isInStock(): bool
+    {
+        return $this->stock_quantity > 0;
+    }
+
+    public function hasSufficientStock(int $quantity): bool
+    {
+        return $this->stock_quantity >= $quantity;
+    }
+}

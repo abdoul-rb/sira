@@ -1,0 +1,53 @@
+@props([
+    'label',
+    'name',
+    'type' => 'text',
+    'value',
+    'wire' => false,
+    'live' => false,
+    'searchable' => false,
+    'number' => false,
+    'placeholder',
+    'required' => false,
+    'disabled' => false,
+])
+
+@php
+    $slug = str()->slug($name);
+    $value ??= '';
+
+    $autocomplete = match ($name) {
+        'firstname' => 'given-name',
+        'lastname' => 'family-name',
+        'email' => 'email',
+        'password' => 'current-password',
+        default => 'off',
+    };
+@endphp
+
+<div {{ $attributes }}>
+    @if (isset($label) && !empty($label))
+        <label for="{{ $slug }}" class="block text-sm font-medium text-gray-700">
+            {{ $label }}
+            @if ($required)
+                <span class="text-red-500">*</span>
+            @endif
+        </label>
+    @endif
+
+    <input type="{{ $type }}" @class([
+        'mt-1' => isset($label) && !empty($label),
+        'block w-full rounded-md border-0 border-gray-300 py-2 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150',
+        'shadow-sm ring-1 ring-inset ring-gray-300' => !$searchable,
+    ]) name="{{ $name }}" id="{{ $slug }}"
+        value="{{ old($name, $value) }}" @if ($wire) wire:model.lazy="{{ $name }}" @endif
+        @if ($searchable && !$wire) wire:model.live.debounce.300ms="{{ $name }}" @endif
+        @if ($live && !$wire) wire:model.live.debounce.300ms="{{ $name }}" @endif
+        @if ($number && !$wire) x-on:click.stop wire:model.live.number="{{ $name }}" @endif
+        @if (isset($placeholder) && !empty($placeholder)) placeholder="{{ $placeholder }}" @endif @disabled($disabled)
+        @required($required) autocomplete="{{ $autocomplete }}">
+
+    @error($name)
+        <p class="mt-1 font-normal text-xs text-red-600">{{ $message }}</p>
+    @enderror
+</div>

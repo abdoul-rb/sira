@@ -267,6 +267,7 @@ describe('Quotation Model', function () {
                 'company_id' => $this->company->id,
                 'customer_id' => $this->customer->id,
             ]);
+
             Quotation::factory()->sent()->count(2)->create([
                 'company_id' => $this->company->id,
                 'customer_id' => $this->customer->id,

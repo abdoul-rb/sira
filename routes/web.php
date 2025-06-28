@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Middleware\TenantMiddleware;
-use App\Models\Company;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');

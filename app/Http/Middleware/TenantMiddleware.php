@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 final class TenantMiddleware
 {
@@ -28,6 +29,16 @@ final class TenantMiddleware
 
         if (!$company) {
             throw new NotFoundHttpException("Tenant '{$tenantSlug}' not found or inactive");
+        }
+
+        // Vérifier que l'utilisateur connecté appartient à cette company
+        if (Auth::check()) {
+            $user = Auth::user();
+            
+            // Les super admins peuvent accéder à toutes les companies
+            if (!$user->isSuperAdmin() && $user->company_id !== $company->id) {
+                throw new NotFoundHttpException("Access denied to tenant '{$tenantSlug}'");
+            }
         }
 
         // Injecter la company dans la requête pour le Route Model Binding

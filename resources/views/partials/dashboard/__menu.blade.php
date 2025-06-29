@@ -3,7 +3,7 @@
         <li>
             <ul role="list" class="-mx-2 space-y-2">
                 <li>
-                    <a href="#"
+                    <a href="{{ route('dashboard.index', ['tenant' => request()->route('tenant')]) }}"
                         class="group flex gap-x-2 rounded-md p-2 text-sm leading-6 hover:bg-gray-100 {{ request()->routeIs('dashboard.index') ? 'bg-sky-100 text-sky-500 font-semibold' : 'text-slate-900 font-medium' }}">
                         <svg class="h-6 w-6 shrink-0" fill="none" stroke-width="1.5" stroke="currentColor"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -18,7 +18,7 @@
 
                 <li>
                     <a href="#"
-                        class="group flex gap-x-2 rounded-md p-2 text-sm leading-6 hover:bg-gray-100 {{ request()->routeIs('dashboard.2.index') ? 'bg-sky-100 text-sky-500 font-semibold' : 'text-slate-900 font-medium' }}">
+                        class="group flex gap-x-2 rounded-md p-2 text-sm leading-6 hover:bg-gray-100 {{ request()->routeIs('dashboard.employees.*') ? 'bg-sky-100 text-sky-500 font-semibold' : 'text-slate-900 font-medium' }}">
                         <svg class="h-6 w-6 shrink-0" data-slot="icon" fill="none" stroke-width="1.5"
                             stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
                             aria-hidden="true">
@@ -32,8 +32,8 @@
                 </li>
 
                 <li>
-                    <a href="#"
-                        class="group flex gap-x-2 rounded-md p-2 text-sm leading-6 hover:bg-gray-100 {{ request()->routeIs('dashboard.2.index') ? 'bg-sky-100 text-sky-500 font-semibold' : 'text-slate-900 font-medium' }}">
+                    <a href="{{ route('dashboard.customers.index') }}"
+                        class="group flex gap-x-2 rounded-md p-2 text-sm leading-6 hover:bg-gray-100 {{ request()->routeIs('dashboard.customers.*') ? 'bg-sky-100 text-sky-500 font-semibold' : 'text-slate-900 font-medium' }}">
                         <svg class="h-6 w-6 shrink-0" data-slot="icon" fill="none" stroke-width="1.5"
                             stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
                             aria-hidden="true">

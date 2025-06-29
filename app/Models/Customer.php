@@ -40,6 +40,11 @@ class Customer extends Model
         'converted_at' => 'datetime',
     ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
     public static function boot()
     {
         parent::boot();
@@ -95,6 +100,16 @@ class Customer extends Model
     public function getFullNameAttribute(): string
     {
         return trim($this->firstname . ' ' . $this->lastname);
+    }
+
+    public function getInitialsAttribute(): string
+    {
+        return strtoupper(substr($this->firstname, 0, 1) . substr($this->lastname, 0, 1));
+    }
+
+    public function getFullAddressesAttribute(): string
+    {
+        return "{$this->address} {$this->city} {$this->zip_code} {$this->country}";
     }
 
     public function convertToCustomer(): void

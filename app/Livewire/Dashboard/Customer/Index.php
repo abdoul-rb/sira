@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Dashboard\Customer;
 
 use App\Enums\CustomerType;
@@ -7,6 +9,9 @@ use App\Models\Company;
 use App\Models\Customer;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Url;
+use Livewire\Attributes\Locked;
+use Livewire\Attributes\Validate;
 
 class Index extends Component
 {
@@ -14,11 +19,20 @@ class Index extends Component
 
     public Company $tenant;
 
+    #[Url]
     public string $search = '';
 
+    public string $sortByLabel = 'Type:';
+
+    #[Url(as: 'field', history: true)]
+    #[Locked]
+    #[Validate('in:created_at,comments_count')]
     public string $sortField = 'lastname';
 
-    public string $sortDirection = 'asc';
+    #[Url(as: 'direction', history: true)]
+    #[Locked]
+    #[Validate('in:asc,desc')]
+    public string $sortDirection = 'desc';
 
     public ?string $type = null;
 
@@ -37,19 +51,19 @@ class Index extends Component
         $this->tenant = $tenant;
     }
 
-    public function updatingSearch()
+    /* public function updatingSearch()
     {
         $this->resetPage();
-    }
+    } */
 
-    public function sortBy($field)
+    public function sortBy(string $field, string $direction = 'desc')
     {
-        if ($this->sortField === $field) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortField = $field;
-            $this->sortDirection = 'asc';
-        }
+        $this->sortField = $field;
+        $this->sortDirection = $direction;
+
+
+        // Dispatch l'événement avec les valeurs des propriétés
+        $this->dispatch('sort-updated', field: $field, direction: $direction);
     }
 
     public function confirmDelete($customerId)
@@ -66,14 +80,14 @@ class Index extends Component
 
     public function render()
     {
+        /* $query = Customer::where('company_id', $this->tenant->id) */
+
         $query = Customer::where('company_id', $this->tenant->id)
             ->when($this->search, function ($q) {
                 $q->where(function ($q) {
-                    $q->where('firstname', 'like', '%' . $this->search . '%')
-                        ->orWhere('lastname', 'like', '%' . $this->search . '%')
-                        ->orWhere('email', 'like', '%' . $this->search . '%')
-                        ->orWhere('phone_number', 'like', '%' . $this->search . '%')
-                        ->orWhere('city', 'like', '%' . $this->search . '%');
+                    $q->where('firstname', 'like', "%{$this->search}%")
+                        ->orWhere('lastname', 'like', "%{$this->search}%")
+                        ->orWhere('email', 'like', "%{$this->search}%");
                 });
             })
             ->when($this->type, fn ($q) => $q->where('type', $this->type))

@@ -2,8 +2,8 @@
 
 <div>
     <x-ui.breadcrumb :items="[
-        ['label' => 'Tableau de bord', 'url' => route('dashboard.index', ['tenant' => $tenant->slug])],
-        ['label' => 'Clients', 'url' => route('dashboard.customers.index', ['tenant' => $tenant->slug])],
+        ['label' => 'Tableau de bord', 'url' => route('dashboard.index', ['tenant' => $tenant])],
+        ['label' => 'Clients', 'url' => route('dashboard.customers.index', ['tenant' => $tenant])],
     ]" />
 
     <div class="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -11,8 +11,8 @@
             {{ __('Clients') }}
         </h1>
 
-        <a href="{{ route('dashboard.customers.create', ['tenant' => $tenant->slug]) }}"
-            class="inline-flex items-center gap-x-1.5 rounded-md bg-blue-600 px-3 py-1 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+        <a href="{{ route('dashboard.customers.create', ['tenant' => $tenant]) }}"
+            class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-blue-600 px-3 py-2 lg:py-1 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600">
             <svg class="size-4 transition duration-75 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -35,23 +35,141 @@
                                 fill=""></path>
                         </svg>
                     </span>
-                    <input type="text" wire:model.debounce.400ms="search" placeholder="Recherche globale..."
+                    <input type="text" wire:model.live.debounce.500ms="search"
+                        placeholder="Rechercher par nom, email..."
                         class="shadow-xs focus:border-brand-300 focus:ring-gray-500/10 h-11 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pr-14 pl-12 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-1 focus:outline-hidden xl:w-[430px]">
                 </div>
             </div>
             <div class="flex gap-2 items-center">
                 <!-- Filtre par type -->
-                <select wire:model="type" class="rounded-md border-gray-300 text-sm focus:ring-teal-600">
-                    <option value="">Tous les types</option>
-                    @foreach ($types as $enum)
-                        <option value="{{ $enum->value }}">{{ $enum->label() }}</option>
-                    @endforeach
-                </select>
-                <!-- Tri -->
-                <select wire:model="sortField" class="rounded-md border-gray-300 text-sm focus:ring-teal-600">
-                    <option value="lastname">Nom</option>
-                    <option value="created_at">Date d'ajout</option>
-                </select>
+                <div class="mt-2 lg:mt-0 flex items-center gap-2">
+                    <div x-data="{
+                        open: false,
+                        toggle() {
+                            if (this.open) { return this.close() }
+                    
+                            this.$refs.button.focus()
+                            this.open = true
+                        },
+                        close(focusAfter) {
+                            if (!this.open) return
+                            this.open = false
+                            focusAfter && focusAfter.focus()
+                        }
+                    }" x-on:keydown.escape.prevent.stop="close($refs.button)"
+                        x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+                        x-id="['dropdown-button']" class="relative w-full col-span-full">
+
+                        <!-- Button -->
+                        <button x-ref="button" x-on:click="toggle()" :aria-expanded="open"
+                            :aria-controls="$id('dropdown-button')" type="button"
+                            class="relative flex items-center justify-center lg:justify-between w-full gap-2 bg-white px-3 p-2.5 rounded-md ring-1 ring-inset ring-black/10 focus:ring-2 focus:ring-inset focus:ring-cyan-600 z-20 cursor-pointer">
+                            <span class="text-sm truncate text-black">
+                                {!! __('Type de client') !!}
+                            </span>
+
+                            <!-- Heroicon: chevron-down -->
+                            <span>
+                                <svg x-show="!open" class="size-4 text-dark/50 shrink-0" data-slot="icon" fill="none"
+                                    stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5">
+                                    </path>
+                                </svg>
+
+                                <svg x-show="open" class="size-4 text-dark/50 shrink-0 rotate-180" data-slot="icon"
+                                    fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5">
+                                    </path>
+                                </svg>
+                            </span>
+                        </button>
+
+                        <!-- Panel Desktop -->
+                        <div x-ref="panel" x-show="open" x-transition.origin.top.left
+                            x-on:click.outside="close($refs.button)" :id="$id('dropdown-button')" style="display: none;"
+                            class="mt-2 absolute right-0 w-40 rounded-lg bg-white ring-1 ring-gray-200 z-10">
+                            <div class="divide-y divide-black/8 py-2">
+                                @foreach ($types as $enum)
+                                    <button type="button" wire:click.prevent="sortBy('type', 'desc')"
+                                        x-on:click="close()"
+                                        class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md px-4 py-3 text-left text-sm hover:bg-gray-100 disabled:text-black/50 cursor-pointer {{ $sortField === 'created_at' && $sortDirection === 'desc' ? 'bg-i-secondary/10 text-i-primary' : '' }}">
+                                        {{ $enum->label() }}
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tri par -->
+                <div class="mt-2 lg:mt-0 flex items-center gap-2">
+                    <div x-data="{
+                        open: false,
+                        toggle() {
+                            if (this.open) { return this.close() }
+                    
+                            this.$refs.button.focus()
+                            this.open = true
+                        },
+                        close(focusAfter) {
+                            if (!this.open) return
+                            this.open = false
+                            focusAfter && focusAfter.focus()
+                        }
+                    }" x-on:keydown.escape.prevent.stop="close($refs.button)"
+                        x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+                        x-id="['dropdown-button']" class="relative w-full col-span-full">
+
+                        <!-- Button -->
+                        <button x-ref="button" x-on:click="toggle()" :aria-expanded="open"
+                            :aria-controls="$id('dropdown-button')" type="button"
+                            class="relative flex items-center justify-center lg:justify-between w-full gap-2 bg-white px-3 p-2.5 rounded-md ring-1 ring-inset ring-black/10 focus:ring-2 focus:ring-inset focus:ring-cyan-600 z-20 cursor-pointer">
+                            <span class="text-sm truncate text-black">
+                                {!! __('Trier par') !!}
+                            </span>
+
+                            <!-- Heroicon: chevron-down -->
+                            <span>
+                                <svg x-show="!open" class="size-4 text-dark/50 shrink-0" data-slot="icon" fill="none"
+                                    stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5">
+                                    </path>
+                                </svg>
+
+                                <svg x-show="open" class="size-4 text-dark/50 shrink-0 rotate-180" data-slot="icon"
+                                    fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="m19.5 8.25-7.5 7.5-7.5-7.5">
+                                    </path>
+                                </svg>
+                            </span>
+                        </button>
+
+                        <!-- Panel Desktop -->
+                        <div x-ref="panel" x-show="open" x-transition.origin.top.left
+                            x-on:click.outside="close($refs.button)" :id="$id('dropdown-button')"
+                            style="display: none;"
+                            class="mt-2 absolute right-0 w-40 rounded-lg bg-white ring-1 ring-gray-200 z-10">
+                            <div class="divide-y divide-black/8 py-2">
+                                <button type="button" wire:click.prevent="sortBy('firstname', 'desc')"
+                                    x-on:click="close()"
+                                    class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md px-4 py-3 text-left text-sm hover:bg-gray-100 disabled:text-black/50 cursor-pointer {{ $sortField === 'created_at' && $sortDirection === 'desc' ? 'bg-i-secondary/10 text-i-primary' : '' }}">
+                                    Nom
+                                </button>
+
+                                <button type="button" wire:click.prevent="sortBy('created_at', 'desc')"
+                                    x-on:click="close()"
+                                    class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md px-4 py-3 text-left text-sm hover:bg-gray-100 disabled:text-black/50 cursor-pointer {{ $sortField === 'created_at' && $sortDirection === 'desc' ? 'bg-i-secondary/10 text-i-primary' : '' }}">
+                                    {{ __("Date d'ajout") }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -73,5 +191,4 @@
             {{ $customers->links() }}
         </div>
     </div>
-
 </div>

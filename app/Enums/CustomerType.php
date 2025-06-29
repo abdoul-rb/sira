@@ -20,4 +20,12 @@ enum CustomerType: string
             self::CUSTOMER => 'Client',
         };
     }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::LEAD => 'bg-cyan-50 text-cyan-600',
+            self::CUSTOMER => 'bg-green-50 text-green-600',
+        };
+    }
 } 

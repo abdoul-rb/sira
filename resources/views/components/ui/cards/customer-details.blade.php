@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between">
         <div class="font-bold text-base text-gray-800">{{ $customer->fullname }}</div>
         <div class="flex items-center">
-            <p class="bg-cyan-50 text-xs text-cyan-600 rounded-full px-4 py-0.5 font-medium">
+            <p class="{{ $customer->type->color() }} text-xs rounded-full px-4 py-0.5 font-medium">
                 {{ $customer->type->label() }}
             </p>
         </div>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="flex flex-end gap-4 mt-4">
-        <a href="{{ route('dashboard.customers.edit', ['customer' => $customer]) }}"
+        <a href="{{ route('dashboard.customers.edit', ['tenant' => $currentTenant, 'customer' => $customer]) }}"
             class="flex items-center gap-1 text-black text-sm font-medium">
             <svg class="size-4 text-black/50 shrink-0" data-slot="icon" fill="none" stroke-width="1.5"
                 stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -57,7 +57,7 @@
             Voir
         </a>
 
-        <a href="{{ route('dashboard.customers.edit', ['customer' => $customer]) }}"
+        <a href="{{ route('dashboard.customers.edit', ['tenant' => $currentTenant, 'customer' => $customer]) }}"
             class="flex items-center gap-1 text-blue-600 text-sm font-medium">
             <svg class="size-4 text-blue/50 shrink-0" data-slot="icon" fill="none" stroke-width="1.5"
                 stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

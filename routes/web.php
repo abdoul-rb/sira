@@ -6,9 +6,14 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Dashboard\Customer\Index as CustomerIndex;
 use App\Livewire\Dashboard\Customer\Create as CustomerCreate;
 use App\Livewire\Dashboard\Customer\Edit as CustomerEdit;
+
 use App\Livewire\Dashboard\Product\Index as ProductIndex;
 use App\Livewire\Dashboard\Product\Create as ProductCreate;
 use App\Livewire\Dashboard\Product\Edit as ProductEdit;
+
+use App\Livewire\Dashboard\Order\Index as OrderIndex;
+use App\Livewire\Dashboard\Order\Create as OrderCreate;
+use App\Livewire\Dashboard\Order\Edit as OrderEdit;
 
 
 Route::view('/', 'welcome')->name('home');
@@ -31,6 +36,13 @@ Route::domain('{tenant}.' . config('app.url'))->name('dashboard.')->group(functi
             Route::get('', ProductIndex::class)->name('index');
             Route::get('create', ProductCreate::class)->name('create');
             Route::get('{product}/edit', ProductEdit::class)->name('edit');
+        });
+
+        // CRUD Order (Livewire)
+        Route::prefix('orders')->name('orders.')->group(function () {
+            Route::get('', OrderIndex::class)->name('index');
+            Route::get('create', OrderCreate::class)->name('create');
+            Route::get('{order}/edit', OrderEdit::class)->name('edit');
         });
 
     });

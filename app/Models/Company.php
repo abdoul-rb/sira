@@ -82,4 +82,10 @@ class Company extends Model
     {
         return $this->hasMany(Employee::class);
     }
+
+    // initials
+    public function getInitialsAttribute(): string
+    {
+        return Str::upper(Str::substr($this->name, 0, 2));
+    }
 }

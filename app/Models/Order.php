@@ -55,7 +55,7 @@ class Order extends Model
         parent::boot();
 
         static::creating(function (Order $order) {
-            $order->order_number = strtoupper(substr($order->company->name, 0, 3)) . '_' . now()->format('Ymd') . '_' . Str::random(5);
+            $order->order_number = $order->company->initials . '_' . Str::random(6);
         });
     }
 

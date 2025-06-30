@@ -56,8 +56,8 @@
 
 
                 <li>
-                    <a href="#"
-                        class="group flex gap-x-2 rounded-md p-2 text-sm leading-6 hover:bg-gray-100 {{ request()->routeIs('dashboard.2.index') ? 'bg-sky-100 text-sky-500 font-semibold' : 'text-slate-900 font-medium' }}">
+                    <a href="{{ route('dashboard.orders.index') }}"
+                        class="group flex gap-x-2 rounded-md p-2 text-sm leading-6 hover:bg-gray-100 {{ request()->routeIs('dashboard.orders.*') ? 'bg-sky-100 text-sky-500 font-semibold' : 'text-slate-900 font-medium' }}">
                         <svg class="h-6 w-6 shrink-0" fill="none" stroke-width="1.5" stroke="currentColor"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round"

@@ -1,3 +1,5 @@
+@section('title', __('Créer un produit'))
+
 <div>
     <x-ui.breadcrumb :items="[
         ['label' => 'Tableau de bord', 'url' => route('dashboard.index', ['tenant' => $tenant])],

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -20,6 +21,7 @@ class Product extends Model
     protected $fillable = [
         'company_id',
         'name',
+        'slug',
         'description',
         'sku',
         'price',
@@ -31,6 +33,24 @@ class Product extends Model
         'cost_price' => 'decimal:2',
         'stock_quantity' => 'integer',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (Product $product) {
+            $product->slug = Str::slug($product->name);
+        });
+
+        static::updating(function (Product $product) {
+            $product->slug = Str::slug($product->name);
+        });
+    }
 
     /*
     |--------------------------------------------------------------------------

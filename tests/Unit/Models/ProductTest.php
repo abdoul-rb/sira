@@ -18,6 +18,7 @@ test('Product: array expected columns', function () {
         'id',
         'company_id',
         'name',
+        'slug',
         'description',
         'sku',
         'price',

@@ -8,7 +8,7 @@
         {{ $slot }}
 
         @if ($sortable)
-            <button type="button" class="flex items-center px-1 py-0.5">
+            <button type="button" class="flex items-center px-1 py-0.5 cursor-pointer">
                 <svg class="w-3 h-2 text-dark/25 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 7"
                     fill="currentColor">
                     <path fill-rule="evenodd" clip-rule="evenodd"

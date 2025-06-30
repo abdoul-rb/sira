@@ -79,7 +79,7 @@
         <!-- Bouton de sauvegarde -->
         <div class="md:col-span-full">
             <button type="submit"
-                class="px-6 py-2 bg-teal-600 text-white rounded-md font-medium hover:bg-teal-700 transition cursor-pointer">
+                class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-blue-600 px-3 py-2 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600">
                 {{ __('Enregistrer') }}
             </button>
         </div>

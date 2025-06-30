@@ -51,11 +51,6 @@ class Index extends Component
         $this->tenant = $tenant;
     }
 
-    /* public function updatingSearch()
-    {
-        $this->resetPage();
-    } */
-
     public function sortBy(string $field, string $direction = 'desc')
     {
         $this->sortField = $field;

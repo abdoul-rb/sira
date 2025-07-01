@@ -21,8 +21,6 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_id' => ['nullable', 'exists:customers,id'],
-            'quotation_id' => ['nullable', 'exists:quotations,id'],
             'status' => ['required', 'in:pending,confirmed,in_preparation,shipped,delivered,cancelled'],
             'shipping_cost' => ['nullable', 'numeric', 'min:0'],
             'shipping_address' => ['nullable', 'string', 'max:255'],
@@ -34,8 +32,6 @@ class StoreOrderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'customer_id.exists' => __("Le client n'existe pas."),
-            'quotation_id.exists' => __("La facture n'existe pas."),
             'status.required' => __("Le statut est requis."),
             'status.in' => __("Le statut doit être une des valeurs suivantes : :values."),
         ];

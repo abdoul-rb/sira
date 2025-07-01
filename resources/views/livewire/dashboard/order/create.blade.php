@@ -47,7 +47,7 @@
                         </label>
 
                         <div class="mt-1 grid grid-cols-1">
-                            <select id="status" name="status" wire:model="status"
+                            <select id="status" name="status" wire:model.live="status"
                                 class="col-start-1 row-start-1 w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150 appearance-none bg-white py-2 pl-3 pr-8 -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6">
                                 @foreach ($statuses as $status)
                                     <option value="{{ $status->value }}">{{ $status->label() }}</option>
@@ -122,7 +122,7 @@
             </header>
 
             <div class="border-t border-gray-200 px-4 py-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-6">
-                <x-form.input name="shipping_cost" label="Frais de livraison" :wire="true" />
+                <x-form.input name="shipping_cost" label="Frais de livraison" :number="true" />
 
                 <div></div>
 

@@ -43,7 +43,7 @@
         value="{{ old($name, $value) }}" @if ($wire) wire:model.lazy="{{ $name }}" @endif
         @if ($searchable && !$wire) wire:model.live.debounce.300ms="{{ $name }}" @endif
         @if ($live && !$wire) wire:model.live.debounce.300ms="{{ $name }}" @endif
-        @if ($number && !$wire) x-on:click.stop wire:model.live.number="{{ $name }}" @endif
+        @if ($number && !$wire) wire:model.live.number="{{ $name }}" @endif
         @if (isset($placeholder) && !empty($placeholder)) placeholder="{{ $placeholder }}" @endif @disabled($disabled)
         @required($required) autocomplete="{{ $autocomplete }}">
 

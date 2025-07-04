@@ -188,7 +188,7 @@
                                     {{ __('Quantité') }}
                                 </label>
 
-                                <input type="number" wire:model.live="productLines.{{ $index }}.quantity"
+                                <input type="number" wire:model.number="productLines.{{ $index }}.quantity"
                                     min="1" max="{{ $line['available_stock'] }}"
                                     class="mt-4 w-28 rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 px-3 py-2">
                                 @error("productLines.{$index}.quantity")

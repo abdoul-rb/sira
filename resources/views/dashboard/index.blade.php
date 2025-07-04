@@ -88,8 +88,8 @@
                 </div>
             </div>
 
+            <!-- Dernières commandes -->
             <div class="col-span-full">
-                <!-- Table Four -->
                 <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
                     <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
@@ -152,42 +152,43 @@
                                                     class="hidden">
                                                     <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
                                                         stroke-width="1.94437" stroke-linecap="round"
-                                                        stroke-linejoin="round"></path>
+                                                        stroke-linejoin="round">
+                                                    </path>
                                                 </svg>
                                             </div>
                                             <span class="block font-medium text-gray-500 text-xs">
-                                                Deal ID
+                                                N°
                                             </span>
                                         </div>
                                     </x-ui.tables.heading>
 
                                     <x-ui.tables.heading>
                                         <span class="font-medium text-gray-500 text-xs">
-                                            Customer
+                                            {{ __('Client') }}
                                         </span>
                                     </x-ui.tables.heading>
 
                                     <x-ui.tables.heading>
                                         <span class="font-medium text-gray-500 text-xs">
-                                            Product/Service
+                                            {{ __('Product/Service') }}
                                         </span>
                                     </x-ui.tables.heading>
 
                                     <x-ui.tables.heading>
                                         <span class="font-medium text-gray-500 text-xs">
-                                            Deal Value
+                                            {{ __('Montant') }}
                                         </span>
                                     </x-ui.tables.heading>
 
                                     <x-ui.tables.heading>
                                         <span class="font-medium text-gray-500 text-xs">
-                                            Close Date
+                                            {{ __('Date') }}
                                         </span>
                                     </x-ui.tables.heading>
 
                                     <x-ui.tables.heading>
                                         <span class="font-medium text-gray-500 text-xs">
-                                            Status
+                                            {{ __('Statut') }}
                                         </span>
                                     </x-ui.tables.heading>
 
@@ -202,249 +203,95 @@
 
                             <!-- table body start -->
                             <tbody class="divide-y divide-gray-100">
-                                <x-ui.tables.row class="hover:bg-gray-50">
-                                    <x-ui.tables.cell>
-                                        <div x-data="{ checked: false }" class="flex items-center gap-3">
-                                            <div @click="checked = !checked"
-                                                class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white /0 border-gray-300 "
-                                                :class="checked ? 'border-brand-500  bg-brand-500' :
-                                                    'bg-white /0 border-gray-300 '">
-                                                <svg :class="checked ? 'block' : 'hidden'" width="14" height="14"
-                                                    viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                                    class="hidden">
-                                                    <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
-                                                        stroke-width="1.94437" stroke-linecap="round"
-                                                        stroke-linejoin="round"></path>
-                                                </svg>
+                                @forelse($orders as $order)
+                                    <x-ui.tables.row class="hover:bg-gray-50">
+                                        <x-ui.tables.cell>
+                                            <div x-data="{ checked: false }" class="flex items-center gap-3">
+                                                <div @click="checked = !checked"
+                                                    class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white /0 border-gray-300 "
+                                                    :class="checked ? 'border-brand-500  bg-brand-500' :
+                                                        'bg-white /0 border-gray-300 '">
+                                                    <svg :class="checked ? 'block' : 'hidden'" width="14" height="14"
+                                                        viewBox="0 0 14 14" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg" class="hidden">
+                                                        <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
+                                                            stroke-width="1.94437" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                                <span class="block font-medium text-gray-700 text-sm">
+                                                    {{ $order->order_number }}
+                                                </span>
                                             </div>
-                                            <span class="block font-medium text-gray-700 text-sm">
-                                                DE124321
+                                        </x-ui.tables.cell>
+
+                                        <x-ui.tables.cell>
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-50">
+                                                    <span class="text-xs font-semibold text-blue-500">
+                                                        {{ $order->customer?->initials ?? '-' }}
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <span class="text-sm block font-medium text-gray-700">
+                                                        {{ $order->customer?->fullname ?? '-' }}
+                                                    </span>
+                                                    <span class="text-gray-500 text-xs">
+                                                        {{ $order->customer?->email ?? '-' }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </x-ui.tables.cell>
+
+                                        <x-ui.tables.cell>
+                                            <span class="text-gray-700 text-sm">
+                                                Software License
                                             </span>
-                                        </div>
-                                    </x-ui.tables.cell>
+                                        </x-ui.tables.cell>
 
-                                    <x-ui.tables.cell>
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="flex items-center justify-center w-10 h-10 rounded-full bg-brand-100">
-                                                <span class="text-xs font-semibold text-brand-500"> JD </span>
-                                            </div>
-                                            <div>
-                                                <span class="text-sm mb-0.5 block font-medium text-gray-700 ">
-                                                    John Doe
-                                                </span>
-                                                <span class="text-gray-500 text-sm ">
-                                                    johndeo@gmail.com
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </x-ui.tables.cell>
+                                        <x-ui.tables.cell>
+                                            <span class="text-gray-700 text-sm">
+                                                {{ number_format($order->total_amount, 2, ',', ' ') }} €
+                                            </span>
+                                        </x-ui.tables.cell>
 
-                                    <x-ui.tables.cell>
-                                        <span class="text-gray-700 text-sm">
-                                            Software License
-                                        </span>
-                                    </x-ui.tables.cell>
+                                        <x-ui.tables.cell>
+                                            <span class="text-gray-700 text-sm">
+                                                {{ $order->created_at->format('d/m/Y') }}
+                                            </span>
+                                        </x-ui.tables.cell>
 
-                                    <x-ui.tables.cell>
-                                        <span class="text-gray-700 text-sm">
-                                            $18,50.34
-                                        </span>
-                                    </x-ui.tables.cell>
+                                        <x-ui.tables.cell>
+                                            <span class="{{ $order->status->color() }} text-xs rounded-full px-2 py-0.5">
+                                                {{ $order->status->label() }}
+                                            </span>
+                                        </x-ui.tables.cell>
 
-                                    <x-ui.tables.cell>
-                                        <span class="text-gray-700 text-sm">
-                                            2024-06-15
-                                        </span>
-                                    </x-ui.tables.cell>
-
-                                    <x-ui.tables.cell>
-                                        <span
-                                            class="bg-green-50 text-xs text-green-600 rounded-full px-2 py-0.5 font-medium">
-                                            Complete
-                                        </span>
-                                    </x-ui.tables.cell>
-
-                                    <x-ui.tables.cell>
-                                        <svg class="cursor-pointer hover:fill-error-500  fill-gray-700 " width="20"
-                                            height="20" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M6.54142 3.7915C6.54142 2.54886 7.54878 1.5415 8.79142 1.5415H11.2081C12.4507 1.5415 13.4581 2.54886 13.4581 3.7915V4.0415H15.6252H16.666C17.0802 4.0415 17.416 4.37729 17.416 4.7915C17.416 5.20572 17.0802 5.5415 16.666 5.5415H16.3752V8.24638V13.2464V16.2082C16.3752 17.4508 15.3678 18.4582 14.1252 18.4582H5.87516C4.63252 18.4582 3.62516 17.4508 3.62516 16.2082V13.2464V8.24638V5.5415H3.3335C2.91928 5.5415 2.5835 5.20572 2.5835 4.7915C2.5835 4.37729 2.91928 4.0415 3.3335 4.0415H4.37516H6.54142V3.7915ZM14.8752 13.2464V8.24638V5.5415H13.4581H12.7081H7.29142H6.54142H5.12516V8.24638V13.2464V16.2082C5.12516 16.6224 5.46095 16.9582 5.87516 16.9582H14.1252C14.5394 16.9582 14.8752 16.6224 14.8752 16.2082V13.2464ZM8.04142 4.0415H11.9581V3.7915C11.9581 3.37729 11.6223 3.0415 11.2081 3.0415H8.79142C8.37721 3.0415 8.04142 3.37729 8.04142 3.7915V4.0415ZM8.3335 7.99984C8.74771 7.99984 9.0835 8.33562 9.0835 8.74984V13.7498C9.0835 14.1641 8.74771 14.4998 8.3335 14.4998C7.91928 14.4998 7.5835 14.1641 7.5835 13.7498V8.74984C7.5835 8.33562 7.91928 7.99984 8.3335 7.99984ZM12.4168 8.74984C12.4168 8.33562 12.081 7.99984 11.6668 7.99984C11.2526 7.99984 10.9168 8.33562 10.9168 8.74984V13.7498C10.9168 14.1641 11.2526 14.4998 11.6668 14.4998C12.081 14.4998 12.4168 14.1641 12.4168 13.7498V8.74984Z"
-                                                fill=""></path>
-                                        </svg>
-                                    </x-ui.tables.cell>
-                                </x-ui.tables.row>
-
-                                <tr>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div x-data="{ checked: false }" class="flex items-center gap-3">
-                                                <div @click="checked = !checked"
-                                                    class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white /0 border-gray-300 "
-                                                    :class="checked ? 'border-brand-500  bg-brand-500' :
-                                                        'bg-white /0 border-gray-300 '">
-                                                    <svg :class="checked ? 'block' : 'hidden'" width="14"
-                                                        height="14" viewBox="0 0 14 14" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg" class="hidden">
-                                                        <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
-                                                            stroke-width="1.94437" stroke-linecap="round"
-                                                            stroke-linejoin="round"></path>
+                                        <x-ui.tables.cell>
+                                            <div class="flex items-center gap-2">
+                                                <a href="{{ route('dashboard.orders.edit', [$tenant, $order]) }}"
+                                                    class="flex items-center gap-1 text-blue-600 text-sm font-medium p-1">
+                                                    <svg class="size-5 text-blue/50 shrink-0" data-slot="icon"
+                                                        fill="none" stroke-width="2" stroke="currentColor"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                                        aria-hidden="true">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10">
+                                                        </path>
                                                     </svg>
-                                                </div>
-                                                <div>
-                                                    <span class="block font-medium text-gray-700 text-sm ">
-                                                        DE124321
-                                                    </span>
-                                                </div>
+                                                </a>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div
-                                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-[#f0f9ff]">
-                                                    <span class="text-xs font-semibold text-[#0086c9]"> EW </span>
-                                                </div>
-
-                                                <div>
-                                                    <span class="text-sm mb-0.5 block font-medium text-gray-700 ">
-                                                        Emerson Workman
-                                                    </span>
-                                                    <span class="text-gray-500 text-sm ">
-                                                        emerson@gmail.com
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <p class="text-gray-700 text-sm ">
-                                                Software License
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <p class="text-gray-700 text-sm ">
-                                                $18,50.34
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <p class="text-gray-700 text-sm ">
-                                                2024-06-15
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <p
-                                                class="bg-warning-50 text-xs text-warning-600 /15  rounded-full px-2 py-0.5 font-medium">
-                                                Pending
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center justify-center">
-                                            <svg class="cursor-pointer hover:fill-error-500  fill-gray-700 "
-                                                width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M6.54142 3.7915C6.54142 2.54886 7.54878 1.5415 8.79142 1.5415H11.2081C12.4507 1.5415 13.4581 2.54886 13.4581 3.7915V4.0415H15.6252H16.666C17.0802 4.0415 17.416 4.37729 17.416 4.7915C17.416 5.20572 17.0802 5.5415 16.666 5.5415H16.3752V8.24638V13.2464V16.2082C16.3752 17.4508 15.3678 18.4582 14.1252 18.4582H5.87516C4.63252 18.4582 3.62516 17.4508 3.62516 16.2082V13.2464V8.24638V5.5415H3.3335C2.91928 5.5415 2.5835 5.20572 2.5835 4.7915C2.5835 4.37729 2.91928 4.0415 3.3335 4.0415H4.37516H6.54142V3.7915ZM14.8752 13.2464V8.24638V5.5415H13.4581H12.7081H7.29142H6.54142H5.12516V8.24638V13.2464V16.2082C5.12516 16.6224 5.46095 16.9582 5.87516 16.9582H14.1252C14.5394 16.9582 14.8752 16.6224 14.8752 16.2082V13.2464ZM8.04142 4.0415H11.9581V3.7915C11.9581 3.37729 11.6223 3.0415 11.2081 3.0415H8.79142C8.37721 3.0415 8.04142 3.37729 8.04142 3.7915V4.0415ZM8.3335 7.99984C8.74771 7.99984 9.0835 8.33562 9.0835 8.74984V13.7498C9.0835 14.1641 8.74771 14.4998 8.3335 14.4998C7.91928 14.4998 7.5835 14.1641 7.5835 13.7498V8.74984C7.5835 8.33562 7.91928 7.99984 8.3335 7.99984ZM12.4168 8.74984C12.4168 8.33562 12.081 7.99984 11.6668 7.99984C11.2526 7.99984 10.9168 8.33562 10.9168 8.74984V13.7498C10.9168 14.1641 11.2526 14.4998 11.6668 14.4998C12.081 14.4998 12.4168 14.1641 12.4168 13.7498V8.74984Z"
-                                                    fill=""></path>
-                                            </svg>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div x-data="{ checked: false }" class="flex items-center gap-3">
-                                                <div @click="checked = !checked"
-                                                    class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white /0 border-gray-300 "
-                                                    :class="checked ? 'border-brand-500  bg-brand-500' :
-                                                        'bg-white /0 border-gray-300 '">
-                                                    <svg :class="checked ? 'block' : 'hidden'" width="14"
-                                                        height="14" viewBox="0 0 14 14" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg" class="hidden">
-                                                        <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
-                                                            stroke-width="1.94437" stroke-linecap="round"
-                                                            stroke-linejoin="round"></path>
-                                                    </svg>
-                                                </div>
-                                                <div>
-                                                    <span class="block font-medium text-gray-700 text-sm ">
-                                                        DE124321
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div
-                                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-[#fff6ed]">
-                                                    <span class="text-xs font-semibold text-[#ec4a0a]"> CP </span>
-                                                </div>
-
-                                                <div>
-                                                    <span class="text-sm mb-0.5 block font-medium text-gray-700 ">
-                                                        Chance Philips
-                                                    </span>
-                                                    <span class="text-gray-500 text-sm ">
-                                                        chance@gmail.com
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <p class="text-gray-700 text-sm ">
-                                                Software License
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <p class="text-gray-700 text-sm ">
-                                                $18,50.34
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <p class="text-gray-700 text-sm ">
-                                                2024-06-15
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <p
-                                                class="bg-green-50 text-xs text-green-600 /15  rounded-full px-2 py-0.5 font-medium">
-                                                Complete
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center justify-center">
-                                            <svg class="cursor-pointer hover:fill-error-500  fill-gray-700 "
-                                                width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M6.54142 3.7915C6.54142 2.54886 7.54878 1.5415 8.79142 1.5415H11.2081C12.4507 1.5415 13.4581 2.54886 13.4581 3.7915V4.0415H15.6252H16.666C17.0802 4.0415 17.416 4.37729 17.416 4.7915C17.416 5.20572 17.0802 5.5415 16.666 5.5415H16.3752V8.24638V13.2464V16.2082C16.3752 17.4508 15.3678 18.4582 14.1252 18.4582H5.87516C4.63252 18.4582 3.62516 17.4508 3.62516 16.2082V13.2464V8.24638V5.5415H3.3335C2.91928 5.5415 2.5835 5.20572 2.5835 4.7915C2.5835 4.37729 2.91928 4.0415 3.3335 4.0415H4.37516H6.54142V3.7915ZM14.8752 13.2464V8.24638V5.5415H13.4581H12.7081H7.29142H6.54142H5.12516V8.24638V13.2464V16.2082C5.12516 16.6224 5.46095 16.9582 5.87516 16.9582H14.1252C14.5394 16.9582 14.8752 16.6224 14.8752 16.2082V13.2464ZM8.04142 4.0415H11.9581V3.7915C11.9581 3.37729 11.6223 3.0415 11.2081 3.0415H8.79142C8.37721 3.0415 8.04142 3.37729 8.04142 3.7915V4.0415ZM8.3335 7.99984C8.74771 7.99984 9.0835 8.33562 9.0835 8.74984V13.7498C9.0835 14.1641 8.74771 14.4998 8.3335 14.4998C7.91928 14.4998 7.5835 14.1641 7.5835 13.7498V8.74984C7.5835 8.33562 7.91928 7.99984 8.3335 7.99984ZM12.4168 8.74984C12.4168 8.33562 12.081 7.99984 11.6668 7.99984C11.2526 7.99984 10.9168 8.33562 10.9168 8.74984V13.7498C10.9168 14.1641 11.2526 14.4998 11.6668 14.4998C12.081 14.4998 12.4168 14.1641 12.4168 13.7498V8.74984Z"
-                                                    fill=""></path>
-                                            </svg>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </x-ui.tables.cell>
+                                    </x-ui.tables.row>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center text-gray-400 py-8">
+                                            Aucune commande trouvée.
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                             <!-- table body end -->
                         </table>

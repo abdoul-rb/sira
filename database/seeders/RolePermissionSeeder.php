@@ -22,34 +22,34 @@ class RolePermissionSeeder extends Seeder
         $permissions = [
             // Gestion des employés
             'view-employees',
-            'create-employees',
-            'edit-employees',
-            'delete-employees',
+            'create-employee',
+            'edit-employee',
+            'delete-employee',
             
             // Gestion des clients
             'view-customers',
-            'create-customers',
-            'edit-customers',
-            'delete-customers',
+            'create-customer',
+            'edit-customer',
+            'delete-customer',
             
             // Gestion des produits
             'view-products',
-            'create-products',
-            'edit-products',
-            'delete-products',
+            'create-product',
+            'edit-product',
+            'delete-product',
             
             // Gestion des devis
             'view-quotations',
-            'create-quotations',
-            'edit-quotations',
-            'delete-quotations',
-            'approve quotations',
+            'create-quotation',
+            'edit-quotation',
+            'delete-quotation',
+            'approve-quotation',
             
             // Gestion des commandes
             'view-orders',
-            'create-orders',
-            'edit-orders',
-            'delete-orders',
+            'create-order',
+            'edit-order',
+            'delete-order',
             
             // Gestion de la company
             'view-company-settings',
@@ -69,7 +69,7 @@ class RolePermissionSeeder extends Seeder
         // Création des rôles
         $superAdminRole = Role::create(['name' => 'super-admin']);
         $managerRole = Role::create(['name' => 'manager']);
-        // $employeeRole = Role::create(['name' => 'employee']);
+        $employeeRole = Role::create(['name' => 'employee']);
 
         // Attribution des permissions aux rôles
 
@@ -78,20 +78,20 @@ class RolePermissionSeeder extends Seeder
 
         // Manager : permissions de sa company
         $managerRole->givePermissionTo([
-            'view-employees', 'create-employees', 'edit-employees', 'delete-employees',
-            'view-customers', 'create-customers', 'edit-customers', 'delete-customers',
-            'view-products', 'create-products', 'edit-products', 'delete-products',
-            'view-quotations', 'create-quotations', 'edit-quotations', 'delete-quotations', 'approve-quotations',
-            'view-orders', 'create-orders', 'edit-orders', 'delete-orders',
+            'view-employees', 'create-employee', 'edit-employee', 'delete-employee',
+            'view-customers', 'create-customer', 'edit-customer', 'delete-customer',
+            'view-products', 'create-product', 'edit-product', 'delete-product',
+            'view-quotations', 'create-quotation', 'edit-quotation', 'delete-quotation', 'approve-quotation',
+            'view-orders', 'create-order', 'edit-order', 'delete-order',
             'view-company-settings', 'edit-company-settings',
         ]);
 
         // Employee : permissions limitées
-        /* $employeeRole->givePermissionTo([
-            'view-customers', 'create-customers', 'edit-customers',
+        $employeeRole->givePermissionTo([
+            'view-customers', 'create-customer', 'edit-customer', 'delete-customer',
             'view-products',
-            'view-quotations', 'create-quotations', 'edit-quotations',
-            'view-orders', 'create-orders', 'edit-orders',
-        ]); */
+            'view-quotations', 'create-quotation', 'edit-quotation', 'delete-quotation', 'approve-quotation',
+            'view-orders', 'create-order', 'edit-order', 'delete-order',
+        ]);
     }
 }

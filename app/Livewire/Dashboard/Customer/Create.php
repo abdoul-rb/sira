@@ -46,6 +46,8 @@ class Create extends Component
 
     public function save()
     {
+        $this->authorize('create', Customer::class);
+
         $validated = $this->validate();
         $validated['company_id'] = $this->tenant->id;
 

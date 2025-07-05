@@ -41,6 +41,8 @@ class Edit extends Component
 
     public function mount(Company $tenant, Customer $customer)
     {
+        $this->authorize('view', $customer);
+
         $this->tenant = $tenant;
         $this->customer = $customer;
         $this->title = $customer->title;
@@ -57,11 +59,12 @@ class Edit extends Component
 
     public function save()
     {
+        $this->authorize('update', $this->customer);
         $validated = $this->validate();
         $this->customer->update($validated);
+        
         session()->flash('success', 'Client modifié avec succès.');
-
-        return redirect()->route('dashboard.customers.index', ['tenant' => $this->tenant->slug]);
+        return to_route('dashboard.customers.edit', [$this->tenant, $this->customer]);
     }
 
     public function render()

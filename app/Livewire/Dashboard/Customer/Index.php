@@ -56,7 +56,6 @@ class Index extends Component
         $this->sortField = $field;
         $this->sortDirection = $direction;
 
-
         // Dispatch l'événement avec les valeurs des propriétés
         $this->dispatch('sort-updated', field: $field, direction: $direction);
     }
@@ -68,6 +67,8 @@ class Index extends Component
 
     public function deleteCustomer(Customer $customer)
     {
+        $this->authorize('delete', $customer);
+
         $customer->delete();
         $this->confirmingDelete = null;
         session()->flash('success', 'Client supprimé avec succès.');

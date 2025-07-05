@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -70,7 +69,7 @@ class RolePermissionSeeder extends Seeder
         // Création des rôles
         $superAdminRole = Role::create(['name' => 'super-admin']);
         $managerRole = Role::create(['name' => 'manager']);
-        $employeeRole = Role::create(['name' => 'employee']);
+        // $employeeRole = Role::create(['name' => 'employee']);
 
         // Attribution des permissions aux rôles
 
@@ -88,11 +87,11 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         // Employee : permissions limitées
-        $employeeRole->givePermissionTo([
+        /* $employeeRole->givePermissionTo([
             'view-customers', 'create-customers', 'edit-customers',
             'view-products',
             'view-quotations', 'create-quotations', 'edit-quotations',
             'view-orders', 'create-orders', 'edit-orders',
-        ]);
+        ]); */
     }
 }

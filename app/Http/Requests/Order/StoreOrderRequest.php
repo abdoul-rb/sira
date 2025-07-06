@@ -32,8 +32,8 @@ class StoreOrderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'status.required' => __("Le statut est requis."),
-            'status.in' => __("Le statut doit être une des valeurs suivantes : :values."),
+            'status.required' => __('Le statut est requis.'),
+            'status.in' => __('Le statut doit être une des valeurs suivantes : :values.'),
         ];
     }
 }

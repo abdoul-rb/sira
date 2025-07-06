@@ -21,6 +21,9 @@ class Employee extends Model
     protected $fillable = [
         'user_id',
         'company_id',
+        'firstname',
+        'lastname',
+        'phone_number',
         'position',
         'department',
         'hire_date',
@@ -85,5 +88,19 @@ class Employee extends Model
     public function scopeOfflineEmployees($query): Builder
     {
         return $query->whereNull('user_id');
+    }
+
+    public function getFullnameAttribute(): string
+    {
+        return "{$this->firstname} {$this->lastname}";
+    }
+
+    public function getRoleAttribute(): string
+    {
+        return match ($this->user->roles->first()?->name) {
+            'employee' => 'Employé',
+            'manager' => 'Manager',
+            default => 'Employé',
+        };
     }
 }

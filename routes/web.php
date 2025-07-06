@@ -15,6 +15,12 @@ use App\Livewire\Dashboard\Order\Index as OrderIndex;
 use App\Livewire\Dashboard\Order\Create as OrderCreate;
 use App\Livewire\Dashboard\Order\Edit as OrderEdit;
 
+use App\Livewire\Dashboard\Employee\Index as EmployeeIndex;
+use App\Livewire\Dashboard\Employee\Create as EmployeeCreate;
+use App\Livewire\Dashboard\Employee\Edit as EmployeeEdit;
+
+use App\Livewire\Auth\SetupPassword;
+
 
 Route::view('/', 'welcome')->name('home');
 
@@ -44,6 +50,16 @@ Route::domain('{tenant}.' . config('app.url'))->name('dashboard.')->group(functi
             Route::get('create', OrderCreate::class)->name('create');
             Route::get('{order}/edit', OrderEdit::class)->name('edit');
         });
+
+        // CRUD Employee (Livewire)
+        Route::prefix('employees')->name('employees.')->group(function () {
+            Route::get('', EmployeeIndex::class)->name('index');
+            Route::get('create', EmployeeCreate::class)->name('create');
+            Route::get('{employee}/edit', EmployeeEdit::class)->name('edit');
+        });
+
+        // Route pour la configuration du mot de passe des employés
+        Route::get('employee/setup-password/{user}', SetupPassword::class)->name('employee.setup-password');
 
     });
 });

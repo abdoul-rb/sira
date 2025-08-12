@@ -3,7 +3,7 @@
     'direction' => null,
 ])
 
-<th {{ $attributes->merge(['class' => 'px-6 py-3 whitespace-nowrap']) }} scope="col">
+<th {{ $attributes->merge(['class' => 'px-6 py-4 whitespace-nowrap']) }} scope="col">
     <div class="flex items-center gap-x-2">
         {{ $slot }}
 

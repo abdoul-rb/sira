@@ -1,8 +1,7 @@
 <div class="space-y-6">
-    <x-ui.breadcrumb :items="[
-        ['label' => 'Tableau de bord', 'url' => tenant_route('dashboard.index')],
-        ['label' => 'Produits', 'url' => '#'],
-    ]" />
+    <div class="w-20 h-20 mx-auto rounded-full bg-black flex items-center justify-center elegant-shadow">
+        <span class="text-2xl font-bold text-white">M</span>
+    </div>
 
     <div class="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <h1 class="text-2xl font-bold text-black">
@@ -53,10 +52,10 @@
         </div>
     @endif
 
-    <div class="overflow-x-auto bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl mt-4">
+    {{-- <div class="overflow-x-auto bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-lg mt-4">
         <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <x-ui.tables.row>
+            <thead>
+                <x-ui.tables.row class="bg-gray-50">
                     <x-ui.tables.heading sortable direction="asc"
                         wire:click.prevent="sortBy('created_at', '{{ $sortDirection === 'asc' ? 'desc' : 'asc' }}')">
                         <span class="block font-medium text-gray-500 text-xs uppercase">
@@ -90,9 +89,10 @@
                     </x-ui.tables.heading>
                 </x-ui.tables.row>
             </thead>
+
             <tbody class="divide-y divide-gray-100">
                 @forelse($products as $product)
-                    <x-ui.tables.row class="hover:bg-gray-50">
+                    <x-ui.tables.row class="hover:bg-gray-50 transition-colors">
                         <x-ui.tables.cell>
                             <span class="text-gray-700 text-sm">
                                 {{ $product->name }}
@@ -107,6 +107,7 @@
 
                         <x-ui.tables.cell>
                             <span class="text-gray-700 text-sm">
+                                <!-- Number::currency($product->price, in: 'EUR', locale: 'fr') -->
                                 {{ number_format($product->price, 2, ',', ' ') }} €
                             </span>
                         </x-ui.tables.cell>
@@ -118,11 +119,11 @@
                         </x-ui.tables.cell>
 
                         <x-ui.tables.cell>
-                            <div class="flex items-center gap-x-2">
+                            <div class="flex items-center justify-end gap-x-2">
                                 <a href="{{ tenant_route('dashboard.products.edit', ['product' => $product]) }}"
-                                    class="text-blue-600 text-sm p-1">
+                                    class="inline-flex items-center justify-center text-blue-600 text-sm rounded-md p-2 hover:bg-gray-200 hover:text-blue-700">
                                     <span class="sr-only">{{ __('Éditer') }}</span>
-                                    <svg class="size-5 text-blue/50 shrink-0" data-slot="icon" fill="none"
+                                    <svg class="size-4 text-blue-500 shrink-0" data-slot="icon" fill="none"
                                         stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -130,11 +131,12 @@
                                         </path>
                                     </svg>
                                 </a>
-                                <div class="ml-2 flex items-center">
+
+                                <div class="flex items-center">
                                     <button wire:click="confirmDelete({{ $product->id }})"
-                                        class="text-red-600 text-sm cursor-pointer p-1">
+                                        class="inline-flex items-center justify-center text-red-600 text-sm rounded-md p-2 hover:bg-gray-200 hover:text-red-700 cursor-pointer">
                                         <span class="sr-only">{{ __('Supprimer') }}</span>
-                                        <svg class="size-5 text-red/50 shrink-0" data-slot="icon" fill="none"
+                                        <svg class="size-4 text-red-500 shrink-0" data-slot="icon" fill="none"
                                             stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -172,9 +174,24 @@
                 @endforelse
             </tbody>
         </table>
+    </div> --}}
+
+    {{-- <div class="mt-6">
+        {{ $products->links() }}
+    </div> --}}
+
+    <div class="mx-auto max-w-2xl px-0 py-6 sm:px-6 lg:max-w-7xl lg:px-4">
+        <h2 class="sr-only">Products</h2>
+
+        <div class="grid grid-cols-1 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+            @forelse ($products as $product)
+                <x-ui.cards.product-card :product="$product" />
+            @empty
+                <div class="text-center text-gray-400 py-8">
+                    Aucun produit trouvé.
+                </div>
+            @endforelse
+        </div>
     </div>
 
-    <div class="mt-6">
-        {{ $products->links() }}
-    </div>
 </div>

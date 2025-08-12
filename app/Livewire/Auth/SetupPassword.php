@@ -8,6 +8,6 @@ class SetupPassword extends Component
 {
     public function render()
     {
-        return view('livewire.auth.setup-password');
+        return view('livewire.auth.setup-password')->layout('layouts.auth');
     }
 }

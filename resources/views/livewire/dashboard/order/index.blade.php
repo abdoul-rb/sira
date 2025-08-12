@@ -23,7 +23,52 @@
             </a>
         </div>
 
-        <div class="col-span-full">
+        <div class="flex items-center gap-4 text-sm text-gray-600">
+            <div class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-shopping-bag w-4 h-4">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <path d="M3 6h18"></path>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <span>6 total</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-clock w-4 h-4 text-orange-500">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>4 en attente</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-circle-check-big w-4 h-4 text-green-500">
+                    <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                    <path d="m9 11 3 3L22 4"></path>
+                </svg>
+                <span>2 traitées</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            @forelse ($orders as $order)
+                <x-ui.cards.order-card :order="$order" />
+            @empty
+                <div class="col-span-full">
+                    <div class="text-center text-gray-400 py-8">
+                        Aucune commande trouvée.
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
+
+        <!-- Ancien table list des commandes -->
+        {{-- <div class="col-span-full">
             <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
                 <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
@@ -85,7 +130,8 @@
                                                 viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                                                 class="hidden">
                                                 <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
-                                                    stroke-width="1.94437" stroke-linecap="round" stroke-linejoin="round">
+                                                    stroke-width="1.94437" stroke-linecap="round"
+                                                    stroke-linejoin="round">
                                                 </path>
                                             </svg>
                                         </div>
@@ -161,7 +207,8 @@
 
                                     <x-ui.tables.cell>
                                         <div class="flex items-center gap-3">
-                                            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-50">
+                                            <div
+                                                class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-50">
                                                 <span class="text-xs font-semibold text-blue-500">
                                                     {{ $order->customer?->initials ?? '-' }}
                                                 </span>
@@ -260,6 +307,6 @@
 
         <div class="mt-4">
             {{ $orders->links() }}
-        </div>
+        </div> --}}
     </div>
 @endsection

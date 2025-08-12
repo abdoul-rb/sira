@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Listeners\SetupTenantListener;
 use App\Models\Company;
 use Illuminate\Routing\Events\RouteMatched;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
@@ -42,5 +43,9 @@ class AppServiceProvider extends ServiceProvider
 
             View::share('currentTenant', $company);
         }
+
+        Blade::if('version', function (int $value) {
+            return config('app.version') === $value;
+        });
     }
 }

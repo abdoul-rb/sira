@@ -7,6 +7,7 @@ use App\Models\Company;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -36,9 +37,11 @@ class AppServiceProvider extends ServiceProvider
             SetupTenantListener::class
         );
 
-        $tenantSlug = parse_url(app('url')->current(), PHP_URL_HOST) ? explode('.', parse_url(app('url')->current(), PHP_URL_HOST))[0] : null;
+        $tenantSlug = parse_url(app('url')->current(), PHP_URL_HOST)
+            ? explode('.', parse_url(app('url')->current(), PHP_URL_HOST))[0]
+            : null;
 
-        if ($tenantSlug) {
+        if ($tenantSlug && Schema::hasTable('companies')) {
             $company = Company::where('slug', $tenantSlug)->first();
 
             View::share('currentTenant', $company);

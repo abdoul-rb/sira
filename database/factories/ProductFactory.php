@@ -28,6 +28,7 @@ class ProductFactory extends Factory
             'company_id' => Company::factory(),
             'name' => $this->faker->words(3, true),
             'description' => $this->faker->paragraph(),
+            'featured_image' => $this->faker->imageUrl(),
             'sku' => strtoupper($this->faker->bothify('??-####-??')),
             'price' => $price,
             'stock_quantity' => $this->faker->numberBetween(0, 100),

@@ -18,7 +18,6 @@ test('Product: array expected columns', function () {
         'id',
         'company_id',
         'name',
-        'slug',
         'description',
         'sku',
         'price',
@@ -26,6 +25,8 @@ test('Product: array expected columns', function () {
         'created_at',
         'updated_at',
         'deleted_at',
+        'slug',
+        'featured_image',
     ]);
 });
 

@@ -36,11 +36,9 @@ class OrderFactory extends Factory
             'quotation_id' => null, // Peut être lié à un devis ou non
             'order_number' => 'CMD-' . $this->faker->unique()->numberBetween(1000, 9999),
             'status' => $this->faker->randomElement([
-                OrderStatus::PENDING,
-                OrderStatus::CONFIRMED,
-                OrderStatus::IN_PREPARATION,
-                OrderStatus::SHIPPED,
+                OrderStatus::PAID,
                 OrderStatus::DELIVERED,
+                OrderStatus::CANCELLED,
             ]),
             'subtotal' => $subtotal,
             'tax_amount' => $taxAmount,
@@ -59,54 +57,12 @@ class OrderFactory extends Factory
     /**
      * Indicate that the order is pending.
      */
-    public function pending(): static
+    public function paid(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => OrderStatus::PENDING,
+            'status' => OrderStatus::PAID,
             'confirmed_at' => null,
             'shipped_at' => null,
-            'delivered_at' => null,
-            'cancelled_at' => null,
-        ]);
-    }
-
-    /**
-     * Indicate that the order is confirmed.
-     */
-    public function confirmed(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'status' => OrderStatus::CONFIRMED,
-            'confirmed_at' => $this->faker->dateTimeBetween('-30 days', 'now'),
-            'shipped_at' => null,
-            'delivered_at' => null,
-            'cancelled_at' => null,
-        ]);
-    }
-
-    /**
-     * Indicate that the order is in preparation.
-     */
-    public function inPreparation(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'status' => OrderStatus::IN_PREPARATION,
-            'confirmed_at' => $this->faker->dateTimeBetween('-30 days', '-1 day'),
-            'shipped_at' => null,
-            'delivered_at' => null,
-            'cancelled_at' => null,
-        ]);
-    }
-
-    /**
-     * Indicate that the order has been shipped.
-     */
-    public function shipped(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'status' => OrderStatus::SHIPPED,
-            'confirmed_at' => $this->faker->dateTimeBetween('-30 days', '-2 days'),
-            'shipped_at' => $this->faker->dateTimeBetween('-2 days', 'now'),
             'delivered_at' => null,
             'cancelled_at' => null,
         ]);

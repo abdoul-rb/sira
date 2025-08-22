@@ -53,7 +53,7 @@ class Create extends Component
         session()->flash('success', 'Produit créé avec succès.');
 
         // Fermer la modal et rafraîchir la liste
-        $this->dispatch('close-modal');
+        $this->dispatch('close-modal', ['id' => 'create-product']);
         $this->dispatch('product-created');
         
         // Réinitialiser le formulaire

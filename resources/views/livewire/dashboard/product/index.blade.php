@@ -1,11 +1,6 @@
 <div class="space-y-6" x-data="{
-    showModal: false,
     init() {
         // Écouter les événements Livewire
-        Livewire.on('close-modal', () => {
-            this.showModal = false
-        })
-
         Livewire.on('product-created', () => {
             // Rafraîchir la liste des produits
             $wire.$refresh()
@@ -27,6 +22,7 @@
                 <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
             </svg>
         </a>
+
         <a href="#" target="_self" rel="noopener noreferrer"
             class="p-3 rounded-full border border-gray-200 hover:border-black transition-all duration-300 hover:scale-105">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -37,12 +33,29 @@
         </a>
     </div>
 
-    <div class="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div>
+
+        <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border bg-background h-10 rounded-full px-6 py-2 border-black text-black hover:bg-black hover:text-white transition-all duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-share2 w-4 h-4 mr-2">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line>
+                <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
+            </svg>
+            Partager
+        </button>
+    </div>
+
+    <div class="mt-6 flex items-center justify-between gap-2">
         <h1 class="text-2xl font-bold text-black">
-            {{ __('Liste des produits') }}
+            {{ __('Mes produits') }}
         </h1>
 
-        <button type="button" @click="showModal = true"
+        <button type="button" @click="$dispatch('open-modal', { id: 'create-product' })"
             class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600">
             <svg class="size-4 transition duration-75 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -52,6 +65,9 @@
             {{ __('Ajouter un produit') }}
         </button>
     </div>
+
+    <!-- Modal de création de produit -->
+    <x-ui.modals.create-product-modal :tenant="$tenant" />
 
     <!-- Recherche globale -->
     <div class="relative">
@@ -73,134 +89,6 @@
         </div>
     @endif
 
-    {{-- <div class="overflow-x-auto bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-lg mt-4">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead>
-                <x-ui.tables.row class="bg-gray-50">
-                    <x-ui.tables.heading sortable direction="asc"
-                        wire:click.prevent="sortBy('created_at', '{{ $sortDirection === 'asc' ? 'desc' : 'asc' }}')">
-                        <span class="block font-medium text-gray-500 text-xs uppercase">
-                            {{ __('Nom') }}
-                        </span>
-                    </x-ui.tables.heading>
-
-                    <x-ui.tables.heading>
-                        <span class="block font-medium text-gray-500 text-xs uppercase">
-                            {{ __('SKU') }}
-                        </span>
-                    </x-ui.tables.heading>
-
-                    <x-ui.tables.heading sortable direction="asc"
-                        wire:click.prevent="sortBy('price', '{{ $sortDirection === 'asc' ? 'desc' : 'asc' }}')">
-                        <span class="block font-medium text-gray-500 text-xs uppercase">
-                            {{ __('Prix') }}
-                        </span>
-                    </x-ui.tables.heading>
-
-                    <x-ui.tables.heading>
-                        <span class="block font-medium text-gray-500 text-xs uppercase">
-                            {{ __('Stock') }}
-                        </span>
-                    </x-ui.tables.heading>
-
-                    <x-ui.tables.heading>
-                        <span class="block font-medium text-gray-500 text-xs uppercase">
-                            {{ __('Actions') }}
-                        </span>
-                    </x-ui.tables.heading>
-                </x-ui.tables.row>
-            </thead>
-
-            <tbody class="divide-y divide-gray-100">
-                @forelse($products as $product)
-                    <x-ui.tables.row class="hover:bg-gray-50 transition-colors">
-                        <x-ui.tables.cell>
-                            <span class="text-gray-700 text-sm">
-                                {{ $product->name }}
-                            </span>
-                        </x-ui.tables.cell>
-
-                        <x-ui.tables.cell>
-                            <span class="text-gray-700 text-sm">
-                                {{ $product->sku }}
-                            </span>
-                        </x-ui.tables.cell>
-
-                        <x-ui.tables.cell>
-                            <span class="text-gray-700 text-sm">
-                                <!-- Number::currency($product->price, in: 'EUR', locale: 'fr') -->
-                                {{ number_format($product->price, 2, ',', ' ') }} €
-                            </span>
-                        </x-ui.tables.cell>
-
-                        <x-ui.tables.cell>
-                            <span class="text-gray-700 text-sm">
-                                {{ $product->stock_quantity }}
-                            </span>
-                        </x-ui.tables.cell>
-
-                        <x-ui.tables.cell>
-                            <div class="flex items-center justify-end gap-x-2">
-                                <a href="{{ tenant_route('dashboard.products.edit', ['product' => $product]) }}"
-                                    class="inline-flex items-center justify-center text-blue-600 text-sm rounded-md p-2 hover:bg-gray-200 hover:text-blue-700">
-                                    <span class="sr-only">{{ __('Éditer') }}</span>
-                                    <svg class="size-4 text-blue-500 shrink-0" data-slot="icon" fill="none"
-                                        stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10">
-                                        </path>
-                                    </svg>
-                                </a>
-
-                                <div class="flex items-center">
-                                    <button wire:click="confirmDelete({{ $product->id }})"
-                                        class="inline-flex items-center justify-center text-red-600 text-sm rounded-md p-2 hover:bg-gray-200 hover:text-red-700 cursor-pointer">
-                                        <span class="sr-only">{{ __('Supprimer') }}</span>
-                                        <svg class="size-4 text-red-500 shrink-0" data-slot="icon" fill="none"
-                                            stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0">
-                                            </path>
-                                        </svg>
-                                    </button>
-
-                                    @if ($confirmingDelete === $product->id)
-                                        <div
-                                            class="absolute inset-0 bg-white/80 flex flex-col items-center justify-center z-10 rounded-lg">
-                                            <div class="mb-2 text-gray-700">
-                                                {{ __('Confirmer la suppression ?') }}
-                                            </div>
-                                            <div class="flex gap-2">
-                                                <button wire:click="deleteProduct({{ $product->id }})"
-                                                    class="px-3 py-1 bg-red-600 text-white rounded">
-                                                    Oui
-                                                </button>
-                                                <button wire:click="$set('confirmingDelete', null)"
-                                                    class="px-3 py-1 bg-gray-200 rounded">
-                                                    Non
-                                                </button>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </x-ui.tables.cell>
-                    </x-ui.tables.row>
-                @empty
-                    <tr>
-                        <td colspan="6" class="text-center text-gray-500 py-10">Aucun produit trouvé.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div> --}}
-
-    {{-- <div class="mt-6">
-        {{ $products->links() }}
-    </div> --}}
-
     <div class="mx-auto max-w-2xl px-0 py-6 sm:px-6 lg:max-w-7xl lg:px-4">
         <h2 class="sr-only">Products</h2>
 
@@ -212,45 +100,6 @@
                     Aucun produit trouvé.
                 </div>
             @endforelse
-        </div>
-    </div>
-
-    {{-- Modal de création de produit --}}
-    <div x-show="showModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-        class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
-
-        {{-- Backdrop --}}
-        <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
-
-        {{-- Modal --}}
-        <div class="flex min-h-full items-center justify-center p-4 text-center">
-            <div
-                class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all w-full max-w-4xl">
-
-                {{-- Bouton fermer --}}
-                <div class="absolute right-0 top-0 pr-4 pt-4">
-                    <button type="button" @click="showModal = false" style="border: 1px solid red"
-                        class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600">
-                        <span class="sr-only">Fermer</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                            data-slot="icon" aria-hidden="true" class="size-6">
-                            <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </button>
-                </div>
-
-                {{-- Contenu de la modal --}}
-                <div class="mt-3 sm:ml-4 sm:mt-0 sm:text-left w-full">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('Nouveau produit') }}</h3>
-
-                    {{-- Formulaire Livewire --}}
-                    <div class="mt-4">
-                        @livewire('dashboard.product.create', ['tenant' => $tenant], key('create-product-' . now()))
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

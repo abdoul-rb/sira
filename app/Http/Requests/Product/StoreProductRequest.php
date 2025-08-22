@@ -23,7 +23,7 @@ class StoreProductRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:100'],
             'description' => ['nullable', 'string', 'max:1000'],
-            'sku' => ['nullable', 'string', 'max:50'],
+            'featured_image' => ['nullable', 'image', 'max:1024'],
             'price' => ['required', 'numeric', 'min:0'],
             'stock_quantity' => ['required', 'integer', 'min:0'],
         ];
@@ -37,8 +37,8 @@ class StoreProductRequest extends FormRequest
             'name.max' => 'Le nom ne doit pas dépasser 100 caractères',
             'description.string' => 'La description doit être une chaîne de caractères',
             'description.max' => 'La description ne doit pas dépasser 1000 caractères',
-            'sku.string' => 'Le SKU doit être une chaîne de caractères',
-            'sku.max' => 'Le SKU ne doit pas dépasser 50 caractères',
+            'featured_image.image' => "L'image doit être une image",
+            'featured_image.max' => "L'image ne doit pas dépasser 1024 caractères",
             'price.required' => 'Le prix est requis',
             'price.numeric' => 'Le prix doit être un nombre',
             'price.min' => 'Le prix doit être supérieur à 0',

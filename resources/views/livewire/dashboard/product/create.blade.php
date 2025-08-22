@@ -1,74 +1,51 @@
 @section('title', __('Créer un produit'))
 
 <div>
-    <x-ui.breadcrumb :items="[
-        ['label' => 'Tableau de bord', 'url' => route('dashboard.index', ['tenant' => $tenant])],
-        ['label' => 'Produits', 'url' => route('dashboard.products.index', ['tenant' => $tenant])],
-        ['label' => 'Créer', 'url' => '#'],
-    ]" />
-
-    <h1 class="text-2xl font-bold text-gray-800 mt-6 mb-8">Créer un produit</h1>
-
-    @if (session()->has('success'))
-        <div class="bg-green-50 border border-green-200 text-green-700 rounded-md px-4 py-2 mb-4">
-            {{ session('success') }}
+    <form wire:submit.prevent="save" class="grid grid-cols-2 gap-4" enctype="multipart/form-data" novalidate>
+        <div class="relative col-span-full">
+            <input type="file" accept="image/*" wire:model="featured_image" class="hidden" id="image-upload">
+            <label for="image-upload"
+                class="flex flex-col items-center justify-center w-full h-32 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
+                <div class="text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="lucide lucide-upload w-6 h-6 text-gray-400 mx-auto mb-2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" x2="12" y1="3" y2="15"></line>
+                    </svg>
+                    <span class="text-sm text-gray-500">
+                        {{ __('Ajouter une photo') }}
+                    </span>
+                </div>
+            </label>
         </div>
-    @endif
 
-    <form wire:submit.prevent="save" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Colonne principale (2/3) -->
-        <div class="lg:col-span-2 space-y-6">
-            <div class="bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl">
-                <header class="flex flex-col gap-3 px-6 py-4">
-                    <h3 class="text-base font-medium leading-6 text-gray-950">
-                        Général
-                    </h3>
-                </header>
-
-                <div class="border-t border-gray-200 px-4 py-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-6">
-                    <x-form.input class="col-span-full" name="name" label="Nom du produit" :wire="true" />
-
-                    <div class="col-span-full">
-                        <label for="description" class="block text-sm font-medium text-gray-700">
-                            {{ __('Description') }}
-                            <span class="text-red-500">*</span>
-                        </label>
-                        <div class="mt-2">
-                            <textarea rows="4" name="description" wire:model.live="description" id="description"
-                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"></textarea>
-                        </div>
-                    </div>
-                </div>
+        @if ($featured_image)
+            <div class="col-span-full">
+                <img src="{{ $featured_image->temporaryUrl() }}" alt="Image du produit"
+                    class="w-40 h-40 object-cover rounded-md">
             </div>
+        @endif
 
-            <div class="bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl">
-                <header class="flex flex-col gap-3 px-6 py-4">
-                    <h3 class="text-base font-medium leading-6 text-gray-950">
-                        {{ __('Inventaire') }}
-                    </h3>
-                </header>
+        <x-form.input class="col-span-full" name="name" label="Nom du produit" :wire="true" :required="true" />
 
-                <div class="border-t border-gray-200 px-4 py-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-6">
-                    <x-form.input name="stock_quantity" label="Stock" :wire="true" type="number" />
-                </div>
+        <div class="col-span-full">
+            <label for="description" class="block text-sm font-medium text-gray-700">
+                {{ __('Description') }}
+                <span class="text-red-500">*</span>
+            </label>
+            <div class="mt-2">
+                <textarea rows="4" name="description" wire:model.live="description" id="description"
+                    class="block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm sm:leading-6"></textarea>
             </div>
         </div>
 
-        <div>
-            <div class="bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl">
-                <header class="flex flex-col gap-3 px-6 py-4">
-                    <h3 class="text-base font-medium leading-6 text-gray-950">
-                        {{ __('Prix & stock') }}
-                    </h3>
-                </header>
+        <x-form.input class="col-span-1" name="price" label="Prix" type="number" :number="true"
+            :required="true" />
 
-                <div class="border-t border-gray-200 px-4 py-6 sm:p-8 grid grid-cols-1 gap-y-6">
-                    <x-form.input name="price" label="Prix (€)" :wire="true" type="number" step="0.01" />
-
-                    <x-form.input name="sku" label="SKU" :wire="true" />
-                </div>
-            </div>
-        </div>
+        <x-form.input class="col-span-1" name="stock_quantity" label="Quantité" type="number" :number="true"
+            :required="true" />
 
         <!-- Bouton de sauvegarde -->
         <div class="md:col-span-full">

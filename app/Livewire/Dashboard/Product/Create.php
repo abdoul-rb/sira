@@ -8,14 +8,19 @@ use App\Http\Requests\Product\StoreProductRequest;
 use App\Models\Company;
 use App\Models\Product;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Create extends Component
 {
+    use WithFileUploads;
+
     public Company $tenant;
 
     public $name = '';
 
     public $description = '';
+
+    public $featured_image;
 
     public $sku = '';
 
@@ -40,6 +45,7 @@ class Create extends Component
 
     public function save()
     {
+        dd($this->all());
         $validated = $this->validate();
         $validated['company_id'] = $this->tenant->id;
 

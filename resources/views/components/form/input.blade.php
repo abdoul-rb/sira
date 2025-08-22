@@ -37,7 +37,7 @@
 
     <input type="{{ $type }}" @class([
         'mt-1' => isset($label) && !empty($label),
-        'block w-full rounded-md border-0 border-gray-300 py-2 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150',
+        'block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black text-sm sm:leading-6',
         'shadow-xs ring-1 ring-inset ring-gray-300' => !$searchable,
     ]) name="{{ $name }}" id="{{ $slug }}"
         value="{{ old($name, $value) }}" @if ($wire) wire:model.lazy="{{ $name }}" @endif

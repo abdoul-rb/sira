@@ -1,11 +1,9 @@
-@section('title', __('Créer un produit'))
-
 <div>
-    <form wire:submit.prevent="save" class="grid grid-cols-2 gap-4" enctype="multipart/form-data" novalidate>
+    <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" enctype="multipart/form-data" novalidate>
         <div class="relative col-span-full">
             <input type="file" accept="image/*" wire:model="featured_image" class="hidden" id="image-upload">
             <label for="image-upload"
-                class="flex flex-col items-center justify-center w-full h-32 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
+                class="flex flex-col items-center justify-center w-full h-24 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                 <div class="text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -35,7 +33,7 @@
                 {{ __('Description') }}
                 <span class="text-red-500">*</span>
             </label>
-            <div class="mt-2">
+            <div class="mt-1">
                 <textarea rows="4" name="description" wire:model.live="description" id="description"
                     class="block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm sm:leading-6"></textarea>
             </div>
@@ -47,10 +45,15 @@
         <x-form.input class="col-span-1" name="stock_quantity" label="Quantité" type="number" :number="true"
             :required="true" />
 
-        <!-- Bouton de sauvegarde -->
-        <div class="md:col-span-full">
+        <!-- Boutons d'action -->
+        <div class="col-span-full flex justify-between gap-3 pt-2">
+            <button type="button" @click="$dispatch('close-modal')"
+                class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-white border border-gray-300 px-3 py-2 text-sm text-black focus-visible:outline focus-visible:outline-offset-2 hover:bg-gray-100">
+                {{ __('Annuler') }}
+            </button>
+
             <button type="submit"
-                class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-blue-600 px-3 py-2 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-black">
                 {{ __('Enregistrer') }}
             </button>
         </div>

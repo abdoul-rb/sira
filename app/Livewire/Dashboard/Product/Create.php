@@ -45,7 +45,6 @@ class Create extends Component
 
     public function save()
     {
-        dd($this->all());
         $validated = $this->validate();
         $validated['company_id'] = $this->tenant->id;
 
@@ -53,13 +52,18 @@ class Create extends Component
 
         session()->flash('success', 'Produit créé avec succès.');
 
-        return redirect()->route('dashboard.products.index', ['tenant' => $this->tenant]);
+        // Fermer la modal et rafraîchir la liste
+        $this->dispatch('close-modal');
+        $this->dispatch('product-created');
+        
+        // Réinitialiser le formulaire
+        $this->reset(['name', 'description', 'featured_image', 'sku', 'price', 'stock_quantity']);
     }
 
     public function render()
     {
         return view('livewire.dashboard.product.create', [
             'tenant' => $this->tenant,
-        ])->extends('layouts.dashboard');
+        ]);
     }
 }

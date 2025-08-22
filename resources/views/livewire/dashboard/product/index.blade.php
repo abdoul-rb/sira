@@ -1,4 +1,17 @@
-<div class="space-y-6">
+<div class="space-y-6" x-data="{
+    showModal: false,
+    init() {
+        // Écouter les événements Livewire
+        Livewire.on('close-modal', () => {
+            this.showModal = false
+        })
+
+        Livewire.on('product-created', () => {
+            // Rafraîchir la liste des produits
+            $wire.$refresh()
+        })
+    }
+}">
     <div class="w-20 h-20 mx-auto rounded-full bg-black flex items-center justify-center elegant-shadow">
         <span class="text-2xl font-bold text-white">M</span>
     </div>
@@ -29,7 +42,7 @@
             {{ __('Liste des produits') }}
         </h1>
 
-        <a href="{{ tenant_route('dashboard.products.create') }}"
+        <button type="button" @click="showModal = true"
             class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600">
             <svg class="size-4 transition duration-75 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -37,7 +50,7 @@
                     d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
             </svg>
             {{ __('Ajouter un produit') }}
-        </a>
+        </button>
     </div>
 
     <!-- Recherche globale -->
@@ -202,4 +215,42 @@
         </div>
     </div>
 
+    {{-- Modal de création de produit --}}
+    <div x-show="showModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+
+        {{-- Backdrop --}}
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
+
+        {{-- Modal --}}
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
+            <div
+                class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all w-full max-w-4xl">
+
+                {{-- Bouton fermer --}}
+                <div class="absolute right-0 top-0 pr-4 pt-4">
+                    <button type="button" @click="showModal = false" style="border: 1px solid red"
+                        class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600">
+                        <span class="sr-only">Fermer</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            data-slot="icon" aria-hidden="true" class="size-6">
+                            <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+
+                {{-- Contenu de la modal --}}
+                <div class="mt-3 sm:ml-4 sm:mt-0 sm:text-left w-full">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('Nouveau produit') }}</h3>
+
+                    {{-- Formulaire Livewire --}}
+                    <div class="mt-4">
+                        @livewire('dashboard.product.create', ['tenant' => $tenant], key('create-product-' . now()))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

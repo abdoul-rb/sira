@@ -22,6 +22,7 @@
             </span>
         </div>
     </div>
+
     <div>
         <div class="-mt-px flex divide-x divide-gray-200">
             <div class="flex w-0 flex-1">

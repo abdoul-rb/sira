@@ -1,9 +1,14 @@
 @props(['product'])
 
 <div class="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
-    <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-02-image-card-01.jpg"
-        alt="Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green."
-        class="w-auto h-56 object-cover group-hover:opacity-75 aspect-auto" />
+    @if ($product->featured_image)
+        <img src="{{ Storage::disk('public')->url($product->featured_image) }}" alt="{{ $product->name }}"
+            class="w-auto h-56 object-cover group-hover:opacity-75 aspect-auto" />
+    @else
+        <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-02-image-card-01.jpg"
+            alt="Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green."
+            class="w-auto h-56 object-cover group-hover:opacity-75 aspect-auto" />
+    @endif
     <div class="flex flex-1 flex-col space-y-2 p-4">
         <h3 class="text-sm font-medium text-black">
             <a href="#">

@@ -1,7 +1,5 @@
 <div>
     <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" enctype="multipart/form-data" novalidate>
-
-
         @if ($featured_image)
             <div class="col-span-full">
                 <img src="{{ $featured_image->temporaryUrl() }}" alt="Image du produit"

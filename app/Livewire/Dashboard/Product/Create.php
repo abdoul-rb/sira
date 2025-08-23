@@ -22,8 +22,6 @@ class Create extends Component
 
     public $featured_image;
 
-    public $sku = '';
-
     public $price = '';
 
     public $stock_quantity = '';
@@ -48,16 +46,20 @@ class Create extends Component
         $validated = $this->validate();
         $validated['company_id'] = $this->tenant->id;
 
+        $filename = $this->featured_image->getClientOriginalName();
+        $path = "{$this->tenant->id}/products/";
+        $validated['featured_image'] = "{$path}/{$filename}";
+
+        $this->featured_image->storeAs($path, $filename, 'public');
+
         Product::create($validated);
 
-        session()->flash('success', 'Produit créé avec succès.');
-
         // Fermer la modal et rafraîchir la liste
-        $this->dispatch('close-modal', ['id' => 'create-product']);
+        $this->dispatch('close-modal', id: 'create-product');
         $this->dispatch('product-created');
-        
+
         // Réinitialiser le formulaire
-        $this->reset(['name', 'description', 'featured_image', 'sku', 'price', 'stock_quantity']);
+        $this->reset(['name', 'description', 'featured_image', 'price', 'stock_quantity']);
     }
 
     public function render()

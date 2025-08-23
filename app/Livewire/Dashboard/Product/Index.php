@@ -25,12 +25,12 @@ class Index extends Component
 
     public $confirmingDelete = null;
 
-    protected $queryString = [
+    /* protected $queryString = [
         'search' => ['except' => ''],
         'sortField' => ['except' => 'name'],
         'sortDirection' => ['except' => 'asc'],
         'page' => ['except' => 1],
-    ];
+    ]; */
 
     public function mount(Company $tenant)
     {

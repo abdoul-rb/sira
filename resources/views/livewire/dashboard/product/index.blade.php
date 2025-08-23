@@ -34,7 +34,6 @@
     </div>
 
     <div>
-
         <button
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border bg-background h-10 rounded-full px-6 py-2 border-black text-black hover:bg-black hover:text-white transition-all duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -66,9 +65,6 @@
         </button>
     </div>
 
-    <!-- Modal de création de produit -->
-    <x-ui.modals.create-product-modal :tenant="$tenant" />
-
     <!-- Recherche globale -->
     <div class="relative">
         <span class="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2">
@@ -79,9 +75,12 @@
                     fill=""></path>
             </svg>
         </span>
-        <input type="text" wire:model.debounce.400ms="search" placeholder="Recherche produit..."
+        <input type="text" wire:model.debounce.400ms="search" placeholder="Rechercher un produit ..."
             class="shadow-xs focus:border-brand-300 focus:ring-gray-500/10 h-11 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pr-14 pl-12 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-1 focus:outline-hidden xl:w-[430px]">
     </div>
+
+    <!-- Modal de création de produit -->
+    <x-ui.modals.create-product-modal :tenant="$tenant" />
 
     @if (session()->has('success'))
         <div class="bg-green-50 border border-green-200 text-green-700 rounded-md px-4 py-2">
@@ -89,10 +88,10 @@
         </div>
     @endif
 
-    <div class="mx-auto max-w-2xl px-0 py-6 sm:px-6 lg:max-w-7xl lg:px-4">
+    <div class="mx-auto max-w-2xl sm:max-w-none px-0 py-6 lg:px-6 lg:max-w-7xl">
         <h2 class="sr-only">Products</h2>
 
-        <div class="grid grid-cols-1 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-1 gap-x-3 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($products as $product)
                 <x-ui.cards.product-card :product="$product" />
             @empty

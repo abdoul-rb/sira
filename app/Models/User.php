@@ -64,6 +64,11 @@ class User extends Authenticatable
         });
     }
 
+    public function getInitialsAttribute(): string
+    {
+        return strtoupper(substr($this->name, 0, 1));
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Relations

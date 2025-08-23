@@ -1,6 +1,61 @@
 @props(['customer', 'confirmingDelete' => null])
 
-<div class="rounded-xl border border-gray-200 bg-white p-5 flex flex-col gap-2 relative">
+<li {{ $attributes->merge(['class' => 'col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow']) }}>
+    <div class="flex w-full items-center justify-between space-x-6 p-6">
+        <div class="flex-1 truncate">
+            <div class="flex items-center space-x-3">
+                <h3 class="truncate text-sm font-medium text-gray-900">
+                    {{ $customer->fullname }}
+                </h3>
+                <span
+                    class="inline-flex shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs text-green-700 ring-1 ring-inset ring-green-600/20">
+                    {{ $customer->type->label() }}
+                </span>
+            </div>
+            <a href="mailto:{{ $customer->email }}" class="mt-1 truncate text-sm text-gray-500">
+                {{ $customer->email }}
+            </a>
+        </div>
+        <div class="size-10 shrink-0 rounded-full bg-black flex items-center justify-center elegant-shadow">
+            <span class="text-sm font-medium text-white">
+                {{ $customer->initials }}
+            </span>
+        </div>
+        {{-- <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+            alt="" class="size-10 shrink-0 rounded-full bg-gray-300 outline -outline-offset-1 outline-black/5" /> --}}
+    </div>
+    <div>
+        <div class="-mt-px flex divide-x divide-gray-200">
+            <div class="flex w-0 flex-1">
+                <button type="button"
+                    class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-medium text-gray-900">
+                    <svg class="size-5 text-gray-400" data-slot="icon" fill="none" stroke-width="1.5"
+                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z">
+                        </path>
+                    </svg>
+                    Commandes
+                </button>
+            </div>
+
+            <div class="-ml-px flex w-0 flex-1">
+                <button type="button"
+                    class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-900">
+                    <svg class="size-5 text-gray-400" data-slot="icon" fill="none" stroke-width="1.5"
+                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z">
+                        </path>
+                    </svg>
+                    Crédits
+                </button>
+            </div>
+        </div>
+    </div>
+</li>
+
+{{-- <div class="rounded-xl border border-gray-200 bg-white p-5 flex flex-col gap-2 relative">
     <div class="flex items-center justify-between">
         <div class="font-bold text-base text-gray-800">{{ $customer->fullname }}</div>
         <div class="flex items-center">
@@ -70,17 +125,17 @@
             </a>
         @endcan
 
-        {{-- @can('delete', $customer) --}}
-        <button wire:click="confirmDelete({{ $customer->id }})"
-            class="flex items-center gap-1 text-red-600 text-sm font-medium cursor-pointer p-1">
-            <svg class="size-5 text-red/50 shrink-0" data-slot="icon" fill="none" stroke-width="1.5"
-                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0">
-                </path>
-            </svg>
-        </button>
-        {{-- @endcan --}}
+        @can('delete', $customer)
+            <button wire:click="confirmDelete({{ $customer->id }})"
+                class="flex items-center gap-1 text-red-600 text-sm font-medium cursor-pointer p-1">
+                <svg class="size-5 text-red/50 shrink-0" data-slot="icon" fill="none" stroke-width="1.5"
+                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0">
+                    </path>
+                </svg>
+            </button>
+        @endcan
     </div>
 
     @if ($confirmingDelete === $customer->id)
@@ -93,4 +148,4 @@
             </div>
         </div>
     @endif
-</div>
+</div> --}}

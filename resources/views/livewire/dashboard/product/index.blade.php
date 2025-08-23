@@ -1,11 +1,29 @@
 <div class="space-y-6" x-data="{
     init() {
-        // Écouter les événements Livewire
-        Livewire.on('product-created', () => {
-            // Rafraîchir la liste des produits
-            $wire.$refresh()
-        })
-    }
+            Livewire.on('product-created', () => {
+                // Rafraîchir la liste des produits
+                $wire.$refresh()
+            })
+        },
+
+        shareProducts() {
+            // Vérifier si l'API Web Share est supportée
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Mes produits',
+                    text: 'Découvrez mes produits disponibles !',
+                    url: window.location.href
+                }).catch((error) => {
+                    console.log('Erreur de partage:', error);
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Lien copié dans le presse-papiers !');
+                }).catch(() => {
+                    prompt('Copiez ce lien pour partager :', window.location.href);
+                });
+            }
+        }
 }">
     <div class="w-20 h-20 mx-auto rounded-full bg-black flex items-center justify-center elegant-shadow">
         <span class="text-2xl font-bold text-white">M</span>
@@ -33,8 +51,8 @@
         </a>
     </div>
 
-    <div>
-        <button
+    <div class="flex justify-center">
+        <button @click="shareProducts()"
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border bg-background h-10 rounded-full px-6 py-2 border-black text-black hover:bg-black hover:text-white transition-all duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

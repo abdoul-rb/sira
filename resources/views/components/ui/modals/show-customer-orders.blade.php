@@ -1,9 +1,9 @@
-@props(['tenant'])
+@props(['customer', 'orders'])
 
-<x-ui.modals.base id="create-product" size="xl">
+<x-ui.modals.base id="show-customer-orders" size="xl">
     <x-slot:title>
         {{ __('Commande du client') }}
     </x-slot:title>
 
-    @livewire('dashboard.product.create', ['tenant' => $tenant], key('create-product-' . now()))
+    <!-- Contenu : affichage des commandes du client selectionné -->
 </x-ui.modals.base>

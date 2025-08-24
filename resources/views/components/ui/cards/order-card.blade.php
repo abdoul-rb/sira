@@ -5,7 +5,7 @@
         Commande #{{ strtoupper($order->order_number) }}
     </h2>
 
-    <div class="mt-2 grid grid-cols-2 gap-4">
+    <div class="mt-2 grid grid-cols-2 gap-2">
         <div class="col-span-2">
             <h4 class="text-xs text-gray-400">
                 Date de la commande

@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
 class Company extends Model
@@ -83,7 +84,16 @@ class Company extends Model
         return $this->hasMany(Employee::class);
     }
 
-    // initials
+    public function shop(): HasOne
+    {
+        return $this->hasOne(Shop::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Attributes
+    |--------------------------------------------------------------------------
+    */
     public function getInitialsAttribute(): string
     {
         return Str::upper(Str::substr($this->name, 0, 2));

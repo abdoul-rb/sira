@@ -12,20 +12,28 @@
         },
 
         shareProducts() {
+            // Récupérer l'URL publique de la boutique depuis Livewire
+            const publicUrl = @js($this->getPublicShopUrl());
+
+            if (!publicUrl) {
+                alert('Impossible de partager : la boutique n\'est pas configurée ou inactive.');
+                return;
+            }
+
             // Vérifier si l'API Web Share est supportée
             if (navigator.share) {
                 navigator.share({
-                    title: 'Mes produits',
-                    text: 'Découvrez mes produits disponibles !',
-                    url: window.location.href
+                    title: '{{ $tenant->shop->name ?? 'Ma boutique' }}',
+                    text: 'Découvrez nos produits disponibles !',
+                    url: publicUrl
                 }).catch((error) => {
                     console.log('Erreur de partage:', error);
                 });
             } else {
-                navigator.clipboard.writeText(window.location.href).then(() => {
-                    alert('Lien copié dans le presse-papiers !');
+                navigator.clipboard.writeText(publicUrl).then(() => {
+                    alert('Lien de la boutique copié dans le presse-papiers !');
                 }).catch(() => {
-                    prompt('Copiez ce lien pour partager :', window.location.href);
+                    prompt('Copiez ce lien pour partager :', publicUrl);
                 });
             }
         }

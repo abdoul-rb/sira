@@ -59,6 +59,18 @@ class Index extends Component
         session()->flash('success', 'Produit supprimé avec succès.');
     }
 
+    /**
+     * Génère l'URL publique de la boutique
+     */
+    public function getPublicShopUrl(): ?string
+    {
+        if (!$this->tenant->shop || !$this->tenant->shop->active) {
+            return null;
+        }
+
+        return route('shop.public', $this->tenant->shop->slug);
+    }
+
     public function render()
     {
         $query = Product::where('company_id', $this->tenant->id)

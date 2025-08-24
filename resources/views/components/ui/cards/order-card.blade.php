@@ -1,4 +1,4 @@
-@props(['order'])
+@props(['order', 'showCustomerDetails' => true])
 
 <div class="bg-gray-100 border border-gray-200 rounded-lg p-4">
     <h2 class="text-lg font-medium text-gray-900 md:shrink-0">
@@ -36,25 +36,27 @@
     </div>
 
     <div class="mt-3 rounded-lg text-gray-500 p-4 -mx-2 bg-white cursor-pointer">
-        <div class="space-y-1 mb-5">
-            <div class="flex items-center gap-2 text-sm text-gray-600">
-                <svg class="w-5 h-5 shrink-0" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
-                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z">
-                    </path>
-                </svg>
-                <span>{{ $order->customer?->fullname ?? '-' }}</span>
+        @if ($showCustomerDetails)
+            <div class="space-y-1 mb-5 border-b border-gray-200 pb-5">
+                <div class="flex items-center gap-2 text-sm text-gray-600">
+                    <svg class="w-5 h-5 shrink-0" data-slot="icon" fill="none" stroke-width="1.5"
+                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z">
+                        </path>
+                    </svg>
+                    <span>{{ $order->customer?->fullname ?? '-' }}</span>
+                </div>
+                <div class="text-xs text-gray-500 ml-6">
+                    {{ $order->customer?->email ?? '-' }}
+                </div>
+                <div class="text-xs text-gray-500 ml-6">
+                    {{ $order->customer?->phone_number ?? '-' }}
+                </div>
             </div>
-            <div class="text-xs text-gray-500 ml-6">
-                {{ $order->customer?->email ?? '-' }}
-            </div>
-            <div class="text-xs text-gray-500 ml-6">
-                {{ $order->customer?->phone_number ?? '-' }}
-            </div>
-        </div>
+        @endif
 
-        <div class="border-t border-gray-200 pt-5 space-y-4">
+        <div class="space-y-4">
             @forelse ($order->products as $item)
                 <div class="flex space-x-4 sm:min-w-0 sm:flex-1">
                     <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/order-history-page-07-product-01.jpg"

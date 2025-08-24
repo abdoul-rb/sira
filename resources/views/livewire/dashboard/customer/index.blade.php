@@ -179,7 +179,10 @@
 
         <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse($customers as $customer)
-                <x-ui.cards.customer-details :customer="$customer" :confirmingDelete="$confirmingDelete" />
+                <x-ui.cards.customer-details :customer="$customer" />
+
+                <!-- Modal pour afficher les commandes du client -->
+                <x-ui.modals.show-customer-orders :customer="$customer" :modalId="'show-customer-orders-' . $customer->id" />
             @empty
                 <div class="col-span-full text-center text-gray-500 py-10">Aucun client trouvé.</div>
             @endforelse

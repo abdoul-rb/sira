@@ -37,6 +37,8 @@ class Index extends Component
     public ?string $type = null;
 
     public $confirmingDelete = null;
+    
+    public $selectedCustomer = null;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -73,12 +75,21 @@ class Index extends Component
         $this->confirmingDelete = null;
         session()->flash('success', 'Client supprimé avec succès.');
     }
+    
+    public function showCustomerOrders(Customer $customer)
+    {
+        $this->selectedCustomer = $customer;
+        logger()->info('Client sélectionné pour les commandes', ['customer_id' => $customer->id, 'customer_name' => $customer->fullname]);
+    }
 
     public function render()
     {
         /* $query = Customer::where('company_id', $this->tenant->id) */
 
         $query = Customer::where('company_id', $this->tenant->id)
+            ->with(['orders' => function ($q) {
+                $q->with(['products', 'customer'])->latest();
+            }])
             ->when($this->search, function ($q) {
                 $q->where(function ($q) {
                     $q->where('firstname', 'like', "%{$this->search}%")

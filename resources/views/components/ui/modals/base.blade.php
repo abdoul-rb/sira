@@ -23,7 +23,7 @@
             open = false;
         }
     "
-    @keydown.window.escape="open = false" @click.outside="open = false" class="fixed inset-0 z-50 overflow-y-auto">
+    @keydown.window.escape="open = false" @click.outside="open = false" class="fixed inset-0 z-40 overflow-y-auto">
 
     <!-- Backdrop -->
     <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>

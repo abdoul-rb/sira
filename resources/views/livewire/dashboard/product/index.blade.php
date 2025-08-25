@@ -72,10 +72,10 @@
                 <h1 class="text-2xl font-bold text-black tracking-tight">
                     {{ $tenant->shop->name }}
                 </h1>
-                @if ($tenant->shop->logo_path)
+                {{-- @if ($tenant->shop->logo_path)
                     <img src="{{ Storage::disk('public')->url($tenant->shop->logo_path) }}" alt="Logo de la boutique"
                         class="w-8 h-8 rounded-full object-cover">
-                @endif
+                @endif --}}
             @else
                 <h1 class="text-2xl font-bold text-black tracking-tight">
                     Ma Boutique

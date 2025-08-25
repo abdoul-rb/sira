@@ -9,6 +9,7 @@ use App\Models\Product;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 
 class Index extends Component
 {
@@ -35,6 +36,16 @@ class Index extends Component
     public function mount(Company $tenant)
     {
         $this->tenant = $tenant;
+    }
+
+    /**
+     * Écouter l'événement de mise à jour de la boutique
+     */
+    #[On('shop-updated')]
+    public function refreshShop()
+    {
+        $this->tenant->refresh();
+        $this->tenant->load('shop');
     }
 
     public function sortBy(string $field, string $direction = 'desc')
@@ -68,7 +79,7 @@ class Index extends Component
             return null;
         }
 
-        return route('shop.public', $this->tenant->shop->slug);
+        return route('shop.public', [$this->tenant->slug, $this->tenant->shop->slug]);
     }
 
     public function render()

@@ -21,43 +21,45 @@ Route::view('/', 'welcome')->name('home');
 
 require __DIR__ . '/auth.php';
 
-Route::domain('{tenant}.' . config('app.url'))->name('dashboard.')->group(function () {
+Route::domain('{tenant}.' . config('app.url'))->group(function () {
     // Route publique pour les boutiques
     Route::get('shop/{shopSlug}', Shop::class)->name('shop.public');
+    
+    Route::name('dashboard.')->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
 
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
+        Route::prefix('dashboard')->group(function () {
+            // CRUD Customer (Livewire)
+            Route::prefix('customers')->name('customers.')->group(function () {
+                Route::get('', CustomerIndex::class)->name('index');
+                Route::get('create', CustomerCreate::class)->name('create');
+                Route::get('{customer}/edit', CustomerEdit::class)->name('edit');
+            });
 
-    Route::prefix('dashboard')->group(function () {
-        // CRUD Customer (Livewire)
-        Route::prefix('customers')->name('customers.')->group(function () {
-            Route::get('', CustomerIndex::class)->name('index');
-            Route::get('create', CustomerCreate::class)->name('create');
-            Route::get('{customer}/edit', CustomerEdit::class)->name('edit');
+            // CRUD Product (Livewire)
+            Route::prefix('products')->name('products.')->group(function () {
+                Route::get('', ProductIndex::class)->name('index');
+                Route::get('create', ProductCreate::class)->name('create');
+                Route::get('{product}/edit', ProductEdit::class)->name('edit');
+            });
+
+            // CRUD Order (Livewire)
+            Route::prefix('orders')->name('orders.')->group(function () {
+                Route::get('', OrderIndex::class)->name('index');
+                Route::get('create', OrderCreate::class)->name('create');
+                Route::get('{order}/edit', OrderEdit::class)->name('edit');
+            });
+
+            // CRUD Employee (Livewire)
+            Route::prefix('employees')->name('employees.')->group(function () {
+                Route::get('', EmployeeIndex::class)->name('index');
+                Route::get('create', EmployeeCreate::class)->name('create');
+                Route::get('{employee}/edit', EmployeeEdit::class)->name('edit');
+            });
+
+            // Route pour la configuration du mot de passe des employés
+            Route::get('employee/setup-password/{user}', SetupPassword::class)->name('employee.setup-password');
+
         });
-
-        // CRUD Product (Livewire)
-        Route::prefix('products')->name('products.')->group(function () {
-            Route::get('', ProductIndex::class)->name('index');
-            Route::get('create', ProductCreate::class)->name('create');
-            Route::get('{product}/edit', ProductEdit::class)->name('edit');
-        });
-
-        // CRUD Order (Livewire)
-        Route::prefix('orders')->name('orders.')->group(function () {
-            Route::get('', OrderIndex::class)->name('index');
-            Route::get('create', OrderCreate::class)->name('create');
-            Route::get('{order}/edit', OrderEdit::class)->name('edit');
-        });
-
-        // CRUD Employee (Livewire)
-        Route::prefix('employees')->name('employees.')->group(function () {
-            Route::get('', EmployeeIndex::class)->name('index');
-            Route::get('create', EmployeeCreate::class)->name('create');
-            Route::get('{employee}/edit', EmployeeEdit::class)->name('edit');
-        });
-
-        // Route pour la configuration du mot de passe des employés
-        Route::get('employee/setup-password/{user}', SetupPassword::class)->name('employee.setup-password');
-
     });
 });

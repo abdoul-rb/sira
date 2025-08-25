@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class Shop extends Model
 {
@@ -45,6 +46,13 @@ class Shop extends Model
         static::updating(function (Shop $shop) {
             $shop->slug = Str::slug($shop->name);
         });
+    }
+
+    public function getLogoPath()
+    {
+        return str_starts_with($this->logo_path, 'http')
+            ? $this->logo_path
+            : Storage::disk('public')->url($this->logo_path);
     }
 
     /*

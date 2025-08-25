@@ -45,14 +45,15 @@ class Edit extends Component
         
         // Récupérer ou créer la boutique
         $this->shop = $tenant->shop ?? new Shop();
-        
-        // Remplir le formulaire avec les données existantes
-        $this->name = $this->shop->name ?? '';
-        $this->description = $this->shop->description ?? '';
-        $this->facebook_url = $this->shop->facebook_url ?? '';
-        $this->instagram_url = $this->shop->instagram_url ?? '';
-        $this->logo_path = $this->shop->logo_path;
-        $this->active = $this->shop->active ?? true;
+
+        $this->fill([
+            'name' => $this->shop->name ?? '',
+            'description' => $this->shop->description ?? '',
+            'facebook_url' => $this->shop->facebook_url ?? '',
+            'instagram_url' => $this->shop->instagram_url ?? '',
+            'logo_path' => $this->shop->logo_path ?? '',
+            'active' => $this->shop->active ?? true,
+        ]);
     }
 
     public function save()
@@ -83,6 +84,10 @@ class Edit extends Component
             $this->shop = Shop::create($validated);
             session()->flash('success', 'Boutique créée avec succès.');
         }
+
+        // Rafraîchir la relation shop de l'entreprise
+        $this->tenant->refresh();
+        $this->tenant->load('shop');
 
         // Fermer la modal
         $this->dispatch('close-modal', id: 'edit-shop');

@@ -21,8 +21,11 @@ class Shop extends Component
 
     public function mount(Company $tenant, string $shopSlug)
     {
-        dd($tenant, $shopSlug);
         $this->tenant = $tenant;
+
+        // dd($shopSlug, url()->current(), ShopModel::get());
+
+        // Check si la boutique exist sinon gérer
         
         // Récupérer la boutique par son slug
         $this->shop = ShopModel::where('slug', $shopSlug)
@@ -53,6 +56,6 @@ class Shop extends Component
 
         return view('livewire.public.shop', [
             'products' => $products,
-        ]);
+        ])->layout('layouts.app');
     }
 }

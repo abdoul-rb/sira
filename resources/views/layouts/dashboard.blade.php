@@ -44,6 +44,7 @@
             </div>
         </div> --}}
 
+        <!-- MOBILE -->
         <nav class="fixed lg:hidden w-full bottom-0 left-0 bg-white border-t border-gray-100 z-40">
             <div class="grid h-full max-w-lg grid-cols-3 mx-auto">
                 <a class="inline-flex flex-col items-center justify-center p-2 rounded-xl {{ request()->routeIs('dashboard.products.*') ? 'text-black' : 'text-gray-400' }}"
@@ -101,7 +102,7 @@
                     </div>
                     <span
                         class="text-xs tracking-wide {{ request()->routeIs('dashboard.orders.*') ? 'mt-1 text-black' : 'text-gray-400' }}">
-                        Commandes
+                        {{ __('Ventes') }}
                     </span>
                 </a>
             </div>

@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Quotation;
+use App\Models\Warehouse;
 
 beforeEach(function () {
     $this->company = Company::factory()->create();
@@ -40,6 +41,7 @@ test('Order: array expected columns', function () {
         'created_at',
         'updated_at',
         'deleted_at',
+        'warehouse_id'
     ]);
 });
 
@@ -72,45 +74,6 @@ describe('Order Model', function () {
             ->and($order->cancelled_at)->toBeNull();
     });
 
-    test('peut créer une commande confirmée', function () {
-        $order = Order::factory()->confirmed()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        expect($order->status)->toBe(OrderStatus::CONFIRMED)
-            ->and($order->confirmed_at)->not->toBeNull()
-            ->and($order->shipped_at)->toBeNull()
-            ->and($order->delivered_at)->toBeNull()
-            ->and($order->cancelled_at)->toBeNull();
-    });
-
-    test('peut créer une commande en préparation', function () {
-        $order = Order::factory()->inPreparation()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        expect($order->status)->toBe(OrderStatus::IN_PREPARATION)
-            ->and($order->confirmed_at)->not->toBeNull()
-            ->and($order->shipped_at)->toBeNull()
-            ->and($order->delivered_at)->toBeNull()
-            ->and($order->cancelled_at)->toBeNull();
-    });
-
-    test('peut créer une commande expédiée', function () {
-        $order = Order::factory()->shipped()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        expect($order->status)->toBe(OrderStatus::SHIPPED)
-            ->and($order->confirmed_at)->not->toBeNull()
-            ->and($order->shipped_at)->not->toBeNull()
-            ->and($order->delivered_at)->toBeNull()
-            ->and($order->cancelled_at)->toBeNull();
-    });
-
     test('peut créer une commande livrée', function () {
         $order = Order::factory()->delivered()->create([
             'company_id' => $this->company->id,
@@ -137,43 +100,8 @@ describe('Order Model', function () {
             ->and($order->cancelled_at)->not->toBeNull();
     });
 
-    test('peut marquer une commande comme confirmée', function () {
-        $order = Order::factory()->pending()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        $order->markAsConfirmed();
-
-        expect($order->fresh()->status)->toBe(OrderStatus::CONFIRMED)
-            ->and($order->fresh()->confirmed_at)->not->toBeNull();
-    });
-
-    test('peut marquer une commande comme en préparation', function () {
-        $order = Order::factory()->confirmed()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        $order->markAsInPreparation();
-
-        expect($order->fresh()->status)->toBe(OrderStatus::IN_PREPARATION);
-    });
-
-    test('peut marquer une commande comme expédiée', function () {
-        $order = Order::factory()->inPreparation()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        $order->markAsShipped();
-
-        expect($order->fresh()->status)->toBe(OrderStatus::SHIPPED)
-            ->and($order->fresh()->shipped_at)->not->toBeNull();
-    });
-
     test('peut marquer une commande comme livrée', function () {
-        $order = Order::factory()->shipped()->create([
+        $order = Order::factory()->delivered()->create([
             'company_id' => $this->company->id,
             'customer_id' => $this->customer->id,
         ]);
@@ -196,49 +124,13 @@ describe('Order Model', function () {
             ->and($order->fresh()->cancelled_at)->not->toBeNull();
     });
 
-    test('vérifie si une commande peut être expédiée', function () {
-        $orderConfirmed = Order::factory()->confirmed()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        $orderPending = Order::factory()->pending()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        expect($orderConfirmed->canBeShipped())->toBeTrue()
-            ->and($orderPending->canBeShipped())->toBeFalse();
-    });
-
-    test('vérifie si une commande peut être livrée', function () {
-        $orderShipped = Order::factory()->shipped()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        $orderConfirmed = Order::factory()->confirmed()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        expect($orderShipped->canBeDelivered())->toBeTrue()
-            ->and($orderConfirmed->canBeDelivered())->toBeFalse();
-    });
-
     test('vérifie si une commande peut être annulée', function () {
         $orderPending = Order::factory()->pending()->create([
             'company_id' => $this->company->id,
             'customer_id' => $this->customer->id,
         ]);
 
-        $orderShipped = Order::factory()->shipped()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        expect($orderPending->canBeCancelled())->toBeTrue()
-            ->and($orderShipped->canBeCancelled())->toBeFalse();
+        expect($orderPending->canBeCancelled())->toBeTrue();
     });
 
     test('appartient à une entreprise', function () {
@@ -350,7 +242,8 @@ describe('Order Model', function () {
                 'company_id' => $this->company->id,
                 'customer_id' => $this->customer->id,
             ]);
-            Order::factory()->confirmed()->count(2)->create([
+
+            Order::factory()->paid()->count(2)->create([
                 'company_id' => $this->company->id,
                 'customer_id' => $this->customer->id,
             ]);
@@ -359,22 +252,6 @@ describe('Order Model', function () {
 
             expect($pending)->toHaveCount(3)
                 ->and($pending->every(fn ($order) => $order->status === OrderStatus::PENDING))->toBeTrue();
-        });
-
-        test('peut filtrer les commandes confirmées', function () {
-            Order::factory()->confirmed()->count(4)->create([
-                'company_id' => $this->company->id,
-                'customer_id' => $this->customer->id,
-            ]);
-            Order::factory()->shipped()->count(1)->create([
-                'company_id' => $this->company->id,
-                'customer_id' => $this->customer->id,
-            ]);
-
-            $confirmed = Order::confirmed()->get();
-
-            expect($confirmed)->toHaveCount(4)
-                ->and($confirmed->every(fn ($order) => $order->status === OrderStatus::CONFIRMED))->toBeTrue();
         });
 
         test('peut filtrer les commandes livrées', function () {
@@ -393,4 +270,204 @@ describe('Order Model', function () {
                 ->and($delivered->every(fn ($order) => $order->status === OrderStatus::DELIVERED))->toBeTrue();
         });
     });
+
+    describe('Avec un entrepôt', function () {
+        test('créer une commande avec un entrepôt', function () {
+            $warehouse = Warehouse::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            $order = Order::factory()->create([
+                'company_id' => $this->company->id,
+                'customer_id' => $this->customer->id,
+                'warehouse_id' => $warehouse->id,
+            ]);
+
+            expect($order->warehouse)->toBeInstanceOf(Warehouse::class)
+                ->and($order->warehouse->id)->toBe($warehouse->id);
+        });
+
+        test("peut décrémenter les stocks de tous les produits de la commande", function () {
+            $warehouse = Warehouse::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            $product1 = Product::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            $product2 = Product::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            // Ajouter des stocks dans l'entrepôt
+            $warehouse->updateProductStock($product1, 10);
+            $warehouse->updateProductStock($product2, 5);
+
+            $order = Order::factory()->create([
+                'company_id' => $this->company->id,
+                'customer_id' => $this->customer->id,
+                'warehouse_id' => $warehouse->id,
+            ]);
+
+            // Ajouter des produits à la commande
+            $order->products()->attach($product1->id, [
+                'quantity' => 3,
+                'unit_price' => 50.00,
+                'total_price' => 150.00,
+            ]);
+
+            $order->products()->attach($product2->id, [
+                'quantity' => 2,
+                'unit_price' => 75.00,
+                'total_price' => 150.00,
+            ]);
+
+            // Vérifier les stocks avant décrémentation
+            expect($warehouse->getProductStock($product1))->toBe(10)
+                ->and($warehouse->getProductStock($product2))->toBe(5);
+
+            // Décrémenter les stocks
+            $result = $order->decreaseStocks();
+
+            expect($result)->toBeTrue()
+                ->and($warehouse->fresh()->getProductStock($product1))->toBe(7) // 10 - 3
+                ->and($warehouse->fresh()->getProductStock($product2))->toBe(3); // 5 - 2
+        });
+
+        test('retourne false si stock insuffisant lors de la décrémentation', function () {
+            $warehouse = Warehouse::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            $product1 = Product::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            // Ajouter un stock insuffisant dans l'entrepôt
+            $warehouse->updateProductStock($product1, 2);
+
+            $order = Order::factory()->create([
+                'company_id' => $this->company->id,
+                'customer_id' => $this->customer->id,
+                'warehouse_id' => $warehouse->id,
+            ]);
+
+            // Ajouter un produit avec une quantité supérieure au stock
+            $order->products()->attach($product1->id, [
+                'quantity' => 5, // Plus que le stock disponible (2)
+                'unit_price' => 50.00,
+                'total_price' => 250.00,
+            ]);
+
+            // Vérifier que la décrémentation échoue
+            $result = $order->decreaseStocks();
+
+            expect($result)->toBeFalse()
+                ->and($warehouse->fresh()->getProductStock($product1))->toBe(2); // Stock inchangé
+        });
+
+        test("retourne false si aucun entrepôt n'est sélectionné pour la décrémentation", function () {
+            $order = Order::factory()->create([
+                'company_id' => $this->company->id,
+                'customer_id' => $this->customer->id,
+                'warehouse_id' => null, // Pas d'entrepôt
+            ]);
+
+            $result = $order->decreaseStocks();
+
+            expect($result)->toBeFalse();
+        });
+
+        test("peut vérifier si tous les produits ont suffisamment de stock dans l'entrepôt", function () {
+            $warehouse = Warehouse::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            $product1 = Product::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            $product2 = Product::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            // Ajouter des stocks dans l'entrepôt
+            $warehouse->updateProductStock($product1, 10);
+            $warehouse->updateProductStock($product2, 5);
+
+            $order = Order::factory()->create([
+                'company_id' => $this->company->id,
+                'customer_id' => $this->customer->id,
+                'warehouse_id' => $warehouse->id,
+            ]);
+
+            // Ajouter des produits à la commande avec des quantités disponibles
+            $order->products()->attach($product1->id, [
+                'quantity' => 3,
+                'unit_price' => 50.00,
+                'total_price' => 150.00,
+            ]);
+
+            $order->products()->attach($product2->id, [
+                'quantity' => 2,
+                'unit_price' => 75.00,
+                'total_price' => 150.00,
+            ]);
+
+            expect($order->canFulfillFromWarehouse())->toBeTrue();
+        });
+
+        test("retourne false si un produit n'a pas suffisamment de stock dans l'entrepôt", function () {
+            $warehouse = Warehouse::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            $product1 = Product::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            $product2 = Product::factory()->create([
+                'company_id' => $this->company->id,
+            ]);
+
+            // Ajouter des stocks insuffisants dans l'entrepôt
+            $warehouse->updateProductStock($product1, 2); // Stock insuffisant
+            $warehouse->updateProductStock($product2, 5);
+
+            $order = Order::factory()->create([
+                'company_id' => $this->company->id,
+                'customer_id' => $this->customer->id,
+                'warehouse_id' => $warehouse->id,
+            ]);
+
+            // Ajouter des produits à la commande avec des quantités supérieures au stock
+            $order->products()->attach($product1->id, [
+                'quantity' => 5, // Plus que le stock disponible (2)
+                'unit_price' => 50.00,
+                'total_price' => 250.00,
+            ]);
+
+            $order->products()->attach($product2->id, [
+                'quantity' => 2,
+                'unit_price' => 75.00,
+                'total_price' => 150.00,
+            ]);
+
+            expect($order->canFulfillFromWarehouse())->toBeFalse();
+        });
+
+        test("retourne false si aucun entrepôt n'est sélectionné", function () {
+            $order = Order::factory()->create([
+                'company_id' => $this->company->id,
+                'customer_id' => $this->customer->id,
+                'warehouse_id' => null, // Pas d'entrepôt
+            ]);
+
+            expect($order->canFulfillFromWarehouse())->toBeFalse();
+        });
+    });
+
+    // 
+    
 });

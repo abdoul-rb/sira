@@ -54,6 +54,13 @@ class OrderFactory extends Factory
         ];
     }
 
+    public function pending(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => OrderStatus::PENDING,
+        ]);
+    }
+
     /**
      * Indicate that the order is pending.
      */

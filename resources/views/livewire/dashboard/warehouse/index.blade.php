@@ -33,7 +33,7 @@
                     fill=""></path>
             </svg>
         </span>
-        <input type="text" wire:model.debounce.400ms="search" placeholder="Rechercher un entrepôt ..."
+        <input type="text" wire:model.live.debounce.400ms="search" placeholder="Rechercher un entrepôt ..."
             class="shadow-xs focus:border-brand-300 focus:ring-gray-500/10 h-11 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pr-14 pl-12 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-1 focus:outline-hidden xl:w-[430px]">
     </div>
 

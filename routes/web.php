@@ -15,6 +15,7 @@ use App\Livewire\Dashboard\Order\Index as OrderIndex;
 use App\Livewire\Dashboard\Product\Create as ProductCreate;
 use App\Livewire\Dashboard\Product\Edit as ProductEdit;
 use App\Livewire\Dashboard\Product\Index as ProductIndex;
+use App\Livewire\Dashboard\Warehouse\Index as WarehouseIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
@@ -55,6 +56,11 @@ Route::domain('{tenant}.' . config('app.url'))->group(function () {
                 Route::get('', EmployeeIndex::class)->name('index');
                 Route::get('create', EmployeeCreate::class)->name('create');
                 Route::get('{employee}/edit', EmployeeEdit::class)->name('edit');
+            });
+
+            // Warehouse (Livewire)
+            Route::prefix('warehouses')->name('warehouses.')->group(function () {
+                Route::get('', WarehouseIndex::class)->name('index');
             });
 
             // Route pour la configuration du mot de passe des employés

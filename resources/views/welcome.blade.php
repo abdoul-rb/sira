@@ -18,17 +18,19 @@
                             <span
                                 class="font-dancing bg-gradient-to-r from-blue-100 via-blue-300 to-blue-500 bg-clip-text text-transparent">FlowCRM</span>
                         </h1>
-                        <p class="body-lg text-muted-foreground max-w-2xl mx-auto">
+                        <p class="text-lg max-w-2xl mx-auto">
                             The complete CRM and ERP solution
                             designed specifically for African small and medium businesses. Manage customers, track sales,
-                            handle inventory, and grow your business with ease.</p>
+                            handle inventory, and grow your business with ease.
+                        </p>
+
                         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
                             <button
                                 class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium ring-offset-background transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-linear-to-r from-cyan-500 to-blue-500 text-white hover:opacity-90 shadow-md hover:shadow-lg rounded-lg px-8 py-3 text-base group">
-                                Try
-                                Free for 30 Days<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"
+                                Try Free for 30 Days
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
                                     class="lucide lucide-arrow-right ml-2 h-5 w-5 transition-transform group-hover:translate-x-1">
                                     <path d="M5 12h14"></path>
                                     <path d="m12 5 7 7-7 7"></path>
@@ -45,16 +47,16 @@
                         </div>
                         <div class="mt-16 flex justify-center items-center space-x-8 text-sm text-muted-foreground">
                             <div class="flex items-center">
-                                <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>No Credit
-                                Card Required
+                                <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                                No Credit Card Required
                             </div>
                             <div class="flex items-center">
-                                <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>30-Day Free
-                                Trial
+                                <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                                30-Day Free Trial
                             </div>
                             <div class="flex items-center">
-                                <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>Cancel
-                                Anytime
+                                <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                                Cancel Anytime
                             </div>
                         </div>
                     </div>
@@ -63,25 +65,32 @@
                     class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-muted/20 pointer-events-none">
                 </div>
             </section>
-            <section class="py-24 bg-background">
+
+            <section class="py-24 bg-white">
                 <div class="container px-4">
                     <div class="text-center max-w-3xl mx-auto mb-16">
-                        <h2 class="heading-lg mb-6">Everything You Need to <span
-                                class="bg-gradient-primary bg-clip-text text-transparent">Grow Your Business</span></h2>
-                        <p class="body-lg text-muted-foreground">FlowCRM combines powerful CRM and ERP features in one
-                            easy-to-use platform, specifically designed for the unique needs of African businesses.</p>
+                        <h2 class="text-3xl lg:text-5xl font-bold mb-6">
+                            Everything You Need to
+                            <span
+                                class="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">Grow
+                                Your Business</span>
+                        </h2>
+                        <p class="text-lg text-gray-500 font-medium">
+                            FlowCRM combines powerful CRM and ERP features in one
+                            easy-to-use platform, specifically designed for the unique needs of African businesses.
+                        </p>
                     </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
                         <div
-                            class="rounded-lg bg-card text-card-foreground group hover:shadow-lg transition-all duration-300 border-0 shadow-md hover:shadow-glow">
+                            class="rounded-lg bg-white text-gray-500 group transition-all duration-300 border-0 shadow-md hover:shadow-sm">
                             <div class="p-8 text-center">
                                 <div class="mb-6 flex justify-center">
                                     <div
-                                        class="p-4 bg-gradient-primary rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        class="p-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-users h-8 w-8 text-primary-foreground">
+                                            stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8 text-white">
                                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="9" cy="7" r="4"></circle>
                                             <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -90,40 +99,42 @@
                                     </div>
                                 </div>
                                 <h3 class="heading-sm mb-4">Customer Management</h3>
-                                <p class="text-muted-foreground leading-relaxed">Keep track of all your customers, their
-                                    contact details, purchase history, and preferences in one centralized location.</p>
+                                <p class="text-muted-foreground leading-relaxed">
+                                    Keep track of all your customers, their
+                                    contact details, purchase history, and preferences in one centralized location.
+                                </p>
                             </div>
                         </div>
                         <div
-                            class="rounded-lg bg-card text-card-foreground group hover:shadow-lg transition-all duration-300 border-0 shadow-md hover:shadow-glow">
+                            class="rounded-lg bg-white text-gray-500 group transition-all duration-300 border-0 shadow-md hover:shadow-sm">
                             <div class="p-8 text-center">
                                 <div class="mb-6 flex justify-center">
                                     <div
-                                        class="p-4 bg-gradient-primary rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        class="p-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-trending-up h-8 w-8 text-primary-foreground">
+                                            stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8 text-white">
                                             <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
                                             <polyline points="16 7 22 7 22 13"></polyline>
                                         </svg>
                                     </div>
                                 </div>
                                 <h3 class="heading-sm mb-4">Sales Tracking</h3>
-                                <p class="text-muted-foreground leading-relaxed">Monitor your sales pipeline, track deals
-                                    from lead to close, and never miss a follow-up with automated reminders.</p>
+                                <p class="text-muted-foreground leading-relaxed">
+                                    Monitor your sales pipeline, track deals
+                                    from lead to close, and never miss a follow-up with automated reminders.
+                                </p>
                             </div>
                         </div>
                         <div
-                            class="rounded-lg bg-card text-card-foreground group hover:shadow-lg transition-all duration-300 border-0 shadow-md hover:shadow-glow">
+                            class="rounded-lg bg-white text-gray-500 group transition-all duration-300 border-0 shadow-md hover:shadow-sm">
                             <div class="p-8 text-center">
                                 <div class="mb-6 flex justify-center">
                                     <div
-                                        class="p-4 bg-gradient-primary rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        class="p-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-file-text h-8 w-8 text-primary-foreground">
+                                            stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8 text-white">
                                             <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
                                             <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
                                             <path d="M10 9H8"></path>
@@ -133,20 +144,21 @@
                                     </div>
                                 </div>
                                 <h3 class="heading-sm mb-4">Inventory Control</h3>
-                                <p class="text-muted-foreground leading-relaxed">Manage your products and services, track
-                                    stock levels, set reorder points, and generate purchase orders automatically.</p>
+                                <p class="text-muted-foreground leading-relaxed">
+                                    Manage your products and services, track
+                                    stock levels, set reorder points, and generate purchase orders automatically.
+                                </p>
                             </div>
                         </div>
                         <div
-                            class="rounded-lg bg-card text-card-foreground group hover:shadow-lg transition-all duration-300 border-0 shadow-md hover:shadow-glow">
+                            class="rounded-lg bg-white text-gray-500 group transition-all duration-300 border-0 shadow-md hover:shadow-sm">
                             <div class="p-8 text-center">
                                 <div class="mb-6 flex justify-center">
                                     <div
-                                        class="p-4 bg-gradient-primary rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        class="p-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-chart-column h-8 w-8 text-primary-foreground">
+                                            stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8 text-white">
                                             <path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
                                             <path d="M18 17V9"></path>
                                             <path d="M13 17V5"></path>
@@ -155,20 +167,21 @@
                                     </div>
                                 </div>
                                 <h3 class="heading-sm mb-4">Smart Reporting</h3>
-                                <p class="text-muted-foreground leading-relaxed">Get insights into your business
-                                    performance with beautiful, easy-to-understand reports and analytics dashboards.</p>
+                                <p class="text-muted-foreground leading-relaxed">
+                                    Get insights into your business
+                                    performance with beautiful, easy-to-understand reports and analytics dashboards.
+                                </p>
                             </div>
                         </div>
                         <div
-                            class="rounded-lg bg-card text-card-foreground group hover:shadow-lg transition-all duration-300 border-0 shadow-md hover:shadow-glow">
+                            class="rounded-lg bg-white text-gray-500 group transition-all duration-300 border-0 shadow-md hover:shadow-sm">
                             <div class="p-8 text-center">
                                 <div class="mb-6 flex justify-center">
                                     <div
-                                        class="p-4 bg-gradient-primary rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        class="p-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-shield h-8 w-8 text-primary-foreground">
+                                            stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8 text-white">
                                             <path
                                                 d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
                                             </path>
@@ -176,8 +189,10 @@
                                     </div>
                                 </div>
                                 <h3 class="heading-sm mb-4">Secure &amp; Reliable</h3>
-                                <p class="text-muted-foreground leading-relaxed">Your business data is protected with
-                                    enterprise-grade security, regular backups, and 99.9% uptime guarantee.</p>
+                                <p class="text-muted-foreground leading-relaxed">
+                                    Your business data is protected with
+                                    enterprise-grade security, regular backups, and 99.9% uptime guarantee.
+                                </p>
                             </div>
                         </div>
                     </div>

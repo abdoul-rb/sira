@@ -89,6 +89,11 @@ class Company extends Model
         return $this->hasOne(Shop::class);
     }
 
+    public function warehouses(): HasMany
+    {
+        return $this->hasMany(Warehouse::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Attributes

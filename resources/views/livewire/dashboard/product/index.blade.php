@@ -124,7 +124,7 @@
         </h1>
 
         <button type="button" @click="$dispatch('open-modal', { id: 'create-product' })"
-            class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+            class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-gray-900">
             <svg class="size-4 transition duration-75 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -133,6 +133,21 @@
             {{ __('Ajouter un produit') }}
         </button>
     </div>
+
+    <ul class="flex items-center gap-2 mb-5">
+        <li class="w-full">
+            <a href="{{ route('dashboard.warehouses.index', ['tenant' => $tenant]) }}"
+                class="group flex items-center gap-x-3 rounded-md bg-white px-4 py-2 text-sm font-medium text-black">
+                <svg class="size-5 shrink-0" data-slot="icon" fill="none" stroke-width="1.5"
+                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18">
+                    </path>
+                </svg>
+                {{ __('Entrepôts') }}
+            </a>
+        </li>
+    </ul>
 
     <!-- Recherche globale -->
     <div class="relative">

@@ -39,10 +39,32 @@
             </div>
         </div>
 
-        <x-form.input class="col-span-1" name="price" label="Prix" type="number" :number="true"
+        <div class="col-span-full">
+            <label for="warehouse_id" class="block text-sm font-medium text-gray-700">
+                {{ __('Entrepôt') }}
+                <span class="text-red-500">*</span>
+            </label>
+            <select wire:model.live="warehouse_id" id="warehouse_id" name="warehouse_id"
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 text-gray-900 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm sm:leading-6">
+                <option value="">{{ __('Sélectionner un entrepôt') }}</option>
+                @foreach ($warehouses as $warehouse)
+                    <option value="{{ $warehouse->id }}">
+                        {{ $warehouse->name }}
+                        @if ($warehouse->default)
+                            <span class="text-xs text-gray-500">({{ __('Par défaut') }})</span>
+                        @endif
+                    </option>
+                @endforeach
+            </select>
+            @error('warehouse_id')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <x-form.input class="col-span-1" name="warehouse_quantity" label="Quantité" type="number" :number="true"
             :required="true" />
 
-        <x-form.input class="col-span-1" name="stock_quantity" label="Quantité" type="number" :number="true"
+        <x-form.input class="col-span-1" name="price" label="Prix" type="number" :number="true"
             :required="true" />
 
         <!-- Boutons d'action -->

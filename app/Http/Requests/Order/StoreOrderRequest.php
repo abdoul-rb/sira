@@ -22,10 +22,6 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'status' => ['required', 'in:pending,confirmed,in_preparation,shipped,delivered,cancelled'],
-            'shipping_cost' => ['nullable', 'numeric', 'min:0'],
-            'shipping_address' => ['nullable', 'string', 'max:255'],
-            'billing_address' => ['nullable', 'string', 'max:255'],
-            'notes' => ['nullable', 'string', 'max:1000'],
         ];
     }
 

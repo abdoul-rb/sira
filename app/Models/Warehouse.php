@@ -103,7 +103,7 @@ class Warehouse extends Model
             ->where('product_id', $product->id)
             ->first();
 
-        if (!$warehouseProduct || $warehouseProduct->quantity < $quantity) {
+        if (! $warehouseProduct || $warehouseProduct->quantity < $quantity) {
             return false; // Stock insuffisant
         }
 

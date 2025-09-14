@@ -76,6 +76,7 @@ class WarehouseProduct extends Model
         }
 
         $this->decrement('quantity', $quantity);
+
         return true;
     }
 

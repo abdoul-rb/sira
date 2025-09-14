@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Quotation;
+use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -27,28 +29,29 @@ class OrderFactory extends Factory
     {
         $subtotal = $this->faker->randomFloat(2, 100, 5000);
         $taxAmount = $subtotal * 0.18; // 18% de TVA
-        $shippingCost = $this->faker->randomFloat(2, 0, 50);
-        $totalAmount = $subtotal + $taxAmount + $shippingCost;
+        $discount = $this->faker->randomFloat(2, 0, $subtotal * 0.1); // Max 10% de remise
+        $advancePaid = $this->faker->randomFloat(2, 0, $subtotal + $taxAmount - $discount);
+        $totalAmount = $subtotal + $taxAmount - $discount;
 
         return [
             'company_id' => Company::factory(),
             'customer_id' => Customer::factory(),
             'quotation_id' => null, // Peut être lié à un devis ou non
+            'warehouse_id' => Warehouse::factory(),
             'order_number' => 'CMD-' . $this->faker->unique()->numberBetween(1000, 9999),
             'status' => $this->faker->randomElement([
+                OrderStatus::PENDING,
                 OrderStatus::PAID,
                 OrderStatus::DELIVERED,
                 OrderStatus::CANCELLED,
             ]),
             'subtotal' => $subtotal,
             'tax_amount' => $taxAmount,
-            'shipping_cost' => $shippingCost,
+            'discount' => $discount,
+            'advance_paid' => $advancePaid,
+            'payment_status' => $this->faker->randomElement(PaymentStatus::cases()),
             'total_amount' => $totalAmount,
-            'shipping_address' => $this->faker->address(),
-            'billing_address' => $this->faker->address(),
-            'notes' => $this->faker->optional()->paragraph(),
-            'confirmed_at' => null,
-            'shipped_at' => null,
+            'paid_at' => $this->faker->optional()->dateTimeBetween('-30 days', 'now'),
             'delivered_at' => null,
             'cancelled_at' => null,
         ];
@@ -68,8 +71,7 @@ class OrderFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'status' => OrderStatus::PAID,
-            'confirmed_at' => null,
-            'shipped_at' => null,
+            'paid_at' => $this->faker->dateTimeBetween('-30 days', 'now'),
             'delivered_at' => null,
             'cancelled_at' => null,
         ]);
@@ -82,8 +84,7 @@ class OrderFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'status' => OrderStatus::DELIVERED,
-            'confirmed_at' => $this->faker->dateTimeBetween('-30 days', '-3 days'),
-            'shipped_at' => $this->faker->dateTimeBetween('-3 days', '-1 day'),
+            'paid_at' => $this->faker->dateTimeBetween('-30 days', '-3 days'),
             'delivered_at' => $this->faker->dateTimeBetween('-1 day', 'now'),
             'cancelled_at' => null,
         ]);
@@ -96,8 +97,7 @@ class OrderFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'status' => OrderStatus::CANCELLED,
-            'confirmed_at' => null,
-            'shipped_at' => null,
+            'paid_at' => null,
             'delivered_at' => null,
             'cancelled_at' => $this->faker->dateTimeBetween('-30 days', 'now'),
         ]);

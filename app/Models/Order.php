@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,17 +24,16 @@ class Order extends Model
         'company_id',
         'customer_id',
         'quotation_id',
+        'warehouse_id',
         'order_number',
         'status',
         'subtotal',
         'tax_amount',
-        'shipping_cost',
+        'discount',
+        'advance',
+        'payment_status',
         'total_amount',
-        'shipping_address',
-        'billing_address',
-        'notes',
-        'confirmed_at',
-        'shipped_at',
+        'paid_at',
         'delivered_at',
         'cancelled_at',
     ];
@@ -42,10 +42,11 @@ class Order extends Model
         'status' => OrderStatus::class,
         'subtotal' => 'decimal:2',
         'tax_amount' => 'decimal:2',
-        'shipping_cost' => 'decimal:2',
+        'discount' => 'decimal:2',
+        'advance' => 'decimal:2',
+        'payment_status' => PaymentStatus::class,
         'total_amount' => 'decimal:2',
-        'confirmed_at' => 'datetime',
-        'shipped_at' => 'datetime',
+        'paid_at' => 'datetime',
         'delivered_at' => 'datetime',
         'cancelled_at' => 'datetime',
     ];
@@ -87,6 +88,11 @@ class Order extends Model
             ->withTimestamps();
     }
 
+    public function warehouse(): BelongsTo
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Scopes
@@ -98,19 +104,9 @@ class Order extends Model
         return $query->where('status', OrderStatus::PENDING);
     }
 
-    public function scopeConfirmed($query)
+    public function scopePaid($query)
     {
-        return $query->where('status', OrderStatus::CONFIRMED);
-    }
-
-    public function scopeInPreparation($query)
-    {
-        return $query->where('status', OrderStatus::IN_PREPARATION);
-    }
-
-    public function scopeShipped($query)
-    {
-        return $query->where('status', OrderStatus::SHIPPED);
+        return $query->where('status', OrderStatus::PAID);
     }
 
     public function scopeDelivered($query)
@@ -129,26 +125,11 @@ class Order extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function markAsConfirmed(): void
+    public function markAsPaid(): void
     {
         $this->update([
-            'status' => OrderStatus::CONFIRMED,
-            'confirmed_at' => now(),
-        ]);
-    }
-
-    public function markAsInPreparation(): void
-    {
-        $this->update([
-            'status' => OrderStatus::IN_PREPARATION,
-        ]);
-    }
-
-    public function markAsShipped(): void
-    {
-        $this->update([
-            'status' => OrderStatus::SHIPPED,
-            'shipped_at' => now(),
+            'status' => OrderStatus::PAID,
+            'paid_at' => now(),
         ]);
     }
 
@@ -175,33 +156,109 @@ class Order extends Model
         });
 
         $taxAmount = $this->tax_amount ?? 0;
-        $shippingCost = $this->shipping_cost ?? 0;
+        $discount = $this->discount ?? 0;
 
         $this->update([
             'subtotal' => $subtotal,
-            'total_amount' => $subtotal + $taxAmount + $shippingCost,
+            'total_amount' => $subtotal + $taxAmount - $discount,
         ]);
     }
 
     public function canBeShipped(): bool
     {
         return in_array($this->status, [
-            OrderStatus::CONFIRMED,
-            OrderStatus::IN_PREPARATION,
+            OrderStatus::PAID,
         ]);
     }
 
     public function canBeDelivered(): bool
     {
-        return $this->status === OrderStatus::SHIPPED;
+        return $this->status === OrderStatus::PAID;
     }
 
     public function canBeCancelled(): bool
     {
         return in_array($this->status, [
             OrderStatus::PENDING,
-            OrderStatus::CONFIRMED,
-            OrderStatus::IN_PREPARATION,
+            OrderStatus::PAID,
         ]);
+    }
+
+    /**
+     * Décrémente les stocks de tous les produits de la commande dans l'entrepôt sélectionné
+     */
+    public function decreaseStocks(): bool
+    {
+        if (! $this->warehouse) {
+            return false; // Pas d'entrepôt sélectionné
+        }
+
+        foreach ($this->products as $product) {
+            $quantity = $product->pivot->quantity;
+
+            if (! $this->warehouse->hasSufficientStock($product, $quantity)) {
+                return false; // Stock insuffisant pour au moins un produit
+            }
+        }
+
+        // Décrémenter les stocks de tous les produits
+        foreach ($this->products as $product) {
+            $quantity = $product->pivot->quantity;
+            $this->warehouse->decreaseProductStock($product, $quantity);
+        }
+
+        return true;
+    }
+
+    /**
+     * Vérifie si tous les produits de la commande ont suffisamment de stock dans l'entrepôt sélectionné
+     */
+    public function canFulfillFromWarehouse(): bool
+    {
+        if (! $this->warehouse) {
+            return false;
+        }
+
+        foreach ($this->products as $product) {
+            $quantity = $product->pivot->quantity;
+
+            if (! $this->warehouse->hasSufficientStock($product, $quantity)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Calcule le montant restant à payer
+     */
+    public function getRemainingAmountAttribute(): float
+    {
+        return $this->total_amount - $this->advance;
+    }
+
+    /**
+     * Vérifie si la commande est entièrement payée
+     */
+    public function isFullyPaid(): bool
+    {
+        return $this->advance >= $this->total_amount;
+    }
+
+    /**
+     * Vérifie si la commande est partiellement payée
+     */
+    public function isPartiallyPaid(): bool
+    {
+        return $this->advance > 0 && $this->advance < $this->total_amount;
+    }
+
+    /**
+     * Vérifie si la commande n'est pas payée
+     */
+    public function isUnpaid(): bool
+    {
+        return $this->advance == 0;
     }
 }

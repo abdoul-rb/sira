@@ -35,6 +35,11 @@ class Create extends Component
     public $subtotal = 0;
     public $total_amount = 0;
 
+    protected function rules(): array
+    {
+        return (new StoreOrderRequest)->rules();
+    }
+
     public function mount(Company $tenant)
     {
         $this->tenant = $tenant;
@@ -99,11 +104,6 @@ class Create extends Component
     public function updatedShippingCost()
     {
         $this->calculateTotals();
-    }
-
-    protected function rules(): array
-    {
-        return (new StoreOrderRequest)->rules();
     }
 
     public function save()

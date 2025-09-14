@@ -1,27 +1,53 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="space-y-6">
-        <x-ui.breadcrumb :items="[
-            ['label' => 'Tableau de bord', 'url' => tenant_route('dashboard.index')],
-            ['label' => 'Produits', 'url' => '#'],
-        ]" />
-
-        <div class="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div class="space-y-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h1 class="text-2xl font-bold text-black">
-                {{ __('Commandes') }}
+                {{ __('Toutes les ventes') }}
             </h1>
 
-            <a href="{{ tenant_route('dashboard.orders.create') }}"
-                class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-blue-600 px-3 py-2 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+            <button type="button" @click="$dispatch('open-modal', { id: 'create-order' })"
+                class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-gray-900">
                 <svg class="size-4 transition duration-75 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
                 </svg>
-                {{ __('Nouvelle commande') }}
-            </a>
+                {{ __('Ajouter une vente') }}
+            </button>
         </div>
+
+        <!-- Modal de création de produit -->
+        <x-ui.modals.create-order-modal :tenant="$tenant" />
+
+        <ul class="flex flex-col items-center gap-2">
+            <li class="w-full">
+                <a href="{{ route('dashboard.warehouses.index', ['tenant' => $tenant]) }}"
+                    class="group flex items-center gap-x-2 rounded-md bg-gray-200 px-4 py-2 text-xs font-medium text-black">
+                    <svg class="size-5 shrink-0" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z">
+                        </path>
+                    </svg>
+                    {{ __('Suivi des ventes') }}
+                </a>
+            </li>
+
+            <li class="w-full">
+                <a href="{{ route('dashboard.warehouses.index', ['tenant' => $tenant]) }}"
+                    class="group flex items-center gap-x-2 rounded-md bg-gray-200 px-4 py-2 text-xs font-medium text-black">
+                    <svg class="size-5 shrink-0" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z">
+                        </path>
+                    </svg>
+                    {{ __('Suivi des crédits') }}
+                </a>
+            </li>
+        </ul>
 
         <div class="flex items-center gap-4 text-sm text-gray-600">
             <div class="flex items-center gap-1">

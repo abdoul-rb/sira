@@ -27,11 +27,7 @@ class UpdateOrderRequest extends FormRequest
             'status' => ['required', 'in:pending,confirmed,in_preparation,shipped,delivered,cancelled'],
             'subtotal' => ['nullable', 'numeric', 'min:0'],
             'tax_amount' => ['nullable', 'numeric', 'min:0'],
-            'shipping_cost' => ['nullable', 'numeric', 'min:0'],
             'total_amount' => ['nullable', 'numeric', 'min:0'],
-            'shipping_address' => ['nullable', 'string', 'max:255'],
-            'billing_address' => ['nullable', 'string', 'max:255'],
-            'notes' => ['nullable', 'string', 'max:1000'],
         ];
     }
 

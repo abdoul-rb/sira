@@ -107,7 +107,7 @@
                 </a>
 
                 <a class="inline-flex flex-col items-center justify-center p-2 rounded-xl {{ request()->routeIs('dashboard.agents.*') ? 'text-black' : 'text-gray-400' }}"
-                    href="{{ route('dashboard.orders.index') }}">
+                    href="{{ route('dashboard.agents.index') }}">
                     <div
                         class="p-2.5 rounded-lg transition-all duration-300 {{ request()->routeIs('dashboard.agents.*') ? 'bg-black text-white' : 'text-gray-400' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

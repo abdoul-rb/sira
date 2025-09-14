@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Dashboard\DashboardController;
-use App\Livewire\Public\Shop;
 use App\Livewire\Auth\SetupPassword;
+use App\Livewire\Dashboard\Agent\AddModal as AddAgentModal;
+use App\Livewire\Dashboard\Agent\Edit as AgentEdit;
+use App\Livewire\Dashboard\Agent\Index as AgentIndex;
 use App\Livewire\Dashboard\Customer\Create as CustomerCreate;
 use App\Livewire\Dashboard\Customer\Edit as CustomerEdit;
 use App\Livewire\Dashboard\Customer\Index as CustomerIndex;
@@ -16,6 +18,7 @@ use App\Livewire\Dashboard\Product\Create as ProductCreate;
 use App\Livewire\Dashboard\Product\Edit as ProductEdit;
 use App\Livewire\Dashboard\Product\Index as ProductIndex;
 use App\Livewire\Dashboard\Warehouse\Index as WarehouseIndex;
+use App\Livewire\Public\Shop;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
@@ -25,7 +28,7 @@ require __DIR__ . '/auth.php';
 Route::domain('{tenant}.' . config('app.url'))->group(function () {
     // Route publique pour les boutiques
     Route::get('shop/{shopSlug}', Shop::class)->name('shop.public');
-    
+
     Route::name('dashboard.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
 
@@ -35,6 +38,13 @@ Route::domain('{tenant}.' . config('app.url'))->group(function () {
                 Route::get('', CustomerIndex::class)->name('index');
                 Route::get('create', CustomerCreate::class)->name('create');
                 Route::get('{customer}/edit', CustomerEdit::class)->name('edit');
+            });
+
+            // CRUD Agent (Livewire)
+            Route::prefix('agents')->name('agents.')->group(function () {
+                Route::get('', AgentIndex::class)->name('index');
+                Route::get('create', AddAgentModal::class)->name('create');
+                Route::get('{agent}/edit', AgentEdit::class)->name('edit');
             });
 
             // CRUD Product (Livewire)

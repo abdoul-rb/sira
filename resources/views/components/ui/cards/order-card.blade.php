@@ -15,6 +15,7 @@
             </p>
         </div>
 
+        <!-- TODO: composant status -->
         <div>
             <h4 class="text-xs text-gray-400">
                 Status
@@ -59,11 +60,10 @@
         <div class="space-y-4">
             @forelse ($order->products as $item)
                 <div class="flex space-x-4 sm:min-w-0 sm:flex-1">
-                    <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/order-history-page-07-product-01.jpg"
-                        alt="Brass puzzle in the shape of a jack with overlapping rounded posts."
+                    <img src="{{ Storage::disk('public')->url($item->featured_image) }}" alt="{{ $item->name }}"
                         class="size-14 flex-none rounded-md object-cover sm:size-16">
                     <div class="min-w-0 flex-1 pt-1.5 sm:pt-0">
-                        <h3 class="text-sm text-gray-500">
+                        <h3 class="text-xs lg:text-sm text-gray-500">
                             <a href="#">{{ $item->name }}</a> x {{ $item->pivot->quantity }}
                         </h3>
                         <p class="mt-1 text-xs font-medium text-black">

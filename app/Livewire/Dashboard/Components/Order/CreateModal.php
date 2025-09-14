@@ -180,7 +180,7 @@ class CreateModal extends Component
                     // Vérifier le stock dans l'entrepôt spécifique
                     $availableStock = $warehouse->getProductStock($product);
                     
-                    if ($line['quantity'] > $availableStock) {
+                    if ((int) $line['quantity'] > $availableStock) {
                         $this->addError("productLines.{$index}.quantity", 
                             "La quantité demandée ({$line['quantity']}) dépasse le stock disponible ({$availableStock}) dans l'entrepôt {$warehouse->name} pour le produit {$product->name}.");
                         return;
@@ -208,30 +208,26 @@ class CreateModal extends Component
 
         $order = Order::create($orderData);
 
-        // Attacher les produits à la commande
+        // Attacher les produits à la commande et décrémenter les stocks
         foreach ($this->productLines as $line) {
             if (!empty($line['product_id'])) {
+                $product = Product::find($line['product_id']);
+                
+                // Attacher le produit à la commande
                 $order->products()->attach($line['product_id'], [
                     'quantity' => $line['quantity'],
                     'unit_price' => $line['unit_price'],
                     'total_price' => $line['total_price'],
                 ]);
-            }
-        }
 
-        // Décrémenter les stocks dans l'entrepôt sélectionné
-        foreach ($this->productLines as $line) {
-            if (!empty($line['product_id'])) {
-                $product = Product::find($line['product_id']);
-                if ($product) {
-                    // Décrémenter le stock dans l'entrepôt spécifique
-                    $warehouse->decreaseProductStock($product, $line['quantity']);
-                }
+                // Décrémenter le stock dans l'entrepôt spécifique
+                // Cette méthode met automatiquement à jour le stock_quantity global du produit
+                $warehouse->decreaseProductStock($product, (int) $line['quantity']);
             }
         }
 
         session()->flash('success', 'Commande créée avec succès.');
-        return redirect()->route('dashboard.orders.edit', [$this->tenant, $order]);
+        return redirect()->route('dashboard.orders.index', [$this->tenant, $order]);
     }
 
     public function render()

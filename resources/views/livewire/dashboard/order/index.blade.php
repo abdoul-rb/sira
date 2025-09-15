@@ -50,6 +50,7 @@
         </ul>
 
         <div class="flex items-center gap-4 text-sm text-gray-600">
+            <!-- TODO: Componable -->
             <div class="flex items-center gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -67,7 +68,7 @@
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
-                <span>4 en attente</span>
+                <span>{{ $orders->where('status', \App\Enums\OrderStatus::PENDING)->count() }} en attente</span>
             </div>
             <div class="flex items-center gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -91,7 +92,6 @@
                 </div>
             @endforelse
         </div>
-
 
         <!-- Ancien table list des commandes -->
         {{-- <div class="col-span-full">

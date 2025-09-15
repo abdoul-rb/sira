@@ -23,11 +23,8 @@ class Index extends Component
     #[Url]
     public string $search = '';
 
-    public string $sortByLabel = 'Type:';
-
     #[Url(as: 'field', history: true)]
     #[Locked]
-    #[Validate('in:created_at,comments_count')]
     public string $sortField = 'lastname';
 
     #[Url(as: 'direction', history: true)]
@@ -85,14 +82,11 @@ class Index extends Component
 
     public function render()
     {
-        /* $query = Customer::where('company_id', $this->tenant->id) */
-
         $query = Agent::where('company_id', $this->tenant->id)
             ->when($this->search, function ($q) {
                 $q->where(function ($q) {
                     $q->where('firstname', 'like', "%{$this->search}%")
-                        ->orWhere('lastname', 'like', "%{$this->search}%")
-                        ->orWhere('email', 'like', "%{$this->search}%");
+                        ->orWhere('lastname', 'like', "%{$this->search}%");
                 });
             })
             ->orderBy($this->sortField, $this->sortDirection);
@@ -101,7 +95,6 @@ class Index extends Component
 
         return view('livewire.dashboard.agent.index', [
             'agents' => $agents,
-            'types' => CustomerType::cases(),
         ])->extends('layouts.dashboard');
     }
 }

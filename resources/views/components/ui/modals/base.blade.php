@@ -31,12 +31,12 @@
     <!-- Modal -->
     <div class="flex min-h-full items-center justify-center p-4">
         <div
-            class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 shadow-xl transition-all w-full {{ $modalSize }}">
+            class="relative transform overflow-hidden rounded-lg bg-white px-4 lg:px-8 pb-4 pt-5 lg:py-8 shadow-xl transition-all w-full {{ $modalSize }}">
 
             <!-- Bouton fermer -->
             <div class="absolute right-0 top-0 pr-4 pt-4">
                 <button @click="$dispatch('close-modal', { id: '{{ $id }}' })" type="button"
-                    class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-offset-2">
+                    class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-offset-2 cursor-pointer">
                     <span class="sr-only">Fermer</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
                         aria-hidden="true" class="size-6">

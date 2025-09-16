@@ -1,22 +1,20 @@
 @section('title', __('Liste des clients'))
 
 <div>
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div class="mt-6 flex items-center justify-between gap-2">
         <h1 class="text-2xl font-bold text-black">
-            {{ __('Clients') }}
+            {{ __('Mes clients') }}
         </h1>
 
-        @can('create', App\Models\Customer::class)
-            <a href="{{ route('dashboard.customers.create', ['tenant' => $tenant]) }}"
-                class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-blue-600 px-3 py-2 lg:py-1 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                <svg class="size-4 transition duration-75 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
-                </svg>
-                {{ __('Ajouter un client') }}
-            </a>
-        @endcan
+        <button type="button" @click="$dispatch('open-modal', { id: 'create-customer' })"
+            class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-gray-900 cursor-pointer">
+            <svg class="size-4 transition duration-75 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
+            </svg>
+            {{ __('Ajouter un client') }}
+        </button>
     </div>
 
     <div class="mt-3 space-y-6">

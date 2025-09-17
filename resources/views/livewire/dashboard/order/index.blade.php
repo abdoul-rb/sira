@@ -95,6 +95,10 @@
             @endforelse
         </div>
 
+        <div class="mt-4">
+            {{ $orders->links() }}
+        </div>
+
         <!-- Ancien table list des commandes -->
         {{-- <div class="col-span-full">
             <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
@@ -333,8 +337,6 @@
             <!-- Table Four -->
         </div>
 
-        <div class="mt-4">
-            {{ $orders->links() }}
-        </div> --}}
+         --}}
     </div>
 @endsection

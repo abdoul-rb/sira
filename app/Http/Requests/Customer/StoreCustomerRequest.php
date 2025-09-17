@@ -22,16 +22,26 @@ class StoreCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['nullable', 'string', 'max:20'],
+            'title' => ['nullable', 'string', 'max:20', 'in:Mme,Mlle,M.'],
+            'type' => ['required', 'in:lead,customer'],
             'firstname' => ['required', 'string', 'max:50'],
             'lastname' => ['required', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:100'],
-            'phone_number' => ['nullable', 'string', 'max:30'],
-            'type' => ['required', 'in:lead,customer'],
+            'phone_number' => ['required', 'string', 'max:30'],
             'address' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:100'],
-            'zip_code' => ['nullable', 'string', 'max:20'],
-            'country' => ['nullable', 'string', 'max:100'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'title.in' => 'Le titre ne correspond pas.',
+            'type.in' => 'Le type de client doit être "lead" ou "customer".',
+            'firstname.required' => 'Le prénom est requis.',
+            'lastname.required' => 'Le nom est requis.',
+            'email.email' => "L'email doit être une adresse email valide.",
+            'phone_number.required' => 'Le téléphone est requis.',
+            'address.string' => "L'adresse doit être une chaîne de caractères.",
         ];
     }
 }

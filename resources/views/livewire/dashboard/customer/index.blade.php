@@ -1,12 +1,12 @@
 @section('title', __('Liste des clients'))
 
 <div>
-    <div class="mt-6 flex items-center justify-between gap-2">
+    <div class="flex items-center justify-between gap-2">
         <h1 class="text-2xl font-bold text-black">
             {{ __('Mes clients') }}
         </h1>
 
-        <button type="button" @click="$dispatch('open-modal', { id: 'create-customer' })"
+        <button type="button" @click="$dispatch('open-modal', { id: 'add-customer' })"
             class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-gray-900 cursor-pointer">
             <svg class="size-4 transition duration-75 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -16,6 +16,8 @@
             {{ __('Ajouter un client') }}
         </button>
     </div>
+
+    <x-ui.modals.add-customer-modal :tenant="$tenant" />
 
     <div class="mt-3 space-y-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

@@ -27,7 +27,7 @@
 
 <div {{ $attributes }}>
     @if (isset($label) && !empty($label))
-        <label for="{{ $slug }}" class="block text-sm font-medium text-gray-700">
+        <label for="{{ $slug }}" class="block text-xs font-medium text-gray-600">
             {{ $label }}
             @if ($required)
                 <span class="text-red-500">*</span>
@@ -37,7 +37,7 @@
 
     <input type="{{ $type }}" @class([
         'mt-1' => isset($label) && !empty($label),
-        'block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-2 focus:ring-black focus:ring-opacity-50 text-sm',
+        'block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm',
     ]) name="{{ $name }}" id="{{ $slug }}"
         value="{{ old($name, $value) }}" @if ($wire) wire:model.lazy="{{ $name }}" @endif
         @if ($searchable && !$wire) wire:model.live.debounce.300ms="{{ $name }}" @endif

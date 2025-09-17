@@ -62,8 +62,9 @@ class Edit extends Component
         $this->authorize('update', $this->customer);
         $validated = $this->validate();
         $this->customer->update($validated);
-        
+
         session()->flash('success', 'Client modifié avec succès.');
+
         return to_route('dashboard.customers.edit', [$this->tenant, $this->customer]);
     }
 

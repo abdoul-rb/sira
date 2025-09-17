@@ -22,12 +22,10 @@
 
         <!-- Emplacements -->
         <div class="col-span-full">
-            <label for="warehouse_id" class="block text-xs font-medium text-gray-600">
-                {{ __('Emplacement') }}
-            </label>
+            <x-form.label label="Emplacement" id="warehouse-id" />
 
             <div class="mt-1">
-                <select id="warehouse_id" name="warehouse_id" wire:model.live="warehouse_id"
+                <select id="warehouse-id" name="warehouse_id" wire:model.live="warehouse_id"
                     class="col-start-1 row-start-1 w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150 appearance-none bg-white py-1.5 pl-3 pr-8 -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6">
                     @foreach ($warehouses as $warehouse)
                         <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
@@ -58,10 +56,9 @@
                     <div class="grid grid-cols-2 lg:grid-cols-6 gap-3 items-center">
                         <!-- Sélecteur de produit -->
                         <div class="col-span-full">
-                            <label for="product_id" class="block text-xs text-gray-600">
-                                Produit
-                            </label>
-                            <select wire:model.live="productLines.{{ $index }}.product_id" id="product_id"
+                            <x-form.label label="Produit" id="product-id" />
+                            <select id="product-id" wire:model.live="productLines.{{ $index }}.product_id"
+                                id="product_id"
                                 class="mt-1 col-start-1 row-start-1 w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150 appearance-none bg-white py-1.5 pl-3 pr-8 -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6">
                                 <option value="">Sélectionner un produit</option>
                                 @foreach ($products as $product)
@@ -76,12 +73,10 @@
                         </div>
 
                         <div class="col-span-1">
-                            <label for="unit_price" class="block text-xs text-gray-600">
-                                Prix unitaire
-                            </label>
+                            <span class="block text-xs lg:text-sm font-medium text-gray-600">Prix unitaire</span>
 
                             <div class="mt-1 relative flex items-center">
-                                <div type="text"
+                                <div
                                     class="block w-full text-sm rounded-md border border-gray-300 text-gray-900 placeholder:text-black focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 transition duration-150 appearance-none bg-white py-1.5 pr-14 sm:text-sm">
                                     {{ Number::currency($line['unit_price'], in: 'XOF', locale: 'fr') }}
                                 </div>
@@ -90,12 +85,11 @@
 
                         <!-- Quantité -->
                         <div class="col-span-1">
-                            <label for="quantity_product.{{ $index }}" class="block text-xs text-gray-600">
-                                {{ __('Quantité') }}
-                            </label>
+                            <x-form.label label="Quantité" id="quantity-product.{{ $index }}" />
 
-                            <input type="number" wire:model.live="productLines.{{ $index }}.quantity"
-                                min="1" max="{{ $line['available_stock'] }}"
+                            <input type="number" id="quantity-product.{{ $index }}"
+                                wire:model.live="productLines.{{ $index }}.quantity" min="1"
+                                max="{{ $line['available_stock'] }}"
                                 class="mt-1 block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm">
                             @error("productLines.{$index}.quantity")
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -104,12 +98,10 @@
 
                         <!-- Total -->
                         <div class="col-span-1">
-                            <label for="total_product_price" class="block text-xs text-gray-600">
-                                {{ __('Sous total') }}
-                            </label>
+                            <span class="block text-xs lg:text-sm font-medium text-gray-600">Sous total</span>
 
                             <div class="mt-1 relative flex items-center">
-                                <div type="text"
+                                <div
                                     class="block w-full text-sm rounded-md border border-gray-300 text-gray-900 placeholder:text-black focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 transition duration-150 appearance-none bg-white py-1.5 pr-14 sm:text-sm">
                                     {{ Number::currency($line['total_price'], in: 'XOF', locale: 'fr') }}
                                 </div>
@@ -118,9 +110,7 @@
 
                         <!-- Actions -->
                         <div class="col-span-1">
-                            <label for="remove_product_line" class="sr-only">
-                                Supprimer
-                            </label>
+                            <span class="block text-xs lg:text-sm font-medium text-gray-600">Supprimer</span>
                             @if (count($productLines) > 1)
                                 <div class="mt-1 py-3 flex items-end">
                                     <button type="button" wire:click="removeProductLine({{ $index }})"
@@ -135,22 +125,6 @@
                                 </div>
                             @endif
                         </div>
-
-                        {{-- 
-                        <div class="col-span-1">
-                            <label for="product_id" class="block text-xs text-gray-600">
-                                Prix unitaire
-                            </label>
-                            <div class="mt-1 relative flex items-center">
-                                <input type="text" name="search" id="search"
-                                    class="block w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-black focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm transition duration-150 appearance-none bg-white py-1.5 pr-14 sm:text-sm">
-                                <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-                                    <kbd
-                                        class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-400">FCFA</kbd>
-                                </div>
-                            </div>
-                        </div>
-                        --}}
                     </div>
                 @endforeach
             </div>
@@ -159,17 +133,15 @@
             <div class="mt-4">
                 <button type="button" wire:click="addProductLine"
                     class="inline-flex items-center px-3 py-1.5 border border-dashed border-gray-300 text-xs font-medium rounded-full text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                    + Ajouter un produit
+                    {{ __('+ Ajouter un produit') }}
                 </button>
             </div>
         </div>
 
         <div class="col-span-1">
-            <label for="discount" class="block text-xs text-gray-600">
-                {{ __('Remise') }}
-            </label>
+            <x-form.label label="Remise" id="discount" />
 
-            <input type="number" wire:model.live.number="discount"
+            <input type="number" wire:model.live.number="discount" id="discount"
                 class="mt-1 block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm">
             @error('discount')
                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -178,11 +150,9 @@
 
         <!-- TODO: create small input component -->
         <div class="col-span-1">
-            <label for="advance" class="block text-xs text-gray-600">
-                {{ __('Avance payé') }}
-            </label>
+            <x-form.label label="Avance payé" id="advance" />
 
-            <input type="number" wire:model.live.number="advance"
+            <input type="number" wire:model.live.number="advance" id="advance"
                 class="mt-1 block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm">
             @error('advance')
                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>

@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('body')
-    <div>
+    <div x-data="{ open: false }" @keydown.window.escape="open = false">
         <!-- MOBILE -->
         <nav class="fixed lg:hidden w-full bottom-0 left-0 bg-white border-t border-gray-100 z-40">
             <div class="grid h-full max-w-lg grid-cols-4 mx-auto">
@@ -9,9 +9,9 @@
                     href="{{ route('dashboard.products.index') }}">
                     <div
                         class="p-2.5 rounded-lg transition-all duration-300 {{ request()->routeIs('dashboard.products.*') ? 'bg-black text-white' : 'text-gray-400' }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="w-4 h-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="w-4 h-4">
                             <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"></path>
                             <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
                             <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"></path>

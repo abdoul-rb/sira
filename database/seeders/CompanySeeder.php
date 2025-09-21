@@ -6,6 +6,7 @@ use App\Models\Company;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class CompanySeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class CompanySeeder extends Seeder
         $companySofaSmart = Company::where('slug',  Str::slug('Sofa Smart'))->first();
         
         if (!$companySofaSmart) {
-            Company::create([
+            $companySofaSmart = Company::create([
                 'name' => 'Sofa Smart',
                 'email' => 'contact@sofasmart.com',
                 'phone_number' => '+22500000000',
@@ -26,12 +27,18 @@ class CompanySeeder extends Seeder
                 'zip_code' => '99000',
                 'country' => "Côte d'Ivoire",
             ]);
+
+            $companySofaSmart->users()->create([
+                'email' => 'contact@sofasmart.com',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]);
         }
 
         $companyNomad = Company::where('slug',  Str::slug('Nomad'))->first();
 
         if (!$companyNomad) {
-            Company::create([
+            $companyNomad = Company::create([
                 'name' => 'Nomad',
                 'email' => 'contact@nomad.com',
                 'phone_number' => '+22500000099',
@@ -42,6 +49,12 @@ class CompanySeeder extends Seeder
                 'city' => 'Abidjan',
                 'zip_code' => '99000',
                 'country' => "Côte d'Ivoire",
+            ]);
+
+            $companyNomad->users()->create([
+                'email' => 'contact@nomad.com',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
             ]);
         }
     }

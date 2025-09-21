@@ -36,7 +36,6 @@ class OrderFactory extends Factory
         return [
             'company_id' => Company::factory(),
             'customer_id' => Customer::factory(),
-            'quotation_id' => null, // Peut être lié à un devis ou non
             'warehouse_id' => Warehouse::factory(),
             'order_number' => 'CMD-' . $this->faker->unique()->numberBetween(1000, 9999),
             'status' => $this->faker->randomElement([
@@ -46,9 +45,8 @@ class OrderFactory extends Factory
                 OrderStatus::CANCELLED,
             ]),
             'subtotal' => $subtotal,
-            'tax_amount' => $taxAmount,
             'discount' => $discount,
-            'advance_paid' => $advancePaid,
+            'advance' => $advancePaid,
             'payment_status' => $this->faker->randomElement(PaymentStatus::cases()),
             'total_amount' => $totalAmount,
             'paid_at' => $this->faker->optional()->dateTimeBetween('-30 days', 'now'),
@@ -100,16 +98,6 @@ class OrderFactory extends Factory
             'paid_at' => null,
             'delivered_at' => null,
             'cancelled_at' => $this->faker->dateTimeBetween('-30 days', 'now'),
-        ]);
-    }
-
-    /**
-     * Indicate that the order is from a quotation.
-     */
-    public function fromQuotation(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'quotation_id' => Quotation::factory()->accepted(),
         ]);
     }
 }

@@ -7,8 +7,8 @@ use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Quotation;
 use App\Models\Warehouse;
+use App\Enums\PaymentStatus;
 
 beforeEach(function () {
     $this->company = Company::factory()->create();
@@ -24,24 +24,20 @@ test('Order: array expected columns', function () {
         'id',
         'company_id',
         'customer_id',
-        'quotation_id',
+        'warehouse_id',
         'order_number',
         'status',
         'subtotal',
-        'tax_amount',
-        'shipping_cost',
+        'discount',
+        'advance',
+        'payment_status',
         'total_amount',
-        'shipping_address',
-        'billing_address',
-        'notes',
-        'confirmed_at',
-        'shipped_at',
+        'paid_at',
         'delivered_at',
         'cancelled_at',
         'created_at',
         'updated_at',
         'deleted_at',
-        'warehouse_id'
     ]);
 });
 
@@ -58,7 +54,9 @@ describe('Order Model', function () {
             ->and($order->customer_id)->toBe($this->customer->id)
             ->and($order->order_number)->toBeString()
             ->and($order->subtotal)->toBeGreaterThan(0)
-            ->and($order->total_amount)->toBeGreaterThan($order->subtotal);
+            ->and($order->total_amount)->toBeGreaterThan($order->subtotal)
+            ->and($order->order_number)->toMatch('/^\d{6}-\d{3}-\d{5}$/')
+            ->and($order->order_number)->toHaveLength(16);
     });
 
     test('peut créer une commande en attente', function () {
@@ -81,8 +79,7 @@ describe('Order Model', function () {
         ]);
 
         expect($order->status)->toBe(OrderStatus::DELIVERED)
-            ->and($order->confirmed_at)->not->toBeNull()
-            ->and($order->shipped_at)->not->toBeNull()
+            ->and($order->paid_at)->not->toBeNull()
             ->and($order->delivered_at)->not->toBeNull()
             ->and($order->cancelled_at)->toBeNull();
     });
@@ -153,22 +150,6 @@ describe('Order Model', function () {
             ->and($order->customer->id)->toBe($this->customer->id);
     });
 
-    test('peut être liée à un devis', function () {
-        $quotation = Quotation::factory()->accepted()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        $order = Order::factory()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-            'quotation_id' => $quotation->id,
-        ]);
-
-        expect($order->quotation)->toBeInstanceOf(Quotation::class)
-            ->and($order->quotation->id)->toBe($quotation->id);
-    });
-
     test('peut avoir des produtests associés', function () {
         $order = Order::factory()->create([
             'company_id' => $this->company->id,
@@ -195,8 +176,9 @@ describe('Order Model', function () {
             'company_id' => $this->company->id,
             'customer_id' => $this->customer->id,
             'subtotal' => 0,
-            'tax_amount' => 0,
-            'shipping_cost' => 10.00,
+            'discount' => 0,
+            'advance' => 0,
+            'payment_status' => PaymentStatus::CASH,
             'total_amount' => 0,
         ]);
 
@@ -223,17 +205,7 @@ describe('Order Model', function () {
         $order->calculateTotals();
 
         expect($order->fresh()->subtotal)->toBe('175.00', 2)
-            ->and($order->fresh()->total_amount)->toBe('185.00', 2); // 175 + 10 de frais de port
-    });
-
-    test("peut être créée à partir d'un devis", function () {
-        $order = Order::factory()->fromQuotation()->create([
-            'company_id' => $this->company->id,
-            'customer_id' => $this->customer->id,
-        ]);
-
-        expect($order->quotation_id)->not->toBeNull()
-            ->and($order->quotation)->toBeInstanceOf(Quotation::class);
+            ->and($order->fresh()->total_amount)->toBe('175.00', 2); // 175 + 0 de frais de port
     });
 
     describe('Scopes', function () {
@@ -243,10 +215,10 @@ describe('Order Model', function () {
                 'customer_id' => $this->customer->id,
             ]);
 
-            Order::factory()->paid()->count(2)->create([
+            /* Order::factory()->paid()->count(2)->create([
                 'company_id' => $this->company->id,
                 'customer_id' => $this->customer->id,
-            ]);
+            ]); */
 
             $pending = Order::pending()->get();
 

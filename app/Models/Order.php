@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 
 class Order extends Model
 {
@@ -117,6 +119,15 @@ class Order extends Model
     public function scopeCancelled($query)
     {
         return $query->where('status', OrderStatus::CANCELLED);
+    }
+
+    /**
+     * Scope a query to only include popular users.
+     */
+    #[Scope]
+    protected function credit(Builder $query): void
+    {
+        $query->where('payment_status', PaymentStatus::CREDIT);
     }
 
     /*

@@ -21,34 +21,6 @@
         <!-- Modal de création de produit -->
         <x-ui.modals.create-order-modal :tenant="$tenant" />
 
-        <ul class="flex flex-col items-center gap-2">
-            <li class="w-full">
-                <a href="{{ route('dashboard.warehouses.index', ['tenant' => $tenant]) }}"
-                    class="group flex items-center gap-x-2 rounded-md bg-gray-200 px-4 py-2 text-xs font-medium text-black">
-                    <svg class="size-5 shrink-0" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z">
-                        </path>
-                    </svg>
-                    {{ __('Suivi des ventes') }}
-                </a>
-            </li>
-
-            <li class="w-full">
-                <a href="{{ route('dashboard.warehouses.index', ['tenant' => $tenant]) }}"
-                    class="group flex items-center gap-x-2 rounded-md bg-gray-200 px-4 py-2 text-xs font-medium text-black">
-                    <svg class="size-5 shrink-0" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z">
-                        </path>
-                    </svg>
-                    {{ __('Suivi des crédits') }}
-                </a>
-            </li>
-        </ul>
-
         <div class="flex items-center gap-4 text-sm text-gray-600">
             <!-- TODO: Componable -->
             <div class="flex items-center gap-1">
@@ -69,17 +41,7 @@
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
-                <span>{{ $orders->where('status', \App\Enums\OrderStatus::PENDING)->count() }} en attente</span>
-            </div>
-
-            <div class="flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="w-4 h-4 shrink-0 text-green-500">
-                    <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                    <path d="m9 11 3 3L22 4"></path>
-                </svg>
-                <span>2 traitées</span>
+                <span>{{ $orders->where('payment_status', \App\Enums\PaymentStatus::CREDIT)->count() }} crédits</span>
             </div>
         </div>
 

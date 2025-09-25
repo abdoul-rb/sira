@@ -5,7 +5,6 @@ use App\Livewire\Auth\SetupPassword;
 use App\Livewire\Dashboard\Agent\AddModal as AddAgentModal;
 use App\Livewire\Dashboard\Agent\Edit as AgentEdit;
 use App\Livewire\Dashboard\Agent\Index as AgentIndex;
-use App\Livewire\Dashboard\Customer\Create as CustomerCreate;
 use App\Livewire\Dashboard\Customer\Edit as CustomerEdit;
 use App\Livewire\Dashboard\Customer\Index as CustomerIndex;
 use App\Livewire\Dashboard\Employee\Create as EmployeeCreate;
@@ -20,6 +19,8 @@ use App\Livewire\Dashboard\Product\Index as ProductIndex;
 use App\Livewire\Dashboard\Warehouse\Index as WarehouseIndex;
 use App\Livewire\Public\Shop;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Profile\Index as ProfileIndex;
+use App\Http\Controllers\Dashboard\SettingController;
 
 Route::view('/', 'welcome')->name('home');
 
@@ -32,11 +33,15 @@ Route::domain('{tenant}.' . config('app.url'))->group(function () {
     Route::name('dashboard.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
 
+        Route::get('profile', ProfileIndex::class)->name('profile.index');
+
+        // Paramètres
+        Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+
         Route::prefix('dashboard')->group(function () {
             // CRUD Customer (Livewire)
             Route::prefix('customers')->name('customers.')->group(function () {
                 Route::get('', CustomerIndex::class)->name('index');
-                Route::get('create', CustomerCreate::class)->name('create');
                 Route::get('{customer}/edit', CustomerEdit::class)->name('edit');
             });
 

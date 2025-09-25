@@ -28,7 +28,7 @@
                 {{ Number::currency($product->price, in: 'XOF', locale: 'fr') }}
             </p>
 
-            <button type="button"
+            {{-- <button type="button"
                 class="inline-flex items-center gap-2 text-xs text-black border border-gray-200 rounded-full px-3 py-1.5 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden">
                 <svg class="size-3 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -38,7 +38,7 @@
                     <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
                 </svg>
                 Ajouter au panier
-            </button>
+            </button> --}}
         </div>
     </div>
 </div>

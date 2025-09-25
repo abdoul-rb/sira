@@ -29,7 +29,8 @@
                     </a>
                 </div>
             </div>
-            <div class="hidden sm:ml-6 sm:flex sm:items-center">
+
+            <div class="sm:ml-6 flex items-center">
                 <button type="button"
                     class="relative rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600">
                     <span class="absolute -inset-1.5"></span>
@@ -58,26 +59,28 @@
                     </button>
 
                     <div x-ref="panel" x-show="dropdownOpen" x-on:click.outside="dropdownOpen = false"
-                        class="w-48 absolute top-10 right-0  rounded-md bg-white py-1 shadow-lg outline outline-black/5 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                        class="w-48 absolute top-10 right-0 rounded-md bg-white py-1 shadow-lg outline outline-black/5 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                         id="menu-0" aria-labelledby="menu-button-1" role="menu">
-                        <a href="#"
+                        <a href="{{ route('dashboard.profile.index') }}"
                             class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 hover:bg-gray-50 focus:outline-hidden"
                             id="item-2" role="menuitem" tabindex="-1">
-                            Your profile
+                            Votre profil
                         </a>
-                        <a href="#"
+                        <a href="{{ route('dashboard.settings.index') }}"
                             class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 hover:bg-gray-50 focus:outline-hidden"
-                            id="item-3" role="menuitem" tabindex="-1">Settings</a>
+                            id="item-3" role="menuitem" tabindex="-1">
+                            Paramètres
                         </a>
                         <a href="#"
                             class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 hover:bg-gray-50 focus:outline-hidden"
                             id="item-4" role="menuitem" tabindex="-1">
-                            Sign out
+                            Déconnexion
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="-mr-2 flex items-center sm:hidden">
+
+            {{-- <div class="-mr-2 flex items-center sm:hidden">
                 <!-- Mobile menu button -->
                 <button type="button" command="--toggle" commandfor="mobile-menu"
                     class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
@@ -97,7 +100,7 @@
                         </path>
                     </svg>
                 </button>
-            </div>
+            </div> --}}
         </div>
     </div>
 </nav>

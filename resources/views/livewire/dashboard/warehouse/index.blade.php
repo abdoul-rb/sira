@@ -6,10 +6,12 @@
         })
     }
 }">
+    <x-ui.breadcrumb :items="[['label' => 'Retour', 'url' => route('dashboard.settings.index')]]" />
+
     <!-- En-tête -->
     <div class="flex items-center justify-between gap-2">
         <h1 class="text-2xl font-bold text-black">
-            {{ __('Entrepôts') }}
+            {{ __('Emplacements') }}
         </h1>
 
         <button type="button" @click="$dispatch('open-modal', { id: 'create-warehouse' })"
@@ -22,6 +24,10 @@
             {{ __('Ajouter un entrepôt') }}
         </button>
     </div>
+
+    <p class="text-sm overflow-hidden break-words text-gray-500 mt-1">
+        Gérez les emplacements où vous stockez des marchandises.
+    </p>
 
     <!-- Recherche -->
     <div class="relative">

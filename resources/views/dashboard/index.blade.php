@@ -299,6 +299,16 @@
                 </div>
                 <!-- Table Four -->
             </div>
+
+            <div class="col-span-full">
+                <h3 class="text-lg font-semibold text-gray-800 /90">
+                    {{ __('Suivi des ventes') }}
+                </h3>
+
+                <h3 class="text-lg font-semibold text-gray-800 /90">
+                    {{ __('Suivi des crédits') }}
+                </h3>
+            </div>
         </div>
     </div>
 @endsection

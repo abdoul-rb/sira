@@ -78,7 +78,7 @@
                         </svg>
                     </div>
                     <span
-                        class="text-xs tracking-wide {{ request()->routeIs('dashboard.orders.*') ? 'mt-1 text-black' : 'text-gray-400' }}">
+                        class="text-xs tracking-wide {{ request()->routeIs('dashboard.agents.*') ? 'mt-1 text-black' : 'text-gray-400' }}">
                         {{ __('Agents') }}
                     </span>
                 </a>

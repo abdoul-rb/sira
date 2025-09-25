@@ -33,6 +33,11 @@ class Create extends Component
         return (new StoreProductRequest)->rules();
     }
 
+    protected function messages()
+    {
+        return (new StoreProductRequest)->messages();
+    }
+
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
@@ -41,11 +46,6 @@ class Create extends Component
                 $validator->errors()->add('warehouse_id', "Aucun entrepôt n'existe pour cette entreprise. Veuillez d'abord créer un entrepôt.");
             }
         });
-    }
-
-    protected function messages()
-    {
-        return (new StoreProductRequest)->messages();
     }
 
     public function mount(Company $tenant)

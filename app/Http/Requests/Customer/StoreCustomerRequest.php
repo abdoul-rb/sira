@@ -22,7 +22,6 @@ class StoreCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['nullable', 'string', 'max:20', 'in:Mme,Mlle,M.'],
             'type' => ['required', 'in:lead,customer'],
             'firstname' => ['required', 'string', 'max:50'],
             'lastname' => ['required', 'string', 'max:50'],
@@ -35,7 +34,6 @@ class StoreCustomerRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.in' => 'Le titre ne correspond pas.',
             'type.in' => 'Le type de client doit être "lead" ou "customer".',
             'firstname.required' => 'Le prénom est requis.',
             'lastname.required' => 'Le nom est requis.',

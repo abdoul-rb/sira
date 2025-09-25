@@ -20,7 +20,6 @@ class Agent extends Model
     protected $fillable = [
         'uuid',
         'company_id',
-        'title',
         'firstname',
         'lastname',
         'phone_number',

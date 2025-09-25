@@ -26,7 +26,6 @@ class CustomerFactory extends Factory
     {
         return [
             'company_id' => Company::factory(),
-            'title' => $this->faker->randomElement([TitleEnum::MONSIEUR, TitleEnum::MADAME, TitleEnum::MADEMOISELLE]),
             'type' => $this->faker->randomElement([CustomerType::LEAD, CustomerType::CUSTOMER]),
             'firstname' => $this->faker->firstName(),
             'lastname' => $this->faker->lastName(),

@@ -24,7 +24,7 @@
                 </h3>
             </header>
             <div class="border-t border-gray-200 px-4 py-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-6">
-                <div>
+                {{-- <div>
                     <label for="title" class="block text-sm font-medium text-gray-700">
                         Titre
                     </label>
@@ -35,7 +35,7 @@
                             <option value="{{ $title }}">{{ $title }}</option>
                         @endforeach
                     </select>
-                </div>
+                </div> --}}
 
                 <div>
                     <label for="title" class="block text-sm font-medium text-gray-700">

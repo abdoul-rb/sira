@@ -13,8 +13,6 @@ class AddModal extends Component
 {
     public Company $tenant;
 
-    public $title = null;
-
     public $firstname = '';
 
     public $lastname = '';

@@ -22,7 +22,6 @@ class AgentFactory extends Factory
     {
         return [
             'company_id' => Company::factory(),
-            'title' => $this->faker->randomElement(TitleEnum::values()),
             'firstname' => $this->faker->firstName(),
             'lastname' => $this->faker->lastName(),
             'phone_number' => $this->faker->optional()->phoneNumber(),

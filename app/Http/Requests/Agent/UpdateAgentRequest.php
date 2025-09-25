@@ -24,7 +24,6 @@ class UpdateAgentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['nullable', 'string', 'max:20'],
             'firstname' => ['required', 'string', 'max:50'],
             'lastname' => ['required', 'string', 'max:50'],
             'phone_number' => ['nullable', 'string', 'max:30'],

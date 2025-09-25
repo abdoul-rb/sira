@@ -25,7 +25,7 @@ class StoreProductRequest extends FormRequest
             'description' => 'required|string',
             'featured_image' => 'required|image|max:2048',
             'price' => 'required|numeric|min:0',
-            'warehouse_id' => 'required|exists:warehouses,id',
+            'warehouse_id' => 'nullable|exists:warehouses,id',
             'warehouse_quantity' => 'required|integer|min:1',
         ];
     }

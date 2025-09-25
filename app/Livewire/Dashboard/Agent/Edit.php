@@ -14,8 +14,6 @@ class Edit extends Component
 
     public Customer $customer;
 
-    public $title;
-
     public $firstname;
 
     public $lastname;
@@ -45,7 +43,6 @@ class Edit extends Component
 
         $this->tenant = $tenant;
         $this->customer = $customer;
-        $this->title = $customer->title;
         $this->firstname = $customer->firstname;
         $this->lastname = $customer->lastname;
         $this->email = $customer->email;

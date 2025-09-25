@@ -20,7 +20,6 @@ test('Agent: array expected columns', function () {
         'id',
         'uuid',
         'company_id',
-        'title',
         'firstname',
         'lastname',
         'phone_number',
@@ -100,24 +99,6 @@ describe('Agent Model', function () {
         ]);
 
         expect($agent->active)->toBeTrue();
-    });
-
-    test('peut avoir un titre', function () {
-        $agent = Agent::factory()->create([
-            'company_id' => $this->company->id,
-            'title' => \App\Enums\TitleEnum::MONSIEUR,
-        ]);
-
-        expect($agent->title)->toBe(\App\Enums\TitleEnum::MONSIEUR);
-    });
-
-    test('peut ne pas avoir de titre', function () {
-        $agent = Agent::factory()->create([
-            'company_id' => $this->company->id,
-            'title' => null,
-        ]);
-
-        expect($agent->title)->toBeNull();
     });
 
     test('peut avoir un numéro de téléphone', function () {

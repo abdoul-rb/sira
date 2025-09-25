@@ -19,7 +19,6 @@ test('Customer: array expected columns', function () {
         'id',
         'uuid',
         'company_id',
-        'title',
         'firstname',
         'lastname',
         'email',

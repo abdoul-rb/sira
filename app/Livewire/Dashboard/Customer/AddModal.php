@@ -13,8 +13,6 @@ use App\Models\Customer;
 class AddModal extends Component
 {
     public Company $tenant;
-
-    public $title = null;
     
     public $type = 'lead';
 

@@ -1,5 +1,5 @@
 <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" novalidate>
-    <div class="col-span-full">
+    {{-- <div class="col-span-full">
         <x-form.label label="Titre" id="title" />
 
         <select wire:model.live="title" name="title" id="title"
@@ -11,7 +11,7 @@
         @error('title')
             <p class="mt-1 font-normal text-xs text-red-600">{{ $message }}</p>
         @enderror
-    </div>
+    </div> --}}
 
     <div class="col-span-full">
         <x-form.label label="Type de client" id="type" :required="true" />

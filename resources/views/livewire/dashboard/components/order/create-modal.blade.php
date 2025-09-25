@@ -6,7 +6,7 @@
             </label>
 
             <div class="mt-1">
-                <select id="customer_id" name="customer_id" wire:model.live="customer_id"
+                <select id="customer_id" name="customer_id" wire:model.number="customer_id"
                     class="col-start-1 row-start-1 w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150 appearance-none bg-white py-1.5 pl-3 pr-8 -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6">
                     <option value="">Sélectionner un client</option>
                     @foreach ($customers as $customer)
@@ -28,7 +28,11 @@
                 <select id="warehouse-id" name="warehouse_id" wire:model.live="warehouse_id"
                     class="col-start-1 row-start-1 w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150 appearance-none bg-white py-1.5 pl-3 pr-8 -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6">
                     @foreach ($warehouses as $warehouse)
-                        <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                        <option value="{{ $warehouse->id }}">
+                            {{ $warehouse->name }} @if ($warehouse->default)
+                                ({{ __('Par défaut') }})
+                            @endif
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -53,7 +57,7 @@
             <div class="space-y-2">
                 <!-- Lignes de produits -->
                 @foreach ($productLines as $index => $line)
-                    <div class="grid grid-cols-2 lg:grid-cols-6 gap-3 items-center">
+                    <div class="grid grid-cols-5 gap-2 items-center">
                         <!-- Sélecteur de produit -->
                         <div class="col-span-full">
                             <x-form.label label="Produit" id="product-id" />
@@ -72,19 +76,19 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-1">
+                        <div class="col-span-2">
                             <span class="block text-xs lg:text-sm font-medium text-gray-600">Prix unitaire</span>
 
                             <div class="mt-1 relative flex items-center">
                                 <div
-                                    class="block w-full text-sm rounded-md border border-gray-300 text-gray-900 placeholder:text-black focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 transition duration-150 appearance-none bg-white py-1.5 pr-14 sm:text-sm">
+                                    class="block w-full text-sm rounded-md border border-gray-300 text-gray-900 placeholder:text-black focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 transition duration-150 appearance-none bg-white py-1.5 px-2 sm:text-sm">
                                     {{ Number::currency($line['unit_price'], in: 'XOF', locale: 'fr') }}
                                 </div>
                             </div>
                         </div>
 
                         <!-- Quantité -->
-                        <div class="col-span-1">
+                        <div class="col-span-2">
                             <x-form.label label="Quantité" id="quantity-product.{{ $index }}" />
 
                             <input type="number" id="quantity-product.{{ $index }}"
@@ -96,21 +100,8 @@
                             @enderror
                         </div>
 
-                        <!-- Total -->
-                        <div class="col-span-1">
-                            <span class="block text-xs lg:text-sm font-medium text-gray-600">Sous total</span>
-
-                            <div class="mt-1 relative flex items-center">
-                                <div
-                                    class="block w-full text-sm rounded-md border border-gray-300 text-gray-900 placeholder:text-black focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 transition duration-150 appearance-none bg-white py-1.5 pr-14 sm:text-sm">
-                                    {{ Number::currency($line['total_price'], in: 'XOF', locale: 'fr') }}
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- Actions -->
-                        <div class="col-span-1">
-                            <span class="block text-xs lg:text-sm font-medium text-gray-600">Supprimer</span>
+                        <div class="col-span-1 flex items-end justify-end">
                             @if (count($productLines) > 1)
                                 <div class="mt-1 py-3 flex items-end">
                                     <button type="button" wire:click="removeProductLine({{ $index }})"
@@ -161,7 +152,7 @@
 
         <div class="col-span-full">
             <h3 class="block text-xs text-gray-600">
-                {{ __('Statut de paiement') }}
+                {{ __('Mode de paiement') }}
             </h3>
 
             <div class="mt-1 space-y-2">

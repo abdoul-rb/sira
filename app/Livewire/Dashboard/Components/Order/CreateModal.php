@@ -53,6 +53,8 @@ class CreateModal extends Component
         $this->advance = 0;
         $this->payment_status = PaymentStatus::CASH->value;
 
+        $this->warehouse_id = $this->tenant->defaultWarehouse()->id;
+
         $this->addProductLine(); // Ajouter une première ligne par défaut
         $this->calculateTotals(); // Calculer les totaux initiaux
     }
@@ -152,46 +154,24 @@ class CreateModal extends Component
 
     public function save()
     {
-        // Validation des données
-        $this->validate([
-            'customer_id' => 'nullable|exists:customers,id',
-            'warehouse_id' => 'required|exists:warehouses,id',
-            'status' => 'required|in:pending,confirmed,in_preparation,shipped,delivered,cancelled',
-            'payment_status' => 'required|in:cash,mobile-money,credit',
-            'discount' => 'nullable|numeric|min:0',
-            'advance' => 'nullable|numeric|min:0',
-            'productLines.*.product_id' => 'required|exists:products,id',
-            'productLines.*.quantity' => 'required|integer|min:1',
-        ]);
+        $this->validate();
 
         // Vérifier que l'entrepôt existe
         $warehouse = Warehouse::find($this->warehouse_id);
+        
         if (!$warehouse) {
             $this->addError('warehouse_id', "L'entrepôt sélectionné n'existe pas.");
             return;
         }
 
-        // Vérifier les stocks dans l'entrepôt sélectionné
-        foreach ($this->productLines as $index => $line) {
-            if (!empty($line['product_id'])) {
-                $product = Product::find($line['product_id']);
-                
-                if ($product) {
-                    // Vérifier le stock dans l'entrepôt spécifique
-                    $availableStock = $warehouse->getProductStock($product);
-                    
-                    if ((int) $line['quantity'] > $availableStock) {
-                        $this->addError("productLines.{$index}.quantity", 
-                            "La quantité demandée ({$line['quantity']}) dépasse le stock disponible ({$availableStock}) dans l'entrepôt {$warehouse->name} pour le produit {$product->name}.");
-                        return;
-                    }
-                }
-            }
-        }
+        $this->checkWarehouseStock($this->productLines, $warehouse);
 
         // Calculer les totaux finaux
         $this->calculateTotals();
         $finalTotal = $this->subtotal - ($this->discount ?? 0);
+
+        // passer le client en customer si il est lead
+        $this->convertCustomer($this->customer_id);
 
         // Créer la commande
         $orderData = [
@@ -209,6 +189,63 @@ class CreateModal extends Component
         $order = Order::create($orderData);
 
         // Attacher les produits à la commande et décrémenter les stocks
+        $this->attachProductsToOrder($order, $this->productLines, $warehouse);
+
+        session()->flash('success', 'Commande créée avec succès.');
+        return redirect()->route('dashboard.orders.index', [$this->tenant, $order]);
+    }
+
+    /**
+     * Convertir un client en customer si il est lead
+     * @param int $customerId
+     * @return void
+     */
+    private function convertCustomer(int $customerId)
+    {
+        $customer = Customer::find($customerId);
+        
+        if ($customer->isLead()) {
+            $customer->convertToCustomer();
+        }
+    }
+
+    /**
+     * Vérifier les stocks dans l'entrepôt sélectionné
+     *
+     * @param array $productLines
+     * @param Warehouse $warehouse
+     * @return void
+     */
+    private function checkWarehouseStock(array $productLines, Warehouse $warehouse)
+    {
+        foreach ($productLines as $index => $line) {
+            if (!empty($line['product_id'])) {
+                $product = Product::find($line['product_id']);
+                
+                if ($product) {
+                    // Vérifier le stock dans l'entrepôt spécifique
+                    $availableStock = $warehouse->getProductStock($product);
+                    
+                    if ((int) $line['quantity'] > $availableStock) {
+                        $this->addError("productLines.{$index}.quantity", 
+                            "La quantité demandée ({$line['quantity']}) dépasse le stock disponible ({$availableStock}) dans l'entrepôt {$warehouse->name} pour le produit {$product->name}.");
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Attacher les produits à la commande et décrémenter les stocks
+     *
+     * @param Order $order
+     * @param array $productLines
+     * @param Warehouse $warehouse
+     * @return void
+     */
+    private function attachProductsToOrder(Order $order, array $productLines, Warehouse $warehouse)
+    {
         foreach ($this->productLines as $line) {
             if (!empty($line['product_id'])) {
                 $product = Product::find($line['product_id']);
@@ -225,9 +262,6 @@ class CreateModal extends Component
                 $warehouse->decreaseProductStock($product, (int) $line['quantity']);
             }
         }
-
-        session()->flash('success', 'Commande créée avec succès.');
-        return redirect()->route('dashboard.orders.index', [$this->tenant, $order]);
     }
 
     public function render()

@@ -2,27 +2,16 @@
 
 <div class="bg-gray-100 border border-gray-200 rounded-lg p-4">
     <h2 class="text-lg font-medium text-gray-900 md:shrink-0">
-        Commande #{{ strtoupper($order->order_number) }}
+        Vente #{{ strtoupper($order->order_number) }}
     </h2>
 
     <div class="mt-2 grid grid-cols-2 gap-2">
-        <div class="col-span-2">
+        <div>
             <h4 class="text-xs text-gray-400">
                 Date de la commande
             </h4>
             <p class="mt-1 flex items-center gap-1 text-xs font-medium text-black">
                 {{ $order->created_at->format('d/m/Y') }}
-            </p>
-        </div>
-
-        <!-- TODO: composant status -->
-        <div>
-            <h4 class="text-xs text-gray-400">
-                Status
-            </h4>
-            <p class="mt-1 flex items-center gap-1 text-xs font-medium text-black">
-                <span class="inline-block w-2 h-2 rounded-full {{ $order->status->color() }}"></span>
-                {{ $order->status->label() }}
             </p>
         </div>
 
@@ -32,6 +21,26 @@
             </h4>
             <p class="mt-1 flex items-center gap-1 text-xs font-medium text-black">
                 {{ Number::currency($order->total_amount, in: 'XOF', locale: 'fr') }}
+            </p>
+        </div>
+
+        <!-- TODO: composant status -->
+        <div>
+            <h4 class="text-xs text-gray-400">
+                Mode de paiement
+            </h4>
+            <p class="mt-1 flex items-center gap-1 text-xs font-medium text-black">
+                <span class="inline-block w-2 h-2 rounded-full {{ $order->payment_status->color() }}"></span>
+                {{ $order->payment_status->label() }}
+            </p>
+        </div>
+
+        <div>
+            <h4 class="text-xs text-gray-400">
+                Rémise
+            </h4>
+            <p class="mt-1 flex items-center gap-1 text-xs font-medium text-black">
+                {{ Number::currency($order->discount, in: 'XOF', locale: 'fr') }}
             </p>
         </div>
     </div>
@@ -49,10 +58,7 @@
                     <span>{{ $order->customer?->fullname ?? '-' }}</span>
                 </div>
                 <div class="text-xs text-gray-500 ml-6">
-                    {{ $order->customer?->email ?? '-' }}
-                </div>
-                <div class="text-xs text-gray-500 ml-6">
-                    {{ $order->customer?->phone_number ?? '-' }}
+                    {{ $order->customer?->email ?? '-' }} / {{ $order->customer?->phone_number ?? '-' }}
                 </div>
             </div>
         @endif

@@ -3,9 +3,9 @@
 <x-ui.modals.base :id="$modalId" size="xl">
     <x-slot:title>
         @if ($customer)
-            {{ __('Commandes de') }} {{ $customer->fullname }}
+            {{ __('Ventes de') }} {{ $customer->fullname }}
         @else
-            {{ __('Commandes du client') }}
+            {{ __('Ventes du client') }}
         @endif
     </x-slot:title>
 

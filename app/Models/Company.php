@@ -108,4 +108,9 @@ class Company extends Model
     {
         return Str::upper(Str::substr($this->name, 0, 2));
     }
+
+    public function defaultWarehouse(): Warehouse
+    {
+        return $this->warehouses()->default()->first();
+    }
 }

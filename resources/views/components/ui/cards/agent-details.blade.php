@@ -16,7 +16,7 @@
                 {{ $agent->phone_number }}
             </a>
         </div>
-        <div class="size-10 shrink-0 rounded-full bg-black flex items-center justify-center elegant-shadow">
+        <div class="size-10 shrink-0 rounded-full bg-black flex items-center justify-center">
             <span class="text-sm font-medium text-white">
                 {{ $agent->initials }}
             </span>

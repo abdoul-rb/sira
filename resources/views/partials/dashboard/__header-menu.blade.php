@@ -54,8 +54,14 @@
                         popovertarget="menu-0">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Open user menu</span>
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                            alt="" class="size-8 rounded-full outline -outline-offset-1 outline-black/5">
+                        <div class="size-10 shrink-0 rounded-full bg-black flex items-center justify-center">
+                            <span class="text-sm font-medium text-white">
+                                {{ auth()->user()->initials }}
+                            </span>
+                        </div>
+
+                        {{-- <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                            alt="" class="size-8 rounded-full outline -outline-offset-1 outline-black/5"> --}}
                     </button>
 
                     <div x-ref="panel" x-show="dropdownOpen" x-on:click.outside="dropdownOpen = false"
@@ -71,11 +77,17 @@
                             id="item-3" role="menuitem" tabindex="-1">
                             Paramètres
                         </a>
-                        <a href="#"
-                            class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 hover:bg-gray-50 focus:outline-hidden"
-                            id="item-4" role="menuitem" tabindex="-1">
-                            Déconnexion
-                        </a>
+                        <div class="inline-block w-full px-0 py-0 text-sm text-gray-700 hover:bg-gray-50">
+                            <a href="{{ route('logout') }}"
+                                class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 hover:bg-gray-50 focus:outline-hidden"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Déconnexion
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

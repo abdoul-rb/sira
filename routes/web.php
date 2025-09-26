@@ -26,7 +26,7 @@ Route::view('/', 'welcome')->name('home');
 
 require __DIR__ . '/auth.php';
 
-Route::domain('{tenant}.' . config('app.url'))->group(function () {
+Route::domain('{tenant}.' . config('app.url'))->middleware(['auth'])->group(function () {
     // Route publique pour les boutiques
     Route::get('shop/{shopSlug}', Shop::class)->name('shop.public');
 

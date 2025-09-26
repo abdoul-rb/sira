@@ -67,11 +67,6 @@ class User extends Authenticatable
         });
     }
 
-    public function getInitialsAttribute(): string
-    {
-        return strtoupper(substr($this->name, 0, 1));
-    }
-
     /*
     |--------------------------------------------------------------------------
     | Relations
@@ -131,5 +126,10 @@ class User extends Authenticatable
     public function hasEmployeeProfile(): bool
     {
         return $this->employee()->exists();
+    }
+
+    public function getInitialsAttribute(): string
+    {
+        return strtoupper(substr($this->firstname, 0, 1) . substr($this->lastname, 0, 1));
     }
 }

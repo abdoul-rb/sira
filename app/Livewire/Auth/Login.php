@@ -30,27 +30,28 @@ class Login extends Component
 
         // Tentative de connexion
         if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            $this->addError('email', trans('auth.failed'));
+            $this->addError('email', __("Invalid credentials"));
 
             return;
         }
 
         $user = Auth::user();
-        $tenantSlug = request()->route('tenant'); // route->parameter('tenant')
+        // $tenantSlug = request()->route('tenant'); // route->parameter('tenant')
 
         // Récupérer la company du tenant depuis la route (injectée par le middleware)
-        $company = Company::where('slug', $tenantSlug)->first();
+        // $company = Company::where('slug', $tenantSlug)->first();
 
         // Vérifier que l'utilisateur appartient à cette company ou est super admin
-        if (! $user->isSuperAdmin() && $user->company_id !== $company->id) {
+        /* if (! $user->isSuperAdmin() && $user->company_id !== $company->id) {
             Auth::logout();
             $this->addError('email', 'Access denied');
 
             return;
-        }
+        } */
 
         // Redirection vers le dashboard du tenant
-        return redirect()->intended(route('dashboard.index', ['tenant' => $tenantSlug]));
+        // TODO: si connecté rediger vers la route dashboard.index
+        return redirect()->intended(route('dashboard.index', ['tenant' => $user->company]));
     }
 
     public function render()

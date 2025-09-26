@@ -25,7 +25,6 @@ class CompanyFactory extends Factory
             'logo_path' => $this->faker->imageUrl(),
             'address' => $this->faker->address(),
             'city' => $this->faker->city(),
-            'zip_code' => $this->faker->postcode(),
             'country' => $this->faker->country(),
         ];
     }

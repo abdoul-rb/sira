@@ -11,9 +11,9 @@ use App\Livewire\Auth\Verify;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->prefix('auth')->group(function () {
-    Route::domain('{tenant}.' . config('app.url'))->group(function () {
+    /* Route::domain('{tenant}.' . config('app.url'))->group(function () { */
         Route::get('login', Login::class)->middleware(['throttle:6,1'])->name('login');
-    });
+    /* }); */
 
     Route::get('register', Register::class)->name('register');
 });

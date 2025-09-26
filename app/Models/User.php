@@ -26,7 +26,10 @@ class User extends Authenticatable
     protected $fillable = [
         'uuid',
         'name',
+        'firstname',
+        'lastname',
         'email',
+        'phone_number',
         'password',
         'company_id',
     ];
@@ -52,7 +55,7 @@ class User extends Authenticatable
 
     public function getRouteKeyName(): string
     {
-        return 'uuid';
+        return 'slug';
     }
 
     public static function boot()
@@ -77,6 +80,7 @@ class User extends Authenticatable
 
     /**
      * Relation avec la Company (nullable pour les super admins)
+     * Un utilisateur appartient à UNE société
      */
     public function company(): BelongsTo
     {

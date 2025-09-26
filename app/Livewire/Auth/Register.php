@@ -1,51 +1,76 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Auth;
 
-use App\Providers\RouteServiceProvider;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Actions\Auth\RegisterAction;
+use App\Http\Requests\Auth\RegisterFormRequest;
+use Exception;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class Register extends Component
 {
     /** @var string */
-    public $name = '';
+    public $firstname = '';
+
+    /** @var string */
+    public $lastname = '';
+
+    /** @var string */
+    public $companyName = '';
 
     /** @var string */
     public $email = '';
 
     /** @var string */
-    public $password = '';
+    public $phoneNumber = '';
 
     /** @var string */
-    public $passwordConfirmation = '';
+    public $password = '';
 
-    public function register()
+    // public $passwordConfirmation = '';
+
+    /** @var bool */
+    public $terms = false;
+
+    protected function rules(): array
     {
-        $this->validate([
-            'name' => ['required'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'min:8', 'same:passwordConfirmation'],
-        ]);
+        return (new RegisterFormRequest)->rules();
+    }
 
-        $user = User::create([
-            'email' => $this->email,
-            'name' => $this->name,
-            'password' => Hash::make($this->password),
-        ]);
+    protected function messages(): array
+    {
+        return (new RegisterFormRequest)->messages();
+    }
 
-        event(new Registered($user));
+    public function register(RegisterAction $action)
+    {
+        $validated = $this->validate();
 
-        Auth::login($user, true);
+        try {
+            $user = $action->handle($validated);
 
-        return redirect()->intended(route('home'));
+            event(new Registered($user));
+            Auth::login($user, true);
+
+            return redirect()->intended(route('dashboard.index', ['tenant' => $user->company]));
+        } catch (Exception $e) {
+            Log::error('Registration failed', [
+                'email' => $validated['email'],
+                'error' => $e->getMessage(),
+            ]);
+
+            $this->addError('email', __("Erreur lors de la création de l'utilisateur"));
+        }
     }
 
     public function render()
     {
+        // @phpstan-ignore file
         return view('livewire.auth.register')->extends('layouts.auth');
     }
 }

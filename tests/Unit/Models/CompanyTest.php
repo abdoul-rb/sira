@@ -19,7 +19,6 @@ test('Category: array expected columns', function () {
         'logo_path',
         'address',
         'city',
-        'zip_code',
         'country',
         'created_at',
         'updated_at',
@@ -28,7 +27,7 @@ test('Category: array expected columns', function () {
 });
 
 test('Module: create a module', function () {
-    $company = Company::factory()->create()->fresh();
+    $company = Company::factory()->create(['active' => true])->fresh();
 
     expect($company)->toBeInstanceOf(Company::class)
         ->and($company->slug)->not()->toBeNull()

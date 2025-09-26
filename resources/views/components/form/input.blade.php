@@ -27,12 +27,7 @@
 
 <div {{ $attributes }}>
     @if (isset($label) && !empty($label))
-        <label for="{{ $slug }}" class="block text-xs font-medium text-gray-600">
-            {{ $label }}
-            @if ($required)
-                <span class="text-red-500">*</span>
-            @endif
-        </label>
+        <x-form.label :label="__($label)" :id="$slug" :required="$required" />
     @endif
 
     <input type="{{ $type }}" @class([

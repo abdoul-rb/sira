@@ -26,7 +26,6 @@ class Company extends Model
         'logo_path',
         'address',
         'city',
-        'zip_code',
         'country',
     ];
 
@@ -59,6 +58,7 @@ class Company extends Model
     |--------------------------------------------------------------------------
     */
 
+    /* Une entreprise peut avoir PLUSIEURS utilisateurs */
     public function users(): HasMany
     {
         return $this->hasMany(User::class);

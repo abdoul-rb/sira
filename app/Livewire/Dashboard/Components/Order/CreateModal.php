@@ -53,7 +53,8 @@ class CreateModal extends Component
         $this->advance = 0;
         $this->payment_status = PaymentStatus::CASH->value;
 
-        $this->warehouse_id = $this->tenant->defaultWarehouse()->id;
+        $defaultWarehouse = $this->tenant->defaultWarehouse();
+        $this->warehouse_id = $defaultWarehouse ? $defaultWarehouse->id : null;
 
         $this->addProductLine(); // Ajouter une première ligne par défaut
         $this->calculateTotals(); // Calculer les totaux initiaux

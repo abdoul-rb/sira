@@ -12,7 +12,7 @@
         <div class="mt-8 p-4 bg-white rounded-xl ring-1 ring-gray-200">
             <div class="grid gap-4 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-4">
                 <!-- TODO: componable / Find name -->
-                <a href="{{ route('dashboard.warehouses.index', ['tenant' => $currentTenant]) }}"
+                <a href="{{ route('dashboard.settings.warehouses.index', ['tenant' => $currentTenant]) }}"
                     class="flex items-start space-x-4 rounded-lg p-3 transition duration-200 ease-in-out hover:bg-gray-50"
                     wire:navigate.hover>
 
@@ -35,7 +35,7 @@
                     </div>
                 </a>
 
-                <a href="#"
+                <a href="{{ route('dashboard.settings.shop', ['tenant' => $currentTenant]) }}"
                     class="flex items-start space-x-4 rounded-lg p-3 transition duration-200 ease-in-out hover:bg-gray-50"
                     wire:navigate.hover>
 

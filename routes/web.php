@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\SettingController;
 use App\Livewire\Auth\SetupPassword;
 use App\Livewire\Dashboard\Agent\AddModal as AddAgentModal;
 use App\Livewire\Dashboard\Agent\Edit as AgentEdit;
@@ -16,11 +17,11 @@ use App\Livewire\Dashboard\Order\Index as OrderIndex;
 use App\Livewire\Dashboard\Product\Create as ProductCreate;
 use App\Livewire\Dashboard\Product\Edit as ProductEdit;
 use App\Livewire\Dashboard\Product\Index as ProductIndex;
-use App\Livewire\Dashboard\Warehouse\Index as WarehouseIndex;
-use App\Livewire\Public\Shop;
-use Illuminate\Support\Facades\Route;
+use App\Livewire\Dashboard\Settings\Shop as ShopSetting;
+use App\Livewire\Dashboard\Settings\Warehouse\Index as WarehouseIndex;
 use App\Livewire\Profile\Index as ProfileIndex;
-use App\Http\Controllers\Dashboard\SettingController;
+use App\Livewire\Public\Shop as ShopPublic;
+use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
 
@@ -28,15 +29,12 @@ require __DIR__ . '/auth.php';
 
 Route::domain('{tenant}.' . config('app.url'))->middleware(['auth'])->group(function () {
     // Route publique pour les boutiques
-    Route::get('shop/{shopSlug}', Shop::class)->name('shop.public');
+    Route::get('shop/{shopSlug}', ShopPublic::class)->name('shop.public');
 
     Route::name('dashboard.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
 
         Route::get('profile', ProfileIndex::class)->name('profile.index');
-
-        // Paramètres
-        Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
 
         Route::prefix('dashboard')->group(function () {
             // CRUD Customer (Livewire)
@@ -73,9 +71,17 @@ Route::domain('{tenant}.' . config('app.url'))->middleware(['auth'])->group(func
                 Route::get('{employee}/edit', EmployeeEdit::class)->name('edit');
             });
 
-            // Warehouse (Livewire)
-            Route::prefix('warehouses')->name('warehouses.')->group(function () {
-                Route::get('', WarehouseIndex::class)->name('index');
+            // Paramètres
+            Route::prefix('settings')->name('settings.')->group(function () {
+                Route::get('', [SettingController::class, 'index'])->name('index');
+
+                // Warehouse (Livewire)
+                Route::prefix('warehouses')->name('warehouses.')->group(function () {
+                    Route::get('', WarehouseIndex::class)->name('index');
+                });
+
+                // Shop (Livewire)
+                Route::get('shop', ShopSetting::class)->name('shop');
             });
 
             // Route pour la configuration du mot de passe des employés

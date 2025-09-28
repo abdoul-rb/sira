@@ -7,14 +7,15 @@ namespace App\Models;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Services\OrderNumberService;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Attributes\Scope;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Number;
 
 class Order extends Model
 {
@@ -60,6 +61,16 @@ class Order extends Model
             $orderNumberService = app(OrderNumberService::class);
             $order->order_number = $orderNumberService->generate($order->company);
         });
+    }
+
+    /**
+     * Get the user's total amount.
+     */
+    protected function totalAmount(): Attribute
+    {
+        return Attribute::make(
+            get: fn (float $value) => Number::currency($value, in: 'XOF', locale: 'fr'),
+        );
     }
 
     /*

@@ -20,7 +20,7 @@
                 Total
             </h4>
             <p class="mt-1 flex items-center gap-1 text-xs font-medium text-black">
-                {{ Number::currency($order->total_amount, in: 'XOF', locale: 'fr') }}
+                {{ $order->total_amount }}
             </p>
         </div>
 

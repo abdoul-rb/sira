@@ -1,6 +1,6 @@
 @props(['items' => []])
 
-<nav class="sm:max-w-6xl mx-auto flex w-full px-0" aria-label="Breadcrumb">
+<nav class="lg:max-w-7xl mx-auto flex w-full px-0" aria-label="Breadcrumb">
     <ol role="list" class="flex items-center space-x-2">
         @foreach ($items as $item)
             <li>

@@ -32,7 +32,7 @@
                     </x-ui.cards.trending-stat>
                 </div>
 
-                <x-ui.cards.trending-stat label="Total des commandes" :value="$totalOrders">
+                <x-ui.cards.trending-stat label="Nombre de commandes" :value="$totalOrders">
                     <x-slot:icon>
                         <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
                             stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -45,7 +45,7 @@
             </div>
 
             <x-ui.cards.trending-stat class="col-span-12 lg:col-span-5" label="Total des ventes (revenu brut)"
-                :value="$totalSales">
+                :value="Number::currency($totalSales, in: 'XOF', locale: 'fr')">
                 <x-slot:icon>
                     <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
                         stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -65,7 +65,8 @@
                     </h3>
                 </div>
 
-                <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <!-- TODO: Filtres -->
+                {{-- <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
                     <form>
                         <div class="relative">
                             <span class="absolute -translate-y-1/2 pointer-events-none top-1/2 left-4">
@@ -100,7 +101,7 @@
                             Filter
                         </button>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <div class="max-w-full overflow-x-auto custom-scrollbar">
@@ -142,19 +143,19 @@
 
                             <x-ui.tables.heading>
                                 <span class="font-medium text-gray-500 text-xs">
-                                    {{ __('Montant') }}
+                                    {{ __('Montant total') }}
                                 </span>
                             </x-ui.tables.heading>
 
                             <x-ui.tables.heading>
                                 <span class="font-medium text-gray-500 text-xs">
-                                    {{ __('Date') }}
+                                    {{ __('Date de la commande') }}
                                 </span>
                             </x-ui.tables.heading>
 
                             <x-ui.tables.heading>
                                 <span class="font-medium text-gray-500 text-xs">
-                                    {{ __('Statut') }}
+                                    {{ __('Mode de paiement') }}
                                 </span>
                             </x-ui.tables.heading>
 
@@ -181,13 +182,12 @@
                                                 viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                                                 class="hidden">
                                                 <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
-                                                    stroke-width="1.94437" stroke-linecap="round"
-                                                    stroke-linejoin="round">
+                                                    stroke-width="1.94437" stroke-linecap="round" stroke-linejoin="round">
                                                 </path>
                                             </svg>
                                         </div>
                                         <span class="block font-medium text-gray-700 text-sm">
-                                            {{ $order->order_number }}
+                                            #{{ $order->order_number }}
                                         </span>
                                     </div>
                                 </x-ui.tables.cell>
@@ -212,13 +212,13 @@
 
                                 <x-ui.tables.cell>
                                     <span class="text-gray-700 text-sm">
-                                        Software License
+                                        {{ $order->products->pluck('name')->implode(', ') }}
                                     </span>
                                 </x-ui.tables.cell>
 
                                 <x-ui.tables.cell>
                                     <span class="text-gray-700 text-sm">
-                                        {{ number_format($order->total_amount, 2, ',', ' ') }} €
+                                        {{ $order->total_amount }}
                                     </span>
                                 </x-ui.tables.cell>
 
@@ -229,9 +229,14 @@
                                 </x-ui.tables.cell>
 
                                 <x-ui.tables.cell>
-                                    <span class="{{ $order->status->color() }} text-xs rounded-full px-2 py-0.5">
+                                    {{-- <span class="{{ $order->status->color() }} text-xs rounded-full px-2 py-0.5">
                                         {{ $order->status->label() }}
-                                    </span>
+                                    </span> --}}
+                                    <p class="mt-1 flex items-center gap-1 text-xs font-medium text-black">
+                                        <span
+                                            class="inline-block w-2 h-2 rounded-full {{ $order->payment_status->color() }}"></span>
+                                        {{ $order->payment_status->label() }}
+                                    </p>
                                 </x-ui.tables.cell>
 
                                 <x-ui.tables.cell>

@@ -27,7 +27,7 @@
         <div class="-mt-px flex divide-x divide-gray-200">
             <div class="flex w-0 flex-1">
                 <button type="button"
-                    class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors"
+                    class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors cursor-pointer"
                     @click="$dispatch('open-modal', { id: 'show-customer-orders-{{ $customer->id }}' })">
                     <svg class="size-5 text-gray-400" data-slot="icon" fill="none" stroke-width="1.5"
                         stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -41,7 +41,7 @@
 
             <div class="-ml-px flex w-0 flex-1">
                 <button type="button"
-                    class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-900">
+                    class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-900 cursor-pointer">
                     <svg class="size-5 text-gray-400" data-slot="icon" fill="none" stroke-width="1.5"
                         stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"

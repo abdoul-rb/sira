@@ -50,7 +50,7 @@
 
                     <div class="col-span-full">
                         <button type="submit"
-                            class="flexflex w-full justify-center rounded-md bg-gray-900 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm focus-visible:outline-offset-2 focus-visible:outline-black">
+                            class="flexflex w-full justify-center rounded-md bg-gray-900 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm focus-visible:outline-offset-2 focus-visible:outline-black cursor-pointer">
                             {{ __('Créer mon compte') }}
                         </button>
                     </div>

@@ -14,7 +14,7 @@
                 </h2>
                 <p class="mt-2 text-sm leading-6 text-gray-500">
                     {{ __('Pas encore inscrit ?') }}
-                    <a href="#" class="font-medium text-sky-600">
+                    <a href="{{ route('auth.register') }}" class="font-medium text-sky-600">
                         {{ __('Créer un compte ici') }}
                     </a>
                 </p>

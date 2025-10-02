@@ -18,6 +18,7 @@ use App\Livewire\Dashboard\Product\Create as ProductCreate;
 use App\Livewire\Dashboard\Product\Edit as ProductEdit;
 use App\Livewire\Dashboard\Product\Index as ProductIndex;
 use App\Livewire\Dashboard\Settings\Shop as ShopSetting;
+use App\Livewire\Dashboard\Settings\Suppliers\Index as SupplierIndex;
 use App\Livewire\Dashboard\Settings\Warehouse\Index as WarehouseIndex;
 use App\Livewire\Profile\Index as ProfileIndex;
 use App\Livewire\Public\Shop as ShopPublic;
@@ -34,9 +35,9 @@ Route::domain('{tenant}.' . config('app.url'))->middleware(['auth'])->group(func
     Route::name('dashboard.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
 
-        Route::get('profile', ProfileIndex::class)->name('profile.index');
-
         Route::prefix('dashboard')->group(function () {
+            Route::get('profile', ProfileIndex::class)->name('profile.index');
+
             // CRUD Customer (Livewire)
             Route::prefix('customers')->name('customers.')->group(function () {
                 Route::get('', CustomerIndex::class)->name('index');
@@ -71,13 +72,18 @@ Route::domain('{tenant}.' . config('app.url'))->middleware(['auth'])->group(func
                 Route::get('{employee}/edit', EmployeeEdit::class)->name('edit');
             });
 
-            // Paramètres
+            // Paramètres / settings.suppliers.index
             Route::prefix('settings')->name('settings.')->group(function () {
                 Route::get('', [SettingController::class, 'index'])->name('index');
 
                 // Warehouse (Livewire)
                 Route::prefix('warehouses')->name('warehouses.')->group(function () {
                     Route::get('', WarehouseIndex::class)->name('index');
+                });
+
+                // Fournisseurs
+                Route::prefix('suppliers')->name('suppliers.')->group(function () {
+                    Route::get('', SupplierIndex::class)->name('index');
                 });
 
                 // Shop (Livewire)

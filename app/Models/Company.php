@@ -99,6 +99,11 @@ class Company extends Model
         return $this->hasMany(Warehouse::class);
     }
 
+    public function suppliers(): HasMany
+    {
+        return $this->hasMany(Supplier::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Attributes
@@ -112,5 +117,10 @@ class Company extends Model
     public function defaultWarehouse(): ?Warehouse
     {
         return $this->warehouses()->default()->first();
+    }
+
+    public function mainSupplier(): ?Supplier
+    {
+        return $this->suppliers()->main()->first();
     }
 }

@@ -9,7 +9,7 @@ use App\Models\Warehouse;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
-class CreateModal extends Component
+class Create extends Component
 {
     public Company $tenant;
 

@@ -2,13 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Enums\CustomerType;
 use App\Models\Company;
-use App\Models\Customer;
-use App\Models\Order;
-use App\Models\Quotation;
 use App\Models\Supplier;
-use App\Models\Agent;
 
 beforeEach(function () {
     $this->company = Company::factory()->create();

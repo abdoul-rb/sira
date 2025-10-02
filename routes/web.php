@@ -23,6 +23,7 @@ use App\Livewire\Dashboard\Settings\Warehouse\Index as WarehouseIndex;
 use App\Livewire\Profile\Index as ProfileIndex;
 use App\Livewire\Public\Shop as ShopPublic;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Dashboard\Purchase\Index as PurchaseIndex;
 
 Route::view('/', 'welcome')->name('home');
 
@@ -37,6 +38,11 @@ Route::domain('{tenant}.' . config('app.url'))->middleware(['auth'])->group(func
 
         Route::prefix('dashboard')->group(function () {
             Route::get('profile', ProfileIndex::class)->name('profile.index');
+
+            // Purchases
+            Route::prefix('purchases')->name('purchases.')->group(function () {
+                Route::get('', PurchaseIndex::class)->name('index');
+            });
 
             // CRUD Customer (Livewire)
             Route::prefix('customers')->name('customers.')->group(function () {

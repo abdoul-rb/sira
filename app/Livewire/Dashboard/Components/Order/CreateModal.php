@@ -14,7 +14,7 @@ use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Http\Requests\Order\StoreOrderRequest;
 
-class Create extends Component
+class CreateModal extends Component
 {
     public Company $tenant;
 

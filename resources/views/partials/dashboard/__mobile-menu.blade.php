@@ -1,9 +1,9 @@
 <nav class="fixed lg:hidden w-full bottom-0 left-0 bg-white border-t border-gray-100 z-40">
     <div class="grid h-full max-w-lg grid-cols-4 mx-auto">
-        <a class="inline-flex flex-col items-center justify-center p-2 rounded-xl {{ request()->routeIs('dashboard.products.*') ? 'text-black' : 'text-gray-400' }}"
-            href="{{ route('dashboard.products.index') }}">
+        <a class="inline-flex flex-col items-center justify-center p-2 rounded-xl {{ request()->routeIs('dashboard.purchases.*') ? 'text-black' : 'text-gray-400' }}"
+            href="{{ route('dashboard.purchases.index') }}">
             <div
-                class="p-2.5 rounded-lg transition-all duration-300 {{ request()->routeIs('dashboard.products.*') ? 'bg-black text-white' : 'text-gray-400' }}">
+                class="p-2.5 rounded-lg transition-all duration-300 {{ request()->routeIs('dashboard.purchases.*') ? 'bg-black text-white' : 'text-gray-400' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="w-4 h-4">
@@ -17,7 +17,7 @@
                 </svg>
             </div>
             <span
-                class="text-xs tracking-wide {{ request()->routeIs('dashboard.products.*') ? 'mt-1 text-black' : 'text-gray-400' }}">
+                class="text-xs tracking-wide {{ request()->routeIs('dashboard.purchases.*') ? 'mt-1 text-black' : 'text-gray-400' }}">
                 Achats
             </span>
         </a>

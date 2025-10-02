@@ -11,8 +11,8 @@
                         class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.index') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
                         {{ __('Tableau de bord') }}
                     </a>
-                    <a href="#"
-                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.products.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
+                    <a href="{{ route('dashboard.purchases.index') }}"
+                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.purchases.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
                         {{ __('Achats') }}
                     </a>
                     <a href="{{ route('dashboard.products.index') }}"

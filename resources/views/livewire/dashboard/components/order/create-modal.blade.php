@@ -44,16 +44,6 @@
 
         <!-- Produits -->
         <div class="col-span-full">
-            <div class="col-span-full space-y-2">
-                <div class="hidden lg:grid lg:grid-cols-6 gap-x-2">
-                    <span class="block text-xs text-gray-600">Produit</span>
-                    <span class="block text-xs text-gray-600">Prix unitaire</span>
-                    <span class="block text-xs text-gray-600">Quantité</span>
-                    <span class="block text-xs text-gray-600">Total</span>
-                    <span class="sr-only">Actions</span>
-                </div>
-            </div>
-
             <div class="space-y-2">
                 <!-- Lignes de produits -->
                 @foreach ($productLines as $index => $line)
@@ -155,14 +145,14 @@
                 {{ __('Mode de paiement') }}
             </h3>
 
-            <div class="mt-1 space-y-2">
+            <div class="mt-1 lg:flex lg:gap-x-4 space-y-2 lg:space-y-0">
                 @foreach ($paymentStatuses as $paymentStatus)
                     <div class="flex items-center">
                         <input type="radio" wire:model.live="payment_status" id="{{ $paymentStatus->value }}"
                             value="{{ $paymentStatus->value }}"
                             class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-blue-600 checked:bg-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden">
                         <label for="{{ $paymentStatus->value }}"
-                            class="ml-2 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium {{ $paymentStatus->color() }}">
+                            class="ml-1 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium {{ $paymentStatus->color() }}">
                             {{ $paymentStatus->label() }}
                         </label>
                     </div>
@@ -171,7 +161,7 @@
         </div>
 
         <!-- Totaux -->
-        <div class="col-span-full border-t border-gray-200 lg:px-6 py-2">
+        <div class="col-span-full border-t border-gray-200 py-2">
             <dl class="-my-3 divide-y divide-gray-100 px-2 py-4 text-sm/6">
                 <div class="flex justify-between gap-x-4 py-2">
                     <dt class="text-sm text-gray-500">

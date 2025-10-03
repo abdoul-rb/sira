@@ -6,7 +6,7 @@
         })
     },
 }">
-    <div class="mt-6 flex items-center justify-between gap-2">
+    <div class="flex items-center justify-between gap-2">
         <h1 class="text-2xl font-bold text-black">
             {{ __('Mes produits') }}
         </h1>
@@ -15,6 +15,10 @@
             {{ __('Ajouter un produit') }}
         </x-ui.btn.primary>
     </div>
+
+    <p class="-mt-2 text-sm text-gray-500">
+        {{ __('Consultez et gérez vos stocks de produits ici. Vous pouvez ajouter, modifier et supprimer des produits.') }}
+    </p>
 
     <!-- Recherche globale -->
     <div class="relative">

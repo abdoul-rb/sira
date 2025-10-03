@@ -28,44 +28,47 @@
 
         <x-form.input class="col-span-full" name="name" label="Nom du produit" :wire="true" :required="true" />
 
+        <x-form.input class="col-span-1" name="price" label="Prix" type="number" :number="true"
+            :required="true" />
+
+        <!-- Quantité global du produit donc `stock_quantity` -->
+        <x-form.input class="col-span-1" name="stock_quantity" label="Quantité global" type="number" :number="true"
+            :required="true" />
+
         <div class="col-span-full">
-            <label for="description" class="block text-sm font-medium text-gray-700">
-                {{ __('Description') }}
-                <span class="text-red-500">*</span>
-            </label>
+            <x-form.label label="Description" id="description" />
+
             <div class="mt-1">
                 <textarea rows="4" name="description" wire:model.live="description" id="description"
                     class="block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm sm:leading-6"></textarea>
             </div>
         </div>
 
-        <div class="col-span-full">
-            <label for="warehouse_id" class="block text-sm font-medium text-gray-700">
-                {{ __('Entrepôt') }}
-                <span class="text-red-500">*</span>
-            </label>
-            <select wire:model.live="warehouse_id" id="warehouse_id" name="warehouse_id"
-                class="mt-1 block w-full rounded-md border border-gray-300 py-2 text-gray-900 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm sm:leading-6">
-                <option value="">{{ __('Sélectionner un entrepôt') }}</option>
-                @foreach ($warehouses as $warehouse)
-                    <option value="{{ $warehouse->id }}">
-                        {{ $warehouse->name }}
-                        @if ($warehouse->default)
-                            <span class="text-xs text-gray-500">({{ __('Par défaut') }})</span>
-                        @endif
-                    </option>
-                @endforeach
-            </select>
-            @error('warehouse_id')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-            @enderror
+        <div class="col-span-full grid grid-cols-5 gap-2 items-center">
+            <div class="col-span-2">
+                <x-form.label label="Entrepôt / Emplacement" id="warehouse_id" />
+
+                <select wire:model.live="warehouse_id" id="warehouse_id" name="warehouse_id"
+                    class="mt-1 block w-full rounded-md border border-gray-300 py-2 text-gray-900 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm">
+                    <option value="">{{ __('Sélectionner un entrepôt') }}</option>
+                    @foreach ($warehouses as $warehouse)
+                        <option value="{{ $warehouse->id }}">
+                            {{ $warehouse->name }}
+                            @if ($warehouse->default)
+                                <span class="text-xs text-gray-500">({{ __('Par défaut') }})</span>
+                            @endif
+                        </option>
+                    @endforeach
+                </select>
+                @error('warehouse_id')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Quantité à assigné à un entrepôt -->
+            <x-form.input class="col-span-2" name="warehouse_quantity" label="Quantité" type="number" :number="true"
+                :required="true" />
         </div>
-
-        <x-form.input class="col-span-1" name="warehouse_quantity" label="Quantité" type="number" :number="true"
-            :required="true" />
-
-        <x-form.input class="col-span-1" name="price" label="Prix" type="number" :number="true"
-            :required="true" />
 
         <!-- Boutons d'action -->
         <div class="col-span-full flex justify-between gap-3 pt-2">

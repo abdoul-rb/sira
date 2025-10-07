@@ -104,6 +104,11 @@ class Company extends Model
         return $this->hasMany(Supplier::class);
     }
 
+    public function deposits(): HasMany
+    {
+        return $this->hasMany(Deposit::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Attributes

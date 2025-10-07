@@ -1,8 +1,8 @@
-@section('title', __('Versements'))
+@section('title', __('Dépenses'))
 
 <div class="space-y-6" x-data="{
     init() {
-        Livewire.on('deposit-created', () => {
+        Livewire.on('expense-created', () => {
             $wire.$refresh()
         })
     }
@@ -12,16 +12,16 @@
     <!-- En-tête -->
     <div class="flex items-center justify-between gap-2">
         <h1 class="text-2xl font-bold text-black">
-            {{ __('Versements') }}
+            {{ __('Dépenses') }}
         </h1>
 
-        <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-deposit' })">
-            {{ __('Ajouter un versement') }}
+        <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-expense' })">
+            {{ __('Ajouter une dépense') }}
         </x-ui.btn.primary>
     </div>
 
     <p class="text-sm overflow-hidden break-words text-gray-500 mt-1">
-        Gérez et visualisez vos versements en banque.
+        Gérez et visualisez vos dépenses et charges fixes.
     </p>
 
     <!-- Recherche -->
@@ -34,7 +34,7 @@
                     fill=""></path>
             </svg>
         </span>
-        <input type="text" wire:model.live.debounce.400ms="search" placeholder="Rechercher un versement ..."
+        <input type="text" wire:model.live.debounce.400ms="search" placeholder="Rechercher une dépense ..."
             class="shadow-xs focus:border-brand-300 focus:ring-gray-500/10 h-11 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pr-14 pl-12 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-1 focus:outline-hidden xl:w-[430px]">
     </div>
 
@@ -52,7 +52,7 @@
     @endif
 
     <!-- Modal de création d'entrepôt -->
-    <x-ui.modals.create-deposit-modal :tenant="$tenant" />
+    <x-ui.modals.create-expense-modal :tenant="$tenant" />
 
     <!-- Liste des entrepôts -->
     <div class="mt-8 flow-root">
@@ -63,29 +63,14 @@
                         <thead class="border-gray-100 border-y bg-gray-100">
                             <x-ui.tables.row>
                                 <x-ui.tables.heading>
-                                    <div x-data="{ checked: false }" class="flex items-center gap-3">
-                                        <div @click="checked = !checked"
-                                            class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white /0 border-gray-300 "
-                                            :class="checked ? 'border-brand-500  bg-brand-500' :
-                                                'bg-white /0 border-gray-300 '">
-                                            <svg :class="checked ? 'block' : 'hidden'" width="14" height="14"
-                                                viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                                class="hidden">
-                                                <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
-                                                    stroke-width="1.94437" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                </path>
-                                            </svg>
-                                        </div>
-                                        <span class="block font-medium text-gray-500 text-xs">
-                                            {{ __('Référence') }}
-                                        </span>
-                                    </div>
+                                    <span class="font-medium text-gray-500 text-xs">
+                                        {{ __('ID') }}
+                                    </span>
                                 </x-ui.tables.heading>
 
                                 <x-ui.tables.heading>
                                     <span class="font-medium text-gray-500 text-xs">
-                                        {{ __('Libellé') }}
+                                        {{ __('Nom') }}
                                     </span>
                                 </x-ui.tables.heading>
 
@@ -97,13 +82,13 @@
 
                                 <x-ui.tables.heading>
                                     <span class="font-medium text-gray-500 text-xs">
-                                        {{ __('Banque') }}
+                                        {{ __('Catégorie') }}
                                     </span>
                                 </x-ui.tables.heading>
 
                                 <x-ui.tables.heading>
                                     <span class="font-medium text-gray-500 text-xs">
-                                        {{ __('Date de dépôt') }}
+                                        {{ __('Date de dépense') }}
                                     </span>
                                 </x-ui.tables.heading>
 
@@ -116,50 +101,35 @@
                         </thead>
 
                         <tbody class="divide-y divide-gray-100 bg-white">
-                            @forelse($deposits as $deposit)
+                            @forelse($expenses as $expense)
                                 <x-ui.tables.row class="hover:bg-gray-50">
                                     <x-ui.tables.cell>
-                                        <div x-data="{ checked: false }" class="flex items-center gap-3">
-                                            <div @click="checked = !checked"
-                                                class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white /0 border-gray-300 "
-                                                :class="checked ? 'border-brand-500  bg-brand-500' :
-                                                    'bg-white /0 border-gray-300 '">
-                                                <svg :class="checked ? 'block' : 'hidden'" width="14" height="14"
-                                                    viewBox="0 0 14 14" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg" class="hidden">
-                                                    <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
-                                                        stroke-width="1.94437" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                    </path>
-                                                </svg>
-                                            </div>
-                                            <span class="block font-medium text-gray-700 text-sm">
-                                                {{ $deposit->reference }}
-                                            </span>
-                                        </div>
-                                    </x-ui.tables.cell>
-
-                                    <x-ui.tables.cell>
-                                        <span class="text-gray-700 text-sm">
-                                            {{ $deposit->label }}
+                                        <span class="font-medium text-gray-700 text-sm">
+                                            #{{ $expense->id }}
                                         </span>
                                     </x-ui.tables.cell>
 
                                     <x-ui.tables.cell>
                                         <span class="text-gray-700 text-sm">
-                                            {{ Number::currency($deposit->amount, in: 'XOF', locale: 'fr') }}
+                                            {{ $expense->name }}
                                         </span>
                                     </x-ui.tables.cell>
 
                                     <x-ui.tables.cell>
                                         <span class="text-gray-700 text-sm">
-                                            {{ $deposit->bank }}
+                                            {{ Number::currency($expense->amount, in: 'XOF', locale: 'fr') }}
                                         </span>
                                     </x-ui.tables.cell>
 
                                     <x-ui.tables.cell>
                                         <span class="text-gray-700 text-sm">
-                                            {{ $deposit->deposited_at->locale('fr')->format('d/m/Y') }}
+                                            {{ $expense->category }}
+                                        </span>
+                                    </x-ui.tables.cell>
+
+                                    <x-ui.tables.cell>
+                                        <span class="text-gray-700 text-sm">
+                                            {{ $expense->spent_at->locale('fr')->format('d/m/Y') }}
                                         </span>
                                     </x-ui.tables.cell>
 
@@ -182,7 +152,7 @@
                             @empty
                                 <tr>
                                     <td colspan="6" class="text-center text-gray-400 py-8">
-                                        Aucun versement trouvé.
+                                        Aucune dépense trouvée.
                                     </td>
                                 </tr>
                             @endforelse

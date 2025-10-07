@@ -20,6 +20,7 @@ use App\Livewire\Dashboard\Product\Index as ProductIndex;
 use App\Livewire\Dashboard\Settings\Shop as ShopSetting;
 use App\Livewire\Dashboard\Settings\Suppliers\Index as SupplierIndex;
 use App\Livewire\Dashboard\Settings\Deposits\Index as DepositIndex;
+use App\Livewire\Dashboard\Settings\Expenses\Index as ExpenseIndex;
 use App\Livewire\Dashboard\Settings\Warehouse\Index as WarehouseIndex;
 use App\Livewire\Profile\Index as ProfileIndex;
 use App\Livewire\Public\Shop as ShopPublic;
@@ -96,6 +97,11 @@ Route::domain('{tenant}.' . config('app.url'))->middleware(['auth'])->group(func
                 // Versements
                 Route::prefix('deposits')->name('deposits.')->group(function () {
                     Route::get('', DepositIndex::class)->name('index');
+                });
+
+                // Dépenses
+                Route::prefix('expenses')->name('expenses.')->group(function () {
+                    Route::get('', ExpenseIndex::class)->name('index');
                 });
 
                 // Shop (Livewire)

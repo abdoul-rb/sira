@@ -23,8 +23,8 @@
                     </x-slot:icon>
                 </x-ui.cards.settings-card-link>
 
-                <x-ui.cards.settings-card-link route="#" title="Employés"
-                    description="Gérer les employés de votre entreprise.">
+                <x-ui.cards.settings-card-link route="#" title="Membres"
+                    description="Gérez vos employés et les membres de votre entreprise.">
                     <x-slot:icon>
                         <svg class="size-6 shrink-0 text-white" data-slot="icon" fill="none" stroke-width="1.5"
                             stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -42,18 +42,6 @@
                             stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z">
-                            </path>
-                        </svg>
-                    </x-slot:icon>
-                </x-ui.cards.settings-card-link>
-
-                <x-ui.cards.settings-card-link :route="route('dashboard.settings.shop', ['tenant' => $currentTenant])" title="Boutique"
-                    description="Affichez et mettez à jour les informations de votre boutique.">
-                    <x-slot:icon>
-                        <svg class="size-6 shrink-0 text-white" data-slot="icon" fill="none" stroke-width="1.5"
-                            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z">
                             </path>
                         </svg>
                     </x-slot:icon>
@@ -94,8 +82,19 @@
                         </svg>
                     </x-slot:icon>
                 </x-ui.cards.settings-card-link>
+
+                <x-ui.cards.settings-card-link :route="route('dashboard.settings.shop', ['tenant' => $currentTenant])" title="Boutique"
+                    description="Affichez et mettez à jour les informations de votre boutique.">
+                    <x-slot:icon>
+                        <svg class="size-6 shrink-0 text-white" data-slot="icon" fill="none" stroke-width="1.5"
+                            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z">
+                            </path>
+                        </svg>
+                    </x-slot:icon>
+                </x-ui.cards.settings-card-link>
             </div>
         </div>
-
     </div>
 @endsection

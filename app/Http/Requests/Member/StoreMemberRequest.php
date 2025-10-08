@@ -25,9 +25,8 @@ class StoreMemberRequest extends FormRequest
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'phoneNumber' => ['nullable', 'string', 'max:255'],
-            'email' => ['email|required'],
-            'password' => ['required', Password::min(8)->letters()->mixedCase()->numbers()],
-            'canLogin' => ['boolean'],
+            'email' => ['required', 'email'],
+            // 'password' => ['required', Password::min(8)->letters()->mixedCase()->numbers()],
         ];
 
         return $rules;
@@ -38,7 +37,6 @@ class StoreMemberRequest extends FormRequest
         return [
             'firstname.required' => "Le nom est obligatoire",
             'lastname.required' => "Le prénom est obligatoire",
-            'password.required' => "Le mot de passe est obligatoire"
         ];
     }
 }

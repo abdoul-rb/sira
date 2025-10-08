@@ -12,8 +12,13 @@ use App\Notifications\MemberInvitation;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use App\Actions\Members\CreateMemberAction;
+use App\Notifications\NewMemberAccountCreated;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
+use Exception;
+use Illuminate\Support\Facades\Log;
+
 
 class Create extends Component
 {
@@ -25,12 +30,7 @@ class Create extends Component
 
     public $phoneNumber = '';
 
-    public $canLogin = false;
-
-    // Champs utilisateur (conditionnels)
     public $email = '';
-
-    public $password = '';
 
     public function mount(Company $tenant)
     {
@@ -47,47 +47,31 @@ class Create extends Component
         return (new StoreMemberRequest)->messages();
     }
 
-    public function updatedCanLogin($value)
+    public function save(CreateMemberAction $action)
     {
-        if (! $value) {
-            $this->email = '';
-        }
-    }
+        $validated = $this->validate();
+        $validated['company_id'] = $this->tenant->id;
 
-    public function save()
-    {
-        $this->validate();
+        $temporaryPassword = Str::random(14);
+        $validated['password'] = $temporaryPassword;
 
-        $member = Member::create([
-            'company_id' => $this->tenant->id,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'phoneNumber' => $this->phoneNumber
-        ]);
+        try {
+            $member = $action->handle($validated);
 
-        if ($this->canLogin) {
-            $user = User::create([
-                // 'company_id' => $this->tenant->id, // TODO: delete this field to users table
-                'email' => $this->email,
-                'password' => Hash::make($this->password), // Mot de passe temporaire : Str::random(32)
+            $member->user->notify(new NewMemberAccountCreated($temporaryPassword));
+
+            session()->flash('success', 'Membre créé avec succès.');
+
+            $this->dispatch('close-modal', id: 'create-member');
+            $this->dispatch('member-created');
+        } catch (Exception $e) {
+            Log::error('Create member failed', [
+                'email' => $validated['email'],
+                'error' => $e->getMessage(),
             ]);
 
-            $role = Role::where('name', $this->role)->first();
-
-            if ($role) {
-                $user->assignRole($role);
-            }
-
-            // Associer l'utilisateur à l'employé
-            $member->update(['user_id' => $user->id]);
-
-            // Envoyer la notification d'invitation
-            $this->sendInvitationNotification($user);
+            $this->addError('email', __("Erreur lors de la création de l'utilisateur"));
         }
-
-        session()->flash('success', 'Membre créé avec succès.');
-
-        return redirect()->route('dashboard.members.index', [$this->tenant]);
     }
 
     private function sendInvitationNotification(User $user)

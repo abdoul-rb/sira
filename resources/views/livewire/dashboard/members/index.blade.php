@@ -1,8 +1,14 @@
 @section('title', __('Membres'))
 
-<div>
+<div x-data="{
+    init() {
+        Livewire.on('member-created', () => {
+            $wire.$refresh()
+        })
+    }
+}">
     <x-ui.breadcrumb :items="[
-        ['label' => 'Tableau de bord', 'url' => route('dashboard.index', ['tenant' => $tenant])],
+        ['label' => 'Paramètres', 'url' => route('dashboard.settings.index', ['tenant' => $tenant])],
         ['label' => 'Membres', 'url' => '#'],
     ]" />
 
@@ -47,27 +53,12 @@
                     </div>
                 </div>
 
-                <div class="sm:col-span-2">
-                    <label for="status" class="block text-sm font-medium text-gray-700">Statut</label>
-                    <div class="mt-1">
-                        <select wire:model.live="status" id="status"
-                            class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6">
-                            <option value="">Tous les employés</option>
-                            <option value="connected">Avec accès</option>
-                            <option value="offline">Sans accès</option>
-                        </select>
-                    </div>
-                </div>
-
                 <div class="sm:col-span-1">
                     <label for="sort" class="block text-sm font-medium text-gray-700">Tri</label>
                     <div class="mt-1">
                         <select wire:model.live="sortField" id="sort"
                             class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6">
-                            <option value="created_at">Date création</option>
-                            <option value="position">Poste</option>
-                            <option value="department">Département</option>
-                            <option value="hire_date">Date embauche</option>
+                            <option value="created_at">Date d'ajout</option>
                         </select>
                     </div>
                 </div>

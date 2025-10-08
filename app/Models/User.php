@@ -7,6 +7,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -19,6 +20,7 @@ class User extends Authenticatable
 
     use HasRoles;
     use Notifiable;
+    use SoftDeletes;
 
     /**
      * @var list<string>
@@ -26,12 +28,9 @@ class User extends Authenticatable
     protected $fillable = [
         'uuid',
         'name',
-        'firstname',
-        'lastname',
+        'name',
         'email',
-        'phone_number',
         'password',
-        'company_id',
     ];
 
     /**
@@ -99,6 +98,6 @@ class User extends Authenticatable
 
     public function getInitialsAttribute(): string
     {
-        return strtoupper(substr($this->firstname, 0, 1) . substr($this->lastname, 0, 1));
+        return strtoupper(substr($this->name, 0, 1));
     }
 }

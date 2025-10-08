@@ -27,9 +27,6 @@ class Member extends Model
         'phone_number',
     ];
 
-    protected $casts = [
-    ];
-
     public static function boot()
     {
         parent::boot();
@@ -76,5 +73,10 @@ class Member extends Model
     public function getFullnameAttribute(): string
     {
         return "{$this->firstname} {$this->lastname}";
+    }
+
+    public function getInitialsAttribute(): string
+    {
+        return strtoupper(substr($this->firstname, 0, 1) . substr($this->lastname, 0, 1));
     }
 }

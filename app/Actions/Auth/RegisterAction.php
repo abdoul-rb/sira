@@ -28,13 +28,22 @@ class RegisterAction
                 ]
             );
 
-            $user = $company->users()->create([
+            $member = $company->members()->create([
                 'firstname' => $data['firstname'],
                 'lastname' => $data['lastname'],
-                'email' => $data['email'],
                 'phone_number' => $data['phoneNumber'],
+            ]);
+
+            $user = User::create([
+                'name' => "{$data['firstname']} {$data['lastname']}",
+                'email' => $data['email'],
                 'password' => Hash::make($data['password']),
             ]);
+
+            $member->user()->associate($user);
+            $member->save();
+
+            // TODO: Assignation des rôles
 
             return $user;
         });

@@ -8,20 +8,20 @@
                 <h3 class="truncate text-sm font-medium text-gray-900">
                     {{ $member->fullname }}
                 </h3>
-                @if ($member->user)
-                    <span
-                        class="inline-flex shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                        {{ $member->role }}
-                    </span>
-                @endif
+
+                <span
+                    class="inline-flex shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                    Vendeuse
+                </span>
             </div>
             <p class="mt-1 truncate text-xs font-medium text-gray-500">
-                {{ $member->position }}
+                {{ $member->user?->email }}
             </p>
         </div>
-        <img class="size-10 shrink-0 rounded-full bg-gray-300"
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
-            alt="" />
+        <div
+            class="size-10 shrink-0 rounded-full bg-black flex items-center justify-center text-sm font-medium text-white">
+            {{ $member->initials }}
+        </div>
     </a>
     <div>
         <div class="-mt-px flex divide-x divide-gray-200">

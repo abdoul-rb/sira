@@ -7,7 +7,7 @@
     ]" />
 
     <div class="flex items-center justify-between mt-6 mb-8">
-        <h1 class="text-2xl font-bold text-gray-800">Membre</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Membres</h1>
 
         {{-- @can('create', App\Models\Member::class) --}}
         <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-member' })">

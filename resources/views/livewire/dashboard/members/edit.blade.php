@@ -1,9 +1,9 @@
-@section('title', __('Éditer un employé'))
+@section('title', __('Mettre à jour les infos du membre'))
 
 <div>
     <x-ui.breadcrumb :items="[
         ['label' => 'Tableau de bord', 'url' => route('dashboard.index', ['tenant' => $tenant])],
-        ['label' => 'Employés', 'url' => route('dashboard.employees.index', ['tenant' => $tenant])],
+        ['label' => 'Employés', 'url' => route('dashboard.members.index', ['tenant' => $tenant])],
         ['label' => 'Édition employé', 'url' => '#'],
     ]" />
 
@@ -28,21 +28,7 @@
 
                     <x-form.input name="lastname" label="Nom" :wire="true" />
 
-                    <x-form.input name="phone_number" label="Téléphone" :wire="true" />
-
-                    <x-form.input type="date" name="hire_date" label="Date d'embauche" :wire="true" />
-
-                    <x-form.input name="position" label="Poste" :wire="true" />
-
-                    <x-form.input name="department" label="Département" :wire="true" />
-
-                    <div class="flex items-center">
-                        <input type="checkbox" wire:model="active" id="active"
-                            class="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-600">
-                        <label for="active" class="ml-2 block text-sm text-gray-900">
-                            {{ __('Employé actif') }}
-                        </label>
-                    </div>
+                    <x-form.input name="phoneNumber" label="Téléphone" :wire="true" />
                 </div>
             </div>
 
@@ -74,7 +60,7 @@
 
                     @if ($can_login)
                         <div class="mt-6 space-y-6">
-                            @if ($employee->user)
+                            @if ($member->user)
                                 <div class="rounded-md bg-green-50 p-4">
                                     <div class="flex">
                                         <div class="flex-shrink-0">
@@ -142,7 +128,7 @@
                                     <select wire:model="role" id="role" required
                                         class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6">
                                         <option value="">Sélectionner un rôle</option>
-                                        <option value="employee">Employé</option>
+                                        <option value="member">Employé</option>
                                         <option value="manager">Manager</option>
                                     </select>
                                 </div>
@@ -151,7 +137,7 @@
                                 @enderror
                             </div>
 
-                            @if (!$employee->user)
+                            @if (!$member->user)
                                 <div class="rounded-md bg-yellow-50 p-4">
                                     <div class="flex">
                                         <div class="flex-shrink-0">

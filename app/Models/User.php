@@ -55,7 +55,7 @@ class User extends Authenticatable
 
     public function getRouteKeyName(): string
     {
-        return 'slug';
+        return 'uuid';
     }
 
     public static function boot()
@@ -83,11 +83,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Relation avec Employee
+     * Relation avec le membre de l'entreprise
      */
-    public function employee()
+    public function member()
     {
-        return $this->hasOne(Employee::class);
+        return $this->hasOne(Member::class);
     }
 
     /*
@@ -96,37 +96,6 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * Vérifie si l'utilisateur est un super admin
-     */
-    public function isSuperAdmin(): bool
-    {
-        return is_null($this->company_id);
-    }
-
-    /**
-     * Vérifie si l'utilisateur est un manager de sa company
-     */
-    public function isManager(): bool
-    {
-        return $this->hasRole('manager');
-    }
-
-    /**
-     * Vérifie si l'utilisateur est un employé standard
-     */
-    public function isEmployee(): bool
-    {
-        return $this->hasRole('employee');
-    }
-
-    /**
-     * Vérifie si l'utilisateur a un profil employé
-     */
-    public function hasEmployeeProfile(): bool
-    {
-        return $this->employee()->exists();
-    }
 
     public function getInitialsAttribute(): string
     {

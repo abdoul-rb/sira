@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Employee;
+namespace App\Livewire\Dashboard\Members;
 
 use App\Models\Company;
-use App\Models\Employee;
+use App\Models\Member;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
@@ -25,7 +25,7 @@ class Index extends Component
 
     #[Url(as: 'field', history: true)]
     #[Locked]
-    #[Validate('in:created_at,position,department,hire_date')]
+    #[Validate('in:created_at')]
     public string $sortField = 'created_at';
 
     #[Url(as: 'direction', history: true)]
@@ -58,23 +58,26 @@ class Index extends Component
         $this->dispatch('sort-updated', field: $field, direction: $direction);
     }
 
-    public function confirmDelete($employeeId)
+    // TODO: remove
+    public function confirmDelete($memberId)
     {
-        $this->confirmingDelete = $employeeId;
+        $this->confirmingDelete = $memberId;
     }
 
-    public function deleteEmployee(Employee $employee)
+    public function delete(Member $member)
     {
-        $this->authorize('delete', $employee);
+        $this->authorize('delete', $member);
 
-        $employee->delete();
+        $member->delete();
+
+    // TODO: remove
         $this->confirmingDelete = null;
-        session()->flash('success', 'Employé supprimé avec succès.');
+        session()->flash('success', 'Member supprimé avec succès.');
     }
 
     public function render()
     {
-        $query = Employee::where('company_id', $this->tenant->id)
+        $query = Member::where('company_id', $this->tenant->id)
             ->with(['user', 'company'])
             ->when($this->search, function ($q) {
                 $q->where(function ($q) {
@@ -85,19 +88,12 @@ class Index extends Component
                         });
                 });
             })
-            ->when($this->status, function ($q) {
-                if ($this->status === 'connected') {
-                    $q->whereNotNull('user_id');
-                } elseif ($this->status === 'offline') {
-                    $q->whereNull('user_id');
-                }
-            })
             ->orderBy($this->sortField, $this->sortDirection);
 
-        $employees = $query->paginate(10);
+        $members = $query->paginate(10);
 
-        return view('livewire.dashboard.employee.index', [
-            'employees' => $employees,
+        return view('livewire.dashboard.members.index', [
+            'members' => $members,
         ])->extends('layouts.dashboard');
     }
 }

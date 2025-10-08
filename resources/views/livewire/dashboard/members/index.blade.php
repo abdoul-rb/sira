@@ -1,26 +1,22 @@
-@section('title', __('Employés'))
+@section('title', __('Membres'))
 
 <div>
     <x-ui.breadcrumb :items="[
         ['label' => 'Tableau de bord', 'url' => route('dashboard.index', ['tenant' => $tenant])],
-        ['label' => 'Employés', 'url' => '#'],
+        ['label' => 'Membres', 'url' => '#'],
     ]" />
 
     <div class="flex items-center justify-between mt-6 mb-8">
-        <h1 class="text-2xl font-bold text-gray-800">Employés</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Membre</h1>
 
-        {{-- @can('create', App\Models\Employee::class) --}}
-        <a href="{{ route('dashboard.employees.create', ['tenant' => $tenant]) }}"
-            class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-blue-600 px-3 py-2 lg:py-1 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-            <svg class="size-4 transition duration-75 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
-            </svg>
-            {{ __('Nouvel employé') }}
-        </a>
+        {{-- @can('create', App\Models\Member::class) --}}
+        <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-member' })">
+            {{ __('Ajouter un personnel') }}
+        </x-ui.btn.primary>
         {{-- @endcan --}}
     </div>
+
+    <x-ui.modals.create-member-modal :tenant="$tenant" />
 
     @if (session('success'))
         <div class="mb-4 rounded-md bg-green-50 p-4">
@@ -80,8 +76,8 @@
     </div>
 
     <ul role="list" class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        @forelse ($employees as $employee)
-            <x-ui.cards.employee-details :employee="$employee" />
+        @forelse ($members as $member)
+            <x-ui.cards.member-details :member="$member" />
         @empty
             <li>
                 <p class="text-center text-gray-500">Aucun employé trouvé.</p>

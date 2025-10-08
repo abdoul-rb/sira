@@ -1,23 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Company;
-use App\Models\Employee;
+use App\Models\Member;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Employee>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Member>
  */
-class EmployeeFactory extends Factory
+class MemberFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Employee::class;
+    protected $model = Member::class;
 
     /**
      * Define the model's default state.
@@ -29,21 +31,10 @@ class EmployeeFactory extends Factory
         return [
             'user_id' => User::factory(),
             'company_id' => Company::factory(),
-            'position' => fake()->jobTitle(),
-            'department' => fake()->randomElement(['Ventes', 'Marketing', 'RH', 'Finance', 'IT', 'Opérations']),
-            'hire_date' => fake()->dateTimeBetween('-2 years', 'now'),
-            'active' => true,
+            'firstname' => $this->faker->firstName(),
+            'lastname' => $this->faker->lastName(),
+            'phone_number' => $this->faker->optional()->phoneNumber(),
         ];
-    }
-
-    /**
-     * Indique que l'employé est inactif
-     */
-    public function inactive(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'active' => false,
-        ]);
     }
 
     /**

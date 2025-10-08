@@ -8,9 +8,9 @@ use App\Livewire\Dashboard\Agent\Edit as AgentEdit;
 use App\Livewire\Dashboard\Agent\Index as AgentIndex;
 use App\Livewire\Dashboard\Customer\Edit as CustomerEdit;
 use App\Livewire\Dashboard\Customer\Index as CustomerIndex;
-use App\Livewire\Dashboard\Employee\Create as EmployeeCreate;
-use App\Livewire\Dashboard\Employee\Edit as EmployeeEdit;
-use App\Livewire\Dashboard\Employee\Index as EmployeeIndex;
+use App\Livewire\Dashboard\Members\Create as MemberCreate;
+use App\Livewire\Dashboard\Members\Edit as MemberEdit;
+use App\Livewire\Dashboard\Members\Index as MemberIndex;
 use App\Livewire\Dashboard\Order\Create as OrderCreate;
 use App\Livewire\Dashboard\Order\Edit as OrderEdit;
 use App\Livewire\Dashboard\Order\Index as OrderIndex;
@@ -73,11 +73,11 @@ Route::domain('{tenant}.' . config('app.url'))->middleware(['auth'])->group(func
                 Route::get('{order}/edit', OrderEdit::class)->name('edit');
             });
 
-            // CRUD Employee (Livewire)
-            Route::prefix('employees')->name('employees.')->group(function () {
-                Route::get('', EmployeeIndex::class)->name('index');
-                Route::get('create', EmployeeCreate::class)->name('create');
-                Route::get('{employee}/edit', EmployeeEdit::class)->name('edit');
+            // CRUD Membre (Livewire)
+            Route::prefix('members')->name('members.')->group(function () {
+                Route::get('', MemberIndex::class)->name('index');
+                Route::get('create', MemberCreate::class)->name('create');
+                Route::get('{member}/edit', MemberEdit::class)->name('edit');
             });
 
             // Paramètres / settings.suppliers.index
@@ -109,7 +109,7 @@ Route::domain('{tenant}.' . config('app.url'))->middleware(['auth'])->group(func
             });
 
             // Route pour la configuration du mot de passe des employés
-            Route::get('employee/setup-password/{user}', SetupPassword::class)->name('employee.setup-password');
+            Route::get('member/setup-password/{user}', SetupPassword::class)->name('members.setup-password');
 
         });
     });

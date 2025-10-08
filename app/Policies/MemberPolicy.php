@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Models\Employee;
+use App\Models\Member;
 use App\Models\User;
 
-class EmployeePolicy
+class MemberPolicy
 {
     /**
      * Autorise tout aux super-admins.
@@ -30,9 +30,9 @@ class EmployeePolicy
     /**
      * Voir un employé de sa company.
      */
-    public function view(User $user, Employee $employee)
+    public function view(User $user, Member $member)
     {
-        return $user->company_id === $employee->company_id;
+        return $user->company_id === $member->company_id;
     }
 
     /**
@@ -46,16 +46,16 @@ class EmployeePolicy
     /**
      * Mettre à jour un employé de sa company.
      */
-    public function update(User $user, Employee $employee)
+    public function update(User $user, Member $member)
     {
-        return $user->company_id === $employee->company_id;
+        return $user->company_id === $member->company_id;
     }
 
     /**
      * Supprimer un employé de sa company.
      */
-    public function delete(User $user, Employee $employee)
+    public function delete(User $user, Member $member)
     {
-        return $user->company_id === $employee->company_id;
+        return $user->company_id === $member->company_id;
     }
 } 

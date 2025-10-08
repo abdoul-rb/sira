@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Employee;
+namespace App\Livewire\Dashboard\Members;
 
-use App\Http\Requests\Employee\StoreEmployeeRequest;
+use App\Http\Requests\Member\StoreMemberRequest;
 use App\Models\Company;
-use App\Models\Employee;
+use App\Models\Member;
 use App\Models\User;
-use App\Notifications\EmployeeInvitation;
+use App\Notifications\MemberInvitation;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -23,22 +23,14 @@ class Create extends Component
 
     public $lastname = '';
 
-    public $phone_number = '';
+    public $phoneNumber = '';
 
-    public $position = '';
-
-    public $department = '';
-
-    public $hire_date = '';
-
-    public $active = true;
-
-    public $can_login = false;
+    public $canLogin = false;
 
     // Champs utilisateur (conditionnels)
     public $email = '';
 
-    public $role = 'employee';
+    public $password = '';
 
     public function mount(Company $tenant)
     {
@@ -47,19 +39,18 @@ class Create extends Component
 
     protected function rules(): array
     {
-        return (new StoreEmployeeRequest)->rules();
+        return (new StoreMemberRequest)->rules();
     }
 
     protected function messages(): array
     {
-        return (new StoreEmployeeRequest)->messages();
+        return (new StoreMemberRequest)->messages();
     }
 
     public function updatedCanLogin($value)
     {
         if (! $value) {
             $this->email = '';
-            $this->role = 'employee';
         }
     }
 
@@ -67,23 +58,18 @@ class Create extends Component
     {
         $this->validate();
 
-        // Créer l'employé
-        $employee = Employee::create([
+        $member = Member::create([
             'company_id' => $this->tenant->id,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
-            'phone_number' => $this->phone_number,
-            'position' => $this->position,
-            'department' => $this->department,
-            'hire_date' => $this->hire_date,
-            'active' => $this->active,
+            'phoneNumber' => $this->phoneNumber
         ]);
 
-        if ($this->can_login) {
+        if ($this->canLogin) {
             $user = User::create([
                 // 'company_id' => $this->tenant->id, // TODO: delete this field to users table
                 'email' => $this->email,
-                'password' => Hash::make(Str::random(32)), // Mot de passe temporaire
+                'password' => Hash::make($this->password), // Mot de passe temporaire : Str::random(32)
             ]);
 
             $role = Role::where('name', $this->role)->first();
@@ -93,33 +79,31 @@ class Create extends Component
             }
 
             // Associer l'utilisateur à l'employé
-            $employee->update(['user_id' => $user->id]);
+            $member->update(['user_id' => $user->id]);
 
             // Envoyer la notification d'invitation
             $this->sendInvitationNotification($user);
         }
 
-        session()->flash('success', 'Employé créé avec succès.');
+        session()->flash('success', 'Membre créé avec succès.');
 
-        return redirect()->route('dashboard.employees.index', [$this->tenant]);
+        return redirect()->route('dashboard.members.index', [$this->tenant]);
     }
 
     private function sendInvitationNotification(User $user)
     {
         // Générer un token sécurisé pour 7 jours
         $setupUrl = URL::temporarySignedRoute(
-            'dashboard.employee.setup-password',
+            'dashboard.members.setup-password',
             now()->addDays(7),
             ['tenant' => $this->tenant, 'user' => $user->id]
         );
 
-        $user->notify(new EmployeeInvitation($this->tenant, $setupUrl));
+        $user->notify(new MemberInvitation($this->tenant, $setupUrl));
     }
 
     public function render()
     {
-        return view('livewire.dashboard.employee.create', [
-            'roles' => Role::whereIn('name', ['employee', 'manager'])->get(),
-        ])->extends('layouts.dashboard');
+        return view('livewire.dashboard.members.create');
     }
 }

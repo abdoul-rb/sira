@@ -1,22 +1,22 @@
-@props(['employee'])
+@props(['member'])
 
 <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
-    <a href="{{ route('dashboard.employees.edit', ['tenant' => $currentTenant, 'employee' => $employee]) }}"
+    <a href="{{ route('dashboard.members.edit', ['tenant' => $currentTenant, 'member' => $member]) }}"
         class="group flex w-full items-center justify-between space-x-6 p-6">
         <div class="flex-1 truncate">
             <div class="flex items-center space-x-3">
                 <h3 class="truncate text-sm font-medium text-gray-900">
-                    {{ $employee->fullname }}
+                    {{ $member->fullname }}
                 </h3>
-                @if ($employee->user)
+                @if ($member->user)
                     <span
                         class="inline-flex shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                        {{ $employee->role }}
+                        {{ $member->role }}
                     </span>
                 @endif
             </div>
             <p class="mt-1 truncate text-xs font-medium text-gray-500">
-                {{ $employee->position }}
+                {{ $member->position }}
             </p>
         </div>
         <img class="size-10 shrink-0 rounded-full bg-gray-300"
@@ -26,7 +26,7 @@
     <div>
         <div class="-mt-px flex divide-x divide-gray-200">
             <div class="flex w-0 flex-1">
-                <a href="mailto:{{ $employee->user?->email }}"
+                <a href="mailto:{{ $member->user?->email }}"
                     class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
                     <svg class="size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
                         data-slot="icon">
@@ -39,7 +39,7 @@
                 </a>
             </div>
             <div class="-ml-px flex w-0 flex-1">
-                <a href="tel:{{ $employee->phone_number }}"
+                <a href="tel:{{ $member->phone_number }}"
                     class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
                     <svg class="size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
                         data-slot="icon">

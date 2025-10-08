@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class Employee extends Model
+class Member extends Model
 {
-    /** @use HasFactory<\Database\Factories\EmployeeFactory> */
+    /** @use HasFactory<\Database\Factories\MemberFactory> */
     use HasFactory;
 
     use SoftDeletes;
@@ -24,23 +25,17 @@ class Employee extends Model
         'firstname',
         'lastname',
         'phone_number',
-        'position',
-        'department',
-        'hire_date',
-        'active',
     ];
 
     protected $casts = [
-        'hire_date' => 'date',
-        'active' => 'boolean',
     ];
 
     public static function boot()
     {
         parent::boot();
 
-        static::creating(function (Employee $employee) {
-            $employee->uuid = Str::uuid();
+        static::creating(function (Member $member) {
+            $member->uuid = Str::uuid();
         });
     }
 
@@ -72,35 +67,14 @@ class Employee extends Model
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * Scope pour les employés actifs
-     */
-    public function scopeActive($query)
+    #[Scope]
+    protected function forCompany(Builder $query, int $companyId): void
     {
-        return $query->where('active', true);
-    }
-
-    public function scopeConnectedEmployees($query): Builder
-    {
-        return $query->whereNotNull('user_id');
-    }
-
-    public function scopeOfflineEmployees($query): Builder
-    {
-        return $query->whereNull('user_id');
+        $query->where('company_id', $companyId);
     }
 
     public function getFullnameAttribute(): string
     {
         return "{$this->firstname} {$this->lastname}";
-    }
-
-    public function getRoleAttribute(): string
-    {
-        return match ($this->user->roles->first()?->name) {
-            'employee' => 'Employé',
-            'manager' => 'Manager',
-            default => 'Employé',
-        };
     }
 }

@@ -23,7 +23,7 @@
                     </x-slot:icon>
                 </x-ui.cards.settings-card-link>
 
-                <x-ui.cards.settings-card-link route="#" title="Membres"
+                <x-ui.cards.settings-card-link :route="route('dashboard.members.index', ['tenant' => $currentTenant])" title="Membres"
                     description="Gérez vos employés et les membres de votre entreprise.">
                     <x-slot:icon>
                         <svg class="size-6 shrink-0 text-white" data-slot="icon" fill="none" stroke-width="1.5"

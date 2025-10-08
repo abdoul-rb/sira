@@ -21,10 +21,10 @@ class RolePermissionSeeder extends Seeder
         // Création des permissions de base
         $permissions = [
             // Gestion des employés
-            'view-employees',
-            'create-employee',
-            'edit-employee',
-            'delete-employee',
+            'view-members',
+            'create-member',
+            'edit-member',
+            'delete-member',
             
             // Gestion des clients
             'view-customers',
@@ -69,7 +69,7 @@ class RolePermissionSeeder extends Seeder
         // Création des rôles
         $superAdminRole = Role::create(['name' => 'super-admin']);
         $managerRole = Role::create(['name' => 'manager']);
-        $employeeRole = Role::create(['name' => 'employee']);
+        $memberRole = Role::create(['name' => 'member']);
 
         // Attribution des permissions aux rôles
 
@@ -78,7 +78,7 @@ class RolePermissionSeeder extends Seeder
 
         // Manager : permissions de sa company
         $managerRole->givePermissionTo([
-            'view-employees', 'create-employee', 'edit-employee', 'delete-employee',
+            'view-members', 'create-member', 'edit-member', 'delete-member',
             'view-customers', 'create-customer', 'edit-customer', 'delete-customer',
             'view-products', 'create-product', 'edit-product', 'delete-product',
             'view-quotations', 'create-quotation', 'edit-quotation', 'delete-quotation', 'approve-quotation',
@@ -86,8 +86,8 @@ class RolePermissionSeeder extends Seeder
             'view-company-settings', 'edit-company-settings',
         ]);
 
-        // Employee : permissions limitées
-        $employeeRole->givePermissionTo([
+        // Member : permissions limitées
+        $memberRole->givePermissionTo([
             'view-customers', 'create-customer', 'edit-customer', 'delete-customer',
             'view-products',
             'view-quotations', 'create-quotation', 'edit-quotation', 'delete-quotation', 'approve-quotation',

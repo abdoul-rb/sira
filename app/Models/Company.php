@@ -84,9 +84,9 @@ class Company extends Model
         return $this->hasMany(Order::class);
     }
 
-    public function employees(): HasMany
+    public function members(): HasMany
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(Member::class);
     }
 
     public function shop(): HasOne

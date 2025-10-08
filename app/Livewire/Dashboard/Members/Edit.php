@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Employee;
+namespace App\Livewire\Dashboard\Members;
 
-use App\Http\Requests\Employee\UpdateEmployeeRequest;
+use App\Http\Requests\Member\UpdateMemberRequest;
 use App\Models\Company;
-use App\Models\Employee;
+use App\Models\Member;
 use App\Models\User;
-use App\Notifications\EmployeeInvitation;
+use App\Notifications\MemberInvitation;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -19,66 +19,53 @@ class Edit extends Component
 {
     public Company $tenant;
 
-    public Employee $employee;
+    public Member $member;
 
     public $firstname = '';
 
     public $lastname = '';
 
-    public $phone_number = '';
-
-    public $position = '';
-
-    public $department = '';
-
-    public $hire_date = '';
-
-    public $active = true;
+    public $phoneNumber = '';
 
     public $can_login = false;
 
     // Champs utilisateur (conditionnels)
     public $email = '';
 
-    public $role = 'employee';
+    public $role = 'member';
 
-    public function mount(Company $tenant, Employee $employee)
+    public function mount(Company $tenant, Member $member)
     {
         $this->tenant = $tenant;
-        $this->employee = $employee;
+        $this->member = $member;
 
         $this->fill([
-            'firstname' => $employee->firstname,
-            'lastname' => $employee->lastname,
-            'phone_number' => $employee->phone_number,
-            'position' => $employee->position,
-            'department' => $employee->department,
-            'hire_date' => $employee->hire_date?->format('Y-m-d'),
-            'active' => $employee->active,
+            'firstname' => $member->firstname,
+            'lastname' => $member->lastname,
+            'phoneNumber' => $member->phoneNumber,
         ]);
 
-        if ($employee->user) {
+        if ($member->user) {
             $this->can_login = true;
-            $this->email = $employee->user->email;
-            $this->role = $employee->user->roles->first()?->name ?? 'employee';
+            $this->email = $member->user->email;
         }
     }
 
     protected function rules(): array
     {
-        return (new UpdateEmployeeRequest)->rules();
+        return (new UpdateMemberRequest)->rules();
     }
 
     protected function messages(): array
     {
-        return (new UpdateEmployeeRequest)->messages();
+        return (new UpdateMemberRequest)->messages();
     }
 
     /* public function updatedCanLogin($value)
     {
         if (! $value) {
             $this->email = '';
-            $this->role = 'employee';
+            $this->role = 'member';
         }
     } */
 
@@ -91,8 +78,8 @@ class Edit extends Component
         if ($this->can_login) {
             // Vérifier l'unicité de l'email en tenant compte de l'utilisateur existant
             $existingEmail = User::where('email', $this->email)
-                ->when($this->employee->user, function ($query) {
-                    $query->where('id', '!=', $this->employee->user->id);
+                ->when($this->member->user, function ($query) {
+                    $query->where('id', '!=', $this->member->user->id);
                 })
                 ->exists();
 
@@ -103,21 +90,17 @@ class Edit extends Component
         }
 
         // Mettre à jour l'employé
-        $this->employee->update([
+        $this->member->update([
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
-            'phone_number' => $this->phone_number,
-            'position' => $this->position,
-            'department' => $this->department,
-            'hire_date' => $this->hire_date,
-            'active' => $this->active,
+            'phoneNumber' => $this->phoneNumber,
         ]);
 
         // Gérer l'utilisateur
         if ($this->can_login) {
-            if ($this->employee->user) {
+            if ($this->member->user) {
                 // Mettre à jour l'utilisateur existant
-                $this->employee->user->update([
+                $this->member->user->update([
                     'email' => $this->email,
                 ]);
 
@@ -125,7 +108,7 @@ class Edit extends Component
                 $role = Role::where('name', $this->role)->first();
                 
                 if ($role) {
-                    $this->employee->user->syncRoles([$role]);
+                    $this->member->user->syncRoles([$role]);
                 }
             } else {
                 // Créer un nouvel utilisateur
@@ -143,40 +126,38 @@ class Edit extends Component
                 }
 
                 // Associer l'utilisateur à l'employé
-                $this->employee->update(['user_id' => $user->id]);
+                $this->member->update(['user_id' => $user->id]);
 
                 // Envoyer la notification d'invitation
                 $this->sendInvitationNotification($user);
             }
         } else {
             // Supprimer l'association utilisateur si elle existe
-            if ($this->employee->user) {
-                $this->employee->update(['user_id' => null]);
+            if ($this->member->user) {
+                $this->member->update(['user_id' => null]);
                 // Note: On ne supprime pas l'utilisateur pour éviter la perte de données
             }
         }
 
         session()->flash('success', 'Employé modifié avec succès.');
-        return redirect()->route('dashboard.employees.index', [$this->tenant]);
+        return redirect()->route('dashboard.members.index', [$this->tenant]);
     }
 
     private function sendInvitationNotification(User $user)
     {
         // Générer un token sécurisé pour 7 jours
         $setupUrl = URL::temporarySignedRoute(
-            'dashboard.employee.setup-password',
+            'dashboard.member.setup-password',
             now()->addDays(7),
             ['user' => $user->id]
         );
 
         // Envoyer la notification d'invitation
-        $user->notify(new EmployeeInvitation($this->tenant, $setupUrl));
+        $user->notify(new MemberInvitation($this->tenant, $setupUrl));
     }
 
     public function render()
     {
-        return view('livewire.dashboard.employee.edit', [
-            'roles' => Role::whereIn('name', ['employee', 'manager'])->get(),
-        ])->extends('layouts.dashboard');
+        return view('livewire.dashboard.members.edit')->extends('layouts.dashboard');
     }
 }

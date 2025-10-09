@@ -10,18 +10,15 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Auth\Verify;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['guest'])->prefix('auth')->group(function () {
-    /* Route::domain('{tenant}.' . config('app.url'))->group(function () { */
-        Route::get('login', Login::class)->middleware(['throttle:6,1'])->name('login');
-    /* }); */
-
+Route::middleware(['guest'])->prefix('auth')->name('auth.')->group(function () {    
+    Route::get('login', Login::class)->middleware(['throttle:6,1'])->name('login');
     Route::get('register', Register::class)->name('register');
 });
 
-Route::domain('{tenant}.' . config('app.url'))->group(function () {
+# Route::domain('{tenant}.' . config('app.url'))->group(function () {
     Route::get('password/reset', Email::class)->name('password.request');
     Route::get('password/reset/{token}', Reset::class)->name('password.reset');
-});
+# });
 
 Route::middleware(['auth'])->group(function () {
     Route::get('email/verify', Verify::class)->middleware(['throttle:6,1'])->name('verification.notice');

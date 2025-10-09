@@ -19,36 +19,60 @@ final class TenantMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $tenantSlug = $request->route('tenant');
+        if (! Auth::check()) {
+            return redirect()->route('auth.login');
+        }
 
-        if (is_null($tenantSlug)) {
+        /**
+         * @var User $user
+         */
+        $user = Auth::user();
+
+        if (! $user->member) {
+            abort(403, "Votre compte n'est associé à aucun membre.");
+        }
+
+        if (! $user->member->company) {
+            abort(403, "Vous n'êtes associé à aucune entreprise.");
+        }
+
+        $tenant = $request->route('tenant');
+
+        if (is_null($tenant)) {
             throw new NotFoundHttpException('Tenant parameter is required');
         }
 
-        $company = Company::where('slug', $tenantSlug)->where('active', true)->first();
+        $userCompany = $user->member->company;
 
-        if (!$company) {
-            throw new NotFoundHttpException("Tenant '{$tenantSlug}' not found or inactive");
+        if ($tenant->id !== $userCompany->id) {
+            Log::warning("Tentative d'accès non autorisé à un autre tenant", [
+                'user_id' => $user->id,
+                'user_company_slug' => $userCompany->slug,
+                'attempted_tenant_slug' => $tenant->slug,
+                'ip_address' => $request->ip(),
+                'url' => $request->fullUrl(),
+                'user_agent' => $request->userAgent(),
+                'timestamp' => now()->toDateTimeString(),
+            ]);
+
+            throw new NotFoundHttpException("Access denied ...");
+
+            /* return redirect()
+                ->route('dashboard.index', ['tenant' => $userCompany])
+                ->with('error', 'Accès Denied to previously url.'); */
         }
 
-        // Vérifier que l'utilisateur connecté appartient à cette company
-        if (Auth::check()) {
-            $user = Auth::user();
-            
-            // Les super admins peuvent accéder à toutes les companies
-            if (!$user->isSuperAdmin() && $user->company_id !== $company->id) {
-                throw new NotFoundHttpException("Access denied to tenant '{$tenantSlug}'");
-            }
-        }
+        // Stocker l'entreprise courante dans l'application (accessible partout) / pas besoin du membre
+        app()->instance('currentTenant', $user->member->company);
 
-        // Injecter la company dans la requête pour le Route Model Binding
-        $request->route()->setParameter('tenant', $company);
+        // Injecter la company tenant dans la requête pour le Route Model Binding
+        $request->route()->setParameter('tenant', $tenant);
 
         // Configuration de l'URL pour inclure automatiquement le tenant
-        app('url')->defaults(['tenant' => $tenantSlug]);
+        app('url')->defaults(['tenant' => $tenant->slug]);
 
         // Ajout du tenant dans les logs
-        Log::withContext(['tenant' => $tenantSlug]);
+        Log::withContext(['tenant' => $tenant->slug]);
 
         return $next($request);
     }

@@ -31,10 +31,9 @@ Route::view('/', 'welcome')->name('home');
 
 require __DIR__ . '/auth.php';
 
-Route::domain('{tenant}.' . config('app.url'))->middleware(['auth'])->group(function () {
-    // Route publique pour les boutiques
-    Route::get('shop/{shopSlug}', ShopPublic::class)->name('shop.public');
+// domain('{tenant}.' . config('app.url'))
 
+Route::prefix('{tenant}')->middleware(['auth', 'tenant'])->group(function () {
     Route::name('dashboard.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
 
@@ -113,4 +112,6 @@ Route::domain('{tenant}.' . config('app.url'))->middleware(['auth'])->group(func
 
         });
     });
+
+    Route::get('shop/{shopSlug}', ShopPublic::class)->name('shop.public');
 });

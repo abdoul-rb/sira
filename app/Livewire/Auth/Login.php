@@ -35,7 +35,11 @@ class Login extends Component
             return;
         }
 
+        /**
+         * @var User $user
+         */
         $user = Auth::user();
+
         // $tenantSlug = request()->route('tenant'); // route->parameter('tenant')
 
         // Récupérer la company du tenant depuis la route (injectée par le middleware)
@@ -49,9 +53,7 @@ class Login extends Component
             return;
         } */
 
-        // Redirection vers le dashboard du tenant
-        // TODO: si connecté rediger vers la route dashboard.index
-        return redirect()->intended(route('dashboard.index', ['tenant' => $user->company]));
+        return redirect()->intended(route('dashboard.index', ['tenant' => $user->member->company]));
     }
 
     public function render()

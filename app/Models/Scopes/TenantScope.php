@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Scopes;
 
 use App\Enums\RoleEnum;
@@ -12,7 +14,7 @@ use App\Models\User;
 class TenantScope implements Scope
 {
     /**
-     * Apply the scope to a given Eloquent query builder.
+     * Applique automatiquement le filtre company_id sur toutes les requêtes
      */
     public function apply(Builder $builder, Model $model): void
     {
@@ -22,7 +24,7 @@ class TenantScope implements Scope
         $user = Auth::user();
 
         if (Auth::check() && !$user->hasRole(RoleEnum::SUPERADMIN)) {
-            $builder->where('company_id', $user->member?->company_id);
+            $builder->where($model->getTable() . '.company_id', $user->member?->company_id);
         }
     }
 }

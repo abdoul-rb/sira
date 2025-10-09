@@ -58,12 +58,6 @@ class Company extends Model
     |--------------------------------------------------------------------------
     */
 
-    /* Une entreprise peut avoir PLUSIEURS utilisateurs */
-    public function users(): HasMany
-    {
-        return $this->hasMany(User::class);
-    }
-
     public function customers(): HasMany
     {
         return $this->hasMany(Customer::class);

@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use App\Models\Scopes\TenantScope;
+
+#[ScopedBy([TenantScope::class])]
 
 class Customer extends Model
 {

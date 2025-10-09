@@ -7,6 +7,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -73,18 +74,9 @@ class User extends Authenticatable
     */
 
     /**
-     * Relation avec la Company (nullable pour les super admins)
-     * Un utilisateur appartient à UNE société
-     */
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
-    }
-
-    /**
      * Relation avec le membre de l'entreprise
      */
-    public function member()
+    public function member(): HasOne
     {
         return $this->hasOne(Member::class);
     }

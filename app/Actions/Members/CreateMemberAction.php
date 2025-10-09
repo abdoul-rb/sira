@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Members;
 
-use App\Models\Company;
+use App\Enums\RoleEnum;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -34,18 +34,10 @@ class CreateMemberAction
                 'password' => Hash::make($data['password']),
             ]);
 
+            $user->assignRole([RoleEnum::OPERATOR]);
+
             $member->user()->associate($user);
             $member->save();
-
-            // TODO: Assignation du rôle "Vendeuse"
-
-            /* 
-                $role = Role::where('name', $this->role)->first();
-
-                if ($role) {
-                    $user->assignRole($role);
-                }
-            */
 
             return $member;
         });

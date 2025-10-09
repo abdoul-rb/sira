@@ -21,8 +21,6 @@ class TenantScope implements Scope
          */
         $user = Auth::user();
 
-        dd($user->member);
-
         if (Auth::check() && !$user->hasRole(RoleEnum::SUPERADMIN)) {
             $builder->where('company_id', $user->member?->company_id);
         }

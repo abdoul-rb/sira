@@ -16,9 +16,11 @@
         <h1 class="text-2xl font-bold text-gray-800">Membres</h1>
 
         {{-- @can('create', App\Models\Member::class) --}}
-        <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-member' })">
-            {{ __('Ajouter un personnel') }}
-        </x-ui.btn.primary>
+        @can('create-member')
+            <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-member' })">
+                {{ __('Ajouter un personnel') }}
+            </x-ui.btn.primary>
+        @endcan
         {{-- @endcan --}}
     </div>
 

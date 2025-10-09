@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\RoleEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class Member extends Model
 {
@@ -78,5 +80,14 @@ class Member extends Model
     public function getInitialsAttribute(): string
     {
         return strtoupper(substr($this->firstname, 0, 1) . substr($this->lastname, 0, 1));
+    }
+
+    public function getRolesName(): Collection 
+    {
+        return $this->user
+            ->getRoleNames()
+            ->map(fn (string $role) => RoleEnum::tryFrom($role)?->label())
+            ->filter()
+            ->values();
     }
 }

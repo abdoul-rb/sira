@@ -9,10 +9,12 @@
                     {{ $member->fullname }}
                 </h3>
 
-                <span
-                    class="inline-flex shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                    Vendeuse
-                </span>
+                @if ($member->getRolesName()->isNotEmpty())
+                    <span
+                        class="inline-flex shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                        {{ $member->getRolesName()->first() }}
+                    </span>
+                @endif
             </div>
             <p class="mt-1 truncate text-xs font-medium text-gray-500">
                 {{ $member->user?->email }}

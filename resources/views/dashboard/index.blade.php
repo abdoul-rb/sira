@@ -4,6 +4,26 @@
 
 @section('content')
     <div>
+        <div class="lg:flex lg:items-center lg:justify-between">
+            <div class="lg:flex sm:space-x-5">
+                <div class="shrink-0">
+                    <img src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt="" class="mx-auto size-20 rounded-full" />
+                </div>
+                <div class="mt-4 text-center lg:mt-0 lg:pt-1 lg:text-left">
+                    <p class="text-sm font-medium text-gray-600">Welcome back,</p>
+                    <p class="text-xl font-bold text-gray-900 lg:text-2xl">{{ auth()->user()->name }}</p>
+                    <p class="text-sm font-medium text-gray-600">Product Designer</p>
+                </div>
+            </div>
+            <div class="mt-5 flex justify-center lg:mt-0">
+                <a href="#"
+                    class="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-medium text-black shadow-xs ring-1 ring-gray-200">
+                    Mon profil
+                </a>
+            </div>
+        </div>
+
         <div class="mt-6 grid grid-cols-12 gap-4">
             <div class="col-span-12 gap-4 lg:col-span-7 space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -182,7 +202,8 @@
                                                 viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                                                 class="hidden">
                                                 <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
-                                                    stroke-width="1.94437" stroke-linecap="round" stroke-linejoin="round">
+                                                    stroke-width="1.94437" stroke-linecap="round"
+                                                    stroke-linejoin="round">
                                                 </path>
                                             </svg>
                                         </div>

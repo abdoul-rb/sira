@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="mt-5 flex justify-center lg:mt-0">
-                <a href="#"
+                <a href="{{ route('dashboard.profile.index') }}"
                     class="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-medium text-black shadow-xs ring-1 ring-gray-200">
                     Mon profil
                 </a>
@@ -124,7 +124,7 @@
                 </div> --}}
             </div>
 
-            <div class="max-w-full overflow-x-auto custom-scrollbar">
+            <div class="max-w-full overflow-x-auto">
                 <table class="min-w-full">
                     <!-- table header start -->
                     <thead class="border-gray-100 border-y bg-gray-50">
@@ -285,25 +285,6 @@
                     </tbody>
                     <!-- table body end -->
                 </table>
-            </div>
-        </div>
-
-        <div class="mt-6 grid grid-cols-12 gap-4 md:gap-6">
-
-            <!-- Dernières commandes -->
-            <div class="col-span-full">
-
-                <!-- Table Four -->
-            </div>
-
-            <div class="col-span-full">
-                <h3 class="text-lg font-semibold text-gray-800 /90">
-                    {{ __('Suivi des ventes') }}
-                </h3>
-
-                <h3 class="text-lg font-semibold text-gray-800 /90">
-                    {{ __('Suivi des crédits') }}
-                </h3>
             </div>
         </div>
     </div>

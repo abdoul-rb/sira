@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Events\Login;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,6 +51,13 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::if('version', function (int $value) {
             return config('app.version') === $value;
+        });
+
+        Event::listen(Login::class, function ($event) {
+            $event->user->update([
+                'last_login_at' => Carbon::now(),
+                'last_login_ip' => request()->ip(),
+            ]);
         });
     }
 }

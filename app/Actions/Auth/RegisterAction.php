@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Auth;
 
+use App\Enums\RoleEnum;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -40,10 +41,10 @@ class RegisterAction
                 'password' => Hash::make($data['password']),
             ]);
 
+            $user->assignRole([RoleEnum::MANAGER]);
+
             $member->user()->associate($user);
             $member->save();
-
-            // TODO: Assignation des rôles
 
             return $user;
         });

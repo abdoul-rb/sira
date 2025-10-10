@@ -2,17 +2,15 @@
     class="relative overflow-hidden bg-blue-600 pt-20 pb-28 sm:py-32">
     <img alt="" loading="lazy" width="2245" height="1636" decoding="async" data-nimg="1"
         class="absolute top-1/2 left-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]" style="color:transparent"
-        src="/_next/static/media/background-features.5f7a9ac9.jpg">
+        src="https://salient.tailwindui.com/_next/static/media/background-features.5f7a9ac9.jpg">
 
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
         <div class="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
             <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
-                Everything you need
-                to run your books.
+                Everything you need to run your business.
             </h2>
             <p class="mt-6 text-lg tracking-tight text-blue-100">
-                Well everything you need if you aren’t that picky
-                about minor details like tax compliance.
+                Well everything you need if you aren’t that picky about minor details like sales management.
             </p>
         </div>
 

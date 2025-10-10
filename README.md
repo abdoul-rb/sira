@@ -75,3 +75,11 @@ Check in Livewire Members Index
 
 Le user est dépendant du member (il est rattaché à une fiche membre existante).
 Un member peut avoir un compte utilisateur, mais pas forcément (utile si tu veux gérer des employés sans compte).
+
+## Role
+
+| Niveau            | Description                                         | Exemple de rôle                       |
+| ----------------- | --------------------------------------------------- | ------------------------------------- |
+| **Global (SaaS)** | Gère toute la plateforme, toutes les entreprises    | **Super Admin**                       |
+| **Entreprise**    | Gère son entreprise (paramètres, membres, ventes…)  | **Manager**                           |
+| **Opérationnel**  | Travaille au quotidien (vente, caisse, secrétariat) | **Sales**, **Cashier**, **Operator**… |

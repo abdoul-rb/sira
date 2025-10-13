@@ -6,6 +6,8 @@
     <main>
         @include('partials.hero')
 
+        @dump($currentTenant, current_tenant())
+
         @include('partials.primary-features')
 
         @include('partials.secondary-features')

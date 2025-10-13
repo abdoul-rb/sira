@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 
 final class TenantMiddleware
 {
@@ -62,8 +64,13 @@ final class TenantMiddleware
                 ->with('error', 'Accès Denied to previously url.'); */
         }
 
-        // Stocker l'entreprise courante dans l'application (accessible partout) / pas besoin du membre
+        // Stocker l'entreprise courante dans l'application (accessible partout)
         app()->instance('currentTenant', $user->member->company);
+
+        if ($tenant && Schema::hasTable('companies')) {
+            // dd($tenant);
+            View::share('currentTenant', $tenant);
+        }
 
         // Injecter la company tenant dans la requête pour le Route Model Binding
         $request->route()->setParameter('tenant', $tenant);

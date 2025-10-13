@@ -1,0 +1,77 @@
+<div>
+    <x-ui.breadcrumb :items="[
+        ['label' => 'Tableau de bord', 'url' => route('dashboard.index', ['tenant' => $tenant->slug])],
+        ['label' => 'Clients', 'url' => route('dashboard.customers.index', ['tenant' => $tenant->slug])],
+        ['label' => 'Édition', 'url' => '#'],
+    ]" />
+
+    <h1 class="text-2xl font-bold text-gray-800 mt-6 mb-8">Éditer le client</h1>
+
+    @if (session()->has('success'))
+        <div class="bg-green-50 border border-green-200 text-green-700 rounded-md px-4 py-2 mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <form wire:submit.prevent="save" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Colonne principale (2/3) -->
+        <div class="bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl lg:col-span-2">
+            <header class="flex flex-col gap-3 px-6 py-4">
+                <h3 class="text-base font-medium leading-6 text-gray-950">
+                    Général
+                </h3>
+            </header>
+            <div class="border-t border-gray-200 px-4 py-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-6">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700">
+                        Titre
+                    </label>
+                    <select wire:model.live="title" name="title" id="title"
+                        class="mt-1 w-full rounded-md border-gray-300 text-sm focus:ring-teal-600">
+                        @foreach (['Mme', 'Mlle', 'M.'] as $titleOption)
+                            <option value="{{ $titleOption }}" @selected($title == $titleOption)>{{ $titleOption }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="type" class="block text-sm font-medium text-gray-700">
+                        Type de client
+                    </label>
+                    <select wire:model.live="type" name="type" id="type"
+                        class="mt-1 w-full rounded-md border-gray-300 text-sm focus:ring-teal-600">
+                        @foreach ($types as $enum)
+                            <option value="{{ $enum->value }}" @selected($type == $enum->value)>{{ $enum->label() }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <x-form.input name="firstname" label="Prénom" :wire="true" />
+                <x-form.input name="lastname" label="Nom" :wire="true" />
+                <x-form.input class="col-span-full" name="email" label="Email" :wire="true" type="email" />
+                <x-form.input name="phone_number" label="Téléphone" :wire="true" />
+            </div>
+        </div>
+        <!-- Colonne latérale (1/3) -->
+        <div class="bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl">
+            <header class="flex flex-col gap-3 px-6 py-4">
+                <h3 class="text-base font-medium leading-6 text-gray-950">
+                    {{ __('Adresse') }}
+                </h3>
+            </header>
+            <div class="border-t border-gray-200 px-4 py-6 sm:p-8 grid grid-cols-1 gap-y-6">
+                <x-form.input name="address" label="Adresse" :wire="true" />
+                <x-form.input name="city" label="Ville" :wire="true" />
+                <x-form.input name="zip_code" label="Code postal" :wire="true" />
+                <x-form.input name="country" label="Pays" :wire="true" />
+            </div>
+        </div>
+        <!-- Bouton de sauvegarde -->
+        <div class="md:col-span-full">
+            <button type="submit"
+                class="px-6 py-2 bg-teal-600 text-white rounded-md font-medium hover:bg-teal-700 transition cursor-pointer">
+                {{ __('Enregistrer') }}
+            </button>
+        </div>
+    </form>
+</div>

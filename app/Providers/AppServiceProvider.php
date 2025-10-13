@@ -2,7 +2,17 @@
 
 namespace App\Providers;
 
+use App\Listeners\SetupTenantListener;
+use App\Models\Company;
+use Illuminate\Routing\Events\RouteMatched;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Events\Login;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +29,36 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
+
+        // Enregistrement du listener pour la configuration multi-tenant
+        Event::listen(
+            RouteMatched::class,
+            SetupTenantListener::class
+        );
+
+        // résout tenant depuis subdomain / cherche le tenant dans le sous-domaine
+        $tenantSlug = parse_url(app('url')->current(), PHP_URL_HOST)
+            ? explode('.', parse_url(app('url')->current(), PHP_URL_HOST))[0]
+            : null;
+
+        if ($tenantSlug && Schema::hasTable('companies')) {
+            $company = Company::where('slug', $tenantSlug)->first();
+
+            View::share('currentTenant', $company);
+        }
+
+        Blade::if('version', function (int $value) {
+            return config('app.version') === $value;
+        });
+
+        Event::listen(Login::class, function ($event) {
+            $event->user->update([
+                'last_login_at' => Carbon::now(),
+                'last_login_ip' => request()->ip(),
+            ]);
+        });
     }
 }

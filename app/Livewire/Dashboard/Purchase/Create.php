@@ -1,0 +1,70 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Livewire\Dashboard\Purchase;
+
+use Livewire\Component;
+use App\Enums\CustomerType;
+use App\Http\Requests\Customer\StoreCustomerRequest;
+use App\Models\Company;
+use App\Models\Customer;
+use App\Models\Supplier;
+use App\Models\Purchase;
+
+class Create extends Component
+{
+    public Company $tenant;
+
+    public $supplierId = '';
+
+    public $amount = '';
+
+    public $details = '';
+
+    public $purchasedAt = '';
+
+    /* protected function rules()
+    {
+        return (new StoreCustomerRequest)->rules();
+    }
+
+    protected function messages()
+    {
+        return (new StoreCustomerRequest)->messages();
+    } */
+
+    public function mount(Company $tenant)
+    {
+        $this->tenant = $tenant;
+    }
+
+    public function save()
+    {
+        // $this->authorize('create', Customer::class);
+
+        // $validated = $this->validate();
+
+        Purchase::create([
+            'company_id' => $this->tenant->id,
+            'supplier_id' => $this->supplierId,
+            'amount' => $this->amount,
+            'details' => $this->details,
+            'purchased_at' => $this->purchasedAt,
+        ]);
+
+        $this->reset(['supplierId', 'amount', 'details', 'purchasedAt']);
+
+        $this->dispatch('close-modal', id: 'add-purchase');
+        $this->dispatch('purchase-created');
+    }
+
+    public function render()
+    {
+        $suppliers = Supplier::where('company_id', $this->tenant->id)->get();
+
+        return view('livewire.dashboard.purchase.create', [
+            'suppliers' => $suppliers,
+        ]);
+    }
+}

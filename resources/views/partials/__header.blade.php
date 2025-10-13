@@ -79,26 +79,26 @@
                             </svg>
                         </button>
 
-                        <div x-show="openMenu"
+                        {{-- <div x-show="openMenu"
                             class="fixed inset-0 bg-slate-300/50 duration-150 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in"
-                            aria-hidden="true"></div>
+                            aria-hidden="true"></div> --}}
 
                         <div x-show="openMenu"
                             class="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5 data-closed:scale-95 data-closed:opacity-0 data-enter:duration-150 data-enter:ease-out data-leave:duration-100 data-leave:ease-in"
                             tabindex="-1" style="--button-width: 32px;">
-                            <a class="block w-full p-2" href="#features">
+                            <a class="block w-full p-2" href="#features" @click="openMenu = false">
                                 Features
                             </a>
-                            <a class="block w-full p-2" href="#testimonials">
+                            <a class="block w-full p-2" href="#testimonials" @click="openMenu = false">
                                 Testimonials
                             </a>
-                            <a class="block w-full p-2" href="#pricing">
+                            <a class="block w-full p-2" href="#pricing" @click="openMenu = false">
                                 Pricing
                             </a>
 
                             <hr class="m-2 border-slate-300/40">
 
-                            <a class="block w-full p-2" href="/login">
+                            <a class="block w-full p-2" href="/login" @click="openMenu = false">
                                 Sign in
                             </a>
                         </div>

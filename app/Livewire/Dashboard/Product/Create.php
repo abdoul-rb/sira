@@ -24,9 +24,11 @@ class Create extends Component
 
     public $price = '';
 
-    public $warehouse_id = '';
+    public $stock_quantity = '';
 
-    public $warehouse_quantity = '';
+    // Propriétés pour les entrepôts
+    public $warehouseLines = [];
+    public $totalWarehouseQuantity = 0;
 
     protected function rules()
     {
@@ -52,23 +54,54 @@ class Create extends Component
     {
         $this->tenant = $tenant;
         
-        $this->selectDefaultWarehouse();
+        $this->addWarehouseLine(); // Ajouter une première ligne par défaut
+        $this->calculateTotalWarehouseQuantity(); // Calculer le total initial
     }
 
-    /** Sélectionne l'entrepôt par défaut ou le premier entrepôt si aucun par défaut */
-    private function selectDefaultWarehouse()
+    /**
+     * Ajouter une nouvelle ligne entrepôt-quantité
+     */
+    public function addWarehouseLine()
     {
         $defaultWarehouse = $this->tenant->warehouses()->default()->first();
+        $firstWarehouse = $this->tenant->warehouses()->first();
+        
+        $this->warehouseLines[] = [
+            'warehouse_id' => $defaultWarehouse ? $defaultWarehouse->id : ($firstWarehouse ? $firstWarehouse->id : null),
+            'quantity' => 0,
+        ];
+    }
 
-        if ($defaultWarehouse) {
-            $this->warehouse_id = $defaultWarehouse->id;
-        } else {
-            // Si pas d'entrepôt par défaut, prendre le premier
-            $firstWarehouse = $this->tenant->warehouses()->first();
-            
-            if ($firstWarehouse) {
-                $this->warehouse_id = $firstWarehouse->id;
-            }
+    /**
+     * Supprimer une ligne entrepôt-quantité
+     */
+    public function removeWarehouseLine($index)
+    {
+        unset($this->warehouseLines[$index]);
+        $this->warehouseLines = array_values($this->warehouseLines); // Réindexer
+        $this->calculateTotalWarehouseQuantity();
+    }
+
+    /**
+     * Calculer le total des quantités assignées aux entrepôts
+     */
+    public function calculateTotalWarehouseQuantity()
+    {
+        $this->totalWarehouseQuantity = collect($this->warehouseLines)->sum('quantity');
+    }
+
+    /**
+     * Mise à jour des lignes entrepôt
+     */
+    public function updatedWarehouseLines($value, $key)
+    {
+        // Extraire l'index et le champ depuis la clé (ex: "0.quantity")
+        $parts = explode('.', $key);
+        $index = $parts[0];
+        $field = $parts[1];
+
+        if ($field === 'quantity') {
+            $this->calculateTotalWarehouseQuantity();
         }
     }
 
@@ -76,11 +109,19 @@ class Create extends Component
     {
         $this->validate();
 
+        // Vérifier que le total des quantités assignées correspond au stock_quantity
+        $this->calculateTotalWarehouseQuantity();
+        
+        /* if ($this->totalWarehouseQuantity !== (int) $this->stock_quantity) {
+            $this->addError('stock_quantity', "La quantité globale ({$this->stock_quantity}) doit correspondre au total des quantités assignées aux entrepôts ({$this->totalWarehouseQuantity}).");
+            return;
+        } */
+
         $product = $this->tenant->products()->create([
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
-            'stock_quantity' => 0, // Sera recalculé automatiquement
+            'stock_quantity' => $this->stock_quantity,
         ]);
 
         if ($this->featured_image) {
@@ -92,13 +133,28 @@ class Create extends Component
             $product->update(['featured_image' => $imagePath]);
         }
 
-        $warehouse = Warehouse::find($this->warehouse_id);
-        $warehouse->updateProductStock($product, (int) $this->warehouse_quantity);
+        // Assigner les quantités aux entrepôts
+        $this->assignQuantitiesToWarehouses($product);
 
         $this->dispatch('close-modal', id: 'create-product');
         $this->dispatch('product-created');
 
-        $this->reset(['name', 'description', 'featured_image', 'price', 'warehouse_id', 'warehouse_quantity']);
+        $this->reset(['name', 'description', 'featured_image', 'price', 'stock_quantity', 'warehouseLines', 'totalWarehouseQuantity']);
+    }
+
+    /**
+     * Assigner les quantités aux entrepôts
+     */
+    private function assignQuantitiesToWarehouses(\App\Models\Product $product)
+    {
+        foreach ($this->warehouseLines as $line) {
+            if (!empty($line['warehouse_id']) && $line['quantity'] > 0) {
+                $warehouse = Warehouse::find($line['warehouse_id']);
+                if ($warehouse) {
+                    $warehouse->updateProductStock($product, (int) $line['quantity']);
+                }
+            }
+        }
     }
 
     public function render()

@@ -32,7 +32,7 @@
             :required="true" />
 
         <!-- Quantité global du produit donc `stock_quantity` -->
-        <x-form.input class="col-span-1" name="stock_quantity" label="Quantité global" type="number" :number="true"
+        <x-form.input class="col-span-1" name="stock_quantity" label="Quantité globale" type="number" :number="true"
             :required="true" />
 
         <div class="col-span-full">
@@ -44,43 +44,111 @@
             </div>
         </div>
 
-        <div class="col-span-full grid grid-cols-5 gap-2 items-center">
-            <div class="col-span-2">
-                <x-form.label label="Entrepôt / Emplacement" id="warehouse_id" />
+        <!-- Assignation des quantités aux entrepôts -->
+        <div class="col-span-full">
+            <div class="space-y-2">
+                <h3 class="block text-sm font-medium text-gray-700">
+                    {{ __('Assignation aux entrepôts') }}
+                </h3>
 
-                <select wire:model.live="warehouse_id" id="warehouse_id" name="warehouse_id"
-                    class="mt-1 block w-full rounded-md border border-gray-300 py-2 text-gray-900 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm">
-                    <option value="">{{ __('Sélectionner un entrepôt') }}</option>
-                    @foreach ($warehouses as $warehouse)
-                        <option value="{{ $warehouse->id }}">
-                            {{ $warehouse->name }}
-                            @if ($warehouse->default)
-                                <span class="text-xs text-gray-500">({{ __('Par défaut') }})</span>
+                <!-- Lignes d'entrepôts -->
+                @foreach ($warehouseLines as $index => $line)
+                    <div class="grid grid-cols-5 gap-2 items-center">
+                        <!-- Sélecteur d'entrepôt -->
+                        <div class="col-span-2">
+                            <x-form.label label="Entrepôt" id="warehouse-id-{{ $index }}" />
+                            <select id="warehouse-id-{{ $index }}"
+                                wire:model.live="warehouseLines.{{ $index }}.warehouse_id"
+                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 text-gray-900 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm">
+                                <option value="">{{ __('Sélectionner un entrepôt') }}</option>
+                                @foreach ($warehouses as $warehouse)
+                                    <option value="{{ $warehouse->id }}">
+                                        {{ $warehouse->name }}
+                                        @if ($warehouse->default)
+                                            <span class="text-xs text-gray-500">({{ __('Par défaut') }})</span>
+                                        @endif
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error("warehouseLines.{$index}.warehouse_id")
+                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Quantité -->
+                        <div class="col-span-2">
+                            <x-form.label label="Quantité" id="quantity-warehouse-{{ $index }}" />
+
+                            <input type="number" id="quantity-warehouse-{{ $index }}"
+                                wire:model.live.number="warehouseLines.{{ $index }}.quantity" min="0"
+                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm">
+                            @error("warehouseLines.{$index}.quantity")
+                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="col-span-1 flex items-end justify-end">
+                            @if (count($warehouseLines) > 1)
+                                <div class="mt-1 py-3 flex items-end">
+                                    <button type="button" wire:click="removeWarehouseLine({{ $index }})"
+                                        class="p-1 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden bg-gray-200 text-neutral-400 hover:bg-neutral-300 focus:bg-neutral-300">
+                                        <svg class="size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M18 6 6 18"></path>
+                                            <path d="m6 6 12 12"></path>
+                                        </svg>
+                                    </button>
+                                </div>
                             @endif
-                        </option>
-                    @endforeach
-                </select>
-                @error('warehouse_id')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+                        </div>
+                    </div>
+                @endforeach
             </div>
 
-            <!-- Quantité à assigné à un entrepôt -->
-            <x-form.input class="col-span-2" name="warehouse_quantity" label="Quantité" type="number" :number="true"
-                :required="true" />
+            <!-- Bouton pour ajouter une ligne -->
+            <div class="mt-4">
+                <button type="button" wire:click="addWarehouseLine"
+                    class="inline-flex items-center px-3 py-1.5 border border-dashed border-gray-300 text-xs font-medium rounded-full text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                    {{ __('+ Ajouter un entrepôt') }}
+                </button>
+            </div>
+
+            <!-- Résumé des quantités -->
+            <div class="mt-4 p-3 bg-gray-50 rounded-md">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-600">{{ __('Total assigné aux entrepôts') }}:</span>
+                    <span class="font-medium">{{ $totalWarehouseQuantity }}</span>
+                </div>
+                <div class="flex justify-between items-center text-sm mt-1">
+                    <span class="text-gray-600">{{ __('Quantité globale') }}:</span>
+                    <span class="font-medium">{{ $stock_quantity ?? 0 }}</span>
+                </div>
+
+                @if ($totalWarehouseQuantity !== (int) ($stock_quantity ?? 0))
+                    <div class="mt-2 text-xs text-red-600">
+                        ⚠️ Les quantités ne correspondent pas
+                    </div>
+                @endif
+            </div>
         </div>
 
         <!-- Boutons d'action -->
         <div class="col-span-full flex justify-between gap-3 pt-2">
             <button type="button" @click="$dispatch('close-modal', { id: 'create-product' })"
-                class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-white border border-gray-300 px-3 py-2 text-sm text-black focus-visible:outline focus-visible:outline-offset-2 hover:bg-gray-100">
+                class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-white border border-gray-300 px-3 py-2 text-sm text-black focus-visible:outline focus-visible:outline-offset-2 hover:bg-gray-100 cursor-pointer">
                 {{ __('Annuler') }}
             </button>
 
-            <button type="submit"
-                class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-black">
+            <x-ui.btn.primary type="submit" class="w-full" :icon="false">
                 {{ __('Enregistrer') }}
-            </button>
+            </x-ui.btn.primary>
+
+            {{-- <button type="submit"
+                class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-black cursor-pointer">
+                {{ __('Enregistrer') }}
+            </button> --}}
         </div>
     </form>
 </div>

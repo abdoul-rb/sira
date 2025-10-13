@@ -25,8 +25,8 @@ class StoreProductRequest extends FormRequest
             'description' => 'required|string',
             'featured_image' => 'required|image|max:2048',
             'price' => 'required|numeric|min:0',
-            'warehouse_id' => 'nullable|exists:warehouses,id',
-            'warehouse_quantity' => 'required|integer|min:1',
+            /* 'warehouse_id' => 'nullable|exists:warehouses,id',
+            'warehouse_quantity' => 'required|integer|min:1', */
         ];
     }
 
@@ -41,11 +41,11 @@ class StoreProductRequest extends FormRequest
             'price.required' => 'Le prix est obligatoire.',
             'price.numeric' => 'Le prix doit être un nombre.',
             'price.min' => 'Le prix doit être positif.',
-            'warehouse_id.required' => "L'entrepôt est obligatoire.",
+            /* 'warehouse_id.required' => "L'entrepôt est obligatoire.",
             'warehouse_id.exists' => "L'entrepôt sélectionné n'existe pas.",
             'warehouse_quantity.required' => 'La quantité est obligatoire.',
             'warehouse_quantity.integer' => 'La quantité doit être un nombre entier.',
-            'warehouse_quantity.min' => 'La quantité doit être au moins 1.',
+            'warehouse_quantity.min' => 'La quantité doit être au moins 1.', */
         ];
     }
 }

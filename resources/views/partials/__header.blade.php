@@ -61,45 +61,44 @@
                 @endauth
 
                 <div class="-mr-1 md:hidden">
-                    <div data-headlessui-state="">
-                        <button
+                    <div data-headlessui-state="" x-data="{ openMenu: false }">
+                        <button @click="openMenu = !openMenu"
                             class="relative z-10 flex h-8 w-8 items-center justify-center focus:not-data-focus:outline-hidden"
-                            aria-label="Toggle Navigation" type="button" aria-expanded="false" data-headlessui-state=""
-                            id="headlessui-popover-button-_R_1npavb_"><svg aria-hidden="true"
-                                class="h-3.5 w-3.5 overflow-visible stroke-slate-700" fill="none" stroke-width="2"
-                                stroke-linecap="round">
-                                <path d="M0 1H14M0 7H14M0 13H14" class="origin-center transition"></path>
-                                <path d="M2 2L12 12M12 2L2 12" class="origin-center transition scale-90 opacity-0">
+                            aria-label="Toggle Navigation" type="button" aria-expanded="false">
+                            <svg x-show="!openMenu" data-slot="icon" fill="none" stroke-width="1.5"
+                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5"></path>
+                            </svg>
+                            <svg x-show="openMenu" aria-hidden="true" class="h-5 w-5 overflow-visible stroke-slate-700"
+                                fill="none" stroke-width="2" stroke-linecap="round">
+                                <path d="M0 1H14M0 7H14M0 13H14" class="origin-center transition scale-90 opacity-0">
                                 </path>
+                                <path d="M2 2L12 12M12 2L2 12" class="origin-center transition"></path>
                             </svg>
                         </button>
 
-                        <div class="fixed inset-0 bg-slate-300/50 duration-150 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in"
-                            id="headlessui-popover-backdrop-_R_2npavb_" aria-hidden="true" data-headlessui-state="open"
-                            data-open="" style="">
-                        </div>
+                        <div x-show="openMenu"
+                            class="fixed inset-0 bg-slate-300/50 duration-150 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in"
+                            aria-hidden="true"></div>
 
-                        {{-- TODO: Mobile --}}
-                        <div class="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5 data-closed:scale-95 data-closed:opacity-0 data-enter:duration-150 data-enter:ease-out data-leave:duration-100 data-leave:ease-in"
-                            id="headlessui-popover-panel-_R_3npavb_" tabindex="-1" data-headlessui-state="open"
-                            data-open="" style="--button-width: 32px;">
-                            <a class="block w-full p-2" data-headlessui-state="open active" data-open=""
-                                data-active="" href="#features">
+                        <div x-show="openMenu"
+                            class="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5 data-closed:scale-95 data-closed:opacity-0 data-enter:duration-150 data-enter:ease-out data-leave:duration-100 data-leave:ease-in"
+                            tabindex="-1" style="--button-width: 32px;">
+                            <a class="block w-full p-2" href="#features">
                                 Features
                             </a>
-                            <a class="block w-full p-2" data-headlessui-state="open active" data-open=""
-                                data-active="" href="#testimonials">
+                            <a class="block w-full p-2" href="#testimonials">
                                 Testimonials
                             </a>
-                            <a class="block w-full p-2" data-headlessui-state="open active" data-open=""
-                                data-active="" href="#pricing">
+                            <a class="block w-full p-2" href="#pricing">
                                 Pricing
                             </a>
 
                             <hr class="m-2 border-slate-300/40">
 
-                            <a class="block w-full p-2" data-headlessui-state="open active" data-open=""
-                                data-active="" href="/login">
+                            <a class="block w-full p-2" href="/login">
                                 Sign in
                             </a>
                         </div>

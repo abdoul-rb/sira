@@ -16,13 +16,13 @@
         {{ __('Une plateforme tout-en-un pour centraliser vos ventes, achats, dépenses et équipes. Pensée pour les PME africaines qui veulent gagner du temps et garder le contrôle.') }}
     </p>
 
-    <div class="mt-10 flex justify-center gap-x-4">
+    <div class="mt-10 lg:flex lg:justify-center lg:gap-x-4 space-y-3 lg:space-y-0">
         <a href="{{ route('auth.login') }}"
-            class="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 bg-slate-900 text-white hover:bg-slate-700 hover:text-slate-100 active:bg-slate-800 active:text-slate-300 focus-visible:outline-slate-900"
+            class="w-full lg:w-auto group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 bg-slate-900 text-white hover:bg-slate-700 hover:text-slate-100 active:bg-slate-800 active:text-slate-300 focus-visible:outline-slate-900"
             variant="solid" color="slate">
             Essayer gratuitement
         </a>
-        <a class="group inline-flex ring-1 items-center justify-center rounded-full py-2 px-4 text-sm ring-slate-200 text-slate-700 hover:text-slate-900 hover:ring-slate-300 active:bg-slate-100 active:text-slate-600 focus-visible:outline-blue-600 focus-visible:ring-slate-300"
+        <a class="w-full lg:w-auto group inline-flex ring-1 items-center justify-center rounded-full py-2 px-4 text-sm ring-slate-200 text-slate-700 hover:text-slate-900 hover:ring-slate-300 active:bg-slate-100 active:text-slate-600 focus-visible:outline-blue-600 focus-visible:ring-slate-300"
             variant="outline" color="slate" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
             <svg aria-hidden="true" class="h-3 w-3 flex-none fill-blue-600 group-active:fill-current">
                 <path

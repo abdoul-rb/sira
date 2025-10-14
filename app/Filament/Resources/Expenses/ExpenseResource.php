@@ -24,7 +24,7 @@ class ExpenseResource extends Resource
 {
     protected static ?string $model = Expense::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Finances';
+    protected static string | UnitEnum | null $navigationGroup = 'Ventes & Finances';
 
     protected static ?string $navigationLabel = 'Dépenses';
 

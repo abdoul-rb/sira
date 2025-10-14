@@ -1,36 +1,35 @@
 <?php
 
-declare(strict_types=1);
+namespace App\Filament\Resources\Companies;
 
-namespace App\Filament\Resources\Users;
-
-use App\Filament\Resources\Users\Pages\ManageUsers;
-use App\Models\User;
+use App\Filament\Resources\Companies\Pages\ManageCompanies;
+use App\Models\Company;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use UnitEnum;
 
-class UserResource extends Resource
+class CompanyResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = Company::class;
 
     protected static string | UnitEnum | null $navigationGroup = 'Entreprise & Paramètres';
 
-    protected static ?string $navigationLabel = 'Utilisateurs';
+    protected static ?string $navigationLabel = 'Entreprises';
 
-    protected static ?string $modelLabel = 'Utilisateur';
+    protected static ?string $modelLabel = 'Entreprise';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::LockClosed;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingOffice;
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -39,16 +38,25 @@ class UserResource extends Resource
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->label('Nom complet'),
+                    ->label('Nom')
+                    ->required()
+                    ->columnSpanFull(),
                 TextInput::make('email')
-                    ->label('Adresse email')
+                    ->label('Email')
                     ->email()
                     ->required(),
-                // DateTimePicker::make('email_verified_at'),
-                TextInput::make('password')
-                    ->label('Mot de passe')
-                    ->password()
+                TextInput::make('phone_number')
+                    ->label('Téléphone')
+                    ->tel(),
+                TextInput::make('website')
+                    ->label('Site web')
+                    ->url(),
+                Toggle::make('active')
                     ->required(),
+                TextInput::make('logo_path'),
+                TextInput::make('address'),
+                // TextInput::make('city'),
+                // TextInput::make('country'),
             ]);
     }
 
@@ -60,23 +68,29 @@ class UserResource extends Resource
                 TextColumn::make('id')
                     ->label('ID'),
                 TextColumn::make('name')
-                    ->label('Nom complet')
+                    ->label('Nom')
                     ->searchable(),
                 TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
-                TextColumn::make('email_verified_at')
-                    ->label('Vérifiée le')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('last_login_at')
-                    ->label('Dernière connexion')
-                    ->dateTime()
-                    ->sortable(),
-                TextColumn::make('last_login_ip')
-                    ->label('Dernière IP')
+                TextColumn::make('phone_number')
+                    ->label('Téléphone')
                     ->searchable(),
+                TextColumn::make('website')
+                    ->searchable(),
+                IconColumn::make('active')
+                    ->boolean(),
+                TextColumn::make('logo_path')
+                    ->searchable(),
+                TextColumn::make('address')
+                    ->label('Adresse')
+                    ->searchable(),
+                TextColumn::make('city')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('country')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -107,7 +121,7 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageUsers::route('/'),
+            'index' => ManageCompanies::route('/'),
         ];
     }
 }

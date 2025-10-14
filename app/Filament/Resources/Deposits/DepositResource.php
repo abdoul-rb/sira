@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Deposits;
 
 use App\Filament\Resources\Deposits\Pages\ManageDeposits;
@@ -23,7 +25,7 @@ class DepositResource extends Resource
 {
     protected static ?string $model = Deposit::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Finances';
+    protected static string | UnitEnum | null $navigationGroup = 'Ventes & Finances';
 
     protected static ?string $navigationLabel = 'Versements';
 

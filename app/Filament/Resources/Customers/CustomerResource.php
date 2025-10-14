@@ -32,7 +32,7 @@ class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Ventes & Commandes';
+    protected static string | UnitEnum | null $navigationGroup = 'Ventes & Finances';
 
     protected static ?string $navigationLabel = 'Clients';
 

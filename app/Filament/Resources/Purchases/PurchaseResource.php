@@ -55,7 +55,7 @@ class PurchaseResource extends Resource
                     ->label('Montant')
                     ->required(),
                 Textarea::make('details')
-                    ->label('Détails')
+                    ->label("Détails de l'achat")
                     ->columnSpanFull(),
                 DatePicker::make('purchased_at')
                     ->label("Date d'achat"),

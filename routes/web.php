@@ -32,7 +32,7 @@ Route::view('/', 'welcome')->name('home');
 require __DIR__ . '/auth.php';
 
 // domain('{tenant}.' . config('app.url'))
-
+// Route::prefix('{tenant}/dashboard')->name('dashboard.')
 Route::prefix('{tenant}')
     ->middleware(['auth', 'tenant'])
     ->group(function () {

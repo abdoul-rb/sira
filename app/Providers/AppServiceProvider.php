@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Listeners\SetupTenantListener;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Events\Login;
 use Carbon\Carbon;
+use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -59,6 +62,11 @@ class AppServiceProvider extends ServiceProvider
                 'last_login_at' => Carbon::now(),
                 'last_login_ip' => request()->ip(),
             ]);
+        });
+
+        LogViewer::auth(function ($request) {
+            return $request->user()
+                && in_array($request->user()->email, explode(',', config('auth.admin_emails')));
         });
     }
 }

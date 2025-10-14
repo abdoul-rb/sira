@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Livewire\Dashboard\Purchase;
 
-use Livewire\Component;
-use App\Enums\CustomerType;
 use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Models\Company;
 use App\Models\Customer;
-use App\Models\Supplier;
 use App\Models\Purchase;
+use App\Models\Supplier;
+use Livewire\Component;
 
 class Create extends Component
 {

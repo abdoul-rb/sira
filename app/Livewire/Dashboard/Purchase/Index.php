@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire\Dashboard\Purchase;
 
-use App\Enums\CustomerType;
 use App\Models\Company;
-use App\Models\Customer;
-use Livewire\Attributes\Locked;
+use App\Models\Purchase;
 use Livewire\Attributes\Url;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Purchase;
 
 class Index extends Component
 {
@@ -46,7 +42,7 @@ class Index extends Component
         return view('livewire.dashboard.purchase.index', [
             'purchases' => $purchases,
             'totalAmount' => $purchases->sum('amount'),
-            'averageAmount' => $purchases->avg('amount'),
+            'averageAmount' => $purchases->avg('amount') ?? 0,
         ])->extends('layouts.dashboard');
     }
 }

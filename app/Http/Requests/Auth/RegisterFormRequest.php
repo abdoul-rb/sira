@@ -40,6 +40,7 @@ class RegisterFormRequest extends FormRequest
             'lastname.required' => 'Le nom est requis.',
             'companyName.required' => "Le nom de l'entreprise est requis.",
             'email.required' => "L'adresse email est requise.",
+            'email.unique' => "Cette adresse email est déjà utilisé",
             'phoneNumber.required' => 'Le téléphone est requis.',
             'password.required' => 'Le mot de passe est requis.',
             'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',

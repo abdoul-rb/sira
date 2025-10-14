@@ -57,7 +57,7 @@ class Register extends Component
             event(new Registered($user));
             Auth::login($user, true);
 
-            return redirect()->intended(route('dashboard.index', ['tenant' => $user->company]));
+            return redirect()->intended(route('dashboard.index', ['tenant' => $user->member->company]));
         } catch (Exception $e) {
             Log::error('Registration failed', [
                 'email' => $validated['email'],

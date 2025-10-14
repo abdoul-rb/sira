@@ -33,7 +33,9 @@ require __DIR__ . '/auth.php';
 
 // domain('{tenant}.' . config('app.url'))
 
-Route::prefix('{tenant}')->middleware(['auth', 'tenant'])->group(function () {
+Route::prefix('{tenant}')
+    ->middleware(['auth', 'tenant'])
+    ->group(function () {
     Route::name('dashboard.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
 

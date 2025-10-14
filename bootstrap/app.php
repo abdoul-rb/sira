@@ -15,7 +15,20 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::bind('tenant', fn(string $value) => Company::where('slug', $value)->firstOrFail());
+            // Route::bind('tenant', fn(string $value) => Company::where('slug', $value)->firstOrFail());
+            /* Route::bind('tenant', function (string $value) {
+                $company = Company::where('slug', $value)->first();
+                
+                if (!$company) {
+                    \Log::error("Tenant not found", [
+                        'slug' => $value,
+                        'all_slugs' => Company::pluck('slug')->toArray(),
+                    ]);
+                    abort(404, "Entreprise '{$value}' introuvable");
+                }
+                
+                return $company;
+            }); */
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {

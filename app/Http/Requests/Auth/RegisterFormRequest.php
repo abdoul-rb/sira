@@ -7,6 +7,7 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 use App\Rules\UnauthorizedEmailProviders;
+use Illuminate\Validation\Rule;
 
 class RegisterFormRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class RegisterFormRequest extends FormRequest
         return [
             'firstname' => 'required|string',
             'lastname' => 'required|string',
-            'companyName' => 'required|string',
+            'companyName' => ['required', 'string', Rule::unique('companies', 'name')],
             'phoneNumber' => 'required|string',
             'email' => ['required', 'email', 'unique:users', 'lowercase', 'max:255'],
             'password' => ['required', Password::min(6)/* ->mixedCase() */],
@@ -39,6 +40,7 @@ class RegisterFormRequest extends FormRequest
             'firstname.required' => 'Le prénom est requis.',
             'lastname.required' => 'Le nom est requis.',
             'companyName.required' => "Le nom de l'entreprise est requis.",
+            'companyName.unique' => "Une entreprise avec ce nom existe déjà. Contacter votre administrateur pour rejoindre cette entreprise.",
             'email.required' => "L'adresse email est requise.",
             'email.unique' => "Cette adresse email est déjà utilisé",
             'phoneNumber.required' => 'Le téléphone est requis.',

@@ -16,7 +16,7 @@
 
                 <p class="mt-2 text-sm leading-6 text-gray-500">
                     {{ __('Déjà un compte ? ') }}
-                    <a href="#" class="font-medium text-sky-600">
+                    <a href="{{ route('auth.login') }}" class="font-medium text-sky-600">
                         {{ __('Connectez-vous ici') }}
                     </a>
                 </p>

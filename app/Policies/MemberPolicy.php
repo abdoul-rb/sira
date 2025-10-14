@@ -14,9 +14,9 @@ class MemberPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->hasRole('super-admin')) {
-            return true;
-        }
+        /* if ($user->hasRole('super-admin')) {
+        } */
+        return true;
     }
 
     /**

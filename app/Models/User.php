@@ -71,6 +71,11 @@ class User extends Authenticatable
         });
     }
 
+    public function isSuper(): bool
+    {
+        return in_array($this->email, explode(',', config('auth.admin_emails')));
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Relations
@@ -90,7 +95,6 @@ class User extends Authenticatable
     | Méthodes utilitaires
     |--------------------------------------------------------------------------
     */
-
 
     public function getInitialsAttribute(): string
     {

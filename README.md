@@ -83,3 +83,42 @@ Un member peut avoir un compte utilisateur, mais pas forcément (utile si tu veu
 | **Global (SaaS)** | Gère toute la plateforme, toutes les entreprises    | **Super Admin**                       |
 | **Entreprise**    | Gère son entreprise (paramètres, membres, ventes…)  | **Manager**                           |
 | **Opérationnel**  | Travaille au quotidien (vente, caisse, secrétariat) | **Sales**, **Cashier**, **Operator**… |
+
+
+## Log Viewer (opcodesio/log-viewer)
+
+### Installation locale
+
+Après l'installation du package, les fichiers statiques (CSS, JS, images) doivent être publiés dans le dossier *public/vendor/log-viewer* :
+
+```bash
+php artisan log-viewer:publish
+```
+
+Déploiement en production
+
+Les fichiers publiés sont statiques et ne changent pas sauf en cas de mise à jour du package.
+
+✅ À faire une seule fois par environnement (VPS, serveur, etc.) :
+
+```bash
+php artisan log-viewer:publish
+```
+
+❌ Ne pas les committer dans le dépôt : ajouter (ou laisser) le chemin suivant dans .gitignore :
+
+/public/vendor/log-viewer
+
+Notes importantes
+
+Si tu mets à jour le package via Composer (composer update opcodesio/log-viewer), republie les fichiers pour refléter les changements.
+
+En cas de nouvelle installation sur un serveur vierge, la commande doit être relancée manuellement.
+
+TODO
+
+Automatiser la publication des assets via GitHub Actions lors du déploiement
+(ou alternativement, les committer si tu préfères éviter la commande artisan côté serveur).
+
+**Autorisation avec Spatie permissions**
+-- [https://github.com/opcodesio/log-viewer/discussions/16](https://github.com/opcodesio/log-viewer/discussions/16)

@@ -43,7 +43,7 @@ class NewMemberAccountCreated extends Notification
             ->line('Voici vos identifiants de connexion :')
             ->line("**Email :** {$notifiable->email}")
             ->line("**Mot de passe temporaire :** {$this->temporaryPassword}")
-            ->action('Connectez vous ici', route('login'))
+            ->action('Connectez vous ici', route('auth.login'))
             ->line('Veuillez vous connecter dès maintenant et modifier votre mot de passe dans vos paramètres.');
     }
 

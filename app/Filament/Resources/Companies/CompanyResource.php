@@ -17,13 +17,10 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use UnitEnum;
 
 class CompanyResource extends Resource
 {
     protected static ?string $model = Company::class;
-
-    protected static string | UnitEnum | null $navigationGroup = 'Entreprise & Paramètres';
 
     protected static ?string $navigationLabel = 'Entreprises';
 

@@ -24,7 +24,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Entreprise & Paramètres';
+    protected static string | UnitEnum | null $navigationGroup = 'Paramètres';
 
     protected static ?string $navigationLabel = 'Utilisateurs';
 

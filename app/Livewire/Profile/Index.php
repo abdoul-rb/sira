@@ -6,10 +6,12 @@ namespace App\Livewire\Profile;
 
 use App\Actions\Profile\UpdateProfileAction;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Support\Facades\Validator;
 
 class Index extends Component
 {
@@ -62,6 +64,27 @@ class Index extends Component
         $user = $action->handle($this->user, $validated);
 
         session()->flash('success', __('Vos infos ont bien été mis à jour'));
+    }
+
+    public function updatePassword()
+    {
+        $validated = Validator::make(
+            [
+                'current_password' => $this->current_password,
+                'password' => $this->password,
+                'password_confirmation' => $this->password_confirmation,
+            ],
+            (new UpdatePasswordRequest)->rules(),
+            (new UpdatePasswordRequest)->messages()
+        )->validate();
+
+        dd($validated);
+
+        $this->user->update([
+            'password' => $validated['password'],
+        ]);
+
+        session()->flash('success', __('Le mot de passe à été mis à jour'));
     }
 
     public function render()

@@ -44,6 +44,12 @@ jobs:
           "cd ${{ secrets.REMOTE_PATH }}/ && 
            php artisan optimize"
 
+      - name: "Optimizing Filament for prod"
+        run: >
+          ssh -i /tmp/private_key ${{ secrets.USERNAME }}@${{ secrets.HOST }} -o StrictHostKeyChecking=no
+          "cd ${{ secrets.REMOTE_PATH }}/ && 
+           php artisan filament:optimize"
+
       - name: "Run migration"
         run: >
           ssh -i /tmp/private_key ${{ secrets.USERNAME }}@${{ secrets.HOST }} -o StrictHostKeyChecking=no

@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Tables\Table;
 use Spatie\Permission\Models\Role;
 use UnitEnum;
@@ -40,6 +41,11 @@ class RoleResource extends Resource
                     ->columnSpanFull()
                     ->required()
                     ->maxLength(255),
+                CheckboxList::make('permissions')
+                    ->relationship('permissions', 'name')
+                    ->label('Permissions')
+                    ->columnSpanFull()
+                    ->columns(4)
             ]);
     }
 

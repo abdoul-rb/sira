@@ -21,7 +21,27 @@ class OrderForm
                     ->required(),
                 Select::make('customer_id')
                     ->label('Client')
-                    ->relationship('customer', 'id'),
+                    ->relationship('customer', 'firstname')
+                    ->native()
+                    ->createOptionForm([
+                        Select::make('company_id')
+                            ->relationship('company', 'name')
+                            ->label('Entreprise')
+                            ->columnSpanFull()
+                            ->required(),
+                        TextInput::make('firstname')
+                            ->label('Prénom')
+                            ->required(),
+                        TextInput::make('lastname')
+                            ->label('Nom')
+                            ->required(),
+                        TextInput::make('email')
+                            ->label('Email')
+                            ->email(),
+                        TextInput::make('phone_number')
+                            ->label('Téléphone')
+                            ->tel(),
+                    ]),
                 /* Select::make('warehouse_id')
                     ->relationship('warehouse', 'name'), */
                 

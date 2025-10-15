@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
+// use Illuminate\Database\Eloquent\SoftDeletes;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-// use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, HasName
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
@@ -32,7 +35,7 @@ class User extends Authenticatable
         'email',
         'password',
         'last_login_at',
-        'last_login_ip'
+        'last_login_ip',
     ];
 
     /**
@@ -74,6 +77,25 @@ class User extends Authenticatable
     public function isSuper(): bool
     {
         return in_array($this->email, explode(',', config('auth.admin_emails')));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Filament
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Retourne le nom d'utilisateur pour l'affichage dans Filament.
+     */
+    public function getFilamentName(): string
+    {
+        return $this->name;
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->isSuper(); // $this->hasVerifiedEmail();
     }
 
     /*

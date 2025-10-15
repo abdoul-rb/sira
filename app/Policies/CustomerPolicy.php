@@ -14,7 +14,7 @@ class CustomerPolicy
      */
     public function before(User $user, string $ability): bool|null
     {
-        if ($user->isAdmin()) {
+        if ($user->isSuper()) {
             return true;
         }
     

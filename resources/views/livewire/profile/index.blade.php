@@ -12,7 +12,8 @@
                 </p>
             </div>
 
-            <form class="bg-white shadow-xs outline outline-gray-900/5 rounded-md sm:rounded-xl md:col-span-2">
+            <form wire:submit.prevent="update"
+                class="bg-white shadow-xs outline outline-gray-900/5 rounded-md sm:rounded-xl md:col-span-2">
                 <div class="px-4 py-6 sm:p-8">
                     <div class="grid max-w-2xl grid-cols-1 gap-x-3 gap-y-5 lg:grid-cols-6">
                         <div class="col-span-full">
@@ -46,7 +47,8 @@
                     </div>
                 </div>
                 <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
-                    <button type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
+                    <button type="button" class="text-sm/6 font-semibold text-gray-900">Annuler</button>
+
                     <x-ui.btn.primary type="submit" :icon="false">
                         {{ __('Enregistrer') }}
                     </x-ui.btn.primary>

@@ -1,6 +1,6 @@
 @props(['type' => 'button', 'icon' => true])
 
-<button type="button"
+<button type="{{ $type }}"
     {{ $attributes->class(['inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-1.5 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-gray-900 cursor-pointer']) }}>
     @if ($icon)
         <svg class="size-4 transition duration-75 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"

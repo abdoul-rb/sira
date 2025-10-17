@@ -83,7 +83,7 @@
                     </x-slot:icon>
                 </x-ui.cards.settings-card-link>
 
-                <x-ui.cards.settings-card-link :route="route('dashboard.settings.shop', ['tenant' => $currentTenant])" title="Boutique"
+                {{-- <x-ui.cards.settings-card-link :route="route('dashboard.settings.shop', ['tenant' => $currentTenant])" title="Boutique"
                     description="Affichez et mettez à jour les informations de votre boutique.">
                     <x-slot:icon>
                         <svg class="size-6 shrink-0 text-white" data-slot="icon" fill="none" stroke-width="1.5"
@@ -93,7 +93,7 @@
                             </path>
                         </svg>
                     </x-slot:icon>
-                </x-ui.cards.settings-card-link>
+                </x-ui.cards.settings-card-link> --}}
             </div>
         </div>
     </div>

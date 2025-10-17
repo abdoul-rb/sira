@@ -60,7 +60,7 @@ class Create extends Component
     }
 
     #[On('warehouse-created')]
-    public function refreshSuppliers()
+    public function refreshWarehouses()
     {
         // Liste des entrepôt
     }

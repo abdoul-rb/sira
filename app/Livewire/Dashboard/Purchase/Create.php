@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Livewire\Dashboard\Purchase;
 
-use App\Http\Requests\Customer\StoreCustomerRequest;
+use App\Http\Requests\Purchase\StorePurchaseRequest;
 use App\Models\Company;
-use App\Models\Customer;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use Livewire\Component;
@@ -23,15 +22,15 @@ class Create extends Component
 
     public $purchasedAt = '';
 
-    /* protected function rules()
+    protected function rules()
     {
-        return (new StoreCustomerRequest)->rules();
+        return (new StorePurchaseRequest)->rules();
     }
 
     protected function messages()
     {
-        return (new StoreCustomerRequest)->messages();
-    } */
+        return (new StorePurchaseRequest)->messages();
+    }
 
     public function mount(Company $tenant)
     {
@@ -42,7 +41,7 @@ class Create extends Component
     {
         // $this->authorize('create', Customer::class);
 
-        // $validated = $this->validate();
+        $validated = $this->validate();
 
         Purchase::create([
             'company_id' => $this->tenant->id,

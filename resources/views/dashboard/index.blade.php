@@ -5,10 +5,11 @@
 @section('content')
     <div>
         <div class="lg:flex lg:items-center lg:justify-between">
-            <div class="lg:flex sm:space-x-5">
-                <div class="shrink-0">
-                    <img src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt="" class="mx-auto size-20 rounded-full" />
+            <div class="lg:flex sm:space-x-4">
+                <div class="size-20 shrink-0 rounded-full bg-black flex items-center justify-center">
+                    <span class="lg:text-3xl font-medium text-white">
+                        {{ auth()->user()->initials }}
+                    </span>
                 </div>
                 <div class="mt-4 text-center lg:mt-0 lg:pt-1 lg:text-left">
                     <p class="text-sm font-medium text-gray-600">Welcome back,</p>

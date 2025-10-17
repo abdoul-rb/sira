@@ -1,6 +1,12 @@
 @section('title', __('Liste des clients'))
 
-<div>
+<div x-data="{
+    init() {
+        Livewire.on('customer-created', () => {
+            $wire.$refresh()
+        })
+    }
+}">
     <div class="flex items-center justify-between gap-2">
         <h1 class="text-2xl font-bold text-black">
             {{ __('Mes clients') }}

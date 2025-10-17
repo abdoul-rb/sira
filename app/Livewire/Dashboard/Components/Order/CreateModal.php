@@ -13,9 +13,11 @@ use App\Models\Warehouse;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Http\Requests\Order\StoreOrderRequest;
+use Livewire\Attributes\On;
 
 class CreateModal extends Component
 {
+    // TODO: rename to simpe Create
     public Company $tenant;
 
     public $customer_id = null;
@@ -263,6 +265,12 @@ class CreateModal extends Component
                 $warehouse->decreaseProductStock($product, (int) $line['quantity']);
             }
         }
+    }
+
+    #[On('customer-created')]
+    public function refreshCustomers()
+    {
+        // Sélectionner le dernier client créer
     }
 
     public function render()

@@ -7,6 +7,7 @@ namespace App\Livewire\Dashboard\Product;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Models\Company;
 use App\Models\Warehouse;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -56,6 +57,12 @@ class Create extends Component
         
         $this->addWarehouseLine(); // Ajouter une première ligne par défaut
         $this->calculateTotalWarehouseQuantity(); // Calculer le total initial
+    }
+
+    #[On('warehouse-created')]
+    public function refreshWarehouses()
+    {
+        // Liste des entrepôt
     }
 
     /**

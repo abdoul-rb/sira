@@ -12,6 +12,7 @@ use App\Models\Customer;
 
 class AddModal extends Component
 {
+    // TODO: rename to create with view
     public Company $tenant;
     
     public $type = 'lead';
@@ -44,15 +45,15 @@ class AddModal extends Component
     public function save()
     {
         // $this->authorize('create', Customer::class);
-
         $validated = $this->validate();
         $validated['company_id'] = $this->tenant->id;
 
         Customer::create($validated);
 
-        session()->flash('success', 'Client créé avec succès.');
+        $this->reset(['type', 'firstname', 'lastname', 'email', 'phone_number', 'address']);
 
-        return redirect()->route('dashboard.customers.index', ['tenant' => $this->tenant->slug]);
+        $this->dispatch('close-modal', id: 'add-customer');
+        $this->dispatch('customer-created');
     }
 
     public function render()

@@ -1,23 +1,38 @@
 <div>
-    <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" enctype="multipart/form-data" novalidate>
-        <div class="col-span-full">
-            <label for="customer_id" class="block text-xs font-medium text-gray-600">
-                {{ __('Client') }}
-            </label>
+    <x-ui.modals.add-customer-modal :tenant="$tenant" />
 
-            <div class="mt-1">
+    <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" enctype="multipart/form-data" novalidate>
+        <div class="col-span-full flex items-center gap-x-2">
+            <div class="flex-1">
+                <label for="customer_id" class="block text-xs font-medium text-gray-600">
+                    {{ __('Client') }}
+                </label>
+
                 <select id="customer_id" name="customer_id" wire:model.number="customer_id"
-                    class="col-start-1 row-start-1 w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150 appearance-none bg-white py-1.5 pl-3 pr-8 -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6">
+                    class="mt-1 block w-full rounded-md border border-gray-300 py-2 text-gray-900 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm sm:leading-6">
                     <option value="">Sélectionner un client</option>
                     @foreach ($customers as $customer)
                         <option value="{{ $customer->id }}">{{ $customer->fullname }}</option>
                     @endforeach
                 </select>
+
+                @error('customer_id')
+                    <p class="mt-1 font-normal text-xs text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
-            @error('customer_id')
-                <p class="mt-1 font-normal text-xs text-red-600">{{ $message }}</p>
-            @enderror
+            <div>
+                <button type="button" @click="$dispatch('open-modal', { id: 'add-customer' })"
+                    class="mt-5 p-2.5 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden bg-black text-white ring-2 ring-black cursor-pointer">
+                    <span class="sr-only">Créer un nouveau fournisseur</span>
+                    <svg class="size-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
         </div>
 
         <!-- Emplacements -->

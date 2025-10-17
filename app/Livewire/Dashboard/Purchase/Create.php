@@ -9,6 +9,7 @@ use App\Models\Company;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class Create extends Component
 {
@@ -41,7 +42,7 @@ class Create extends Component
     {
         // $this->authorize('create', Customer::class);
 
-        $validated = $this->validate();
+        $this->validate();
 
         Purchase::create([
             'company_id' => $this->tenant->id,
@@ -55,6 +56,12 @@ class Create extends Component
 
         $this->dispatch('close-modal', id: 'add-purchase');
         $this->dispatch('purchase-created');
+    }
+
+    #[On('supplier-created')]
+    public function refreshSuppliers()
+    {
+        // Sélectionner le dernier créer
     }
 
     public function render()

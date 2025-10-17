@@ -1,7 +1,5 @@
 <div>
-    <div class="col-span-full">
-        <x-ui.modals.create-supplier-modal :tenant="$tenant" />
-    </div>
+    <x-ui.modals.create-supplier-modal :tenant="$tenant" />
 
     <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" novalidate>
         <div class="col-span-full flex items-center gap-x-2">

@@ -1,4 +1,6 @@
 <div>
+    <x-ui.modals.create-warehouse-modal :tenant="$tenant" />
+
     <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" enctype="multipart/form-data" novalidate>
         @if ($featured_image)
             <div class="col-span-full">
@@ -47,9 +49,15 @@
         <!-- Assignation des quantités aux entrepôts -->
         <div class="col-span-full">
             <div class="space-y-2">
-                <h3 class="block text-sm font-medium text-gray-700">
-                    {{ __('Assignation aux entrepôts') }}
-                </h3>
+                <div class="flex items-center justify-between">
+                    <h3 class="block text-sm font-medium text-gray-700">
+                        {{ __('Assignation aux entrepôts') }}
+                    </h3>
+
+                    <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-warehouse' })">
+                        {{ __('Ajouter un entrepôt') }}
+                    </x-ui.btn.primary>
+                </div>
 
                 <!-- Lignes d'entrepôts -->
                 @foreach ($warehouseLines as $index => $line)

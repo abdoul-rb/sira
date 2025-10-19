@@ -134,11 +134,11 @@
                     <span class="font-medium">{{ $stock_quantity ?? 0 }}</span>
                 </div>
 
-                @if ($totalWarehouseQuantity !== (int) ($stock_quantity ?? 0))
+                {{-- @if ($totalWarehouseQuantity !== (int) ($stock_quantity ?? 0))
                     <div class="mt-2 text-xs text-red-600">
                         ⚠️ Les quantités ne correspondent pas
                     </div>
-                @endif
+                @endif --}}
             </div>
         </div>
 

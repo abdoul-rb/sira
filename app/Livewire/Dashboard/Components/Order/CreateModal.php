@@ -195,7 +195,9 @@ class CreateModal extends Component
         $this->attachProductsToOrder($order, $this->productLines, $warehouse);
 
         session()->flash('success', 'Commande créée avec succès.');
-        return redirect()->route('dashboard.orders.index', [$this->tenant, $order]);
+        
+        $this->dispatch('close-modal', id: 'create-order');
+        $this->dispatch('order-created');
     }
 
     /**

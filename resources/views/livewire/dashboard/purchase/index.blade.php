@@ -1,6 +1,12 @@
 @section('title', __('Liste des achats'))
 
-<div>
+<div x-data="{
+    init() {
+        Livewire.on('purchase-created', () => {
+            $wire.$refresh()
+        })
+    }
+}">
     <div class="flex items-center justify-between gap-2">
         <h1 class="text-2xl font-bold text-black">
             {{ __('Les achats') }}

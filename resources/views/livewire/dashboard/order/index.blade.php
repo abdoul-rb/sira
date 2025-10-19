@@ -1,7 +1,13 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="space-y-5">
+    <div class="space-y-5" x-data="{
+        init() {
+            Livewire.on('order-created', () => {
+                $wire.$refresh()
+            })
+        }
+    }">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h1 class="text-2xl font-bold text-black">
                 {{ __('Toutes les ventes') }}

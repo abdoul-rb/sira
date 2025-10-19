@@ -10,7 +10,6 @@ class StoreOrderRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        dd('ok');
         return true;
     }
 

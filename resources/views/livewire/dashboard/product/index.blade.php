@@ -1,3 +1,5 @@
+@section('title', 'Gestion du stock produits')
+
 <div class="space-y-6" x-data="{
     viewType: 'card',
     init() {

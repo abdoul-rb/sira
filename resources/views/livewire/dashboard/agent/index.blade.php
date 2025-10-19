@@ -1,6 +1,12 @@
 @section('title', __('Liste des agents'))
 
-<div>
+<div x-data="{
+    init() {
+        Livewire.on('agent-created', () => {
+            $wire.$refresh()
+        })
+    }
+}">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <h1 class="text-2xl font-bold text-black">
             {{ __('Agents') }}

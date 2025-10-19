@@ -42,7 +42,8 @@ class AddModal extends Component
 
         session()->flash('success', 'Agent créé avec succès.');
 
-        return redirect()->route('dashboard.agents.index', ['tenant' => $this->tenant->slug]);
+        $this->dispatch('close-modal', id: 'add-agent');
+        $this->dispatch('agent-created');
     }
 
     public function render()

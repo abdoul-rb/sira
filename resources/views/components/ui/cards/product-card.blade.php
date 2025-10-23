@@ -5,8 +5,7 @@
         <img src="{{ Storage::disk('public')->url($product->featured_image) }}" alt="{{ $product->name }}"
             class="w-auto h-56 object-cover group-hover:opacity-75 aspect-auto" />
     @else
-        <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-02-image-card-01.jpg"
-            alt="Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green."
+        <img src="https://placehold.co/380x224" alt=""
             class="w-auto h-56 object-cover group-hover:opacity-75 aspect-auto" />
     @endif
 

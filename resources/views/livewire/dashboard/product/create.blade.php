@@ -8,23 +8,29 @@
                     class="size-24 lg:size-32 object-cover rounded-md">
             </div>
         @else
-            <div class="relative col-span-full">
-                <input type="file" accept="image/*" wire:model="featured_image" class="hidden" id="image-upload">
-                <label for="image-upload"
-                    class="flex flex-col items-center justify-center w-full h-24 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
-                    <div class="text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-upload w-6 h-6 text-gray-400 mx-auto mb-2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="17 8 12 3 7 8"></polyline>
-                            <line x1="12" x2="12" y1="3" y2="15"></line>
-                        </svg>
-                        <span class="text-sm text-gray-500">
-                            {{ __('Ajouter une photo') }}
-                        </span>
-                    </div>
-                </label>
+            <div class="col-span-full">
+                <div class="relative">
+                    <input type="file" accept="image/*" wire:model="featured_image" class="hidden" id="image-upload">
+                    <label for="image-upload"
+                        class="flex flex-col items-center justify-center w-full h-24 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
+                        <div class="text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-upload w-6 h-6 text-gray-400 mx-auto mb-2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" x2="12" y1="3" y2="15"></line>
+                            </svg>
+                            <span class="text-sm text-gray-500">
+                                {{ __('Ajouter une photo') }}
+                            </span>
+                        </div>
+                    </label>
+                </div>
+
+                @error($featured_image)
+                    <p class="mt-1 font-normal text-xs text-red-600">{{ $message }}</p>
+                @enderror
             </div>
         @endif
 

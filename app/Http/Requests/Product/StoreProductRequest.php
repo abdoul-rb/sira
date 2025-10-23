@@ -23,7 +23,7 @@ class StoreProductRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'featured_image' => 'required|image|max:2048',
+            'featured_image' => 'nullable|image|max:2048',
             'price' => 'required|numeric|min:0',
             /* 'warehouse_id' => 'nullable|exists:warehouses,id',
             'warehouse_quantity' => 'required|integer|min:1', */
@@ -35,7 +35,6 @@ class StoreProductRequest extends FormRequest
         return [
             'name.required' => 'Le nom du produit est obligatoire.',
             'description.required' => 'La description est obligatoire.',
-            'featured_image.required' => "L'image du produit est obligatoire.",
             'featured_image.image' => 'Le fichier doit être une image.',
             'featured_image.max' => "L'image ne doit pas dépasser 2MB.",
             'price.required' => 'Le prix est obligatoire.',

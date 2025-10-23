@@ -145,6 +145,9 @@
                                                     <img src="{{ Storage::disk('public')->url($product->featured_image) }}"
                                                         alt="{{ $product->name }}"
                                                         class="size-12 object-cover rounded-md" />
+                                                @else
+                                                    <img src="https://placehold.co/48x48" alt=""
+                                                        class="size-12 object-cover rounded-md" />
                                                 @endif
 
                                                 <span class="text-gray-700 text-sm">
@@ -177,7 +180,8 @@
                                                             class="flex items-center rounded-full text-gray-400 hover:text-gray-600"
                                                             type="button" aria-haspopup="menu" :aria-expanded="open">
                                                             <span class="sr-only">Options</span>
-                                                            <svg viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                                            <svg viewBox="0 0 20 20" fill="currentColor"
+                                                                class="size-5">
                                                                 <path
                                                                     d="M10 3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM10 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM11.5 15.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" />
                                                             </svg>

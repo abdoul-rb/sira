@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Dashboard\Customer;
+namespace App\Livewire\Dashboard\Customers;
 
 use App\Enums\CustomerType;
 use App\Http\Requests\Customer\UpdateCustomerRequest;
@@ -67,7 +67,7 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.customer.edit', [
+        return view('livewire.dashboard.customers.edit', [
             'types' => CustomerType::cases(),
         ])->extends('layouts.dashboard');
     }

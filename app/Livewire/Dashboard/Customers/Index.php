@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Customer;
+namespace App\Livewire\Dashboard\Customers;
 
 use App\Enums\CustomerType;
 use App\Models\Company;
@@ -12,7 +12,9 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.dashboard')]
 class Index extends Component
 {
     use WithPagination;
@@ -102,9 +104,9 @@ class Index extends Component
 
         $customers = $query->paginate(10);
 
-        return view('livewire.dashboard.customer.index', [
+        return view('livewire.dashboard.customers.index', [
             'customers' => $customers,
             'types' => CustomerType::cases(),
-        ])->extends('layouts.dashboard');
+        ]);
     }
 }

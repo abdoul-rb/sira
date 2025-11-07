@@ -7,7 +7,7 @@ use App\Livewire\Dashboard\Agent\AddModal as AddAgentModal;
 use App\Livewire\Dashboard\Agent\Edit as AgentEdit;
 use App\Livewire\Dashboard\Agent\Index as AgentIndex;
 use App\Livewire\Dashboard\Customer\Edit as CustomerEdit;
-use App\Livewire\Dashboard\Customer\Index as CustomerIndex;
+use App\Livewire\Dashboard\Customers\Index as CustomerIndex;
 use App\Livewire\Dashboard\Members\Create as MemberCreate;
 use App\Livewire\Dashboard\Members\Edit as MemberEdit;
 use App\Livewire\Dashboard\Members\Index as MemberIndex;
@@ -50,7 +50,7 @@ Route::prefix('{tenant}')
             // CRUD Customer (Livewire)
             Route::prefix('customers')->name('customers.')->group(function () {
                 Route::get('', CustomerIndex::class)->name('index');
-                Route::get('{customer}/edit', CustomerEdit::class)->name('edit');
+                // Route::get('{customer}/edit', CustomerEdit::class)->name('edit');
             });
 
             // CRUD Agent (Livewire)

@@ -5,7 +5,7 @@
 @section('content')
     <div>
         <div class="lg:flex lg:items-center lg:justify-between">
-            <div class="lg:flex sm:space-x-4">
+            <div class="flex gap-4">
                 <div class="size-20 shrink-0 rounded-full bg-black flex items-center justify-center">
                     <span class="lg:text-3xl font-medium text-white">
                         {{ auth()->user()->initials }}

@@ -15,6 +15,8 @@
                     @isset($slot)
                         {{ $slot }}
                     @endisset
+
+                    <x-ui.notify />
                 </div>
             </main>
         </div>

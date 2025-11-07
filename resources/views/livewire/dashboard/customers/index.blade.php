@@ -4,6 +4,10 @@
     init() {
         Livewire.on('customer-created', () => {
             $wire.$refresh()
+        });
+
+        Livewire.on('customer-updated', () => {
+            $wire.$refresh()
         })
     }
 }">
@@ -187,6 +191,8 @@
                 <div class="col-span-full text-center text-gray-500 py-10">Aucun client trouvé.</div>
             @endforelse
         </ul>
+
+        <livewire:dashboard.customers.edit />
 
         <div class="mt-6">
             {{ $customers->links() }}

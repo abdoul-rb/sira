@@ -21,6 +21,8 @@ class Index extends Component
 
     public Company $tenant;
 
+    public ?Customer $selectedCustomer = null;
+
     #[Url]
     public string $search = '';
 
@@ -39,8 +41,6 @@ class Index extends Component
     public ?string $type = null;
 
     public $confirmingDelete = null;
-
-    public $selectedCustomer = null;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -78,6 +78,17 @@ class Index extends Component
         session()->flash('success', 'Client supprimé avec succès.');
     }
 
+    /**
+     * Ouvre le forumulaire modal d'edition
+     *
+     * @param integer $customerId
+     * @return void
+     */
+    public function edit(int $customerId)
+    {
+        $this->dispatch('open-edit-customer-modal', customerId: $customerId);
+    }
+
     public function showCustomerOrders(Customer $customer)
     {
         $this->selectedCustomer = $customer;
@@ -86,8 +97,6 @@ class Index extends Component
 
     public function render()
     {
-        /* $query = Customer::where('company_id', $this->tenant->id) */
-
         $query = Customer::where('company_id', $this->tenant->id)
             ->with(['orders' => function ($q) {
                 $q->with(['products', 'customer'])->latest();

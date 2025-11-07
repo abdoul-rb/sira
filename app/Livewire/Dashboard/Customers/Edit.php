@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Dashboard\Customers;
 
 use App\Enums\CustomerType;
@@ -7,6 +9,7 @@ use App\Http\Requests\Customer\UpdateCustomerRequest;
 use App\Models\Company;
 use App\Models\Customer;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class Edit extends Component
 {
@@ -14,61 +17,68 @@ class Edit extends Component
 
     public Customer $customer;
 
-    public $firstname;
-
-    public $lastname;
-
-    public $email;
-
-    public $phone_number;
-
     public $type;
 
-    public $address;
+    public string $firstname = '';
 
-    public $city;
+    public string $lastname = '';
 
-    public $zip_code;
+    public string $email = '';
 
-    public $country;
+    public string $phoneNumber = '';
 
-    protected function rules()
+    public string $address = '';
+
+    protected function rules(): array
     {
         return (new UpdateCustomerRequest)->rules();
     }
 
-    public function mount(Company $tenant, Customer $customer)
+    protected function messages(): array
     {
-        $this->authorize('view', $customer);
-
-        $this->tenant = $tenant;
-        $this->customer = $customer;
-        $this->firstname = $customer->firstname;
-        $this->lastname = $customer->lastname;
-        $this->email = $customer->email;
-        $this->phone_number = $customer->phone_number;
-        $this->type = $customer->type->value;
-        $this->address = $customer->address;
-        $this->city = $customer->city;
-        $this->zip_code = $customer->zip_code;
-        $this->country = $customer->country;
+        return (new UpdateCustomerRequest)->messages();
     }
 
-    public function save()
+    public function mount(Company $tenant)
     {
-        $this->authorize('update', $this->customer);
+        $this->tenant = $tenant;
+    }
+
+    #[On('open-edit-customer-modal')]
+    public function loadCurrentCustomer(int $customerId)
+    {
+        $this->customer = Customer::findOrFail($customerId);
+
+        // $this->tenant = $tenant;
+
+        $this->fill([
+            'firstname' => $this->customer->firstname,
+            'lastname' => $this->customer->lastname,
+            'email' => $this->customer->email,
+            'phoneNumber' => $this->customer->phone_number,
+            'address' => $this->customer->address,
+        ]);
+
+        $this->dispatch('open-modal', id: 'edit-customer');
+    }
+
+    public function update()
+    {
+        // $this->authorize('create', Customer::class);
         $validated = $this->validate();
         $this->customer->update($validated);
 
-        session()->flash('success', 'Client modifié avec succès.');
+        $this->reset();
 
-        return to_route('dashboard.customers.edit', [$this->tenant, $this->customer]);
+        $this->dispatch('customer-updated');
+        $this->dispatch('notify', 'Client mis à jour avec succès !');
+        $this->dispatch('close-modal', id: 'edit-customer');
     }
 
     public function render()
     {
         return view('livewire.dashboard.customers.edit', [
             'types' => CustomerType::cases(),
-        ])->extends('layouts.dashboard');
+        ]);
     }
 }

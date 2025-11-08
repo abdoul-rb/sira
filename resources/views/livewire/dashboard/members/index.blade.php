@@ -13,15 +13,13 @@
     ]" />
 
     <div class="flex items-center justify-between mt-6 mb-8">
-        <h1 class="text-2xl font-bold text-gray-800">Membres</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Membres / Employés</h1>
 
-        {{-- @can('create', App\Models\Member::class) --}}
-        @can('create-member')
+        @can('create', App\Models\Member::class)
             <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-member' })">
                 {{ __('Ajouter un personnel') }}
             </x-ui.btn.primary>
         @endcan
-        {{-- @endcan --}}
     </div>
 
     <x-ui.modals.create-member-modal :tenant="$tenant" />

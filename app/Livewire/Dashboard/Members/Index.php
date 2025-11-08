@@ -11,7 +11,9 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.dashboard')]
 class Index extends Component
 {
     use WithPagination;
@@ -94,6 +96,6 @@ class Index extends Component
 
         return view('livewire.dashboard.members.index', [
             'members' => $members,
-        ])->extends('layouts.dashboard');
+        ]);
     }
 }

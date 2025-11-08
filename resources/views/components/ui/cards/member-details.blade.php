@@ -1,8 +1,8 @@
 @props(['member'])
 
+{{-- {{ route('dashboard.members.edit', ['tenant' => $currentTenant, 'member' => $member]) }} --}}
 <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
-    <a href="{{ route('dashboard.members.edit', ['tenant' => $currentTenant, 'member' => $member]) }}"
-        class="group flex w-full items-center justify-between space-x-6 p-6">
+    <a href="#" class="group flex w-full items-center justify-between space-x-6 p-6">
         <div class="flex-1 truncate">
             <div class="flex items-center space-x-3">
                 <h3 class="truncate text-sm font-medium text-gray-900">

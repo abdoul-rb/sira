@@ -84,6 +84,10 @@ class Member extends Model
 
     public function getRolesName(): Collection 
     {
+        if (! $this->user) {
+            return collect();
+        }
+        
         return $this->user
             ->getRoleNames()
             ->map(fn (string $role) => RoleEnum::tryFrom($role)?->label())

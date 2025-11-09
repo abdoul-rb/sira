@@ -5,5 +5,5 @@
         {{ __('Enregistrer un achat') }}
     </x-slot:title>
 
-    @livewire('dashboard.purchase.create', ['tenant' => $tenant], key('add-purchase'))
+    <livewire:dashboard.purchases.create :tenant="$tenant" :key="'add-purchase-' . time()" />
 </x-ui.modals.base>

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Purchase;
+namespace App\Livewire\Dashboard\Purchases;
 
 use App\Http\Requests\Purchase\StorePurchaseRequest;
 use App\Models\Company;
@@ -68,7 +68,7 @@ class Create extends Component
     {
         $suppliers = Supplier::where('company_id', $this->tenant->id)->get();
 
-        return view('livewire.dashboard.purchase.create', [
+        return view('livewire.dashboard.purchases.create', [
             'suppliers' => $suppliers,
         ]);
     }

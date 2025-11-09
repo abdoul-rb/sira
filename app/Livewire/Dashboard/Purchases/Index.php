@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Purchase;
+namespace App\Livewire\Dashboard\Purchases;
 
 use App\Models\Company;
 use App\Models\Purchase;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.dashboard')]
 class Index extends Component
 {
     use WithPagination;
@@ -39,10 +41,10 @@ class Index extends Component
 
         $purchases = $query->paginate(10);
 
-        return view('livewire.dashboard.purchase.index', [
+        return view('livewire.dashboard.purchases.index', [
             'purchases' => $purchases,
             'totalAmount' => $purchases->sum('amount'),
             'averageAmount' => $purchases->avg('amount') ?? 0,
-        ])->extends('layouts.dashboard');
+        ]);
     }
 }

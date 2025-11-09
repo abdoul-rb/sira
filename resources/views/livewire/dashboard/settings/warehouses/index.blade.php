@@ -3,7 +3,9 @@
 <div class="space-y-6" x-data="{
     init() {
         Livewire.on('warehouse-created', () => {
-            // Rafraîchir la liste des entrepôts
+            $wire.$refresh()
+        });
+        Livewire.on('warehouse-updated', () => {
             $wire.$refresh()
         })
     }
@@ -83,14 +85,16 @@
 
                                 <td class="py-5 px-4 lg:px-0">
                                     <div class="">
-                                        <a href="#"
-                                            class="text-sm/6 font-medium text-indigo-600 hover:text-indigo-500">
+                                        <button type="button" wire:click="edit({{ $warehouse->id }})"
+                                            class="text-sm/6 font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer focus:outline-none">
                                             Editer
-                                        </a>
+                                        </button>
                                     </div>
                                     <div class="mt-1 text-xs/5 text-gray-500">
                                         Entrepôt
-                                        <span class="text-gray-900">#00012</span>
+                                        <span class="text-gray-900">
+                                            #{{ str_pad($warehouse->id, 4, '0', STR_PAD_LEFT) }}
+                                        </span>
                                     </div>
                                 </td>
                             </tr>
@@ -105,5 +109,7 @@
                 </table>
             </div>
         </div>
+
+        <livewire:dashboard.settings.warehouses.edit />
     </div>
 </div>

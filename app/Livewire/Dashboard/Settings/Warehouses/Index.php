@@ -52,6 +52,17 @@ class Index extends Component
         $this->resetPage();
     }
 
+    /**
+     * Ouvre le forumulaire modal d'edition
+     *
+     * @param integer $warehouseId
+     * @return void
+     */
+    public function edit(int $warehouseId)
+    {
+        $this->dispatch('open-edit-warehouse-modal', warehouseId: $warehouseId);
+    }
+
     public function render()
     {
         $query = Warehouse::where('company_id', $this->tenant->id)

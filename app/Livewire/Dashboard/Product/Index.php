@@ -10,7 +10,9 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.dashboard')]
 class Index extends Component
 {
     use WithPagination;
@@ -82,6 +84,17 @@ class Index extends Component
         return route('shop.public', [$this->tenant->slug, $this->tenant->shop->slug]);
     }
 
+    /**
+     * Ouvre le forumulaire modal d'edition
+     *
+     * @param integer $productId
+     * @return void
+     */
+    public function edit(int $productId)
+    {
+        $this->dispatch('open-edit-product-modal', productId: $productId);
+    }
+
     public function render()
     {
         $query = Product::where('company_id', $this->tenant->id)
@@ -98,6 +111,6 @@ class Index extends Component
 
         return view('livewire.dashboard.product.index', [
             'products' => $products,
-        ])->extends('layouts.dashboard');
+        ]);
     }
 }

@@ -11,9 +11,7 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
 
-## [Layout('layouts.dashboard')]
 class Index extends Component
 {
     use WithPagination;

@@ -21,7 +21,7 @@ use App\Livewire\Dashboard\Settings\Shop as ShopSetting;
 use App\Livewire\Dashboard\Settings\Suppliers\Index as SupplierIndex;
 use App\Livewire\Dashboard\Settings\Deposits\Index as DepositIndex;
 use App\Livewire\Dashboard\Settings\Expenses\Index as ExpenseIndex;
-use App\Livewire\Dashboard\Settings\Warehouse\Index as WarehouseIndex;
+use App\Livewire\Dashboard\Settings\Warehouses\Index as WarehouseIndex;
 use App\Livewire\Profile\Index as ProfileIndex;
 use App\Livewire\Public\Shop as ShopPublic;
 use Illuminate\Support\Facades\Route;
@@ -86,9 +86,7 @@ Route::prefix('{tenant}')
                 Route::get('', [SettingController::class, 'index'])->name('index');
 
                 // Warehouse (Livewire)
-                Route::prefix('warehouses')->name('warehouses.')->group(function () {
-                    Route::get('', WarehouseIndex::class)->name('index');
-                });
+                Route::get('warehouses', WarehouseIndex::class)->name('warehouses.index');
 
                 // Fournisseurs
                 Route::prefix('suppliers')->name('suppliers.')->group(function () {

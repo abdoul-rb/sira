@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Settings\Warehouse;
+namespace App\Livewire\Dashboard\Settings\Warehouses;
 
 use App\Models\Company;
 use App\Models\Warehouse;
@@ -65,7 +65,7 @@ class Index extends Component
 
         $warehouses = $query->paginate(10);
 
-        return view('livewire.dashboard.settings.warehouse.index', [
+        return view('livewire.dashboard.settings.warehouses.index', [
             'warehouses' => $warehouses,
         ])->extends('dashboard.settings.index')
             ->section('viewbody');

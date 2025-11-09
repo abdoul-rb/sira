@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Settings\Warehouse;
+namespace App\Livewire\Dashboard\Settings\Warehouses;
 
 use App\Models\Company;
 use App\Models\Warehouse;
@@ -65,6 +65,6 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.settings.warehouse.create');
+        return view('livewire.dashboard.settings.warehouses.create');
     }
 }

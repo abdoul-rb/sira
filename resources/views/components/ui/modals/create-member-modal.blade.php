@@ -5,5 +5,5 @@
         {{ __('Ajouter un personnel') }}
     </x-slot:title>
 
-    @livewire('dashboard.members.create', ['tenant' => $tenant], key('create-member'))
+    <livewire:dashboard.members.create :tenant="$tenant" key="create-member" />
 </x-ui.modals.base>

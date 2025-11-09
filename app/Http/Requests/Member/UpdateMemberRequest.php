@@ -27,6 +27,7 @@ class UpdateMemberRequest extends FormRequest
             'lastname' => ['required', 'string', 'max:255'],
             'phoneNumber' => ['nullable', 'string', 'max:255'],
             'email' => ['email', Rule::unique('users', 'email')->ignore(Auth::id())],
+            'canLogin' => ['boolean']
         ];
 
 

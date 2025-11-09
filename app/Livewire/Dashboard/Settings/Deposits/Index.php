@@ -70,6 +70,6 @@ class Index extends Component
         return view('livewire.dashboard.settings.deposits.index', [
             'deposits' => $deposits,
         ])->extends('dashboard.settings.index')
-            ->section('viewbody');;
+            ->section('viewbody');
     }
 }

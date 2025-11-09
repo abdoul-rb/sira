@@ -5,5 +5,5 @@
         {{ __('Enregistrer une dépense') }}
     </x-slot:title>
 
-    @livewire('dashboard.settings.expenses.create', ['tenant' => $tenant], key('create-expense'))
+    <livewire:dashboard.settings.expenses.create :tenant="$tenant" key="create-expense" />
 </x-ui.modals.base>

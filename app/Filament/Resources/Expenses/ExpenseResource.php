@@ -18,6 +18,9 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use App\Enums\ExpenseCategory;
+use App\Models\Company;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Grouping\Group;
 use UnitEnum;
 
 class ExpenseResource extends Resource
@@ -61,6 +64,12 @@ class ExpenseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                Group::make('company.name')
+                    ->label('Entreprise')
+                    ->titlePrefixedWithLabel(false)
+                    ->collapsible(),
+            ])
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('company.name')
@@ -90,7 +99,10 @@ class ExpenseResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('company_id')
+                    ->label('Entreprise')
+                    ->options(Company::pluck('name', 'id'))
+                    ->searchable(),
             ])
             ->recordActions([
                 EditAction::make(),

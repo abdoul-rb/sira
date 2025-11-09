@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users;
 
+use App\Enums\RoleEnum;
 use App\Filament\Resources\Users\Pages\ManageUsers;
 use App\Models\User;
 use BackedEnum;
@@ -13,6 +14,8 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -60,15 +63,23 @@ class UserResource extends Resource
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID'),
+                    ->label('#ID'),
+                TextColumn::make('member.company.name')
+                    ->label('Entreprise')
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('name')
                     ->label('Nom complet')
                     ->searchable(),
                 TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
+                TextColumn::make('roles.name')
+                    ->label('Rôles')
+                    ->badge()
+                    ->formatStateUsing(fn (string $state): string => RoleEnum::tryFrom($state)?->label()),
                 TextColumn::make('email_verified_at')
-                    ->label('Vérifiée le')
+                    ->label('Vérifiée')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -93,7 +104,9 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                
+                Filter::make('verified')
+                    ->label('Vérifié')
+                    ->query(fn (Builder $query): Builder => $query->whereNotNull('email_verified_at')),
             ], layout: FiltersLayout::AboveContent)
             ->recordActions([
                 EditAction::make(),

@@ -16,22 +16,22 @@ class Create extends Component
     
     public $type = 'lead';
 
-    public $firstname = '';
+    public string $firstname = '';
 
-    public $lastname = '';
+    public string $lastname = '';
 
-    public $email = '';
+    public string $email = '';
 
-    public $phone_number = '';
+    public string $phone_number = '';
 
-    public $address = '';
+    public string $address = '';
 
-    protected function rules()
+    protected function rules(): array
     {
         return (new StoreCustomerRequest)->rules();
     }
 
-    protected function messages()
+    protected function messages(): array
     {
         return (new StoreCustomerRequest)->messages();
     }

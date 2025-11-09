@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Livewire\Dashboard\Products;
 
+use App\Actions\Product\CreateAction as ProductAction;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Models\Company;
-use App\Models\Warehouse;
+use App\Traits\ManagesProductWarehouses;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -14,6 +15,7 @@ use Livewire\WithFileUploads;
 class Create extends Component
 {
     use WithFileUploads;
+    use ManagesProductWarehouses;
 
     public Company $tenant;
 
@@ -65,56 +67,9 @@ class Create extends Component
         // Liste des entrepôt
     }
 
-    /**
-     * Ajouter une nouvelle ligne entrepôt-quantité
-     */
-    public function addWarehouseLine()
+    public function save(ProductAction $action)
     {
-        $defaultWarehouse = $this->tenant->warehouses()->default()->first();
-        $firstWarehouse = $this->tenant->warehouses()->first();
-        
-        $this->warehouseLines[] = [
-            'warehouse_id' => $defaultWarehouse ? $defaultWarehouse->id : ($firstWarehouse ? $firstWarehouse->id : null),
-            'quantity' => 0,
-        ];
-    }
-
-    /**
-     * Supprimer une ligne entrepôt-quantité
-     */
-    public function removeWarehouseLine($index)
-    {
-        unset($this->warehouseLines[$index]);
-        $this->warehouseLines = array_values($this->warehouseLines); // Réindexer
-        $this->calculateTotalWarehouseQuantity();
-    }
-
-    /**
-     * Calculer le total des quantités assignées aux entrepôts
-     */
-    public function calculateTotalWarehouseQuantity()
-    {
-        $this->totalWarehouseQuantity = collect($this->warehouseLines)->sum('quantity');
-    }
-
-    /**
-     * Mise à jour des lignes entrepôt
-     */
-    public function updatedWarehouseLines($value, $key)
-    {
-        // Extraire l'index et le champ depuis la clé (ex: "0.quantity")
-        $parts = explode('.', $key);
-        $index = $parts[0];
-        $field = $parts[1];
-
-        if ($field === 'quantity') {
-            $this->calculateTotalWarehouseQuantity();
-        }
-    }
-
-    public function save()
-    {
-        $this->validate();
+        $validated = $this->validate();
 
         // Vérifier que le total des quantités assignées correspond au stock_quantity
         $this->calculateTotalWarehouseQuantity();
@@ -124,24 +79,10 @@ class Create extends Component
             return;
         } */
 
-        $product = $this->tenant->products()->create([
-            'name' => $this->name,
-            'description' => $this->description,
-            'price' => $this->price,
-            'stock_quantity' => $this->stock_quantity,
-        ]);
-
-        if ($this->featured_image) {
-            $filename = $this->featured_image->getClientOriginalName();
-            $path = "{$this->tenant->id}/products/";
-            $imagePath = "{$path}/{$filename}";
-            
-            $this->featured_image->storeAs($path, $filename, 'public');
-            $product->update(['featured_image' => $imagePath]);
-        }
+        $product = $action->handle($this->tenant, $validated);
 
         // Assigner les quantités aux entrepôts
-        $this->assignQuantitiesToWarehouses($product);
+        $this->syncQuantitiesToWarehouses($product);
 
         $this->dispatch('close-modal', id: 'create-product');
         $this->dispatch('product-created');
@@ -149,27 +90,11 @@ class Create extends Component
         $this->reset(['name', 'description', 'featured_image', 'price', 'stock_quantity', 'warehouseLines', 'totalWarehouseQuantity']);
     }
 
-    /**
-     * Assigner les quantités aux entrepôts
-     */
-    private function assignQuantitiesToWarehouses(\App\Models\Product $product)
-    {
-        foreach ($this->warehouseLines as $line) {
-            if (!empty($line['warehouse_id']) && $line['quantity'] > 0) {
-                $warehouse = Warehouse::find($line['warehouse_id']);
-                if ($warehouse) {
-                    $warehouse->updateProductStock($product, (int) $line['quantity']);
-                }
-            }
-        }
-    }
-
     public function render()
     {
         $warehouses = $this->tenant->warehouses()->orderBy('name')->get();
         
         return view('livewire.dashboard.products.create', [
-            'tenant' => $this->tenant,
             'warehouses' => $warehouses,
         ]);
     }

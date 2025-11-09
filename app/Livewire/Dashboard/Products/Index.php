@@ -6,6 +6,7 @@ namespace App\Livewire\Dashboard\Products;
 
 use App\Models\Company;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -43,11 +44,10 @@ class Index extends Component
     /**
      * Écouter l'événement de mise à jour de la boutique
      */
-    #[On('shop-updated')]
-    public function refreshShop()
+    ##[On('product-created')]
+    public function refreshProducts()
     {
-        $this->tenant->refresh();
-        $this->tenant->load('shop');
+        
     }
 
     public function sortBy(string $field, string $direction = 'desc')
@@ -93,6 +93,26 @@ class Index extends Component
     public function edit(int $productId)
     {
         $this->dispatch('open-edit-product-modal', productId: $productId);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * 
+     * @param int $productId
+     * @return void
+     */
+    public function destroy(int $productId)
+    {
+        $product = Product::findOrFail($productId);
+
+        if ($product->featured_image && Storage::disk('public')->exists($product->featured_image)) {
+            Storage::disk('public')->delete($product->featured_image);
+        }
+        
+        $product->delete();
+
+        $this->dispatch('product-deleted');
+        $this->dispatch('notify', 'Produit supprimé !');
     }
 
     public function render()

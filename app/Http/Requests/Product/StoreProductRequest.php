@@ -25,6 +25,7 @@ class StoreProductRequest extends FormRequest
             'description' => 'required|string',
             'featured_image' => 'nullable|image|max:2048',
             'price' => 'required|numeric|min:0',
+            'stock_quantity' => 'required|integer'
             /* 'warehouse_id' => 'nullable|exists:warehouses,id',
             'warehouse_quantity' => 'required|integer|min:1', */
         ];

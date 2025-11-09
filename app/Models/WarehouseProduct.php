@@ -29,11 +29,21 @@ class WarehouseProduct extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Appartient à un entrepôt.
+     *
+     * @return BelongsTo
+     */
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
     }
 
+    /**
+     * Appartient à un produit.
+     *
+     * @return BelongsTo
+     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

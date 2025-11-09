@@ -36,6 +36,11 @@ class Warehouse extends Model
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * Un entrepôt peut contenir plusieurs produits.
+     *
+     * @return HasMany
+     */
     public function warehouseProducts(): HasMany
     {
         return $this->hasMany(WarehouseProduct::class);

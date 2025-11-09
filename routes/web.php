@@ -42,9 +42,7 @@ Route::prefix('{tenant}')
             Route::get('profile', ProfileIndex::class)->name('profile.index');
 
             // Purchases
-            Route::prefix('purchases')->name('purchases.')->group(function () {
-                Route::get('', PurchaseIndex::class)->name('index');
-            });
+            Route::get('purchases', PurchaseIndex::class)->name('purchases.index');
 
             // CRUD Customer (Livewire)
             Route::get('customers', CustomerIndex::class)->name('customers.index');
@@ -57,11 +55,10 @@ Route::prefix('{tenant}')
             });
 
             // CRUD Product (Livewire)
-            Route::prefix('products')->name('products.')->group(function () {
-                Route::get('', ProductIndex::class)->name('index');
-                Route::get('create', ProductCreate::class)->name('create');
+            Route::get('products', ProductIndex::class)->name('products.index');
+            /* Route::prefix('products')->name('products.')->group(function () {
                 Route::get('{product}/edit', ProductEdit::class)->name('edit');
-            });
+            }); */
 
             // CRUD Order (Livewire)
             Route::prefix('orders')->name('orders.')->group(function () {
@@ -71,11 +68,8 @@ Route::prefix('{tenant}')
             });
 
             // CRUD Membre (Livewire)
-            Route::prefix('members')->name('members.')->group(function () {
-                Route::get('', MemberIndex::class)->name('index');
-                Route::get('create', MemberCreate::class)->name('create');
-                Route::get('{member}/edit', MemberEdit::class)->name('edit');
-            });
+            Route::get('members', MemberIndex::class)->name('members.index');
+            // Route::get('members/{member}/edit', MemberEdit::class)->name('members.edit');
 
             // Paramètres / settings.suppliers.index
             Route::prefix('settings')->name('settings.')->group(function () {

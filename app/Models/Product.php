@@ -79,6 +79,11 @@ class Product extends Model
             ->withTimestamps();
     }
 
+    /**
+     * Un produit peut être présent dans plusieurs entrepôts.
+     *
+     * @return HasMany
+     */
     public function warehouseProducts(): HasMany
     {
         return $this->hasMany(WarehouseProduct::class);

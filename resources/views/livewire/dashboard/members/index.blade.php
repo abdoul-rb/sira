@@ -4,15 +4,18 @@
     init() {
         Livewire.on('member-created', () => {
             $wire.$refresh()
+        });
+        Livewire.on('member-updated', () => {
+            $wire.$refresh()
         })
     }
 }">
-    <x-ui.breadcrumb :items="[
+    {{-- <x-ui.breadcrumb :items="[
         ['label' => 'Paramètres', 'url' => route('dashboard.settings.index', ['tenant' => $tenant])],
         ['label' => 'Membres', 'url' => '#'],
-    ]" />
+    ]" /> --}}
 
-    <div class="flex items-center justify-between mt-6 mb-8">
+    <div class="flex items-center justify-between mb-8">
         <h1 class="text-2xl font-bold text-gray-800">Membres / Employés</h1>
 
         @can('create', App\Models\Member::class)
@@ -66,7 +69,7 @@
         </div>
     </div>
 
-    <ul role="list" class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <ul role="list" class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
         @forelse ($members as $member)
             <x-ui.cards.member-details :member="$member" />
         @empty

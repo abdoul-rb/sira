@@ -89,19 +89,13 @@ Route::prefix('{tenant}')
                 Route::get('warehouses', WarehouseIndex::class)->name('warehouses.index');
 
                 // Fournisseurs
-                Route::prefix('suppliers')->name('suppliers.')->group(function () {
-                    Route::get('', SupplierIndex::class)->name('index');
-                });
+                Route::get('suppliers', SupplierIndex::class)->name('suppliers.index');
 
                 // Versements
-                Route::prefix('deposits')->name('deposits.')->group(function () {
-                    Route::get('', DepositIndex::class)->name('index');
-                });
+                Route::get('deposits', DepositIndex::class)->name('deposits.index');
 
                 // Dépenses
-                Route::prefix('expenses')->name('expenses.')->group(function () {
-                    Route::get('', ExpenseIndex::class)->name('index');
-                });
+                Route::get('expenses', ExpenseIndex::class)->name('expenses.index');
 
                 // Shop (Livewire)
                 Route::get('shop', ShopSetting::class)->name('shop');

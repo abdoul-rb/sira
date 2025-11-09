@@ -5,5 +5,5 @@
         {{ __('Enregistrer un versement') }}
     </x-slot:title>
 
-    @livewire('dashboard.settings.deposits.create', ['tenant' => $tenant], key('create-deposit'))
+    <livewire:dashboard.settings.deposits.create :tenant="$tenant" key="create-deposit" />
 </x-ui.modals.base>

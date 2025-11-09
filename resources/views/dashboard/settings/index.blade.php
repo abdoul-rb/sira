@@ -147,7 +147,7 @@
                                 </div>
 
                                 <x-form.input class="col-span-4" name="name" label="Nom" :wire="true"
-                                    :required="true" />
+                                    :required="true" :value="$tenant->name" />
 
                                 <div class="col-span-full">
                                     <x-form.label label="Description" id="description" />
@@ -158,13 +158,13 @@
                                 </div>
 
                                 <x-form.input class="col-span-3" name="phoneNumber" label="Téléphone" :wire="true"
-                                    :required="true" />
+                                    :required="true" :value="$tenant->phone_number" />
 
                                 <x-form.input class="col-span-3" name="websiteUrl" label="Site web" :wire="true"
-                                    :required="true" />
+                                    :required="true" :value="$tenant->website" />
 
                                 <x-form.input class="col-span-full" name="address" label="Adresse" :wire="true"
-                                    :required="true" />
+                                    :required="true" :value="$tenant->address" />
                             </form>
                         </div>
                     </div>

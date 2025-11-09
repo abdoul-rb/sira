@@ -44,7 +44,6 @@ class Index extends Component
         $this->resetPage();
     }
 
-
     /**
      * Ouvre le forumulaire modal d'edition
      *

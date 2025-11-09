@@ -5,5 +5,5 @@
         {{ __('Ajouter un fournisseur') }}
     </x-slot:title>
 
-    @livewire('dashboard.settings.suppliers.create', ['tenant' => $tenant], key('create-supplier-' . now()))
+    <livewire:dashboard.settings.suppliers.create :tenant="$tenant" :key="'create-supplier' . time()" />
 </x-ui.modals.base>

@@ -17,7 +17,7 @@
         </x-ui.btn.primary>
     </div>
 
-    <x-ui.modals.add-purchase-modal :tenant="$tenant" />
+    <livewire:dashboard.purchases.create :tenant="$tenant" :key="'add-purchase-' . time()" />
 
     <div class="mt-3 space-y-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

@@ -47,18 +47,18 @@
                             <p class="text-sm text-gray-500">Permettre à cet employé d'accéder à la plateforme</p>
                         </div>
                         <div class="flex items-center">
-                            <button type="button" wire:click="$toggle('can_login')"
-                                class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 {{ $can_login ? 'bg-teal-600' : 'bg-gray-200' }}"
-                                role="switch" aria-checked="{{ $can_login ? 'true' : 'false' }}">
+                            <button type="button" wire:click="$toggle('canLogin')"
+                                class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 {{ $canLogin ? 'bg-teal-600' : 'bg-gray-200' }}"
+                                role="switch" aria-checked="{{ $canLogin ? 'true' : 'false' }}">
                                 <span class="sr-only">Peut se connecter</span>
                                 <span
-                                    class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {{ $can_login ? 'translate-x-5' : 'translate-x-0' }}">
+                                    class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {{ $canLogin ? 'translate-x-5' : 'translate-x-0' }}">
                                 </span>
                             </button>
                         </div>
                     </div>
 
-                    @if ($can_login)
+                    @if ($canLogin)
                         <div class="mt-6 space-y-6">
                             @if ($member->user)
                                 <div class="rounded-md bg-green-50 p-4">
@@ -224,7 +224,7 @@
                         </dd>
                     </div>
 
-                    @if ($can_login)
+                    @if ($canLogin)
                         <div class="flex justify-between gap-x-4 py-3">
                             <dt class="text-gray-500">
                                 {{ __('Accès') }}

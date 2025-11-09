@@ -21,13 +21,13 @@ class Edit extends Component
 
     public Member $member;
 
-    public $firstname = '';
+    public string $firstname = '';
 
-    public $lastname = '';
+    public string $lastname = '';
 
-    public $phoneNumber = '';
+    public string $phoneNumber = '';
 
-    public $can_login = false;
+    public bool $canLogin = false;
 
     // Champs utilisateur (conditionnels)
     public $email = '';
@@ -46,7 +46,7 @@ class Edit extends Component
         ]);
 
         if ($member->user) {
-            $this->can_login = true;
+            $this->canLogin = true;
             $this->email = $member->user->email;
         }
     }
@@ -75,7 +75,7 @@ class Edit extends Component
         $this->validate();
 
         // Validation conditionnelle pour l'email si l'employé peut se connecter
-        if ($this->can_login) {
+        if ($this->canLogin) {
             // Vérifier l'unicité de l'email en tenant compte de l'utilisateur existant
             $existingEmail = User::where('email', $this->email)
                 ->when($this->member->user, function ($query) {
@@ -97,7 +97,7 @@ class Edit extends Component
         ]);
 
         // Gérer l'utilisateur
-        if ($this->can_login) {
+        if ($this->canLogin) {
             if ($this->member->user) {
                 // Mettre à jour l'utilisateur existant
                 $this->member->user->update([
@@ -158,6 +158,6 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.members.edit')->extends('layouts.dashboard');
+        return view('livewire.dashboard.members.edit');
     }
 }

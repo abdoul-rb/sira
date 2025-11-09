@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Livewire\Dashboard\Order;
+declare(strict_types=1);
+
+namespace App\Livewire\Dashboard\Orders;
 
 use App\Enums\OrderStatus;
 use App\Models\Company;
@@ -10,7 +12,9 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.dashboard')]
 class Index extends Component
 {
     use WithPagination;
@@ -80,9 +84,9 @@ class Index extends Component
 
         $orders = $query->paginate(10);
 
-        return view('livewire.dashboard.order.index', [
+        return view('livewire.dashboard.orders.index', [
             'orders' => $orders,
             'statuses' => OrderStatus::cases(),
-        ])->extends('layouts.dashboard');
+        ]);
     }
 }

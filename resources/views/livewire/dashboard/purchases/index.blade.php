@@ -4,6 +4,9 @@
     init() {
         Livewire.on('purchase-created', () => {
             $wire.$refresh()
+        });
+        Livewire.on('purchase-updated', () => {
+            $wire.$refresh()
         })
     }
 }">
@@ -17,7 +20,7 @@
         </x-ui.btn.primary>
     </div>
 
-    <x-ui.modals.add-purchase-modal :tenant="$tenant" />
+    <livewire:dashboard.purchases.create :tenant="$tenant" :key="'add-purchase-' . time()" />
 
     <div class="mt-3 space-y-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -113,6 +116,8 @@
                 <div class="col-span-full text-center text-gray-500 py-10">Aucun achat trouvé.</div>
             @endforelse
         </ul>
+
+        <livewire:dashboard.purchases.edit />
 
         <div class="mt-6">
             {{ $purchases->links() }}

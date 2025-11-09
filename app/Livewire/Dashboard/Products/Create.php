@@ -8,6 +8,7 @@ use App\Actions\Product\CreateAction as ProductAction;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Models\Company;
 use App\Traits\ManagesProductWarehouses;
+use Illuminate\Http\UploadedFile;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -19,19 +20,20 @@ class Create extends Component
 
     public Company $tenant;
 
-    public $name = '';
+    public string $name = '';
 
-    public $description = '';
+    public string $description = '';
 
-    public $featured_image;
+    public ?UploadedFile $featured_image = null;
 
-    public $price = '';
+    public int $price = 0;
 
     public $stock_quantity = '';
 
     // Propriétés pour les entrepôts
-    public $warehouseLines = [];
-    public $totalWarehouseQuantity = 0;
+    public array $warehouseLines = [];
+
+    public int $totalWarehouseQuantity = 0;
 
     protected function rules()
     {

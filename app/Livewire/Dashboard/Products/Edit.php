@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Product;
+namespace App\Livewire\Dashboard\Products;
 
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Company;
@@ -62,7 +62,7 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.product.edit', [
+        return view('livewire.dashboard.products.edit', [
             'tenant' => $this->tenant,
         ])->extends('layouts.dashboard');
     }

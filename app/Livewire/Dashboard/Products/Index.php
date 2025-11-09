@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Product;
+namespace App\Livewire\Dashboard\Products;
 
 use App\Models\Company;
 use App\Models\Product;
@@ -109,7 +109,7 @@ class Index extends Component
 
         $products = $query->paginate(10);
 
-        return view('livewire.dashboard.product.index', [
+        return view('livewire.dashboard.products.index', [
             'products' => $products,
         ]);
     }

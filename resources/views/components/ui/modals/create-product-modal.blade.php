@@ -5,5 +5,5 @@
         {{ __('Créer un nouveau produit') }}
     </x-slot:title>
 
-    <livewire:dashboard.product.create :tenant="$tenant" key="create-product" />
+    <livewire:dashboard.products.create :tenant="$tenant" key="create-product" />
 </x-ui.modals.base>

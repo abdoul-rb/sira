@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Product;
+namespace App\Livewire\Dashboard\Products;
 
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Models\Company;
@@ -168,7 +168,7 @@ class Create extends Component
     {
         $warehouses = $this->tenant->warehouses()->orderBy('name')->get();
         
-        return view('livewire.dashboard.product.create', [
+        return view('livewire.dashboard.products.create', [
             'tenant' => $this->tenant,
             'warehouses' => $warehouses,
         ]);

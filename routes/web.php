@@ -6,7 +6,6 @@ use App\Livewire\Auth\SetupPassword;
 use App\Livewire\Dashboard\Agent\AddModal as AddAgentModal;
 use App\Livewire\Dashboard\Agent\Edit as AgentEdit;
 use App\Livewire\Dashboard\Agent\Index as AgentIndex;
-use App\Livewire\Dashboard\Customer\Edit as CustomerEdit;
 use App\Livewire\Dashboard\Customers\Index as CustomerIndex;
 use App\Livewire\Dashboard\Members\Create as MemberCreate;
 use App\Livewire\Dashboard\Members\Edit as MemberEdit;
@@ -14,9 +13,9 @@ use App\Livewire\Dashboard\Members\Index as MemberIndex;
 use App\Livewire\Dashboard\Order\Create as OrderCreate;
 use App\Livewire\Dashboard\Order\Edit as OrderEdit;
 use App\Livewire\Dashboard\Order\Index as OrderIndex;
-use App\Livewire\Dashboard\Product\Create as ProductCreate;
-use App\Livewire\Dashboard\Product\Edit as ProductEdit;
-use App\Livewire\Dashboard\Product\Index as ProductIndex;
+use App\Livewire\Dashboard\Products\Create as ProductCreate;
+use App\Livewire\Dashboard\Products\Edit as ProductEdit;
+use App\Livewire\Dashboard\Products\Index as ProductIndex;
 use App\Livewire\Dashboard\Settings\Shop as ShopSetting;
 use App\Livewire\Dashboard\Settings\Suppliers\Index as SupplierIndex;
 use App\Livewire\Dashboard\Settings\Deposits\Index as DepositIndex;
@@ -48,10 +47,7 @@ Route::prefix('{tenant}')
             });
 
             // CRUD Customer (Livewire)
-            Route::prefix('customers')->name('customers.')->group(function () {
-                Route::get('', CustomerIndex::class)->name('index');
-                // Route::get('{customer}/edit', CustomerEdit::class)->name('edit');
-            });
+            Route::get('customers', CustomerIndex::class)->name('customers.index');
 
             // CRUD Agent (Livewire)
             Route::prefix('agents')->name('agents.')->group(function () {

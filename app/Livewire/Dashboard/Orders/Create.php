@@ -191,9 +191,9 @@ class Create extends Component
 
         Cache::forget("dashboard-last-orders-{$this->tenant->id}");
 
-        $this->dispatch('order-created');
-        $this->dispatch('notify', 'Commande créée avec succès !');
         $this->dispatch('close-modal', id: 'create-order');
+        $this->dispatch('notify', 'Commande créée avec succès !');
+        $this->dispatch('order-created');
     }
 
     /**
@@ -264,8 +264,6 @@ class Create extends Component
             // Si aucun entrepôt sélectionné, afficher tous les produits avec stock global > 0
             $products = $products->where('stock_quantity', '>', 0);
         }
-
-        // dd(PaymentStatus::cases());
 
         return view('livewire.dashboard.orders.create', [
             'statuses' => OrderStatus::cases(),

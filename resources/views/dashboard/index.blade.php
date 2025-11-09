@@ -14,7 +14,7 @@
                 <div class="mt-4 text-center lg:mt-0 lg:pt-1 lg:text-left">
                     <p class="text-sm font-medium text-gray-600">Welcome back,</p>
                     <p class="text-xl font-bold text-gray-900 lg:text-2xl">{{ auth()->user()->name }}</p>
-                    <p class="text-sm font-medium text-gray-600">Product Designer</p>
+                    <p class="text-sm font-medium text-gray-600"></p>
                 </div>
             </div>
             <div class="mt-5 flex justify-center lg:mt-0">
@@ -86,7 +86,6 @@
                     </h3>
                 </div>
 
-                <!-- TODO: Filtres -->
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
                     <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-order' })">
                         {{ __('Ajouter une vente') }}
@@ -94,26 +93,6 @@
 
                     <!-- Modal de création de produit -->
                     <x-ui.modals.create-order-modal :tenant="$tenant" />
-                    {{-- <div>
-                        <button
-                            class="text-sm shadow-xs inline-flex h-10 items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800">
-                            <svg class="stroke-current fill-white " width="20" height="20" viewBox="0 0 20 20"
-                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2.29004 5.90393H17.7067" stroke="" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"></path>
-                                <path d="M17.7075 14.0961H2.29085" stroke="" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"></path>
-                                <path
-                                    d="M12.0826 3.33331C13.5024 3.33331 14.6534 4.48431 14.6534 5.90414C14.6534 7.32398 13.5024 8.47498 12.0826 8.47498C10.6627 8.47498 9.51172 7.32398 9.51172 5.90415C9.51172 4.48432 10.6627 3.33331 12.0826 3.33331Z"
-                                    fill="" stroke="" stroke-width="1.5"></path>
-                                <path
-                                    d="M7.91745 11.525C6.49762 11.525 5.34662 12.676 5.34662 14.0959C5.34661 15.5157 6.49762 16.6667 7.91745 16.6667C9.33728 16.6667 10.4883 15.5157 10.4883 14.0959C10.4883 12.676 9.33728 11.525 7.91745 11.525Z"
-                                    fill="" stroke="" stroke-width="1.5"></path>
-                            </svg>
-
-                            Filter
-                        </button>
-                    </div> --}}
                 </div>
             </div>
 
@@ -243,9 +222,6 @@
                                 </x-ui.tables.cell>
 
                                 <x-ui.tables.cell>
-                                    {{-- <span class="{{ $order->status->color() }} text-xs rounded-full px-2 py-0.5">
-                                        {{ $order->status->label() }}
-                                    </span> --}}
                                     <p class="mt-1 flex items-center gap-1 text-xs font-medium text-black">
                                         <span
                                             class="inline-block w-2 h-2 rounded-full {{ $order->payment_status->color() }}"></span>
@@ -255,7 +231,7 @@
 
                                 <x-ui.tables.cell>
                                     <div class="flex items-center gap-2">
-                                        <a href="{{ route('dashboard.orders.edit', [$tenant, $order]) }}"
+                                        <a href="#"
                                             class="flex items-center gap-1 text-blue-600 text-sm font-medium p-1">
                                             <svg class="size-5 text-blue/50 shrink-0" data-slot="icon" fill="none"
                                                 stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"

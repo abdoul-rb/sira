@@ -1,14 +1,14 @@
 <div>
-    <x-ui.modals.add-customer-modal :tenant="$tenant" />
+    <x-ui.modals.create-customer-modal :tenant="$tenant" />
 
     <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" enctype="multipart/form-data" novalidate>
         <div class="col-span-full flex items-center gap-x-2">
             <div class="flex-1">
-                <label for="customer_id" class="block text-xs font-medium text-gray-600">
+                <label for="customer-id" class="block text-xs font-medium text-gray-600">
                     {{ __('Client') }}
                 </label>
 
-                <select id="customer_id" name="customer_id" wire:model.number="customer_id"
+                <select id="customer-id" name="customerId" wire:model.number="customerId"
                     class="mt-1 block w-full rounded-md border border-gray-300 py-2 text-gray-900 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm sm:leading-6">
                     <option value="">Sélectionner un client</option>
                     @foreach ($customers as $customer)
@@ -16,7 +16,7 @@
                     @endforeach
                 </select>
 
-                @error('customer_id')
+                @error('customerId')
                     <p class="mt-1 font-normal text-xs text-red-600">{{ $message }}</p>
                 @enderror
             </div>
@@ -40,7 +40,7 @@
             <x-form.label label="Emplacement" id="warehouse-id" />
 
             <div class="mt-1">
-                <select id="warehouse-id" name="warehouse_id" wire:model.live="warehouse_id"
+                <select id="warehouse-id" name="warehouseId" wire:model.live="warehouseId"
                     class="col-start-1 row-start-1 w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150 appearance-none bg-white py-1.5 pl-3 pr-8 -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6">
                     @foreach ($warehouses as $warehouse)
                         <option value="{{ $warehouse->id }}">
@@ -52,7 +52,7 @@
                 </select>
             </div>
 
-            @error('warehouse_id')
+            @error('warehouseId')
                 <p class="mt-1 font-normal text-xs text-red-600">{{ $message }}</p>
             @enderror
         </div>
@@ -66,7 +66,7 @@
                         <!-- Sélecteur de produit -->
                         <div class="col-span-full">
                             <x-form.label label="Produit" id="product-id" />
-                            <select id="product-id" wire:model.live="productLines.{{ $index }}.product_id"
+                            <select id="product-id" wire:model.live.number="productLines.{{ $index }}.product_id"
                                 id="product_id"
                                 class="mt-1 col-start-1 row-start-1 w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150 appearance-none bg-white py-1.5 pl-3 pr-8 -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6">
                                 <option value="">Sélectionner un produit</option>
@@ -161,14 +161,14 @@
             </h3>
 
             <div class="mt-1 lg:flex lg:gap-x-4 space-y-2 lg:space-y-0">
-                @foreach ($paymentStatuses as $paymentStatus)
+                @foreach ($paymentStatuses as $status)
                     <div class="flex items-center">
-                        <input type="radio" wire:model.live="payment_status" id="{{ $paymentStatus->value }}"
-                            value="{{ $paymentStatus->value }}"
+                        <input type="radio" wire:model.live="paymentStatus" id="{{ $status->value }}"
+                            value="{{ $status->value }}"
                             class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-blue-600 checked:bg-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden">
-                        <label for="{{ $paymentStatus->value }}"
-                            class="ml-1 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium {{ $paymentStatus->color() }}">
-                            {{ $paymentStatus->label() }}
+                        <label for="{{ $status->value }}"
+                            class="ml-1 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium {{ $status->color() }}">
+                            {{ $status->label() }}
                         </label>
                     </div>
                 @endforeach
@@ -195,12 +195,12 @@
                     <x-ui.stacked-list label="Remise" :value="Number::currency($discount, in: 'XOF', locale: 'fr')" />
                 @endif
 
-                <x-ui.stacked-list label="Montant total" :value="Number::currency($total_amount, in: 'XOF', locale: 'fr')" />
+                <x-ui.stacked-list label="Montant total" :value="Number::currency($totalAmount, in: 'XOF', locale: 'fr')" />
 
                 @if ($advance > 0)
                     <x-ui.stacked-list label="Avance payée" :value="Number::currency($advance, in: 'XOF', locale: 'fr')" />
 
-                    <x-ui.stacked-list label="Reste à payer" :value="Number::currency($total_amount - $advance, in: 'XOF', locale: 'fr')" />
+                    <x-ui.stacked-list label="Reste à payer" :value="Number::currency($totalAmount - $advance, in: 'XOF', locale: 'fr')" />
                 @endif
             </dl>
         </div>
@@ -211,10 +211,9 @@
                 {{ __('Annuler') }}
             </button>
 
-            <button type="submit"
-                class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-black">
+            <x-ui.btn.primary class="w-full" type="submit" :icon="false">
                 {{ __('Enregistrer') }}
-            </button>
+            </x-ui.btn.primary>
         </div>
     </form>
 </div>

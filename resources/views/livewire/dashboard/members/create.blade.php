@@ -93,9 +93,8 @@
             {{ __('Annuler') }}
         </button>
 
-        <button type="submit"
-            class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-black cursor-pointer">
+        <x-ui.btn.primary class="w-full" type="submit" :icon="false">
             {{ __('Enregistrer') }}
-        </button>
+        </x-ui.btn.primary>
     </div>
 </form>

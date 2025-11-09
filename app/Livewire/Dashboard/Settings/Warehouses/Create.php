@@ -60,6 +60,7 @@ class Create extends Component
 
         // Émettre l'événement pour rafraîchir la liste
         $this->dispatch('close-modal', id: 'create-warehouse');
+        $this->dispatch('notify', 'Emplacement créé !');
         $this->dispatch('warehouse-created');
     }
 

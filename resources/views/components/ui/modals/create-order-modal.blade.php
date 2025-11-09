@@ -5,5 +5,5 @@
         {{ __('Ajouter une vente') }}
     </x-slot:title>
 
-    @livewire('dashboard.components.order.create-modal', ['tenant' => $tenant], key('create-order-' . now()))
+    <livewire:dashboard.orders.create :tenant="$tenant" key="create-order" />
 </x-ui.modals.base>

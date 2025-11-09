@@ -6,9 +6,9 @@ use App\Livewire\Auth\SetupPassword;
 use App\Livewire\Dashboard\Agent\Index as AgentIndex;
 use App\Livewire\Dashboard\Customers\Index as CustomerIndex;
 use App\Livewire\Dashboard\Members\Index as MemberIndex;
-use App\Livewire\Dashboard\Order\Create as OrderCreate;
-use App\Livewire\Dashboard\Order\Edit as OrderEdit;
-use App\Livewire\Dashboard\Order\Index as OrderIndex;
+use App\Livewire\Dashboard\Orders\Create as OrderCreate;
+use App\Livewire\Dashboard\Orders\Edit as OrderEdit;
+use App\Livewire\Dashboard\Orders\Index as OrderIndex;
 use App\Livewire\Dashboard\Products\Index as ProductIndex;
 use App\Livewire\Dashboard\Purchases\Index as PurchaseIndex;
 use App\Livewire\Dashboard\Settings\Deposits\Index as DepositIndex;
@@ -50,8 +50,8 @@ Route::prefix('{tenant}')
                 // Orders
                 Route::prefix('orders')->name('orders.')->group(function () {
                     Route::get('', OrderIndex::class)->name('index');
-                    Route::get('create', OrderCreate::class)->name('create');
-                    Route::get('{order}/edit', OrderEdit::class)->name('edit');
+                    // Route::get('create', OrderCreate::class)->name('create');
+                    // Route::get('{order}/edit', OrderEdit::class)->name('edit');
                 });
 
                 // Membres

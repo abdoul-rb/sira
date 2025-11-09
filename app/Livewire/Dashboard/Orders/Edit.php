@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Order;
+namespace App\Livewire\Dashboard\Orders;
 
 use App\Enums\OrderStatus;
 use App\Http\Requests\Order\UpdateOrderRequest;
@@ -183,7 +183,7 @@ class Edit extends Component
             ->where('stock_quantity', '>', 0)
             ->get();
 
-        return view('livewire.dashboard.order.edit', [
+        return view('livewire.dashboard.orders.edit', [
             'statuses' => OrderStatus::cases(),
             'customers' => $customers,
             'products' => $products,

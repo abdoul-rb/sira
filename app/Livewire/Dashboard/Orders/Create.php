@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Components\Order;
+namespace App\Livewire\Dashboard\Orders;
 
+use App\Actions\Order\CreateAction;
 use Livewire\Component;
 use App\Models\Customer;
 use App\Models\Product;
@@ -13,29 +14,31 @@ use App\Models\Warehouse;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Http\Requests\Order\StoreOrderRequest;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 
-class CreateModal extends Component
+class Create extends Component
 {
-    // TODO: rename to simpe Create
     public Company $tenant;
 
-    public $customer_id = null;
+    public ?int $customerId = null;
 
-    public $warehouse_id = null;
+    public ?int $warehouseId = null;
 
-    public $status = null;
+    public ?string $status = null;
 
-    public $discount = null;
+    public ?float $discount = null;
 
-    public $advance = null;
+    public ?float $advance = null;
 
-    public $payment_status = null;
+    public ?string $paymentStatus = null;
 
     // Propriétés pour les produits
-    public $productLines = [];
-    public $subtotal = 0;
-    public $total_amount = 0;
+    public array $productLines = [];
+
+    public float $subtotal = 0;
+
+    public float $totalAmount = 0;
 
     protected function rules(): array
     {
@@ -53,10 +56,10 @@ class CreateModal extends Component
         $this->status = OrderStatus::PENDING->value;
         $this->discount = 0;
         $this->advance = 0;
-        $this->payment_status = PaymentStatus::CASH->value;
+        $this->paymentStatus = PaymentStatus::CASH->value;
 
         $defaultWarehouse = $this->tenant->defaultWarehouse();
-        $this->warehouse_id = $defaultWarehouse ? $defaultWarehouse->id : null;
+        $this->warehouseId = $defaultWarehouse ? $defaultWarehouse->id : null;
 
         $this->addProductLine(); // Ajouter une première ligne par défaut
         $this->calculateTotals(); // Calculer les totaux initiaux
@@ -89,7 +92,7 @@ class CreateModal extends Component
     public function calculateTotals()
     {
         $this->subtotal = collect($this->productLines)->sum('total_price');
-        $this->total_amount = $this->subtotal - (float) ($this->discount ?? 0);
+        $this->totalAmount = $this->subtotal - (float) ($this->discount ?? 0);
     }
 
     public function updatedWarehouseId()
@@ -98,8 +101,9 @@ class CreateModal extends Component
         foreach ($this->productLines as $index => $line) {
             if (!empty($line['product_id'])) {
                 $product = Product::find($line['product_id']);
-                if ($product && $this->warehouse_id) {
-                    $warehouse = Warehouse::find($this->warehouse_id);
+                
+                if ($product && $this->warehouseId) {
+                    $warehouse = Warehouse::find($this->warehouseId);
                     $this->productLines[$index]['available_stock'] = $warehouse ? $warehouse->getProductStock($product) : 0;
                 }
             }
@@ -138,8 +142,8 @@ class CreateModal extends Component
                 $this->productLines[$index]['unit_price'] = $product->price;
                 
                 // Afficher le stock disponible dans l'entrepôt sélectionné
-                if ($this->warehouse_id) {
-                    $warehouse = Warehouse::find($this->warehouse_id);
+                if ($this->warehouseId) {
+                    $warehouse = Warehouse::find($this->warehouseId);
                     $this->productLines[$index]['available_stock'] = $warehouse ? $warehouse->getProductStock($product) : 0;
                 } else {
                     $this->productLines[$index]['available_stock'] = $product->stock_quantity;
@@ -155,49 +159,41 @@ class CreateModal extends Component
         $this->calculateTotals();
     }
 
-    public function save()
+    public function save(CreateAction $action)
     {
-        $this->validate();
+        $validated = $this->validate();
+        $validated['company_id'] = $this->tenant->id;
 
         // Vérifier que l'entrepôt existe
-        $warehouse = Warehouse::find($this->warehouse_id);
+        $warehouse = Warehouse::findOrFail($this->warehouseId);
         
-        if (!$warehouse) {
-            $this->addError('warehouse_id', "L'entrepôt sélectionné n'existe pas.");
+        /* if (!$warehouse) {
+            $this->addError('warehouseId', "L'entrepôt sélectionné n'existe pas.");
             return;
-        }
+        } */
 
         $this->checkWarehouseStock($this->productLines, $warehouse);
 
         // Calculer les totaux finaux
         $this->calculateTotals();
         $finalTotal = $this->subtotal - ($this->discount ?? 0);
+        
+        $validated['subtotal'] = $this->subtotal;
+        $validated['discount'] = $this->discount;
+        $validated['advance'] = $this->advance;
+        $validated['total'] = $finalTotal;
 
-        // passer le client en customer si il est lead
-        $this->convertCustomer($this->customer_id);
+        // Passer le client en customer si il est lead
+        $this->convertCustomer($this->customerId);
 
         // Créer la commande
-        $orderData = [
-            'company_id' => $this->tenant->id,
-            'customer_id' => $this->customer_id,
-            'warehouse_id' => $this->warehouse_id,
-            'status' => $this->status,
-            'subtotal' => $this->subtotal,
-            'discount' => $this->discount ?? 0,
-            'advance' => $this->advance ?? 0,
-            'payment_status' => $this->payment_status,
-            'total_amount' => $finalTotal,
-        ];
+        $order = $action->handle($validated, $this->productLines);
 
-        $order = Order::create($orderData);
+        Cache::forget("dashboard-last-orders-{$this->tenant->id}");
 
-        // Attacher les produits à la commande et décrémenter les stocks
-        $this->attachProductsToOrder($order, $this->productLines, $warehouse);
-
-        session()->flash('success', 'Commande créée avec succès.');
-        
-        $this->dispatch('close-modal', id: 'create-order');
         $this->dispatch('order-created');
+        $this->dispatch('notify', 'Commande créée avec succès !');
+        $this->dispatch('close-modal', id: 'create-order');
     }
 
     /**
@@ -241,34 +237,6 @@ class CreateModal extends Component
         }
     }
 
-    /**
-     * Attacher les produits à la commande et décrémenter les stocks
-     *
-     * @param Order $order
-     * @param array $productLines
-     * @param Warehouse $warehouse
-     * @return void
-     */
-    private function attachProductsToOrder(Order $order, array $productLines, Warehouse $warehouse)
-    {
-        foreach ($this->productLines as $line) {
-            if (!empty($line['product_id'])) {
-                $product = Product::find($line['product_id']);
-                
-                // Attacher le produit à la commande
-                $order->products()->attach($line['product_id'], [
-                    'quantity' => $line['quantity'],
-                    'unit_price' => $line['unit_price'],
-                    'total_price' => $line['total_price'],
-                ]);
-
-                // Décrémenter le stock dans l'entrepôt spécifique
-                // Cette méthode met automatiquement à jour le stock_quantity global du produit
-                $warehouse->decreaseProductStock($product, (int) $line['quantity']);
-            }
-        }
-    }
-
     #[On('customer-created')]
     public function refreshCustomers()
     {
@@ -283,8 +251,9 @@ class CreateModal extends Component
         // Filtrer les produits selon l'entrepôt sélectionné
         $products = Product::where('company_id', $this->tenant->id)->get();
         
-        if ($this->warehouse_id) {
-            $warehouse = Warehouse::find($this->warehouse_id);
+        if ($this->warehouseId) {
+            $warehouse = Warehouse::find($this->warehouseId);
+
             if ($warehouse) {
                 // Filtrer les produits qui ont du stock dans cet entrepôt
                 $products = $products->filter(function ($product) use ($warehouse) {
@@ -296,7 +265,9 @@ class CreateModal extends Component
             $products = $products->where('stock_quantity', '>', 0);
         }
 
-        return view('livewire.dashboard.components.order.create-modal', [
+        // dd(PaymentStatus::cases());
+
+        return view('livewire.dashboard.orders.create', [
             'statuses' => OrderStatus::cases(),
             'paymentStatuses' => PaymentStatus::cases(),
             'customers' => $customers,

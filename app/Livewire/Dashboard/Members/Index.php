@@ -75,6 +75,17 @@ class Index extends Component
         session()->flash('success', 'Member supprimé avec succès.');
     }
 
+    /**
+     * Ouvre le forumulaire modal d'edition
+     *
+     * @param integer $memberId
+     * @return void
+     */
+    public function edit(int $memberId)
+    {
+        $this->dispatch('open-edit-member-modal', memberId: $memberId);
+    }
+
     public function render()
     {
         $query = Member::where('company_id', $this->tenant->id)
@@ -94,6 +105,7 @@ class Index extends Component
 
         return view('livewire.dashboard.members.index', [
             'members' => $members,
-        ])->extends('layouts.dashboard');
+        ])->extends('dashboard.settings.index')
+            ->section('viewbody');
     }
 }

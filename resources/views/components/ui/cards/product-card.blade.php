@@ -18,11 +18,11 @@
                 </a>
             </h3>
             <p class="font-light text-black/50">
-                {{ str()->words($product->description ?? '', 14) }}
+                {{ str()->words($product->description ?? '', 10) }}
             </p>
         </div>
 
-        <div class="mt-2 flex items-center justify-between">
+        <div class="mt-4 flex items-center justify-between">
             <p class="text-sm font-medium text-black">
                 {{ Number::currency($product->price, in: 'XOF', locale: 'fr') }}
             </p>

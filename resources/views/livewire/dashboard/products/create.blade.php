@@ -1,5 +1,5 @@
 <div>
-    <x-ui.modals.create-warehouse-modal :tenant="$tenant" />
+    <x-ui.modals.create-warehouse-modal :tenant="$tenant" :key="'create-warehouse-' . time()" />
 
     <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" enctype="multipart/form-data" novalidate>
         @if ($featured_image)
@@ -12,7 +12,7 @@
                 <div class="relative">
                     <input type="file" accept="image/*" wire:model="featured_image" class="hidden" id="image-upload">
                     <label for="image-upload"
-                        class="flex flex-col items-center justify-center w-full h-24 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
+                        class="flex flex-col items-center justify-center w-full h-20 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                         <div class="text-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -47,7 +47,7 @@
             <x-form.label label="Description" id="description" />
 
             <div class="mt-1">
-                <textarea rows="4" name="description" wire:model.live="description" id="description"
+                <textarea rows="3" name="description" wire:model.live="description" id="description"
                     class="block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm sm:leading-6"></textarea>
             </div>
         </div>
@@ -71,6 +71,7 @@
                         <!-- Sélecteur d'entrepôt -->
                         <div class="col-span-2">
                             <x-form.label label="Entrepôt" id="warehouse-id-{{ $index }}" />
+
                             <select id="warehouse-id-{{ $index }}"
                                 wire:model.live="warehouseLines.{{ $index }}.warehouse_id"
                                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 text-gray-900 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm">
@@ -158,11 +159,6 @@
             <x-ui.btn.primary type="submit" class="w-full" :icon="false">
                 {{ __('Enregistrer') }}
             </x-ui.btn.primary>
-
-            {{-- <button type="submit"
-                class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-black cursor-pointer">
-                {{ __('Enregistrer') }}
-            </button> --}}
         </div>
     </form>
 </div>

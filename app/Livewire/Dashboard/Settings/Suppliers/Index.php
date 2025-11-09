@@ -52,6 +52,17 @@ class Index extends Component
         $this->resetPage();
     }
 
+    /**
+     * Ouvre le forumulaire modal d'edition
+     *
+     * @param integer $supplierId
+     * @return void
+     */
+    public function edit(int $supplierId)
+    {
+        $this->dispatch('open-edit-supplier-modal', supplierId: $supplierId);
+    }
+
     public function render()
     {
         $query = Supplier::where('company_id', $this->tenant->id)
@@ -66,6 +77,7 @@ class Index extends Component
 
         return view('livewire.dashboard.settings.suppliers.index', [
             'suppliers' => $suppliers,
-        ])->extends('layouts.dashboard');
+        ])->extends('dashboard.settings.index')
+            ->section('viewbody');
     }
 }

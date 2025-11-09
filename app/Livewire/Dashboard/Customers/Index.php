@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Customer;
+namespace App\Livewire\Dashboard\Customers;
 
 use App\Enums\CustomerType;
 use App\Models\Company;
@@ -12,12 +12,16 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.dashboard')]
 class Index extends Component
 {
     use WithPagination;
 
     public Company $tenant;
+
+    public ?Customer $selectedCustomer = null;
 
     #[Url]
     public string $search = '';
@@ -37,8 +41,6 @@ class Index extends Component
     public ?string $type = null;
 
     public $confirmingDelete = null;
-
-    public $selectedCustomer = null;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -76,6 +78,17 @@ class Index extends Component
         session()->flash('success', 'Client supprimé avec succès.');
     }
 
+    /**
+     * Ouvre le forumulaire modal d'edition
+     *
+     * @param integer $customerId
+     * @return void
+     */
+    public function edit(int $customerId)
+    {
+        $this->dispatch('open-edit-customer-modal', customerId: $customerId);
+    }
+
     public function showCustomerOrders(Customer $customer)
     {
         $this->selectedCustomer = $customer;
@@ -84,8 +97,6 @@ class Index extends Component
 
     public function render()
     {
-        /* $query = Customer::where('company_id', $this->tenant->id) */
-
         $query = Customer::where('company_id', $this->tenant->id)
             ->with(['orders' => function ($q) {
                 $q->with(['products', 'customer'])->latest();
@@ -102,9 +113,9 @@ class Index extends Component
 
         $customers = $query->paginate(10);
 
-        return view('livewire.dashboard.customer.index', [
+        return view('livewire.dashboard.customers.index', [
             'customers' => $customers,
             'types' => CustomerType::cases(),
-        ])->extends('layouts.dashboard');
+        ]);
     }
 }

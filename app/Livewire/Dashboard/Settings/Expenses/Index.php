@@ -44,6 +44,17 @@ class Index extends Component
         $this->resetPage();
     }
 
+    /**
+     * Ouvre le forumulaire modal d'edition
+     *
+     * @param integer $expenseId
+     * @return void
+     */
+    public function edit(int $expenseId)
+    {
+        $this->dispatch('open-edit-expense-modal', expenseId: $expenseId);
+    }
+
     public function render()
     {
         $query = Expense::where('company_id', $this->tenant->id)
@@ -58,6 +69,7 @@ class Index extends Component
 
         return view('livewire.dashboard.settings.expenses.index', [
             'expenses' => $expenses,
-        ])->extends('layouts.dashboard');
+        ])->extends('dashboard.settings.index')
+            ->section('viewbody');
     }
 }

@@ -3,14 +3,13 @@
 <div class="space-y-6" x-data="{
     init() {
         Livewire.on('warehouse-created', () => {
-            // Rafraîchir la liste des entrepôts
+            $wire.$refresh()
+        });
+        Livewire.on('warehouse-updated', () => {
             $wire.$refresh()
         })
     }
 }">
-    <x-ui.breadcrumb :items="[['label' => 'Retour', 'url' => route('dashboard.settings.index', ['tenant' => $tenant])]]" />
-
-    <!-- En-tête -->
     <div class="flex items-center justify-between gap-2">
         <h1 class="text-2xl font-bold text-black">
             {{ __('Emplacements') }}
@@ -38,19 +37,6 @@
         <input type="text" wire:model.live.debounce.400ms="search" placeholder="Rechercher un entrepôt ..."
             class="shadow-xs focus:border-brand-300 focus:ring-gray-500/10 h-11 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pr-14 pl-12 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-1 focus:outline-hidden xl:w-[430px]">
     </div>
-
-    <!-- Messages de succès/erreur -->
-    @if (session()->has('success'))
-        <div class="bg-green-50 border border-green-200 text-green-700 rounded-md px-4 py-2">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session()->has('error'))
-        <div class="bg-red-50 border border-red-200 text-red-700 rounded-md px-4 py-2">
-            {{ session('error') }}
-        </div>
-    @endif
 
     <!-- Modal de création d'entrepôt -->
     <x-ui.modals.create-warehouse-modal :tenant="$tenant" />
@@ -99,14 +85,16 @@
 
                                 <td class="py-5 px-4 lg:px-0">
                                     <div class="">
-                                        <a href="#"
-                                            class="text-sm/6 font-medium text-indigo-600 hover:text-indigo-500">
+                                        <button type="button" wire:click="edit({{ $warehouse->id }})"
+                                            class="text-sm/6 font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer focus:outline-none">
                                             Editer
-                                        </a>
+                                        </button>
                                     </div>
                                     <div class="mt-1 text-xs/5 text-gray-500">
                                         Entrepôt
-                                        <span class="text-gray-900">#00012</span>
+                                        <span class="text-gray-900">
+                                            #{{ str_pad($warehouse->id, 4, '0', STR_PAD_LEFT) }}
+                                        </span>
                                     </div>
                                 </td>
                             </tr>
@@ -121,5 +109,7 @@
                 </table>
             </div>
         </div>
+
+        <livewire:dashboard.settings.warehouses.edit />
     </div>
 </div>

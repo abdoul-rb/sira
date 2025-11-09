@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Settings\Warehouse;
+namespace App\Livewire\Dashboard\Settings\Warehouses;
 
 use App\Models\Company;
 use App\Models\Warehouse;
@@ -52,6 +52,17 @@ class Index extends Component
         $this->resetPage();
     }
 
+    /**
+     * Ouvre le forumulaire modal d'edition
+     *
+     * @param integer $warehouseId
+     * @return void
+     */
+    public function edit(int $warehouseId)
+    {
+        $this->dispatch('open-edit-warehouse-modal', warehouseId: $warehouseId);
+    }
+
     public function render()
     {
         $query = Warehouse::where('company_id', $this->tenant->id)
@@ -65,8 +76,9 @@ class Index extends Component
 
         $warehouses = $query->paginate(10);
 
-        return view('livewire.dashboard.settings.warehouse.index', [
+        return view('livewire.dashboard.settings.warehouses.index', [
             'warehouses' => $warehouses,
-        ])->extends('layouts.dashboard');
+        ])->extends('dashboard.settings.index')
+            ->section('viewbody');
     }
 }

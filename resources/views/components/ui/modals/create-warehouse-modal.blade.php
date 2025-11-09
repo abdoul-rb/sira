@@ -5,5 +5,5 @@
         {{ __('Ajouter un entrepôt') }}
     </x-slot:title>
 
-    @livewire('dashboard.settings.warehouse.create-modal', ['tenant' => $tenant], key('create-wirehouse-' . now()))
+    <livewire:dashboard.settings.warehouses.create :tenant="$tenant" key="create-wirehouse" />
 </x-ui.modals.base>

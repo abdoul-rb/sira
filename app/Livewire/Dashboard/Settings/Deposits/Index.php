@@ -44,6 +44,17 @@ class Index extends Component
         $this->resetPage();
     }
 
+    /**
+     * Ouvre le forumulaire modal d'edition
+     *
+     * @param integer $depositId
+     * @return void
+     */
+    public function edit(int $depositId)
+    {
+        $this->dispatch('open-edit-deposit-modal', depositId: $depositId);
+    }
+
     public function render()
     {
         $query = Deposit::where('company_id', $this->tenant->id)
@@ -58,6 +69,7 @@ class Index extends Component
 
         return view('livewire.dashboard.settings.deposits.index', [
             'deposits' => $deposits,
-        ])->extends('layouts.dashboard');
+        ])->extends('dashboard.settings.index')
+            ->section('viewbody');
     }
 }

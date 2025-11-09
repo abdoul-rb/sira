@@ -1,10 +1,16 @@
 @section('title', 'Gestion du stock produits')
 
 <div class="space-y-6" x-data="{
-    viewType: 'card',
+    viewType: 'table',
     init() {
         Livewire.on('product-created', () => {
             // Rafraîchir la liste des produits
+            $wire.$refresh()
+        });
+        Livewire.on('product-updated', () => {
+            $wire.$refresh()
+        });
+        Livewire.on('product-deleted', () => {
             $wire.$refresh()
         })
     },
@@ -33,22 +39,17 @@
                     fill=""></path>
             </svg>
         </span>
-        <input type="text" wire:model.debounce.400ms="search" placeholder="Rechercher un produit ..."
+        <input type="text" wire:model.live.debounce.400ms="search" placeholder="Rechercher un produit ..."
             class="shadow-xs focus:border-brand-300 focus:ring-gray-500/10 h-11 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pr-14 pl-12 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-1 focus:outline-hidden xl:w-[430px]">
     </div>
 
     <!-- Modal de création de produit -->
     <x-ui.modals.create-product-modal :tenant="$tenant" />
 
-    @if (session()->has('success'))
-        <div class="bg-green-50 border border-green-200 text-green-700 rounded-md px-4 py-2">
-            {{ session('success') }}
-        </div>
-    @endif
-
     <div class="mx-auto max-w-2xl sm:max-w-none lg:max-w-7xl">
         <h2 class="sr-only">Products</h2>
 
+        <!-- Tabs -->
         <div class="flex justify-end">
             <div
                 class="relative inline-flex items-center justify-center w-full max-w-44 py-2 px-4 grid-cols-2 gap-x-6 bg-gray-100 border border-gray-200 rounded-lg select-none">
@@ -86,7 +87,7 @@
             </div>
         </div>
 
-        <div class="mt-5 grid grid-cols-1 gap-x-3 gap-y-4 sm:grid-cols-2 lg:grid-cols-3"
+        <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
             x-show.transition.in.opacity.duration.600="viewType === 'card'">
             @forelse ($products as $product)
                 <x-ui.cards.product-card :product="$product" />
@@ -105,10 +106,16 @@
                             <table class="relative min-w-full divide-y divide-gray-300">
                                 <thead class="border-gray-100 border-y bg-gray-100">
                                     <x-ui.tables.row>
-                                        <x-ui.tables.heading class="w-96">
+                                        <x-ui.tables.heading class="w-80">
                                             <div class="font-medium text-gray-500 text-xs">
                                                 {{ __('Produit') }}
                                             </div>
+                                        </x-ui.tables.heading>
+
+                                        <x-ui.tables.heading>
+                                            <span class="font-medium text-gray-500 text-xs">
+                                                {{ __('Description') }}
+                                            </span>
                                         </x-ui.tables.heading>
 
                                         <x-ui.tables.heading class="w-40">
@@ -155,6 +162,14 @@
                                                 </span>
                                             </x-ui.tables.cell>
 
+                                            <td class="h-px w-80 min-w-80 align-top">
+                                                <span class="block px-6 py-4">
+                                                    <span class="block text-xs text-gray-500">
+                                                        {{ str()->words($product->description ?? '', 12) }}
+                                                    </span>
+                                                </span>
+                                            </td>
+
                                             <x-ui.tables.cell>
                                                 <span class="text-gray-700 text-sm">
                                                     {{ $product->sku ?? '' }}
@@ -174,10 +189,10 @@
                                             </x-ui.tables.cell>
 
                                             <x-ui.tables.cell>
-                                                <div class="flex items-center gap-2">
+                                                <div class="flex items-center gap-2 justify-end">
                                                     <div x-data="{ open: false }" class="relative inline-block">
                                                         <button @click="open = !open"
-                                                            class="flex items-center rounded-full text-gray-400 hover:text-gray-600"
+                                                            class="flex items-center rounded-full text-gray-400 hover:text-gray-600 cursor-pointer"
                                                             type="button" aria-haspopup="menu" :aria-expanded="open">
                                                             <span class="sr-only">Options</span>
                                                             <svg viewBox="0 0 20 20" fill="currentColor"
@@ -189,23 +204,27 @@
 
                                                         <!-- Menu dropdown -->
                                                         <div x-show="open" @click.outside="open = false"
-                                                            class="absolute right-0 mt-2 w-56 rounded-md bg-white shadow-lg outline-1 outline-black/5 z-40"
+                                                            class="absolute right-0 mt-2 w-52 rounded-md bg-white shadow-lg outline-1 outline-black/5 z-40"
                                                             role="menu">
                                                             <div class="py-1">
                                                                 <a href="#"
                                                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                                                                     role="menuitem">
-                                                                    Account settings
+                                                                    Détails
                                                                 </a>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                                                <button type="button"
+                                                                    wire:click="edit({{ $product->id }})"
+                                                                    @click="open = false"
+                                                                    class="w-full block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer text-left"
                                                                     role="menuitem">
-                                                                    Support
-                                                                </a>
+                                                                    Modifier
+                                                                </button>
                                                                 <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                                                    wire:click.prevent="destroy({{ $product->id }})"
+                                                                    wire:confirm.prompt="Are you sure?\n\nType DELETE to confirm|DELETE"
+                                                                    class="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
                                                                     role="menuitem">
-                                                                    License
+                                                                    Supprimer
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -224,6 +243,8 @@
                             </table>
                         </div>
                     </div>
+
+                    <livewire:dashboard.products.edit />
                 </div>
             </div>
         </div>

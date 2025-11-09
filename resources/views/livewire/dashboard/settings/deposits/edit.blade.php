@@ -1,6 +1,11 @@
-<div>
-    <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" novalidate>
-        <x-form.input class="col-span-1" name="reference" label="Référence" :wire="true" :required="true" />
+<x-ui.modals.base id="edit-deposit" size="xl">
+    <x-slot:title>
+        {{ __('Modifier le versement') }}
+    </x-slot:title>
+
+    <form wire:submit.prevent="update" class="grid grid-cols-2 gap-x-2 gap-y-4" novalidate>
+        <x-form.input class="col-span-1" name="reference" label="Référence" :wire="true" :required="true"
+            :disabled="true" />
 
         <x-form.input class="col-span-1" name="label" label="Libellé" :wire="true" :required="true" />
 
@@ -30,15 +35,14 @@
 
         <!-- Boutons d'action -->
         <div class="col-span-full flex justify-between gap-3 pt-2">
-            <button type="button" @click="$dispatch('close-modal', { id: 'create-deposit' })"
+            <button type="button" @click="$dispatch('close-modal', { id: 'edit-deposit' })"
                 class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-white border border-gray-300 px-3 py-2 text-sm text-black focus-visible:outline focus-visible:outline-offset-2 hover:bg-gray-100">
                 {{ __('Annuler') }}
             </button>
 
-            <button type="submit"
-                class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-black cursor-pointer">
+            <x-ui.btn.primary class="w-full" type="submit" :icon="false">
                 {{ __('Enregistrer') }}
-            </button>
+            </x-ui.btn.primary>
         </div>
     </form>
-</div>
+</x-ui.modals.base>

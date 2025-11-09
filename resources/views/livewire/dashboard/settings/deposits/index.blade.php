@@ -4,11 +4,12 @@
     init() {
         Livewire.on('deposit-created', () => {
             $wire.$refresh()
+        });
+        Livewire.on('deposit-updated', () => {
+            $wire.$refresh()
         })
     }
 }">
-    <x-ui.breadcrumb :items="[['label' => 'Retour', 'url' => route('dashboard.settings.index', ['tenant' => $tenant])]]" />
-
     <!-- En-tête -->
     <div class="flex items-center justify-between gap-2">
         <h1 class="text-2xl font-bold text-black">
@@ -165,8 +166,8 @@
 
                                     <x-ui.tables.cell>
                                         <div class="flex items-center gap-2">
-                                            <a href="#"
-                                                class="flex items-center gap-1 text-blue-600 text-sm font-medium p-1">
+                                            <button type="button" wire:click="edit({{ $deposit->id }})"
+                                                class="flex items-center gap-1 text-blue-600 text-sm font-medium p-1 cursor-pointer">
                                                 <svg class="size-5 text-blue/50 shrink-0" data-slot="icon"
                                                     fill="none" stroke-width="2" stroke="currentColor"
                                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
@@ -175,7 +176,7 @@
                                                         d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10">
                                                     </path>
                                                 </svg>
-                                            </a>
+                                            </button>
                                         </div>
                                     </x-ui.tables.cell>
                                 </x-ui.tables.row>
@@ -190,6 +191,8 @@
                     </table>
                 </div>
             </div>
+
+            <livewire:dashboard.settings.deposits.edit />
         </div>
     </div>
 </div>

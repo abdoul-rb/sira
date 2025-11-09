@@ -4,6 +4,10 @@
     init() {
         Livewire.on('customer-created', () => {
             $wire.$refresh()
+        });
+
+        Livewire.on('customer-updated', () => {
+            $wire.$refresh()
         })
     }
 }">
@@ -17,7 +21,7 @@
         </x-ui.btn.primary>
     </div>
 
-    <x-ui.modals.add-customer-modal :tenant="$tenant" />
+    <x-ui.modals.create-customer-modal :tenant="$tenant" />
 
     <div class="mt-3 space-y-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -187,6 +191,8 @@
                 <div class="col-span-full text-center text-gray-500 py-10">Aucun client trouvé.</div>
             @endforelse
         </ul>
+
+        <livewire:dashboard.customers.edit />
 
         <div class="mt-6">
             {{ $customers->links() }}

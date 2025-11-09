@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -25,12 +27,9 @@ class UpdateCustomerRequest extends FormRequest
             'firstname' => ['required', 'string', 'max:50'],
             'lastname' => ['required', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:100'],
-            'phone_number' => ['nullable', 'string', 'max:30'],
-            'type' => ['required', 'in:lead,customer'],
+            'phoneNumber' => ['nullable', 'string', 'max:30'],
             'address' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:100'],
-            'zip_code' => ['nullable', 'string', 'max:20'],
-            'country' => ['nullable', 'string', 'max:100'],
+            // 'type' => ['required', 'in:lead,customer'],
         ];
     }
 }

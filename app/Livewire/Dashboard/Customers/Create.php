@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Dashboard\Customer;
+namespace App\Livewire\Dashboard\Customers;
 
 use Livewire\Component;
 use App\Enums\CustomerType;
@@ -10,9 +10,8 @@ use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Models\Company;
 use App\Models\Customer;
 
-class AddModal extends Component
+class Create extends Component
 {
-    // TODO: rename to create with view
     public Company $tenant;
     
     public $type = 'lead';
@@ -58,7 +57,7 @@ class AddModal extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.customer.add-modal', [
+        return view('livewire.dashboard.customers.create', [
             'types' => CustomerType::cases(),
         ]);
     }

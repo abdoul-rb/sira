@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Member;
 
+use App\Enums\RoleEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreMemberRequest extends FormRequest
 {
@@ -25,8 +28,13 @@ class StoreMemberRequest extends FormRequest
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'phoneNumber' => ['nullable', 'string', 'max:255'],
-            'email' => ['required', 'email'],
-            // 'password' => ['required', Password::min(8)->letters()->mixedCase()->numbers()],
+            'email' => ['required_if_accepted:canLogin', 'email', Rule::unique('users', 'email')],
+            'canLogin' => ['boolean'],
+            'role' => [
+                'required_if_accepted:canLogin',
+                Rule::when(fn ($input) => filled($input['role']), Rule::enum(RoleEnum::class)->except([RoleEnum::SUPERADMIN])),
+            ],
+            'password' => ['required_if_accepted:canLogin', Password::min(8)->letters()->mixedCase()->numbers()],
         ];
 
         return $rules;

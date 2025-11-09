@@ -28,16 +28,18 @@ class CreateMemberAction
                 'phone_number' => $data['phoneNumber'],
             ]);
 
-            $user = User::create([
-                'name' => "{$data['firstname']} {$data['lastname']}",
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-            ]);
+            if ($data['canLogin']) {
+                $user = User::create([
+                    'name' => "{$data['firstname']} {$data['lastname']}",
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                ]);
 
-            $user->assignRole([RoleEnum::OPERATOR]);
+                $user->assignRole([$data['role']]);
 
-            $member->user()->associate($user);
-            $member->save();
+                $member->user()->associate($user);
+                $member->save();   
+            }
 
             return $member;
         });

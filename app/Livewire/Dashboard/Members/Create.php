@@ -13,24 +13,30 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use App\Actions\Members\CreateMemberAction;
+use App\Enums\RoleEnum;
 use App\Notifications\NewMemberAccountCreated;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
-
 class Create extends Component
 {
     public Company $tenant;
 
-    public $firstname = '';
+    public string $firstname = '';
 
-    public $lastname = '';
+    public string $lastname = '';
 
-    public $phoneNumber = '';
+    public string $phoneNumber = '';
 
-    public $email = '';
+    public string $email = '';
+
+    public string $password = '';
+
+    public bool $canLogin = false;
+
+    public ?RoleEnum $role = null;
 
     public function mount(Company $tenant)
     {
@@ -47,22 +53,26 @@ class Create extends Component
         return (new StoreMemberRequest)->messages();
     }
 
+    public function updatedCanLogin()
+    {
+        $temporaryPassword = Str::random(10);
+        $this->password = $temporaryPassword;
+    }
+
     public function save(CreateMemberAction $action)
     {
         $validated = $this->validate();
         $validated['company_id'] = $this->tenant->id;
 
-        $temporaryPassword = Str::random(14);
-        $validated['password'] = $temporaryPassword;
-
         try {
             $member = $action->handle($validated);
 
-            $member->user->notify(new NewMemberAccountCreated($temporaryPassword));
-
-            session()->flash('success', 'Membre créé avec succès.');
+            if ($member->user) {
+                $member->user->notify(new NewMemberAccountCreated($this->password));
+            }
 
             $this->dispatch('close-modal', id: 'create-member');
+            $this->dispatch('notify', 'Employé ajouté avec succès !');
             $this->dispatch('member-created');
         } catch (Exception $e) {
             Log::error('Create member failed', [

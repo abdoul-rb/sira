@@ -67,6 +67,7 @@ class Index extends Component
 
         return view('livewire.dashboard.settings.warehouse.index', [
             'warehouses' => $warehouses,
-        ])->extends('layouts.dashboard');
+        ])->extends('dashboard.settings.index')
+            ->section('viewbody');
     }
 }

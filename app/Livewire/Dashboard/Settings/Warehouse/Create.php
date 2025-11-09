@@ -9,7 +9,7 @@ use App\Models\Warehouse;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
-class CreateModal extends Component
+class Create extends Component
 {
     public Company $tenant;
 
@@ -65,6 +65,6 @@ class CreateModal extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.settings.warehouse.create-modal');
+        return view('livewire.dashboard.settings.warehouse.create');
     }
 }

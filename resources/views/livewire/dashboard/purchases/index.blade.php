@@ -4,6 +4,9 @@
     init() {
         Livewire.on('purchase-created', () => {
             $wire.$refresh()
+        });
+        Livewire.on('purchase-updated', () => {
+            $wire.$refresh()
         })
     }
 }">
@@ -113,6 +116,8 @@
                 <div class="col-span-full text-center text-gray-500 py-10">Aucun achat trouvé.</div>
             @endforelse
         </ul>
+
+        <livewire:dashboard.purchases.edit />
 
         <div class="mt-6">
             {{ $purchases->links() }}

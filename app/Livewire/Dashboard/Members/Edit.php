@@ -158,6 +158,6 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.members.edit')->extends('layouts.dashboard');
+        return view('livewire.dashboard.members.edit');
     }
 }

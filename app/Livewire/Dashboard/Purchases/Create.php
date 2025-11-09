@@ -23,12 +23,12 @@ class Create extends Component
 
     public $purchasedAt = '';
 
-    protected function rules()
+    protected function rules(): array
     {
         return (new StorePurchaseRequest)->rules();
     }
 
-    protected function messages()
+    protected function messages(): array
     {
         return (new StorePurchaseRequest)->messages();
     }

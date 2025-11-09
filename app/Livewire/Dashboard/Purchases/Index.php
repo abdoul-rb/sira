@@ -30,6 +30,17 @@ class Index extends Component
         $this->tenant = $tenant;
     }
 
+    /**
+     * Ouvre le forumulaire modal d'edition
+     *
+     * @param integer $purchaseId
+     * @return void
+     */
+    public function edit(int $purchaseId)
+    {
+        $this->dispatch('open-edit-purchase-modal', purchaseId: $purchaseId);
+    }
+
     public function render()
     {
         $query = Purchase::where('company_id', $this->tenant->id)

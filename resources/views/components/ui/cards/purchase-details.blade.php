@@ -7,8 +7,29 @@
         <div class="text-sm/6 font-medium text-gray-900">
             {{ $purchase->supplier->name }}
         </div>
-        <el-dropdown class="relative ml-auto">
-            <button class="relative block text-gray-400 hover:text-gray-500">
+        <div class="relative ml-auto" x-data="{ dropdownOpen: false }">
+            <button type="button" @click="dropdownOpen = !dropdownOpen"
+                class="relative block text-gray-400 hover:text-gray-500 cursor-pointer">
+                <span class="absolute -inset-2.5"></span>
+                <span class="sr-only">Open options</span>
+                <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                    <path
+                        d="M3 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM8.5 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM15.5 8.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z" />
+                </svg>
+            </button>
+
+            <div x-show="dropdownOpen"
+                class="absolute right-0 z-10 mt-0.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
+                role="menu" aria-orientation="vertical" aria-labelledby="options-menu-0-button" tabindex="-1">
+                <a href="#" wire:click.prevent="edit({{ $purchase->id }})" @click="dropdownOpen = false"
+                    class="block px-3 py-1 text-sm/6 text-gray-900 focus:bg-gray-50 focus:outline-hidden hover:bg-gray-50">
+                    Modifer
+                    <span class="sr-only">, Tuple</span>
+                </a>
+            </div>
+        </div>
+        {{-- <el-dropdown class="relative ml-auto">
+            <button class="relative block text-gray-400 hover:text-gray-500 cursor-pointer">
                 <span class="absolute -inset-2.5"></span>
                 <span class="sr-only">Open options</span>
                 <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
@@ -25,7 +46,7 @@
                     class="block px-3 py-1 text-sm/6 text-gray-900 focus:bg-gray-50 focus:outline-hidden">Edit<span
                         class="sr-only">, Tuple</span></a>
             </el-menu>
-        </el-dropdown>
+        </el-dropdown> --}}
     </div>
 
     <div class="px-6 py-4">

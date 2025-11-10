@@ -27,6 +27,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use UnitEnum;
 
@@ -59,7 +60,8 @@ class UserResource extends Resource
                     ->label('Mot de passe')
                     ->password()
                     ->revealable()
-                    ->required(),
+                    ->dehydrated(fn (?string $state): bool => filled($state))
+                    ->required(fn (string $operation): bool => $operation === 'create'),
                 Select::make('roles')
                     ->label('Rôles')
                     ->multiple()

@@ -75,6 +75,7 @@ class PurchaseResource extends Resource
                     ->collapsible(),
             ])
             ->columns([
+                TextColumn::make('id'),
                 TextColumn::make('company.name')
                     ->label('Entreprise')
                     ->searchable(),
@@ -83,7 +84,7 @@ class PurchaseResource extends Resource
                     ->searchable(),
                 TextColumn::make('amount')
                     ->label('Montant')
-                    ->money('EUR')
+                    ->money('XOF')
                     ->sortable(),
                 TextColumn::make('purchased_at')
                     ->label("Date d'achat")

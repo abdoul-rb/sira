@@ -26,16 +26,15 @@ class OrdersTable
                     ->collapsible(),
             ])
             ->columns([
+                TextColumn::make('id'),
                 TextColumn::make('company.name')
                     ->label('Entreprise')
                     ->searchable(),
-                TextColumn::make('customer.id')
-                    ->label('Client')
-                    ->searchable(),
-                /* TextColumn::make('warehouse.name')
-                    ->searchable(), */
                 TextColumn::make('order_number')
-                    ->label('N°')
+                    ->label('N° Commande')
+                    ->searchable(),
+                TextColumn::make('customer.firstname')
+                    ->label('Client')
                     ->searchable(),
                 /* TextColumn::make('status')
                     ->badge(), */

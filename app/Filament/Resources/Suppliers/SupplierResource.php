@@ -71,6 +71,7 @@ class SupplierResource extends Resource
             ])
             ->recordTitleAttribute('name')
             ->columns([
+                TextColumn::make('id'),
                 TextColumn::make('company.name')
                     ->label('Entreprise')
                     ->columnSpanFull()

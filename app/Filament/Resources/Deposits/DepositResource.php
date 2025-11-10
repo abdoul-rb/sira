@@ -74,6 +74,7 @@ class DepositResource extends Resource
             ])
             ->recordTitleAttribute('label')
             ->columns([
+                TextColumn::make('id'),
                 TextColumn::make('company.name')
                     ->label('Entreprise')
                     ->searchable(),

@@ -67,6 +67,7 @@ class WarehouseResource extends Resource
             ])
             ->recordTitleAttribute('name')
             ->columns([
+                TextColumn::make('id'),
                 TextColumn::make('company.name')
                     ->label('Entreprise')
                     ->searchable(),

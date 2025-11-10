@@ -27,6 +27,7 @@ class ProductsTable
                     ->collapsible(),
             ])
             ->columns([
+                TextColumn::make('id'),
                 TextColumn::make('company.name')
                     ->label('Entreprise')
                     ->searchable(),

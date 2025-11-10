@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Purchases;
 
 use App\Filament\Resources\Purchases\Pages\ManagePurchases;
+use App\Models\Company;
 use App\Models\Purchase;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
@@ -21,7 +22,9 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -65,7 +68,14 @@ class PurchaseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                Group::make('company.name')
+                    ->label('Entreprise')
+                    ->titlePrefixedWithLabel(false)
+                    ->collapsible(),
+            ])
             ->columns([
+                TextColumn::make('id'),
                 TextColumn::make('company.name')
                     ->label('Entreprise')
                     ->searchable(),
@@ -74,7 +84,7 @@ class PurchaseResource extends Resource
                     ->searchable(),
                 TextColumn::make('amount')
                     ->label('Montant')
-                    ->money('EUR')
+                    ->money('XOF')
                     ->sortable(),
                 TextColumn::make('purchased_at')
                     ->label("Date d'achat")
@@ -95,6 +105,10 @@ class PurchaseResource extends Resource
             ])
             ->filters([
                 TrashedFilter::make(),
+                SelectFilter::make('company_id')
+                    ->label('Entreprise')
+                    ->options(Company::pluck('name', 'id'))
+                    ->searchable(),
             ])
             ->recordActions([
                 EditAction::make(),

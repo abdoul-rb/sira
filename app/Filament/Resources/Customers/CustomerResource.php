@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Customers;
 
 use App\Enums\CustomerType;
 use App\Filament\Resources\Customers\Pages\ManageCustomers;
+use App\Models\Company;
 use App\Models\Customer;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
@@ -22,7 +23,9 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -77,6 +80,12 @@ class CustomerResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                Group::make('company.name')
+                    ->label('Entreprise')
+                    ->titlePrefixedWithLabel(false)
+                    ->collapsible(),
+            ])
             ->recordTitleAttribute('firstname')
             ->columns([
                 TextColumn::make('id')
@@ -130,6 +139,10 @@ class CustomerResource extends Resource
             ])
             ->filters([
                 TrashedFilter::make(),
+                SelectFilter::make('company_id')
+                    ->label('Entreprise')
+                    ->options(Company::pluck('name', 'id'))
+                    ->searchable(),
             ])
             ->recordActions([
                 EditAction::make(),

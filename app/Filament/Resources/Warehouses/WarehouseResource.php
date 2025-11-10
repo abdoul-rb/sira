@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Warehouses;
 
 use App\Filament\Resources\Warehouses\Pages\ManageWarehouses;
+use App\Models\Company;
 use App\Models\Warehouse;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
@@ -17,6 +18,8 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use UnitEnum;
 
@@ -56,8 +59,15 @@ class WarehouseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                Group::make('company.name')
+                    ->label('Entreprise')
+                    ->titlePrefixedWithLabel(false)
+                    ->collapsible(),
+            ])
             ->recordTitleAttribute('name')
             ->columns([
+                TextColumn::make('id'),
                 TextColumn::make('company.name')
                     ->label('Entreprise')
                     ->searchable(),
@@ -80,7 +90,10 @@ class WarehouseResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('company_id')
+                    ->label('Entreprise')
+                    ->options(Company::pluck('name', 'id'))
+                    ->searchable(),
             ])
             ->recordActions([
                 EditAction::make(),

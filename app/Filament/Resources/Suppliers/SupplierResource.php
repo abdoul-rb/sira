@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Suppliers;
 
 use App\Filament\Resources\Suppliers\Pages\ManageSuppliers;
+use App\Models\Company;
 use App\Models\Supplier;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
@@ -17,6 +18,8 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use UnitEnum;
 
@@ -60,8 +63,15 @@ class SupplierResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                Group::make('company.name')
+                    ->label('Entreprise')
+                    ->titlePrefixedWithLabel(false)
+                    ->collapsible(),
+            ])
             ->recordTitleAttribute('name')
             ->columns([
+                TextColumn::make('id'),
                 TextColumn::make('company.name')
                     ->label('Entreprise')
                     ->columnSpanFull()
@@ -90,7 +100,10 @@ class SupplierResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('company_id')
+                    ->label('Entreprise')
+                    ->options(Company::pluck('name', 'id'))
+                    ->searchable(),
             ])
             ->recordActions([
                 EditAction::make(),

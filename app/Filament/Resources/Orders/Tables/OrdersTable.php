@@ -2,13 +2,16 @@
 
 namespace App\Filament\Resources\Orders\Tables;
 
+use App\Models\Company;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 
 class OrdersTable
@@ -16,17 +19,22 @@ class OrdersTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->groups([
+                Group::make('company.name')
+                    ->label('Entreprise')
+                    ->titlePrefixedWithLabel(false)
+                    ->collapsible(),
+            ])
             ->columns([
+                TextColumn::make('id'),
                 TextColumn::make('company.name')
                     ->label('Entreprise')
                     ->searchable(),
-                TextColumn::make('customer.id')
-                    ->label('Client')
-                    ->searchable(),
-                /* TextColumn::make('warehouse.name')
-                    ->searchable(), */
                 TextColumn::make('order_number')
-                    ->label('N°')
+                    ->label('N° Commande')
+                    ->searchable(),
+                TextColumn::make('customer.firstname')
+                    ->label('Client')
                     ->searchable(),
                 /* TextColumn::make('status')
                     ->badge(), */
@@ -44,6 +52,7 @@ class OrdersTable
                 TextColumn::make('subtotal')
                     ->label('Sous total')
                     ->numeric()
+                    ->money('XOF')
                     ->sortable(),
                 TextColumn::make('total_amount')
                     ->label('Total')
@@ -79,6 +88,10 @@ class OrdersTable
             ])
             ->filters([
                 TrashedFilter::make(),
+                SelectFilter::make('company_id')
+                    ->label('Entreprise')
+                    ->options(Company::pluck('name', 'id'))
+                    ->searchable(),
             ])
             ->recordActions([
                 EditAction::make(),

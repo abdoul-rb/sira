@@ -73,6 +73,9 @@ class CompanyResource extends Resource
                 TextColumn::make('phone_number')
                     ->label('Téléphone')
                     ->searchable(),
+                TextColumn::make('members_count')
+                    ->counts('members')
+                    ->label('Membres'),
                 TextColumn::make('website')
                     ->searchable(),
                 IconColumn::make('active')

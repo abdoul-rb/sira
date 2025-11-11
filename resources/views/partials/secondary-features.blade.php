@@ -1,14 +1,12 @@
-<section id="secondary-features" aria-label="Features for simplifying everyday business tasks"
+<section id="secondary-features" aria-label="Simplifiez les tâches du quotidien."
     class="pt-20 pb-14 sm:pt-32 sm:pb-20 lg:pb-32">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-2xl md:text-center">
             <h2 class="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-                Simplify everyday business
-                tasks.
+                Simplifiez les tâches du quotidien.
             </h2>
             <p class="mt-4 text-lg tracking-tight text-slate-700">
-                Because you'd probably be a little confused if we
-                suggested you complicate your everyday business tasks instead.
+                Parce que vous avez mieux à faire que jongler entre dix outils à la fois.
             </p>
         </div>
 
@@ -29,13 +27,14 @@
                         </svg>
                     </div>
 
-                    <h3 class="mt-6 text-sm font-medium text-blue-600">Reporting</h3>
+                    <h3 class="mt-6 text-sm font-medium text-blue-600">Rapports</h3>
                     <p class="mt-2 font-display text-xl text-slate-900">
-                        Stay on top of things with always
-                        up-to-date reporting features.
+                        Gardez un œil sur vos chiffres grâce à des rapports toujours à jour.
                     </p>
-                    <p class="mt-4 text-sm text-slate-600">We talked about reporting in the section above but we
-                        needed three items here, so mentioning it one more time for posterity.</p>
+                    <p class="mt-4 text-sm text-slate-600">
+                        On a déjà parlé de suivi plus haut, mais un bon tableau de bord, ça mérite bien d'être cité deux
+                        fois.
+                    </p>
                 </div>
 
                 <div class="relative mt-10 pb-10">
@@ -67,13 +66,13 @@
                         </svg>
                     </div>
 
-                    <h3 class="mt-6 text-sm font-medium text-blue-600">Inventory</h3>
+                    <h3 class="mt-6 text-sm font-medium text-blue-600">Stock</h3>
                     <p class="mt-2 font-display text-xl text-slate-900">
-                        Never lose track of what’s in stock with
-                        accurate inventory tracking.
+                        Suivez vos produits, vos quantités et vos mouvements en temps réel.
                     </p>
-                    <p class="mt-4 text-sm text-slate-600">We don’t offer this as part of our software but that
-                        statement is inarguably true. Accurate inventory tracking would help you for sure.</p>
+                    <p class="mt-4 text-sm text-slate-600">
+                        Fini les approximations : vous savez toujours ce qu'il reste sur les étagères.
+                    </p>
                 </div>
 
                 <div class="relative mt-10 pb-10">
@@ -102,13 +101,10 @@
 
                     <h3 class="mt-6 text-sm font-medium text-blue-600">Contacts</h3>
                     <p class="mt-2 font-display text-xl text-slate-900">
-                        Organize all of your contacts, service
-                        providers, and invoices in one place.
+                        Centralisez vos clients, fournisseurs et partenaires au même endroit.
                     </p>
                     <p class="mt-4 text-sm text-slate-600">
-                        This also isn’t actually a feature, it’s just some
-                        friendly advice. We definitely recommend that you do this, you’ll feel really organized and
-                        professional.
+                        Parce que fouiller dans un carnet d'adresses n'a jamais fait vendre plus vite.
                     </p>
                 </div>
 
@@ -124,6 +120,7 @@
                 </div>
             </div>
         </div>
+
         <div class="hidden lg:mt-20 lg:block">
             <div class="grid grid-cols-3 gap-x-8" role="tablist" aria-orientation="horizontal">
                 <div class="relative">
@@ -147,14 +144,17 @@
                             tabindex="0" data-headlessui-state="selected" data-selected=""
                             aria-controls="headlessui-tabs-panel-_R_bbeavb_">
                             <span class="absolute inset-0"></span>
-                            Reporting
+                            Rapports
                         </button>
                     </h3>
 
-                    <p class="mt-2 font-display text-xl text-slate-900">Stay on top of things with always
-                        up-to-date reporting features.</p>
-                    <p class="mt-4 text-sm text-slate-600">We talked about reporting in the section above but we
-                        needed three items here, so mentioning it one more time for posterity.</p>
+                    <p class="mt-2 font-display text-xl text-slate-900">
+                        Gardez un œil sur vos chiffres grâce à des rapports toujours à jour.
+                    </p>
+                    <p class="mt-4 text-sm text-slate-600">
+                        On a déjà parlé de suivi plus haut, mais un bon tableau de bord, ça mérite bien d'être cité deux
+                        fois.
+                    </p>
                 </div>
 
                 <div class="relative opacity-75 hover:opacity-100">
@@ -176,13 +176,15 @@
                             id="headlessui-tabs-tab-_R_kreavb_" role="tab" type="button" aria-selected="false"
                             tabindex="-1" data-headlessui-state=""
                             aria-controls="headlessui-tabs-panel-_R_jbeavb_"><span class="absolute inset-0"></span>
-                            Inventory
+                            Stock
                         </button>
                     </h3>
-                    <p class="mt-2 font-display text-xl text-slate-900">Never lose track of what’s in stock with
-                        accurate inventory tracking.</p>
-                    <p class="mt-4 text-sm text-slate-600">We don’t offer this as part of our software but that
-                        statement is inarguably true. Accurate inventory tracking would help you for sure.</p>
+                    <p class="mt-2 font-display text-xl text-slate-900">
+                        Suivez vos produits, vos quantités et vos mouvements en temps réel.
+                    </p>
+                    <p class="mt-4 text-sm text-slate-600">
+                        Fini les approximations : vous savez toujours ce qu'il reste sur les étagères.
+                    </p>
                 </div>
 
                 <div class="relative opacity-75 hover:opacity-100">
@@ -205,11 +207,12 @@
                             Contacts
                         </button>
                     </h3>
-                    <p class="mt-2 font-display text-xl text-slate-900">Organize all of your contacts, service
-                        providers, and invoices in one place.</p>
-                    <p class="mt-4 text-sm text-slate-600">This also isn’t actually a feature, it’s just some
-                        friendly advice. We definitely recommend that you do this, you’ll feel really organized and
-                        professional.</p>
+                    <p class="mt-2 font-display text-xl text-slate-900">
+                        Centralisez vos clients, fournisseurs et partenaires au même endroit.
+                    </p>
+                    <p class="mt-4 text-sm text-slate-600">
+                        Parce que fouiller dans un carnet d'adresses n'a jamais fait vendre plus vite.
+                    </p>
                 </div>
             </div>
 

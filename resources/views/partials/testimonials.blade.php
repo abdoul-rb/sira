@@ -2,8 +2,7 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-2xl md:text-center">
             <h2 class="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-                Loved by businesses
-                worldwide.
+                Loved by businesses worldwide.
             </h2>
             <p class="mt-4 text-lg tracking-tight text-slate-700">
                 Our software is so simple that people can’t help

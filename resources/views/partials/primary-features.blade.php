@@ -7,10 +7,11 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
         <div class="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
             <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
-                Everything you need to run your business.
+                Tout ce qu'il vous faut pour gérer votre business.
             </h2>
-            <p class="mt-6 text-lg tracking-tight text-blue-100">
-                Well everything you need if you aren’t that picky about minor details like sales management.
+            <p class="mt-6 text-lg tracking-tight text-blue-100 max-w-5xl mx-auto">
+                Centralisez la gestion de votre entreprise dans une seule plateforme : ventes, achats, employés et suivi
+                des performances. Gagnez du temps, réduisez les erreurs et simplifiez votre quotidien.
             </p>
         </div>
 
@@ -27,12 +28,12 @@
                                 tabindex="0" data-headlessui-state="selected" data-selected=""
                                 aria-controls="headlessui-tabs-panel-_R_daaavb_">
                                 <span class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>
-                                Payroll
+                                Ventes
                             </button>
                         </h3>
                         <p class="mt-2 hidden text-sm lg:block text-white">
-                            Keep track of everyone's salaries and
-                            whether or not they've been paid. Direct deposit not supported.
+                            Suivez vos devis, commandes et paiements sans effort.
+                            Tout ce qu'il faut pour vendre plus vite et mieux.
                         </p>
                     </div>
 
@@ -45,13 +46,12 @@
                                 tabindex="-1" data-headlessui-state=""
                                 aria-controls="headlessui-tabs-panel-_R_laaavb_">
                                 <span class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>
-                                Claim
-                                expenses
+                                Achats
                             </button>
                         </h3>
                         <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">
-                            All of your
-                            receipts organized into one place, as long as you don't mind typing in the data by hand.
+                            Gardez le contrôle sur vos fournisseurs et vos dépenses.
+                            De la commande à la réception, tout est tracé.
                         </p>
                     </div>
 
@@ -64,14 +64,12 @@
                                 tabindex="-1" data-headlessui-state=""
                                 aria-controls="headlessui-tabs-panel-_R_taaavb_">
                                 <span class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>
-                                VAT
-                                handling
+                                Équipe
                             </button>
                         </h3>
                         <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">
-                            We only sell
-                            our software to companies who don't deal with VAT at all, so technically we do all the
-                            VAT stuff they need.
+                            Ajoutez vos employés, attribuez leurs rôles, et laissez-les bosser.
+                            Simple, clair, sécurisé.
                         </p>
                     </div>
                     <div
@@ -83,11 +81,12 @@
                                 tabindex="-1" data-headlessui-state=""
                                 aria-controls="headlessui-tabs-panel-_R_15aaavb_">
                                 <span class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>
-                                Reporting
+                                Tableau de bord
                             </button>
                         </h3>
-                        <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">Easily export
-                            your data into an Excel spreadsheet where you can do whatever the hell you want with it.
+                        <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">
+                            Suivez vos chiffres en temps réel.
+                            Des données précises, sans fichiers Excel à rallonge.
                         </p>
                     </div>
                 </div>

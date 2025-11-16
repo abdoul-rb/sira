@@ -63,7 +63,7 @@ class Edit extends Component
     public function loadCurrentProduct(int $productId)
     {
         $this->product = Product::findOrFail($productId);
-        $this->tenant = $this->product->company;
+        // $this->tenant = $this->product->company;
 
         $this->fill([
             'product' => $this->product,
@@ -94,7 +94,7 @@ class Edit extends Component
         $this->dispatch('open-modal', id: 'edit-product');
     }
 
-    public function removeFeaturedImage()
+    public function removeCurrentImage()
     {
         if ($this->product && $this->product->featured_image) {
             Storage::disk('public')->delete($this->product->featured_image);
@@ -131,6 +131,6 @@ class Edit extends Component
 
         return view('livewire.dashboard.products.edit', [
             'warehouses' => $warehouses,
-        ])->extends('layouts.dashboard');
+        ]);
     }
 }

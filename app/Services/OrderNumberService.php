@@ -13,7 +13,7 @@ class OrderNumberService
 {
     /**
      * Génère un numéro de commande unique pour une entreprise
-     * Pattern: YYYYMMDD-XXX-HHHHHH
+     * Pattern: CYYYYMMDD-XXX-HHHH
      */
     public function generate(Company $company): string
     {
@@ -22,7 +22,7 @@ class OrderNumberService
         $globalIncrement = $this->getGlobalIncrement($company);
         $hash = $this->generateShortHash($company);
 
-        return "{$today}-{$increment}-{$globalIncrement}";
+        return "{$company->id}-{$today}-{$increment}-{$globalIncrement}";
     }
 
     /**
@@ -49,7 +49,7 @@ class OrderNumberService
             ->where('company_id', $company->id)
             ->max('id') + 1;
 
-        return str_pad((string) $global, 5, '0', STR_PAD_LEFT);
+        return str_pad((string) $global, 3, '0', STR_PAD_LEFT);
     }
 
     /**

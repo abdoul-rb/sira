@@ -14,13 +14,13 @@
                 <div class="mt-4 text-center lg:mt-0 lg:pt-1 lg:text-left">
                     <p class="text-sm font-medium text-gray-600">Welcome back,</p>
                     <p class="text-xl font-bold text-gray-900 lg:text-2xl">{{ auth()->user()->name }}</p>
-                    <p class="text-sm font-medium text-gray-600"></p>
+                    <p class="text-sm font-medium text-gray-600">{{ Auth::user()->roleLabels() }}</p>
                 </div>
             </div>
             <div class="mt-5 flex justify-center lg:mt-0">
                 <a href="{{ route('dashboard.profile.index') }}"
                     class="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-medium text-black shadow-xs ring-1 ring-gray-200">
-                    Mon profil
+                    Consultations
                 </a>
             </div>
         </div>

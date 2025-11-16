@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\RoleEnum;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 // use Illuminate\Database\Eloquent\SoftDeletes;
@@ -121,5 +123,14 @@ class User extends Authenticatable implements FilamentUser, HasName
     public function getInitialsAttribute(): string
     {
         return strtoupper(substr($this->name, 0, 1));
+    }
+
+    public function roleLabels(): string
+    {
+        return $this->getRoleNames()
+            ->map(fn($role) =>
+                RoleEnum::tryFrom($role)?->label() ?? $role
+            )
+            ->join(', ');
     }
 }

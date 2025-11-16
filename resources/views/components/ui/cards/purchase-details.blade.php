@@ -1,7 +1,7 @@
 @props(['purchase'])
 
-<li class="overflow-hidden rounded-xl outline outline-gray-200">
-    <div class="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
+<li class="overflow-hidden rounded-xl outline outline-gray-200 bg-white">
+    <div class="flex items-center gap-x-4 border-b border-gray-900/5 p-6">
         <img src="https://tailwindcss.com/plus-assets/img/logos/48x48/tuple.svg" alt="Tuple"
             class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10" />
         <div class="text-sm/6 font-medium text-gray-900">

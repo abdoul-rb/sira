@@ -9,9 +9,7 @@ use App\Models\Purchase;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
 
-#[Layout('layouts.dashboard')]
 class Index extends Component
 {
     use WithPagination;
@@ -56,6 +54,7 @@ class Index extends Component
             'purchases' => $purchases,
             'totalAmount' => $purchases->sum('amount'),
             'averageAmount' => $purchases->avg('amount') ?? 0,
-        ]);
+        ])->extends('dashboard.settings.index')
+            ->section('viewbody');
     }
 }

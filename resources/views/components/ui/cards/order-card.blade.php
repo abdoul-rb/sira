@@ -22,7 +22,7 @@
             <div x-show="dropdownOpen"
                 class="absolute right-0 z-10 mt-0.5 w-32 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
                 role="menu" aria-orientation="vertical" aria-labelledby="options-menu-0-button" tabindex="-1">
-                <a href="{{ route('dashboard.orders.edit', $order) }}" @click="dropdownOpen = false"
+                <a href="{{ route('dashboard.orders.edit', ['order' => $order]) }}" @click="dropdownOpen = false"
                     class="block px-3 py-1 text-sm/6 text-gray-900 focus:bg-gray-50 focus:outline-hidden hover:bg-gray-50">
                     Modifer
                     <span class="sr-only">, {{ $order->order_number }}</span>
@@ -95,8 +95,14 @@
         <div class="space-y-4">
             @forelse ($order->products as $item)
                 <div class="flex space-x-4 sm:min-w-0 sm:flex-1">
-                    <img src="{{ Storage::disk('public')->url($item->product->featured_image) }}"
-                        alt="{{ $item->product->name }}" class="size-14 flex-none rounded-md object-cover sm:size-16">
+                    @if ($item->product->featured_image)
+                        <img src="{{ Storage::disk('public')->url($item->product->featured_image) }}"
+                            alt="{{ $item->product->name }}"
+                            class="size-14 flex-none rounded-md object-cover sm:size-16">
+                    @else
+                        <img src="https://placehold.co/56x56" alt=""
+                            class="size-14 flex-none rounded-md object-cover sm:size-16" />
+                    @endif
                     <div class="min-w-0 flex-1 pt-1.5 sm:pt-0">
                         <h3 class="text-xs lg:text-sm text-gray-500">
                             <a href="#">{{ $item->product->name }}</a> x {{ $item->quantity }}

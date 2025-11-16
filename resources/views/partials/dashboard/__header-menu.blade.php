@@ -1,5 +1,5 @@
 <nav class="sticky top-0 z-40 border-b border-gray-200 bg-white">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-0">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4 xl:px-0">
         <div class="flex h-16 justify-between">
             <div class="flex">
                 <div class="flex shrink-0 items-center">

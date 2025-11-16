@@ -9,7 +9,7 @@
             @include('partials.dashboard.__header-menu')
 
             <main class="pt-8 pb-24 bg-gray-50 min-h-screen">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-0">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4 xl:px-0">
                     @yield('content')
 
                     @isset($slot)

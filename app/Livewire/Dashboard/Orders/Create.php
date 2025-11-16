@@ -12,7 +12,6 @@ use App\Models\Company;
 use App\Enums\OrderStatus;
 use App\Models\Warehouse;
 use App\Enums\PaymentStatus;
-use App\Models\Order;
 use App\Http\Requests\Order\StoreOrderRequest;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;

@@ -127,10 +127,12 @@
                                 </span>
                             </x-ui.tables.heading>
 
-                            <x-ui.tables.heading>
-                                <span class="font-medium text-gray-500 text-xs">
-                                    {{ __('Product/Service') }}
-                                </span>
+                            <x-ui.tables.heading class="">
+                                <div class="">
+                                    <span class="font-medium text-gray-500 text-xs">
+                                        {{ __('Product/Service') }}
+                                    </span>
+                                </div>
                             </x-ui.tables.heading>
 
                             <x-ui.tables.heading>
@@ -203,9 +205,9 @@
                                     </div>
                                 </x-ui.tables.cell>
 
-                                <x-ui.tables.cell>
+                                <x-ui.tables.cell class="w-16">
                                     <span class="text-gray-700 text-sm">
-                                        {{ $order->products->pluck('name')->implode(', ') }}
+                                        {{ $order->products->pluck('product.name')->implode(', ') }}
                                     </span>
                                 </x-ui.tables.cell>
 

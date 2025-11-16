@@ -53,7 +53,7 @@
                 </a>
             </div>
             <p class="mt-6 text-sm text-slate-500 sm:mt-0">
-                Copyright © <!-- -->2025<!-- --> TaxPal. All rights reserved.
+                Copyright © <!-- -->{{ date('Y') }}<!-- --> {{ config('app.name') }}. All rights reserved.
             </p>
         </div>
     </div>

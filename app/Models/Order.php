@@ -17,7 +17,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Number;
+use App\Models\Scopes\TenantScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
+#[ScopedBy([TenantScope::class])]
 class Order extends Model
 {
     /** @use HasFactory<\Database\Factories\OrderFactory> */
@@ -62,6 +65,11 @@ class Order extends Model
             $orderNumberService = app(OrderNumberService::class);
             $order->order_number = $orderNumberService->generate($order->company);
         });
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'id';
     }
 
     /**

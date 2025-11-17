@@ -12,9 +12,42 @@
             {{ __('Toutes les ventes') }}
         </h1>
 
-        <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-order' })">
-            {{ __('Ajouter une vente') }}
-        </x-ui.btn.primary>
+        <div class="flex items-center gap-x-2">
+            <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-order' })">
+                {{ __('Ajouter une vente') }}
+            </x-ui.btn.primary>
+
+            <div class="relative inline-block text-left">
+                <div class="inline-flex divide-x divide-gray-200 rounded-md border border-gray-100">
+                    <div class="inline-flex items-center gap-x-1.5 rounded-l-md bg-white px-4 py-1.5 text-black text-sm">
+                        Plus
+                    </div>
+                    <button
+                        class="inline-flex items-center rounded-l-none rounded-r-md bg-white p-1.5 focus:outiline-none focus-visible:ring-offset-gray-50 focus-visible:outline-hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            aria-hidden="true" data-slot="icon" class="size-5 text-black">
+                            <path fill-rule="evenodd"
+                                d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                                clip-rule="evenodd">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <div
+                    class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
+                    <div class="py-1" role="none">
+                        <a href="#"
+                            class="flex justify-between px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden">
+                            <span>Consultations des achats</span>
+                        </a>
+                        <a href="#"
+                            class="flex justify-between px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden">
+                            <span>Consultations</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modal de création de produit -->
@@ -23,8 +56,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <x-ui.cards.trending-stat label="Nombre de ventes" :value="$orders->count()">
             <x-slot:icon>
-                <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
-                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
+                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z">
                     </path>

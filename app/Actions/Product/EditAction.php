@@ -13,7 +13,6 @@ final class EditAction
 {
     public function handle(Product $product, array $data): Product
     {
-        dd($data);
         return DB::transaction(function () use ($product, $data) {
             $product->update([
                 'name' => $data['name'],

@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 
 #[ScopedBy([TenantScope::class])]
-
 class Customer extends Model
 {
     /** @use HasFactory<\Database\Factories\CustomerFactory> */

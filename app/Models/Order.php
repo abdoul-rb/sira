@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Number;
 
@@ -79,11 +80,21 @@ class Order extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * L'entreprise tenante
+     *
+     * @return BelongsTo
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * Le client qui à passer la commande
+     *
+     * @return BelongsTo
+     */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
@@ -94,13 +105,24 @@ class Order extends Model
         return $this->belongsTo(Quotation::class);
     }
 
-    public function products(): BelongsToMany
+    /**
+     * Le items produits de la commande
+     *
+     * @return HasMany
+     */
+    public function products(): HasMany
     {
-        return $this->belongsToMany(Product::class, 'order_product')
+        return $this->hasMany(OrderProduct::class);
+        /* return $this->belongsToMany(Product::class, 'order_product')
             ->withPivot(['quantity', 'unit_price', 'total_price', 'notes'])
-            ->withTimestamps();
+            ->withTimestamps(); */
     }
 
+    /**
+     * L'entrepôt d'où la commande est pris
+     *
+     * @return BelongsTo
+     */
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
@@ -112,24 +134,28 @@ class Order extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function scopePending($query)
+    #[Scope]
+    public function pending(Builder $query): void
     {
-        return $query->where('status', OrderStatus::PENDING);
+        $query->where('status', OrderStatus::PENDING);
     }
 
-    public function scopePaid($query)
+    #[Scope]
+    public function paid(Builder $query): void
     {
-        return $query->where('status', OrderStatus::PAID);
+        $query->where('status', OrderStatus::PAID);
     }
 
-    public function scopeDelivered($query)
+    #[Scope]
+    public function delivered(Builder $query): void
     {
-        return $query->where('status', OrderStatus::DELIVERED);
+        $query->where('status', OrderStatus::DELIVERED);
     }
 
-    public function scopeCancelled($query)
+    #[Scope]
+    public function cancelled(Builder $query): void
     {
-        return $query->where('status', OrderStatus::CANCELLED);
+        $query->where('status', OrderStatus::CANCELLED);
     }
 
     /**
@@ -214,18 +240,20 @@ class Order extends Model
             return false; // Pas d'entrepôt sélectionné
         }
 
-        foreach ($this->products as $product) {
-            $quantity = $product->pivot->quantity;
+        // @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+        foreach ($this->products as $item) {
+            $quantity = $item->quantity;
 
-            if (! $this->warehouse->hasSufficientStock($product, $quantity)) {
+            // @var \App\Models\Product $product
+            if (! $this->warehouse->hasSufficientStock($item->product, $quantity)) {
                 return false; // Stock insuffisant pour au moins un produit
             }
         }
 
         // Décrémenter les stocks de tous les produits
-        foreach ($this->products as $product) {
-            $quantity = $product->pivot->quantity;
-            $this->warehouse->decreaseProductStock($product, $quantity);
+        foreach ($this->products as $item) {
+            $quantity = $item->pivot->quantity;
+            $this->warehouse->decreaseProductStock($item->product, $quantity);
         }
 
         return true;
@@ -240,10 +268,10 @@ class Order extends Model
             return false;
         }
 
-        foreach ($this->products as $product) {
-            $quantity = $product->pivot->quantity;
+        foreach ($this->products as $item) {
+            $quantity = $item->quantity;
 
-            if (! $this->warehouse->hasSufficientStock($product, $quantity)) {
+            if (! $this->warehouse->hasSufficientStock($item->product, $quantity)) {
                 return false;
             }
         }

@@ -10,56 +10,98 @@ use App\Models\Company;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Customer;
+use App\Models\Warehouse;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.dashboard')]
 class Edit extends Component
 {
     public Company $tenant;
+
     public Order $order;
 
-    public $customer_id = null;
-    public $quotation_id = null;
-    public $status = null;
-    public $notes = null;
-    public $shipping_cost = null;
-    public $shipping_address = null;
-    public $billing_address = null;
+    public ?int $customerId = null;
+
+    public ?int $warehouseId = null;
+
+    public ?string $status = null;
+
+    public ?float $discount = null;
+
+    public ?float $advance = null;
+
+    public ?string $paymentStatus = null;
 
     // Propriétés pour les nouveaux produits
-    public $productLines = [];
-    public $subtotal = 0;
-    public $total_amount = 0;
+    public array $productLines = [];
+
+    public float $subtotal = 0;
+
+    public float $totalAmount = 0;
+
+    protected function rules(): array
+    {
+        return (new UpdateOrderRequest)->rules();
+    }
+
+    protected function messages(): array
+    {
+        return (new UpdateOrderRequest)->messages();
+    }
 
     public function mount(Company $tenant, Order $order)
     {
         $this->tenant = $tenant;
         $this->order = $order;
 
-        if ($this->order) {
-            $this->fill(
-                $this->order->only(['customer_id', 'quotation_id', 'notes', 'shipping_cost', 'shipping_address', 'billing_address'])
-            );
-            
-            // Gérer le statut séparément car c'est un enum
-            $this->status = $this->order->status->value;
-            
-            // Calculer les totaux initiaux
-            $this->calculateInitialTotals();
-        }
+        $this->fill([
+            'customerId' => $this->order->customer_id,
+            'warehouseId' => $this->order->warehouse_id,
+            'status' => $this->order->status->value,
+            'discount' => $this->order->discount,
+            'advance' => $this->order->advance,
+            'paymentStatus' => $this->order->payment_status->value,
+        ]);
+
+        /* $this->productLines = $this->order->products
+            ->map(function (OrderProduct $item) {
+                return [
+                    'product_id' => $item->id,
+                    'quantity' => $item->quantity,
+                    'unit_price' => $item->unit_price,
+                    'total' => $item->total_price,
+                ];
+            })->toArray(); */
+        
+        // Calculer les totaux initiaux
+        $this->calculateInitialTotals();
+    }
+
+    /**
+     * Permet de savoir si la commande est verrouillée
+     *
+     * @return boolean
+     */
+    #[Computed]
+    public function isLocked(): bool
+    {
+        return in_array($this->status, ['paid', 'delivered', 'cancelled']);
     }
 
     public function calculateInitialTotals()
     {
         // Sous-total des produits existants
-        $existingSubtotal = $this->order->products->sum(function ($product) {
-            return $product->pivot->total_price;
+        $existingSubtotal = $this->order->products->sum(function ($item) {
+            return $item->total_price;
         });
         
         // Sous-total des nouveaux produits
         $newSubtotal = collect($this->productLines)->sum('total_price');
         
         $this->subtotal = $existingSubtotal + $newSubtotal;
-        $this->total_amount = $this->subtotal + ($this->shipping_cost ?? 0);
+        $this->totalAmount = $this->subtotal + ($this->shipping_cost ?? 0);
     }
 
     public function addProductLine()
@@ -112,21 +154,12 @@ class Edit extends Component
         $this->calculateInitialTotals();
     }
 
-    protected function rules(): array
-    {
-        return (new UpdateOrderRequest)->rules();
-    }
-
     public function update()
     {
         // Validation des nouveaux produits
         $this->validate([
-            'customer_id' => 'nullable|exists:customers,id',
+            'customerId' => 'nullable|exists:customers,id',
             'status' => 'required|in:pending,confirmed,in_preparation,shipped,delivered,cancelled',
-            'notes' => 'nullable|string|max:1000',
-            'shipping_cost' => 'nullable|numeric|min:0',
-            'shipping_address' => 'nullable|string|max:255',
-            'billing_address' => 'nullable|string|max:255',
             'productLines.*.product_id' => 'required|exists:products,id',
             'productLines.*.quantity' => 'required|integer|min:1',
         ]);
@@ -144,15 +177,15 @@ class Edit extends Component
 
         // Mettre à jour la commande
         $orderData = [
-            'customer_id' => $this->customer_id,
-            'quotation_id' => $this->quotation_id,
+            'customer_id' => $this->customerId,
+            'warehouse_id' => $this->warehouseId,
             'status' => $this->status,
             'notes' => $this->notes,
             'shipping_cost' => $this->shipping_cost,
             'shipping_address' => $this->shipping_address,
             'billing_address' => $this->billing_address,
             'subtotal' => $this->subtotal,
-            'total_amount' => $this->total_amount,
+            'total_amount' => $this->totalAmount,
         ];
 
         $this->order->update($orderData);
@@ -172,8 +205,8 @@ class Edit extends Component
             }
         }
 
-        session()->flash('success', 'Commande modifiée avec succès.');
-        return redirect()->route('dashboard.orders.index', [$this->tenant]);
+        $this->dispatch('notify', 'Commande modifiée avec succès.');
+        return;
     }
 
     public function render()
@@ -183,10 +216,13 @@ class Edit extends Component
             ->where('stock_quantity', '>', 0)
             ->get();
 
+        $warehouses = Warehouse::where('company_id', $this->tenant->id)->get();
+
         return view('livewire.dashboard.orders.edit', [
             'statuses' => OrderStatus::cases(),
             'customers' => $customers,
             'products' => $products,
-        ])->extends('layouts.dashboard');
+            'warehouses' => $warehouses
+        ]);
     }
 }

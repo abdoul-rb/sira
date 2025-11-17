@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,8 +33,7 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'price' => 'decimal:2',
-        'cost_price' => 'decimal:2',
+        'price' => 'float',
         'stock_quantity' => 'integer',
     ];
 
@@ -79,6 +80,11 @@ class Product extends Model
             ->withTimestamps();
     }
 
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
+
     /**
      * Un produit peut être présent dans plusieurs entrepôts.
      *
@@ -95,9 +101,10 @@ class Product extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function scopeInStock($query)
+    #[Scope]
+    public function inStock(Builder $query): void
     {
-        return $query->where('stock_quantity', '>', 0);
+        $query->where('stock_quantity', '>', 0);
     }
 
     /*

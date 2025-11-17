@@ -109,7 +109,7 @@
             </div>
         </div> --}}
 
-        <ul role="list" class="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
+        <ul role="list" class="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-2 xl:gap-x-8">
             @forelse($purchases as $purchase)
                 <x-ui.cards.purchase-details :purchase="$purchase" />
             @empty

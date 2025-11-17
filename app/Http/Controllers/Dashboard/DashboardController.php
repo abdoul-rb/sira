@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -20,7 +21,7 @@ class DashboardController extends Controller
             return Order::where('company_id', $tenant->id)->orderBy('created_at', 'desc')->take(5)->get();
         });
 
-        $customersCount = Customer::where('company_id', $tenant->id)->count();
+        $customersCount = DB::table('customers')->where('company_id', $tenant->id)->count();
 
         $productsCount = Product::where('company_id', $tenant->id)->count();
         $productsStock = Product::where('company_id', $tenant->id)->sum('stock_quantity');
@@ -28,6 +29,10 @@ class DashboardController extends Controller
         $totalSales = Order::where('company_id', $tenant->id)->sum('total_amount');
 
         $totalOrders = Order::where('company_id', $tenant->id)->count();
+
+        // dd();
+
+        // dd(resolve('currentTenant'));
 
         return view('dashboard.index', [
             'orders' => $orders,

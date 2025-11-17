@@ -13,6 +13,7 @@ final class EditAction
 {
     public function handle(Product $product, array $data): Product
     {
+        dd($data);
         return DB::transaction(function () use ($product, $data) {
             $product->update([
                 'name' => $data['name'],
@@ -22,11 +23,11 @@ final class EditAction
                 'stock_quantity' => $data['stockQuantity'],
             ]);
 
-            /** @var UploadedFile|null $coverImage */
+            /** @var UploadedFile|null $featuredImage */
             $featuredImage = $data['featuredImage'] ?? null;
             $imagePath = null;
 
-            if ($featuredImage instanceof UploadedFile) {
+            if ($featuredImage instanceof UploadedFile && !$featuredImage->getError()) {
                 if ($featuredImage && Storage::disk('public')->exists($product->featured_image)) {
                     Storage::disk('public')->delete($product->featured_image);
                 }

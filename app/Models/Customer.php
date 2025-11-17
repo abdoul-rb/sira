@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use App\Models\Scopes\TenantScope;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 
 #[ScopedBy([TenantScope::class])]
 
@@ -84,14 +86,16 @@ class Customer extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function scopeLeads($query)
+    #[Scope]
+    public function scopeLeads(Builder $query): void
     {
-        return $query->where('type', CustomerType::LEAD);
+        $query->where('type', CustomerType::LEAD);
     }
 
-    public function scopeCustomers($query)
+    #[Scope]
+    public function scopeCustomers(Builder $query): void
     {
-        return $query->where('type', CustomerType::CUSTOMER);
+        $query->where('type', CustomerType::CUSTOMER);
     }
 
     /*
@@ -102,7 +106,7 @@ class Customer extends Model
 
     public function getFullNameAttribute(): string
     {
-        return trim($this->firstname . ' ' . $this->lastname);
+        return trim("{$this->firstname} {$this->lastname}");
     }
 
     public function getInitialsAttribute(): string

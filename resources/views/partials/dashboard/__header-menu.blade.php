@@ -1,5 +1,5 @@
 <nav class="sticky top-0 z-40 border-b border-gray-200 bg-white">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-0">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4 xl:px-0">
         <div class="flex h-16 justify-between">
             <div class="flex">
                 <div class="flex shrink-0 items-center">
@@ -12,14 +12,14 @@
                         {{ __('Tableau de bord') }}
                     </a>
 
-                    <a href="{{ route('dashboard.purchases.index') }}"
-                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.purchases.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
-                        {{ __('Achats') }}
-                    </a>
-
                     <a href="{{ route('dashboard.products.index') }}"
                         class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.products.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
-                        {{ __('Stock') }}
+                        {{ __('Produits') }}
+                    </a>
+
+                    <a href="#"
+                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.marketings.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
+                        {{ __('Marketing') }}
                     </a>
 
                     <a href="{{ route('dashboard.orders.index') }}"
@@ -29,7 +29,7 @@
 
                     <a href="{{ route('dashboard.customers.index') }}"
                         class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.customers.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
-                        {{ __('Clients') }}
+                        {{ __('Contacts') }}
                     </a>
                 </div>
             </div>

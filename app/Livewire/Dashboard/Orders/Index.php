@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Livewire\Dashboard\Orders;
 
 use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use App\Models\Company;
 use App\Models\Order;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
@@ -84,9 +86,14 @@ class Index extends Component
 
         $orders = $query->paginate(10);
 
+        $creditsOrdersCount = DB::table('orders')->where('company_id', $this->tenant->id)->where('payment_status', PaymentStatus::CREDIT)->count();
+        $totalSales = DB::table('orders')->where('company_id', $this->tenant->id)->sum('total_amount');
+
         return view('livewire.dashboard.orders.index', [
             'orders' => $orders,
             'statuses' => OrderStatus::cases(),
+            'creditsOrdersCount' => $creditsOrdersCount,
+            'totalSales' => $totalSales
         ]);
     }
 }

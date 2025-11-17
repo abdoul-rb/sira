@@ -14,16 +14,18 @@
                 <div class="mt-4 text-center lg:mt-0 lg:pt-1 lg:text-left">
                     <p class="text-sm font-medium text-gray-600">Welcome back,</p>
                     <p class="text-xl font-bold text-gray-900 lg:text-2xl">{{ auth()->user()->name }}</p>
-                    <p class="text-sm font-medium text-gray-600"></p>
+                    <p class="text-sm font-medium text-gray-600">{{ Auth::user()->roleLabels() }}</p>
                 </div>
             </div>
             <div class="mt-5 flex justify-center lg:mt-0">
                 <a href="{{ route('dashboard.profile.index') }}"
                     class="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-medium text-black shadow-xs ring-1 ring-gray-200">
-                    Mon profil
+                    Consultations
                 </a>
             </div>
         </div>
+
+        {{-- @dump($currentTenant) --}}
 
         <div class="mt-6 grid grid-cols-12 gap-4">
             <div class="col-span-12 gap-4 lg:col-span-7 space-y-4">
@@ -127,10 +129,12 @@
                                 </span>
                             </x-ui.tables.heading>
 
-                            <x-ui.tables.heading>
-                                <span class="font-medium text-gray-500 text-xs">
-                                    {{ __('Product/Service') }}
-                                </span>
+                            <x-ui.tables.heading class="">
+                                <div class="">
+                                    <span class="font-medium text-gray-500 text-xs">
+                                        {{ __('Product/Service') }}
+                                    </span>
+                                </div>
                             </x-ui.tables.heading>
 
                             <x-ui.tables.heading>
@@ -203,9 +207,9 @@
                                     </div>
                                 </x-ui.tables.cell>
 
-                                <x-ui.tables.cell>
+                                <x-ui.tables.cell class="w-16">
                                     <span class="text-gray-700 text-sm">
-                                        {{ $order->products->pluck('name')->implode(', ') }}
+                                        {{ $order->products->pluck('product.name')->implode(', ') }}
                                     </span>
                                 </x-ui.tables.cell>
 

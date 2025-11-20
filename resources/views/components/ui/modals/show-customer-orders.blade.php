@@ -1,4 +1,4 @@
-@props(['customer', 'modalId' => 'customer-orders-modal'])
+@props(['customer', 'modalId' => 'show-customer-orders'])
 
 <x-ui.modals.base :id="$modalId" size="xl">
     <x-slot:title>

@@ -17,13 +17,13 @@
                 {{ __('Ajouter une vente') }}
             </x-ui.btn.primary>
 
-            <div class="relative inline-block text-left">
+            <div class="relative inline-block text-left" x-data="{ openMore: false }">
                 <div class="inline-flex divide-x divide-gray-200 rounded-md border border-gray-100">
                     <div class="inline-flex items-center gap-x-1.5 rounded-l-md bg-white px-4 py-1.5 text-black text-sm">
                         Plus
                     </div>
-                    <button
-                        class="inline-flex items-center rounded-l-none rounded-r-md bg-white p-1.5 focus:outiline-none focus-visible:ring-offset-gray-50 focus-visible:outline-hidden">
+                    <button @click="openMore = !openMore"
+                        class="inline-flex items-center rounded-l-none rounded-r-md bg-white p-1.5 focus:outiline-none focus-visible:ring-offset-gray-50 cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                             aria-hidden="true" data-slot="icon" class="size-5 text-black">
                             <path fill-rule="evenodd"
@@ -33,15 +33,15 @@
                         </svg>
                     </button>
                 </div>
-                <div
+                <div x-show="openMore"
                     class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
                     <div class="py-1" role="none">
                         <a href="#"
-                            class="flex justify-between px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden">
+                            class="flex justify-between px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-50">
                             <span>Consultations des achats</span>
                         </a>
                         <a href="#"
-                            class="flex justify-between px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden">
+                            class="flex justify-between px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-50">
                             <span>Consultations</span>
                         </a>
                     </div>
@@ -86,6 +86,28 @@
                 </svg>
             </x-slot>
         </x-ui.cards.trending-stat>
+    </div>
+
+    {{-- @dump(current_tenant()) --}}
+
+    <!-- Filters -->
+    <div class="rounded-lg border border-gray-200 bg-white p-5">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div>
+                <x-form.label label="Période" id="date-filter" />
+                <div class="mt-1">
+                    <select wire:model.live="dateFilter" id="date-filter" required
+                        class="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm">
+                        @foreach ($periods as $key => $label)
+                            <option value="{{ $key }}">{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('role')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

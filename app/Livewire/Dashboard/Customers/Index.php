@@ -40,8 +40,6 @@ class Index extends Component
 
     public ?string $type = null;
 
-    public $confirmingDelete = null;
-
     protected $queryString = [
         'search' => ['except' => ''],
         'sortField' => ['except' => 'lastname'],
@@ -64,11 +62,6 @@ class Index extends Component
         $this->dispatch('sort-updated', field: $field, direction: $direction);
     }
 
-    public function confirmDelete($customerId)
-    {
-        $this->confirmingDelete = $customerId;
-    }
-
     public function deleteCustomer(Customer $customer)
     {
         $this->authorize('delete', $customer);
@@ -76,6 +69,17 @@ class Index extends Component
         $customer->delete();
         $this->confirmingDelete = null;
         session()->flash('success', 'Client supprimé avec succès.');
+    }
+
+    public function destroy(int $customerId)
+    {
+        $customer = Customer::findOrFail($customerId);
+        $this->authorize('delete', $customer);
+        
+        $customer->delete();
+
+        $this->dispatch('customer-deleted');
+        $this->dispatch('notify', 'Client supprimé avec succès !');
     }
 
     /**

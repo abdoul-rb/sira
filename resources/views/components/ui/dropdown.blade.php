@@ -41,7 +41,7 @@
         x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100"
         x-transition:leave-end="transform opacity-0 scale-95"
-        class="absolute z-40 mt-0.5 py-2 {{ $width }} bg-white rounded-md shadow-lg ring-1 ring-gray-900/5 {{ $alignmentClasses }} {{ $dropdownClasses }} focus:outline-none"
+        class="absolute z-40 mt-0.5 py-1 {{ $width }} bg-white rounded-md shadow-lg ring-1 ring-gray-900/5 {{ $alignmentClasses }} {{ $dropdownClasses }} focus:outline-none"
         style="display: none;" @click="open = false">
         <div class="rounded-md {{ $contentClasses }}">
             {{ $content }}

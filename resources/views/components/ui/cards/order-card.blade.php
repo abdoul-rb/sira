@@ -6,28 +6,30 @@
             Vente #{{ strtoupper($order->order_number) }}
         </h2>
 
-        <div class="relative ml-auto" x-data="{ dropdownOpen: false }">
-            <button type="button" @click="dropdownOpen = !dropdownOpen"
-                class="relative block text-gray-400 hover:text-gray-500 rounded-md p-1 hover:bg-gray-50 cursor-pointer">
-                <span class="absolute -inset-2.5"></span>
-                <span class="sr-only">Open options</span>
-                <svg class="size-5 shrink-0" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
-                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z">
-                    </path>
-                </svg>
-            </button>
+        <div>
+            <x-ui.dropdown align="right" width="48">
+                <x-slot name="trigger">
+                    <button type="button"
+                        class="-m-2.5 block p-2 text-gray-400 hover:text-gray-500 cursor-pointer rounded-md hover:bg-gray-50"
+                        id="options-menu-0-button" aria-expanded="false" aria-haspopup="true">
+                        <span class="sr-only">Open options</span>
+                        <svg class="h-5 w-5" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z">
+                            </path>
+                        </svg>
+                    </button>
+                </x-slot>
 
-            <div x-show="dropdownOpen"
-                class="absolute right-0 z-10 mt-0.5 w-32 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
-                role="menu" aria-orientation="vertical" aria-labelledby="options-menu-0-button" tabindex="-1">
-                <a href="{{ route('dashboard.orders.edit', ['order' => $order]) }}" @click="dropdownOpen = false"
-                    class="block px-3 py-1 text-sm/6 text-gray-900 focus:bg-gray-50 focus:outline-hidden hover:bg-gray-50">
-                    Modifer
-                    <span class="sr-only">, {{ $order->order_number }}</span>
-                </a>
-            </div>
+                <x-slot name="content">
+                    <a href="{{ route('dashboard.orders.edit', ['order' => $order]) }}"
+                        class="block w-full block px-3 py-1 text-xs font-medium leading-6 text-gray-900 hover:bg-gray-50 text-left cursor-pointer">
+                        Modifer
+                        <span class="sr-only">, {{ $order->order_number }}</span>
+                    </a>
+                </x-slot>
+            </x-ui.dropdown>
         </div>
     </div>
 
@@ -78,8 +80,8 @@
         @if ($showCustomerDetails)
             <div class="space-y-1 mb-5 border-b border-gray-200 pb-5">
                 <div class="flex items-center gap-2 text-sm text-gray-600">
-                    <svg class="w-5 h-5 shrink-0" data-slot="icon" fill="none" stroke-width="1.5"
-                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <svg class="w-5 h-5 shrink-0" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z">
                         </path>
@@ -97,8 +99,7 @@
                 <div class="flex space-x-4 sm:min-w-0 sm:flex-1">
                     @if ($item->product->featured_image)
                         <img src="{{ Storage::disk('public')->url($item->product->featured_image) }}"
-                            alt="{{ $item->product->name }}"
-                            class="size-14 flex-none rounded-md object-cover sm:size-16">
+                            alt="{{ $item->product->name }}" class="size-14 flex-none rounded-md object-cover sm:size-16">
                     @else
                         <img src="https://placehold.co/56x56" alt=""
                             class="size-14 flex-none rounded-md object-cover sm:size-16" />

@@ -46,14 +46,17 @@
                     <div x-show="dropdownOpen"
                         class="absolute right-0 z-10 mt-0.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
                         role="menu" aria-orientation="vertical" aria-labelledby="options-menu-0-button" tabindex="-1">
-                        <a href="#" class="block px-3 py-1 text-xs font-medium leading-6 text-gray-900 hover:bg-gray-50"
-                            role="menuitem" tabindex="-1" id="options-menu-0-item-0">
-                            Voir <span class="sr-only"></span>
-                        </a>
                         <button type="button" wire:click="edit({{ $product->id }})" @click="dropdownOpen = false"
                             class="w-full block px-3 py-1 text-xs font-medium leading-6 text-gray-900 hover:bg-gray-50 text-left cursor-pointer"
                             role="menuitem" tabindex="-1" id="options-menu-0-item-1">
                             Modifier<span class="sr-only">, </span>
+                        </button>
+                        <button type="button" wire:click.prevent="destroy({{ $product->id }})"
+                            wire:confirm.prompt="Are you sure?\n\nType DELETE to confirm|DELETE"
+                            @click="dropdownOpen = false"
+                            class="w-full block px-3 py-1 text-xs font-medium leading-6 text-red-600 hover:bg-gray-50 text-left cursor-pointer"
+                            role="menuitem" tabindex="-1" id="options-menu-0-item-1">
+                            Supprimer
                         </button>
                     </div>
                 </div>

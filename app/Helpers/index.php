@@ -9,18 +9,19 @@ use App\Models\Company;
 if (!function_exists('current_tenant')) {
     function current_tenant(): ?Company
     {
-        return app()->bound('currentTenant') ? app('currentTenant') : null;
+        return app()->bound('currentTenant') ? resolve('currentTenant') : null;
     }
 }
 
 if (!function_exists('tenant_route')) {
     function tenant_route($name, $parameters = [], $absolute = true) {
-        $tenant = request()->route('tenant');
+        // $tenant = request()->route('tenant');
+        return route($name, array_merge(['tenant' => current_tenant()], $parameters));
 
         if ($tenant) {
             // Si c'est déjà un objet Company, on le passe
             if ($tenant instanceof Company) {
-                $parameters = array_merge(['tenant' => $tenant], $parameters);
+                $parameters = array_merge(['tenant' => current_tenant()], $parameters);
             } else {
                 // Si c'est un slug (string), on tente de retrouver l'objet Company
                 $company = Company::where('slug', $tenant)->first();
@@ -29,6 +30,7 @@ if (!function_exists('tenant_route')) {
         }
 
         return route($name, $parameters, $absolute);
+        // return route($name, array_merge(['tenant' => current_tenant()], $parameters));
     }
 }
 

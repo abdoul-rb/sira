@@ -28,6 +28,17 @@
                         Modifer
                         <span class="sr-only">, {{ $order->order_number }}</span>
                     </a>
+                    <a href="{{ route('dashboard.orders.invoice', ['tenant' => current_tenant()->slug, 'order' => $order]) }}"
+                        target="_blank"
+                        class="flex items-center gap-x-1 w-full px-3 py-1 text-xs font-medium leading-6 text-gray-900 hover:bg-gray-50 text-left cursor-pointer outline-none transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="h-4 w-4">
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"></path>
+                            <rect x="6" y="14" width="12" height="8" rx="1"></rect>
+                        </svg>Imprimer la facture
+                    </a>
                 </x-slot>
             </x-ui.dropdown>
         </div>
@@ -48,7 +59,7 @@
                 Total
             </h4>
             <p class="mt-1 flex items-center gap-1 text-xs font-medium text-black">
-                {{ $order->total_amount }}
+                {{ Number::currency($order->total_amount, in: 'XOF', locale: 'fr') }}
             </p>
         </div>
 

@@ -58,6 +58,13 @@ class CompanyProfile extends Component
         return (new UpdateCompanyRequest)->messages();
     }
 
+    public function updatedWebsiteUrl()
+    {
+        if ($this->websiteUrl && !str_starts_with($this->websiteUrl, 'http://')) {
+            $this->websiteUrl = 'https://' . $this->websiteUrl;
+        }
+    }
+
     public function removeTempLogo()
     {
         $this->logo = null;

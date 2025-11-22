@@ -37,7 +37,8 @@
                             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
                             <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"></path>
                             <rect x="6" y="14" width="12" height="8" rx="1"></rect>
-                        </svg>Imprimer la facture
+                        </svg>
+                        Imprimer la facture
                     </a>
                 </x-slot>
             </x-ui.dropdown>
@@ -106,7 +107,7 @@
         @endif
 
         <div class="space-y-4">
-            @forelse ($order->products as $item)
+            @forelse ($order->productLines as $item)
                 <div class="flex space-x-4 sm:min-w-0 sm:flex-1">
                     @if ($item->product->featured_image)
                         <img src="{{ Storage::disk('public')->url($item->product->featured_image) }}"

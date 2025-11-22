@@ -178,8 +178,6 @@
             </div>
         </div>
 
-        {{-- @dump(count($productLines)) --}}
-
         <!-- Produits existants (lecture seule) -->
         @if ($order->products->count() > 0)
             <div class="bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl lg:col-span-full">
@@ -208,7 +206,7 @@
                         <div class="lg:col-span-2"></div>
                     </div>
 
-                    @foreach ($order->products as $item)
+                    @foreach ($order->productLines as $item)
                         <div class="grid lg:grid-cols-12 gap-x-12 gap-y-5 mb-4 items-center">
                             <div class="lg:col-span-5">
                                 <span class="block text-gray-900">

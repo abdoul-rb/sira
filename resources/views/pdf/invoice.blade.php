@@ -194,13 +194,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($order->products as $item)
+                @foreach($order->productLines as $item)
                     <tr>
                         <td>
                             {{ $item->product->name }}
-                            @if($item->notes)
-                                <br><small style="color: #777;">{{ $item->notes }}</small>
-                            @endif
                         </td>
                         <td class="text-center">
                             {{ $item->quantity }}

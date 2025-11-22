@@ -9,7 +9,15 @@ use App\Models\Company;
 if (!function_exists('current_tenant')) {
     function current_tenant(): ?Company
     {
-        return app()->bound('currentTenant') ? resolve('currentTenant') : null;
+        if (app()->bound('currentTenant')) {
+            return resolve('currentTenant');
+        }
+
+        if (Auth::check() && Auth::user()->member && Auth::user()->member->company) {
+            return Auth::user()->member->company;
+        }
+
+        return null;
     }
 }
 

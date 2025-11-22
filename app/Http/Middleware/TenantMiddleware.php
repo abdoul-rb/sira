@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Models\Company;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,9 +26,7 @@ final class TenantMiddleware
             return redirect()->route('auth.login');
         }
 
-        /**
-         * @var User $user
-         */
+        /** @var User $user */
         $user = Auth::user();
 
         if (! $user->member) {

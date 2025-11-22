@@ -22,7 +22,7 @@ class OrderNumberService
         $globalIncrement = $this->getGlobalIncrement($company);
         $hash = $this->generateShortHash($company);
 
-        return "{$company->id}-{$today}-{$increment}-{$globalIncrement}";
+        return "{$today}-{$increment}-{$company->id}{$globalIncrement}";
     }
 
     /**

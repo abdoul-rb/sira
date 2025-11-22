@@ -94,11 +94,10 @@
                             class="mt-2 absolute right-0 w-40 rounded-lg bg-white ring-1 ring-gray-200 z-10">
                             <div class="divide-y divide-black/8 py-2">
                                 @foreach ($types as $enum)
-                                    <button type="button" wire:click.prevent="sortBy('type', 'desc')"
-                                        x-on:click="close()"
-                                        class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md px-4 py-3 text-left text-sm hover:bg-gray-100 disabled:text-black/50 cursor-pointer {{ $sortField === 'created_at' && $sortDirection === 'desc' ? 'bg-i-secondary/10 text-i-primary' : '' }}">
-                                        {{ $enum->label() }}
-                                    </button>
+                                <button type="button" wire:click.prevent="sortBy('type', 'desc')" x-on:click="close()"
+                                    class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md px-4 py-3 text-left text-sm hover:bg-gray-100 disabled:text-black/50 cursor-pointer {{ $sortField === 'created_at' && $sortDirection === 'desc' ? 'bg-i-secondary/10 text-i-primary' : '' }}">
+                                    {{ $enum->label() }}
+                                </button>
                                 @endforeach
                             </div>
                         </div>
@@ -144,8 +143,7 @@
                                 <svg x-show="open" class="size-4 text-dark/50 shrink-0 rotate-180" data-slot="icon"
                                     fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="m19.5 8.25-7.5 7.5-7.5-7.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5">
                                     </path>
                                 </svg>
                             </span>
@@ -153,8 +151,7 @@
 
                         <!-- Panel Desktop -->
                         <div x-ref="panel" x-show="open" x-transition.origin.top.left
-                            x-on:click.outside="close($refs.button)" :id="$id('dropdown-button')"
-                            style="display: none;"
+                            x-on:click.outside="close($refs.button)" :id="$id('dropdown-button')" style="display: none;"
                             class="mt-2 absolute right-0 w-40 rounded-lg bg-white ring-1 ring-gray-200 z-10">
                             <div class="divide-y divide-black/8 py-2">
                                 <button type="button" wire:click.prevent="sortBy('firstname', 'desc')"
@@ -175,18 +172,13 @@
             </div> --}}
         </div>
 
-        @if (session()->has('success'))
-            <div class="bg-green-50 border border-green-200 text-green-700 rounded-md px-4 py-2">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse($customers as $customer)
                 <x-ui.cards.customer-details :customer="$customer" />
 
                 <!-- Modal pour afficher les commandes du client -->
-                <x-ui.modals.show-customer-orders :customer="$customer" :modalId="'show-customer-orders-' . $customer->id" />
+                {{-- <x-ui.modals.show-customer-orders :customer="$customer"
+                    :modalId="'customer-orders.blade-' . $customer->id" /> --}}
             @empty
                 <div class="col-span-full text-center text-gray-500 py-10">Aucun client trouvé.</div>
             @endforelse

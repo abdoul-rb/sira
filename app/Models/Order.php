@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Number;
@@ -75,12 +74,12 @@ class Order extends Model
     /**
      * Get the user's total amount.
      */
-    protected function totalAmount(): Attribute
+    /* protected function totalAmount(): Attribute
     {
         return Attribute::make(
             get: fn (float $value) => Number::currency($value, in: 'XOF', locale: 'fr'),
         );
-    }
+    } */
 
     /*
     |--------------------------------------------------------------------------

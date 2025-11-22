@@ -85,6 +85,17 @@ Un member peut avoir un compte utilisateur, mais pas forcément (utile si tu veu
 | **Opérationnel**  | Travaille au quotidien (vente, caisse, secrétariat) | **Sales**, **Cashier**, **Operator**… |
 
 
+## Tenant 
+Ton middleware est fonctionnel, il protège très bien :
+
+Vérifie l'auth
+Vérifie que l'utilisateur appartient bien au tenant
+Empêche l'accès croisé entre tenants
+Injecte currentTenant dans l'app container
+Ajoute le tenant dans les logs
+Définit les defaults pour les URLs
+
+
 ## Log Viewer (opcodesio/log-viewer)
 
 ### Installation locale

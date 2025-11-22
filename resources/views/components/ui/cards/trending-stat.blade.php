@@ -1,20 +1,20 @@
-@props(['label', 'value'])
+@props(['label', 'value', 'increased' => ''])
 
-<div {{ $attributes->class(['rounded-2xl border border-gray-200 bg-white p-5 flex flex-col min-h-32']) }}>
-    @isset($icon)
-        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 mb-3">
-            {{ $icon }}
-        </div>
-    @endisset
+<div {{ $attributes->class(['rounded-2xl border border-gray-200 bg-white p-5 flex flex-col min-h-24']) }}>
+    <div class="flex items-start justify-between">
+        <span class="block text-sm text-gray-500">{{ $label }}</span>
+        @isset($icon)
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50">
+                {{ $icon }}
+            </div>
+        @endisset
+    </div>
 
     {{-- le placer en bottom --}}
-    <div class="mt-auto flex items-end justify-between">
-        <div>
-            <span class="text-sm text-gray-500">{{ $label }}</span>
-            <h4 class="mt-2 text-title-sm font-bold text-gray-800">
-                {{ $value }}
-            </h4>
-        </div>
+    <div class="mt-auto flex items-end gap-x-3">
+        <h4 class="text-title-sm font-bold text-gray-800">
+            {{ $value }}
+        </h4>
 
         <span
             class="flex items-center gap-1 rounded-full bg-green-50 py-0.5 pl-2 pr-2.5 text-xs font-medium text-green-600">

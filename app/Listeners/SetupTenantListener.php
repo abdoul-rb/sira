@@ -11,7 +11,6 @@ use App\Models\Company;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Facades\Log;
 
 class SetupTenantListener
 {
@@ -22,6 +21,7 @@ class SetupTenantListener
 
     public function __construct(protected Application $app) {}
 
+    // https://laravel-france.com/posts/votre-application-multi-tenant-avec-laravel-sans-package-tiers
     public function handle(RouteMatched $event): void
     {
         // Récupération du paramètre tenant (slug)
@@ -39,11 +39,24 @@ class SetupTenantListener
             throw new NotFoundHttpException("Tenant '{$tenantSlug}' not found");
         }
 
+        if ($tenantSlug instanceof Company) {
+            $company = $tenantSlug;
+
+            return;
+        } else {
+            $slug = $tenantSlug;
+            $company = Cache::remember("tenant_company_{$slug}", self::CACHE_TTL, fn() => Company::where('slug', $slug)->first());
+        }
+
+        // Exposer le tenant globalement
+        // $this->app->instance('currentTenant', $company);
+        // View::share('currentTenant', $company);
+
         // Configuration de l'URL pour inclure automatiquement le tenant
-        $this->app['url']->defaults(['tenant' => $tenantSlug]);
+        // $this->app['url']->defaults(['tenant' => $company]);
 
         // Ajout du tenant dans les logs pour faciliter le debugging
-        Log::withContext(['tenant' => $tenantSlug]);
+        // Log::withContext(['tenant' => $company]);
     }
 
     /**
@@ -55,8 +68,8 @@ class SetupTenantListener
             'tenant_companies_slugs', 
             self::CACHE_TTL, 
             fn() => Company::where('active', true)
-                          ->pluck('slug')
-                          ->toArray()
+                ->pluck('slug')
+                ->toArray()
         );
     }
 }

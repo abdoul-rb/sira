@@ -48,9 +48,6 @@
         <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse($agents as $agent)
                 <x-ui.cards.agent-details :agent="$agent" />
-
-                <!-- Modal pour afficher les commandes du client -->
-                {{-- <x-ui.modals.show-customer-orders :customer="$agent" :modalId="'show-agent-orders-' . $agent->id" /> --}}
             @empty
                 <div class="col-span-full text-center text-gray-500 py-10">Aucun agent trouvé.</div>
             @endforelse

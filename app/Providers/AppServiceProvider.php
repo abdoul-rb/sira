@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Listeners\SetupTenantListener;
-use App\Models\Company;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Events\Login;
 use Carbon\Carbon;
@@ -43,15 +40,17 @@ class AppServiceProvider extends ServiceProvider
         );
 
         // résout tenant depuis subdomain / cherche le tenant dans le sous-domaine
-        $tenantSlug = parse_url(app('url')->current(), PHP_URL_HOST)
+        /* $tenantSlug = parse_url(app('url')->current(), PHP_URL_HOST)
             ? explode('.', parse_url(app('url')->current(), PHP_URL_HOST))[0]
-            : null;
+            : null; */
 
-        if ($tenantSlug && Schema::hasTable('companies')) {
+        // dd($tenantSlug, $currentTenant);
+
+        /* if ($tenantSlug && Schema::hasTable('companies')) {
             $company = Company::where('slug', $tenantSlug)->first();
 
             View::share('currentTenant', $company);
-        }
+        } */
 
         Blade::if('version', function (int $value) {
             return config('app.version') === $value;

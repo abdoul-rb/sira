@@ -1,7 +1,7 @@
 @section('title', 'Gestion du stock produits')
 
 <div class="space-y-6" x-data="{
-    viewType: 'table',
+    viewType: 'card',
     init() {
         Livewire.on('product-created', () => {
             // Rafraîchir la liste des produits
@@ -150,8 +150,7 @@
                                             <x-ui.tables.cell class="flex items-center gap-2">
                                                 @if ($product->featured_image)
                                                     <img src="{{ Storage::disk('public')->url($product->featured_image) }}"
-                                                        alt="{{ $product->name }}"
-                                                        class="size-12 object-cover rounded-md" />
+                                                        alt="{{ $product->name }}" class="size-12 object-cover rounded-md" />
                                                 @else
                                                     <img src="https://placehold.co/48x48" alt=""
                                                         class="size-12 object-cover rounded-md" />
@@ -195,8 +194,7 @@
                                                             class="flex items-center rounded-full text-gray-400 hover:text-gray-600 cursor-pointer"
                                                             type="button" aria-haspopup="menu" :aria-expanded="open">
                                                             <span class="sr-only">Options</span>
-                                                            <svg viewBox="0 0 20 20" fill="currentColor"
-                                                                class="size-5">
+                                                            <svg viewBox="0 0 20 20" fill="currentColor" class="size-5">
                                                                 <path
                                                                     d="M10 3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM10 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM11.5 15.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" />
                                                             </svg>
@@ -212,15 +210,13 @@
                                                                     role="menuitem">
                                                                     Détails
                                                                 </a>
-                                                                <button type="button"
-                                                                    wire:click="edit({{ $product->id }})"
+                                                                <button type="button" wire:click="edit({{ $product->id }})"
                                                                     @click="open = false"
                                                                     class="w-full block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer text-left"
                                                                     role="menuitem">
                                                                     Modifier
                                                                 </button>
-                                                                <a href="#"
-                                                                    wire:click.prevent="destroy({{ $product->id }})"
+                                                                <a href="#" wire:click.prevent="destroy({{ $product->id }})"
                                                                     wire:confirm.prompt="Are you sure?\n\nType DELETE to confirm|DELETE"
                                                                     class="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
                                                                     role="menuitem">
@@ -243,10 +239,10 @@
                             </table>
                         </div>
                     </div>
-
-                    <livewire:dashboard.products.edit />
                 </div>
             </div>
         </div>
+
+        <livewire:dashboard.products.edit />
     </div>
 </div>

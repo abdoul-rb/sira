@@ -27,8 +27,6 @@ class Index extends Component
 
     public string $sortDirection = 'asc';
 
-    public $confirmingDelete = null;
-
     /* protected $queryString = [
         'search' => ['except' => ''],
         'sortField' => ['except' => 'name'],
@@ -57,19 +55,6 @@ class Index extends Component
 
         // Dispatch l'événement avec les valeurs des propriétés
         $this->dispatch('sort-updated', field: $field, direction: $direction);
-    }
-
-    public function confirmDelete($productId)
-    {
-        $this->confirmingDelete = $productId;
-    }
-
-    public function deleteProduct(Product $product)
-    {
-        $product->delete();
-        $this->confirmingDelete = null;
-
-        session()->flash('success', 'Produit supprimé avec succès.');
     }
 
     /**
@@ -112,7 +97,7 @@ class Index extends Component
         $product->delete();
 
         $this->dispatch('product-deleted');
-        $this->dispatch('notify', 'Produit supprimé !');
+        $this->dispatch('notify', 'Produit supprimé avec succès !');
     }
 
     public function render()

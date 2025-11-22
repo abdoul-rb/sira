@@ -40,6 +40,10 @@ final class TenantMiddleware
 
         $tenant = $request->route('tenant');
 
+        if (is_string($tenant)) {
+            $tenant = Company::where('slug', $tenant)->firstOrFail();
+        }
+
         if (is_null($tenant)) {
             throw new NotFoundHttpException('Tenant parameter is required');
         }
@@ -64,19 +68,19 @@ final class TenantMiddleware
                 ->with('error', 'Accès Denied to previously url.'); */
         }
 
+        // dd($tenant);
         // Stocker l'entreprise courante dans l'application (accessible partout)
-        app()->instance('currentTenant', $user->member->company);
+        app()->instance('currentTenant', $tenant ?? $user->member->company);
 
         if ($tenant && Schema::hasTable('companies')) {
-            // dd($tenant);
             View::share('currentTenant', $tenant);
         }
 
+        // Configuration de l'URL pour inclure automatiquement le tenant
+        app('url')->defaults(['tenant' => $tenant]);
+
         // Injecter la company tenant dans la requête pour le Route Model Binding
         $request->route()->setParameter('tenant', $tenant);
-
-        // Configuration de l'URL pour inclure automatiquement le tenant
-        app('url')->defaults(['tenant' => $tenant->slug]);
 
         // Ajout du tenant dans les logs
         Log::withContext(['tenant' => $tenant->slug]);

@@ -68,7 +68,7 @@ class Edit extends Component
         $validated = $this->validate();
         $this->customer->update($validated);
 
-        $this->reset();
+        $this->reset('type', 'firstname', 'lastname', 'email', 'phoneNumber', 'address');
 
         $this->dispatch('customer-updated');
         $this->dispatch('notify', 'Client mis à jour avec succès !');

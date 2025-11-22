@@ -89,8 +89,6 @@
         </x-ui.cards.trending-stat>
     </div>
 
-    {{-- @dump(current_tenant()) --}}
-
     <!-- Filters -->
     <div class="rounded-lg border border-gray-200 bg-white p-5">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">

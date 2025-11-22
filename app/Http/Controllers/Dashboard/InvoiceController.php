@@ -19,7 +19,7 @@ class InvoiceController extends Controller
             abort(404);
         }
 
-        $order->load(['customer', 'products', 'products.product', 'company']);
+        $order->load(['customer', 'products', 'company']);
 
         $pdf = Pdf::loadView('pdf.invoice', [
             'order' => $order,

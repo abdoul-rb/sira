@@ -2,9 +2,8 @@
 
 <div>
     <x-ui.breadcrumb :items="[
-        ['label' => 'Tableau de bord', 'url' => route('dashboard.index', ['tenant' => $tenant])],
-        ['label' => 'Commandes', 'url' => route('dashboard.orders.index', ['tenant' => $tenant])],
-        ['label' => 'Édition commande', 'url' => '#'],
+        ['label' => 'Ventes', 'url' => route('dashboard.orders.index', ['tenant' => $tenant])],
+        ['label' => 'Modifier', 'url' => '#'],
     ]" />
 
     <h1 class="text-2xl font-bold text-gray-800 mt-6 mb-8">
@@ -25,11 +24,31 @@
                 </header>
 
                 <div class="border-t border-gray-200 px-4 py-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-6">
-                    <div class="col-span-2 truncate font-medium text-gray-900">
-                        <span class="text-sm text-gray-700">Client:</span> {{ $order->customer->fullname }}
+                    <div class="col-span-1">
+                        <x-form.label label="Client" id="customer-id" />
+
+                        <div class="mt-1 grid grid-cols-1">
+                            <select id="customer-id" name="customerId"
+                                class="col-start-1 row-start-1 w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150 appearance-none bg-white py-2 pl-3 pr-8 -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6 cursor-not-allowed">
+                                <option value="" disabled selected>{{ $order->customer->fullname }}</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="col-span-2 truncate font-medium text-gray-900">
+                    <div>
+                        <x-form.label label="Statut" id="status" :required="true" />
+
+                        <div class="mt-1 grid grid-cols-1">
+                            <select id="status" name="status" wire:model.live="status"
+                                class="col-start-1 row-start-1 w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150 appearance-none bg-white py-2 pl-3 pr-8 -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6">
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status->value }}">{{ $status->label() }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-span-1 truncate font-medium text-gray-900">
                         <span class="block text-sm text-gray-700">Mode de paiement</span>
                         <span
                             class="inline-flex items-center gap-x-1.5 rounded-full bg-blue-100 px-1.5 py-0.5 text-xs font-medium text-blue-700">
@@ -41,9 +60,7 @@
                     </div>
 
                     <div>
-                        <label for="warehouse-id" class="block text-sm font-medium text-gray-700">
-                            {{ __('Entrepôt') }}
-                        </label>
+                        <x-form.label label="Entrepôt" id="warehouse-id" :required="true" />
 
                         <div class="mt-1 grid grid-cols-1">
                             <select id="warehouse-id" name="warehouseId" wire:model.live="warehouseId"
@@ -58,30 +75,14 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label for="status" class="block text-sm font-medium text-gray-700">
-                            {{ __('Statut') }}
-                        </label>
+                    {{-- <div class="col-span-full">
+                        <x-form.label label="Notes" id="notes" />
 
-                        <div class="mt-1 grid grid-cols-1">
-                            <select id="status" name="status" wire:model.live="status"
-                                class="col-start-1 row-start-1 w-full rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 transition duration-150 appearance-none bg-white py-2 pl-3 pr-8 -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6">
-                                @foreach ($statuses as $status)
-                                    <option value="{{ $status->value }}">{{ $status->label() }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-span-full">
-                        <label for="notes" class="block text-sm font-medium text-gray-700">
-                            {{ __('Notes') }}
-                        </label>
                         <div class="mt-1">
                             <textarea rows="2" name="notes" wire:model.live="notes" id="notes"
                                 class="block w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-base text-gray-900 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:-outline-offset-1 focus:outline-indigo-600 sm:text-sm/6"></textarea>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -276,8 +277,8 @@
                                     {{ __('Quantité') }}
                                 </label>
 
-                                <input type="number" wire:model.number="productLines.{{ $index }}.quantity"
-                                    min="1" max="{{ $line['available_stock'] }}"
+                                <input type="number" wire:model.number="productLines.{{ $index }}.quantity" min="1"
+                                    max="{{ $line['available_stock'] }}"
                                     class="mt-4 w-28 rounded-md border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-teal-600 text-sm sm:leading-6 px-3 py-2">
                                 @error("productLines.{$index}.quantity")
                                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -328,31 +329,31 @@
 
 
 <!-- Create -->
-{{-- 
-    <form wire:submit="save" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl lg:col-span-2">
-            <header class="flex flex-col gap-3 px-6 py-4">
-                <h3 class="text-base font-medium leading-6 text-gray-950">
-                    Adresses
-                </h3>
-            </header>
+{{--
+<form wire:submit="save" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl lg:col-span-2">
+        <header class="flex flex-col gap-3 px-6 py-4">
+            <h3 class="text-base font-medium leading-6 text-gray-950">
+                Adresses
+            </h3>
+        </header>
 
-            <div class="border-t border-gray-200 px-4 py-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-6">
-                <x-form.input name="shipping_cost" label="Frais de livraison" :number="true" />
+        <div class="border-t border-gray-200 px-4 py-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-6">
+            <x-form.input name="shipping_cost" label="Frais de livraison" :number="true" />
 
-                <div></div>
+            <div></div>
 
-                <x-form.input name="shipping_address" label="Adresse de livraison" :wire="true" />
+            <x-form.input name="shipping_address" label="Adresse de livraison" :wire="true" />
 
-                <x-form.input name="billing_address" label="Adresse de facturation" :wire="true" />
-            </div>
+            <x-form.input name="billing_address" label="Adresse de facturation" :wire="true" />
         </div>
+    </div>
 
-        <div class="lg:col-span-full">
-            <button type="submit"
-                class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-blue-600 px-3 py-2 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600 cursor-pointer">
-                {{ __('Enregistrer') }}
-            </button>
-        </div>
-    </form>
+    <div class="lg:col-span-full">
+        <button type="submit"
+            class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-blue-600 px-3 py-2 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600 cursor-pointer">
+            {{ __('Enregistrer') }}
+        </button>
+    </div>
+</form>
 --}}

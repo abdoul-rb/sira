@@ -21,8 +21,9 @@
             @else
                 <div>
                     <div class="relative">
-                        <input type="file" accept="image/*" wire:model="featuredImage" class="hidden" id="image-upload">
-                        <label for="image-upload"
+                        <input type="file" accept="image/*" wire:model="featuredImage" class="hidden"
+                            id="image-upload-edit">
+                        <label for="image-upload-edit"
                             class="flex flex-col items-center justify-center w-full h-20 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                             <div class="text-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

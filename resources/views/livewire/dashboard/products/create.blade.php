@@ -10,13 +10,13 @@
         @else
             <div class="col-span-full">
                 <div class="relative">
-                    <input type="file" accept="image/*" wire:model="featured_image" class="hidden" id="image-upload">
-                    <label for="image-upload"
+                    <input type="file" accept="image/*" wire:model="featured_image" class="hidden" id="image-upload-create">
+                    <label for="image-upload-create"
                         class="flex flex-col items-center justify-center w-full h-20 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                         <div class="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-upload w-6 h-6 text-gray-400 mx-auto mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-upload w-6 h-6 text-gray-400 mx-auto mb-2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="17 8 12 3 7 8"></polyline>
                                 <line x1="12" x2="12" y1="3" y2="15"></line>
@@ -36,8 +36,7 @@
 
         <x-form.input class="col-span-full" name="name" label="Nom du produit" :wire="true" :required="true" />
 
-        <x-form.input class="col-span-1" name="price" label="Prix" type="number" :number="true"
-            :required="true" />
+        <x-form.input class="col-span-1" name="price" label="Prix" type="number" :number="true" :required="true" />
 
         <!-- Quantité global du produit donc `stock_quantity` -->
         <x-form.input class="col-span-1" name="stock_quantity" label="Quantité globale" type="number" :number="true"
@@ -108,9 +107,9 @@
                                 <div class="mt-1 py-3 flex items-end">
                                     <button type="button" wire:click="removeWarehouseLine({{ $index }})"
                                         class="p-1 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden bg-gray-200 text-neutral-400 hover:bg-neutral-300 focus:bg-neutral-300">
-                                        <svg class="size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
-                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <svg class="size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M18 6 6 18"></path>
                                             <path d="m6 6 12 12"></path>
                                         </svg>
@@ -142,9 +141,9 @@
                 </div>
 
                 {{-- @if ($totalWarehouseQuantity !== (int) ($stock_quantity ?? 0))
-                    <div class="mt-2 text-xs text-red-600">
-                        ⚠️ Les quantités ne correspondent pas
-                    </div>
+                <div class="mt-2 text-xs text-red-600">
+                    ⚠️ Les quantités ne correspondent pas
+                </div>
                 @endif --}}
             </div>
         </div>

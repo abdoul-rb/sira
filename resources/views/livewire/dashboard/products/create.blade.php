@@ -2,15 +2,15 @@
     <x-ui.modals.create-warehouse-modal :tenant="$tenant" :key="'create-warehouse-' . time()" />
 
     <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" enctype="multipart/form-data" novalidate>
-        @if ($featured_image)
+        @if ($featuredImage)
             <div class="col-span-full">
-                <img src="{{ $featured_image->temporaryUrl() }}" alt="Image du produit"
+                <img src="{{ $featuredImage->temporaryUrl() }}" alt="Image du produit"
                     class="size-24 lg:size-32 object-cover rounded-md">
             </div>
         @else
             <div class="col-span-full">
                 <div class="relative">
-                    <input type="file" accept="image/*" wire:model="featured_image" class="hidden" id="image-upload-create">
+                    <input type="file" accept="image/*" wire:model="featuredImage" class="hidden" id="image-upload-create">
                     <label for="image-upload-create"
                         class="flex flex-col items-center justify-center w-full h-20 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                         <div class="text-center">
@@ -28,7 +28,7 @@
                     </label>
                 </div>
 
-                @error($featured_image)
+                @error($featuredImage)
                     <p class="mt-1 font-normal text-xs text-red-600">{{ $message }}</p>
                 @enderror
             </div>
@@ -38,8 +38,8 @@
 
         <x-form.input class="col-span-1" name="price" label="Prix" type="number" :number="true" :required="true" />
 
-        <!-- Quantité global du produit donc `stock_quantity` -->
-        <x-form.input class="col-span-1" name="stock_quantity" label="Quantité globale" type="number" :number="true"
+        <!-- Quantité global du produit donc `stockQuantity` -->
+        <x-form.input class="col-span-1" name="stockQuantity" label="Quantité globale" type="number" :number="true"
             :required="true" />
 
         <div class="col-span-full">
@@ -137,10 +137,10 @@
                 </div>
                 <div class="flex justify-between items-center text-sm mt-1">
                     <span class="text-gray-600">{{ __('Quantité globale') }}:</span>
-                    <span class="font-medium">{{ $stock_quantity ?? 0 }}</span>
+                    <span class="font-medium">{{ $stockQuantity ?? 0 }}</span>
                 </div>
 
-                {{-- @if ($totalWarehouseQuantity !== (int) ($stock_quantity ?? 0))
+                {{-- @if ($totalWarehouseQuantity !== (int) ($stockQuantity ?? 0))
                 <div class="mt-2 text-xs text-red-600">
                     ⚠️ Les quantités ne correspondent pas
                 </div>

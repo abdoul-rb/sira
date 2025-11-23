@@ -19,7 +19,7 @@ beforeEach(function () {
         'description' => 'Un super laptop.',
         'sku' => 'SKU-LPRO-001',
         'price' => 1499.99,
-        'stock_quantity' => 50,
+        'stockQuantity' => 50,
     ];
 });
 
@@ -65,7 +65,7 @@ describe('CreateProductAction', function () {
         $fakeImage = UploadedFile::fake()->image('product_image.jpg');
         
         $data = array_merge($this->baseData, [
-            'featured_image' => $fakeImage,
+            'featuredImage' => $fakeImage,
         ]);
 
         $product = $this->action->handle($this->company, $data);
@@ -100,7 +100,7 @@ describe('CreateProductAction', function () {
         // Préparation des données avec une image
         $fakeImage = UploadedFile::fake()->image('failing_image.jpg');
         $data = array_merge($this->baseData, [
-            'featured_image' => $fakeImage,
+            'featuredImage' => $fakeImage,
         ]);
 
         // 2. Exécution dans un bloc 'expect' pour capter l'exception

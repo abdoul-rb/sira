@@ -24,11 +24,11 @@ class Create extends Component
 
     public string $description = '';
 
-    public ?UploadedFile $featured_image = null;
+    public ?UploadedFile $featuredImage = null;
 
     public int $price = 0;
 
-    public $stock_quantity = '';
+    public int $stockQuantity = 0;
 
     // Propriétés pour les entrepôts
     public array $warehouseLines = [];
@@ -73,11 +73,11 @@ class Create extends Component
     {
         $validated = $this->validate();
 
-        // Vérifier que le total des quantités assignées correspond au stock_quantity
+        // Vérifier que le total des quantités assignées correspond au stockQuantity
         $this->calculateTotalWarehouseQuantity();
         
-        /* if ($this->totalWarehouseQuantity !== (int) $this->stock_quantity) {
-            $this->addError('stock_quantity', "La quantité globale ({$this->stock_quantity}) doit correspondre au total des quantités assignées aux entrepôts ({$this->totalWarehouseQuantity}).");
+        /* if ($this->totalWarehouseQuantity !== (int) $this->stockQuantity) {
+            $this->addError('stockQuantity', "La quantité globale ({$this->stockQuantity}) doit correspondre au total des quantités assignées aux entrepôts ({$this->totalWarehouseQuantity}).");
             return;
         } */
 
@@ -89,7 +89,7 @@ class Create extends Component
         $this->dispatch('close-modal', id: 'create-product');
         $this->dispatch('product-created');
 
-        $this->reset(['name', 'description', 'featured_image', 'price', 'stock_quantity', 'warehouseLines', 'totalWarehouseQuantity']);
+        $this->reset(['name', 'description', 'featuredImage', 'price', 'stockQuantity', 'warehouseLines', 'totalWarehouseQuantity']);
     }
 
     public function render()

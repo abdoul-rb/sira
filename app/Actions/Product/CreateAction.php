@@ -17,6 +17,7 @@ final class CreateAction
             $product = $company->products()->create([
                 'name' => $data['name'],
                 'description' => $data['description'],
+                'sku' => $data['sku'],
                 'price' => $data['price'],
                 'stock_quantity' => $data['stock_quantity'],
             ]);
@@ -26,7 +27,7 @@ final class CreateAction
     
             if ($featuredImage) {
                 $filename = $featuredImage->getClientOriginalName();
-                $path = "{$company->id}/products/";
+                $path = "{$company->id}/products";
                 $imagePath = "{$path}/{$filename}";
                 
                 $featuredImage->storeAs($path, $filename, 'public');

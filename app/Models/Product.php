@@ -105,7 +105,7 @@ class Product extends Model
     */
 
     #[Scope]
-    public function inStock(Builder $query): void
+    protected function inStock(Builder $query): void
     {
         $query->where('stock_quantity', '>', 0);
     }

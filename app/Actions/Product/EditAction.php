@@ -27,12 +27,12 @@ final class EditAction
             $imagePath = null;
 
             if ($featuredImage instanceof UploadedFile && !$featuredImage->getError()) {
-                if ($featuredImage && Storage::disk('public')->exists($product->featured_image)) {
+                if ($product->featured_image && Storage::disk('public')->exists($product->featured_image)) {
                     Storage::disk('public')->delete($product->featured_image);
                 }
     
                 $filename = $featuredImage->getClientOriginalName();
-                $path = "{$product->company->id}/products/";
+                $path = "{$product->company->id}/products";
                 $imagePath = "{$path}/{$filename}";
                 
                 $featuredImage->storeAs($path, $filename, 'public');

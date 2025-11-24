@@ -32,7 +32,7 @@ jobs:
           php artisan key:generate --env=testing
           touch database/database.sqlite
 
-      - name: Security Audit
+      # - name: Security Audit
         # run: composer audit
 
       - name: PHP Lint

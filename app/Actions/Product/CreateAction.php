@@ -19,11 +19,11 @@ final class CreateAction
                 'description' => $data['description'],
                 'sku' => $data['sku'],
                 'price' => $data['price'],
-                'stock_quantity' => $data['stock_quantity'],
+                'stock_quantity' => $data['stockQuantity'],
             ]);
 
             /** @var UploadedFile|null $featuredImage */
-            $featuredImage = $data['featured_image'] ?? null;
+            $featuredImage = $data['featuredImage'] ?? null;
     
             if ($featuredImage) {
                 $filename = $featuredImage->getClientOriginalName();

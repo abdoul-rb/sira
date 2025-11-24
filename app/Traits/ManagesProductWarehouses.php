@@ -39,8 +39,14 @@ trait ManagesProductWarehouses
     /**
      * Mise à jour des lignes entrepôt
      */
-    public function updatedWarehouseLines($value, $key)
+    public function updatedWarehouseLines(mixed $value, ?string $key)
     {
+        // Si la clé est null (mise à jour globale) ou ne contient pas de point, on recalcule tout
+        if (is_null($key) || !str_contains($key, '.')) {
+            $this->calculateTotalWarehouseQuantity();
+            return;
+        }
+
         // Extraire l'index et le champ depuis la clé (ex: "0.quantity")
         $parts = explode('.', $key);
         $index = $parts[0];

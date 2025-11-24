@@ -23,9 +23,10 @@ class StoreProductRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'featured_image' => 'nullable|image|max:2048',
+            'featuredImage' => 'nullable|image|max:2048',
             'price' => 'required|numeric|min:0',
-            'stock_quantity' => 'required|integer'
+            'stockQuantity' => 'required|integer',
+            'sku' => ['nullable', 'string', 'max:50', 'unique:products,sku'],
             /* 'warehouse_id' => 'nullable|exists:warehouses,id',
             'warehouse_quantity' => 'required|integer|min:1', */
         ];
@@ -36,11 +37,12 @@ class StoreProductRequest extends FormRequest
         return [
             'name.required' => 'Le nom du produit est obligatoire.',
             'description.required' => 'La description est obligatoire.',
-            'featured_image.image' => 'Le fichier doit être une image.',
-            'featured_image.max' => "L'image ne doit pas dépasser 2MB.",
+            'featuredImage.image' => 'Le fichier doit être une image.',
+            'featuredImage.max' => "L'image ne doit pas dépasser 2MB.",
             'price.required' => 'Le prix est obligatoire.',
             'price.numeric' => 'Le prix doit être un nombre.',
             'price.min' => 'Le prix doit être positif.',
+            'sku.unique' => 'Le code produit doit être unique.',
             /* 'warehouse_id.required' => "L'entrepôt est obligatoire.",
             'warehouse_id.exists' => "L'entrepôt sélectionné n'existe pas.",
             'warehouse_quantity.required' => 'La quantité est obligatoire.',

@@ -6,10 +6,10 @@ namespace App\Livewire\Dashboard\Settings\Expenses;
 
 use App\Models\Company;
 use App\Models\Expense;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\On;
 
 class Index extends Component
 {
@@ -47,7 +47,6 @@ class Index extends Component
     /**
      * Ouvre le forumulaire modal d'edition
      *
-     * @param integer $expenseId
      * @return void
      */
     public function edit(int $expenseId)

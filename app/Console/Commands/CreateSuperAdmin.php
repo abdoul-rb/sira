@@ -51,12 +51,14 @@ class CreateSuperAdmin extends Command
             foreach ($validator->errors()->all() as $error) {
                 $this->error($error);
             }
+
             return 1;
         }
 
         // Vérification que le rôle super-admin existe
-        if (!\Spatie\Permission\Models\Role::where('name', 'super-admin')->exists()) {
+        if (! \Spatie\Permission\Models\Role::where('name', 'super-admin')->exists()) {
             $this->error("Le rôle 'super-admin' n'existe pas. Exécutez d'abord le seeder des rôles.");
+
             return 1;
         }
 
@@ -81,6 +83,7 @@ class CreateSuperAdmin extends Command
             return 0;
         } catch (\Exception $e) {
             $this->error('Erreur lors de la création du super admin : ' . $e->getMessage());
+
             return 1;
         }
     }

@@ -27,8 +27,8 @@ enum PaymentStatus: string
     {
         return match ($this) {
             self::CASH => 'bg-blue-50 text-blue-700 inset-ring inset-ring-blue-700/10',
-            self::MOBILE_MONEY => 'bg-sky-50 text-sky-700 inset-ring inset-ring-sky-700/10', 
+            self::MOBILE_MONEY => 'bg-sky-50 text-sky-700 inset-ring inset-ring-sky-700/10',
             self::CREDIT => 'bg-cyan-50 text-cyan-700 inset-ring inset-ring-cyan-700/10',
         };
     }
-} 
+}

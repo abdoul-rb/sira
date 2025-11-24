@@ -1,14 +1,14 @@
 <?php
 
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\InvoiceController;
 use App\Http\Controllers\Dashboard\SettingController;
 use App\Livewire\Auth\SetupPassword;
 use App\Livewire\Dashboard\Agent\Index as AgentIndex;
 use App\Livewire\Dashboard\Customers\Index as CustomerIndex;
 use App\Livewire\Dashboard\Members\Index as MemberIndex;
-use App\Livewire\Dashboard\Orders\Index as OrderIndex;
 use App\Livewire\Dashboard\Orders\Edit as OrderEdit;
-use App\Http\Controllers\Dashboard\InvoiceController;
+use App\Livewire\Dashboard\Orders\Index as OrderIndex;
 use App\Livewire\Dashboard\Products\Index as ProductIndex;
 use App\Livewire\Dashboard\Purchases\Index as PurchaseIndex;
 use App\Livewire\Dashboard\Settings\Deposits\Index as DepositIndex;

@@ -27,7 +27,7 @@ class SupplierResource extends Resource
 {
     protected static ?string $model = Supplier::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Achats & Stocks';
+    protected static string|UnitEnum|null $navigationGroup = 'Achats & Stocks';
 
     protected static ?string $navigationLabel = 'Fournisseurs';
 

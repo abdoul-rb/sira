@@ -15,8 +15,8 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads;
     use ManagesProductWarehouses;
+    use WithFileUploads;
 
     public Company $tenant;
 
@@ -60,7 +60,7 @@ class Create extends Component
     public function mount(Company $tenant)
     {
         $this->tenant = $tenant;
-        
+
         $this->addWarehouseLine(); // Ajouter une première ligne par défaut
         $this->calculateTotalWarehouseQuantity(); // Calculer le total initial
     }
@@ -77,7 +77,7 @@ class Create extends Component
 
         // Vérifier que le total des quantités assignées correspond au stockQuantity
         $this->calculateTotalWarehouseQuantity();
-        
+
         /* if ($this->totalWarehouseQuantity !== (int) $this->stockQuantity) {
             $this->addError('stockQuantity', "La quantité globale ({$this->stockQuantity}) doit correspondre au total des quantités assignées aux entrepôts ({$this->totalWarehouseQuantity}).");
             return;
@@ -97,7 +97,7 @@ class Create extends Component
     public function render()
     {
         $warehouses = $this->tenant->warehouses()->orderBy('name')->get();
-        
+
         return view('livewire.dashboard.products.create', [
             'warehouses' => $warehouses,
         ]);

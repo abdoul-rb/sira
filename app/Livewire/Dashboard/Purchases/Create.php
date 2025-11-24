@@ -8,8 +8,8 @@ use App\Http\Requests\Purchase\StorePurchaseRequest;
 use App\Models\Company;
 use App\Models\Purchase;
 use App\Models\Supplier;
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class Create extends Component
 {

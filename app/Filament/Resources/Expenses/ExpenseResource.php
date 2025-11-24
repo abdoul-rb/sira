@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Expenses;
 
+use App\Enums\ExpenseCategory;
 use App\Filament\Resources\Expenses\Pages\ManageExpenses;
+use App\Models\Company;
 use App\Models\Expense;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
@@ -16,18 +18,16 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use App\Enums\ExpenseCategory;
-use App\Models\Company;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Grouping\Group;
+use Filament\Tables\Table;
 use UnitEnum;
 
 class ExpenseResource extends Resource
 {
     protected static ?string $model = Expense::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Ventes & Finances';
+    protected static string|UnitEnum|null $navigationGroup = 'Ventes & Finances';
 
     protected static ?string $navigationLabel = 'Dépenses';
 

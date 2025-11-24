@@ -14,12 +14,12 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('company_id')->constrained()->onDelete('cascade');
-        
+
             $table->string('name');
             $table->string('slug')->unique(); // URL personnalisée (ex: monentreprise.crm.com/ma-boutique)
             $table->string('logo_path')->nullable();
             $table->text('description')->nullable();
-            
+
             $table->string('facebook_url')->nullable();
             $table->string('instagram_url')->nullable();
 

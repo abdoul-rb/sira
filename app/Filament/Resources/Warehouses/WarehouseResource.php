@@ -27,7 +27,7 @@ class WarehouseResource extends Resource
 {
     protected static ?string $model = Warehouse::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Achats & Stocks';
+    protected static string|UnitEnum|null $navigationGroup = 'Achats & Stocks';
 
     protected static ?string $navigationLabel = 'Emplacements';
 

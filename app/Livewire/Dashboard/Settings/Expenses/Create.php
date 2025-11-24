@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire\Dashboard\Settings\Expenses;
 
+use App\Enums\ExpenseCategory;
 use App\Models\Company;
 use App\Models\Expense;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
-use App\Enums\ExpenseCategory;
 
 class Create extends Component
 {

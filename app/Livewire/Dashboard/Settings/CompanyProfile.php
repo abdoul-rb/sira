@@ -18,19 +18,19 @@ class CompanyProfile extends Component
 
     public Company $tenant;
 
-    public ?string $name = "";
-    
+    public ?string $name = '';
+
     public ?UploadedFile $logo = null;
 
     public ?string $currentLogoPath = null;
-    
-    public ?string $description = "";
 
-    public ?string $phoneNumber = "";
+    public ?string $description = '';
 
-    public ?string $websiteUrl = "";
+    public ?string $phoneNumber = '';
 
-    public ?string $address = "";
+    public ?string $websiteUrl = '';
+
+    public ?string $address = '';
 
     public function mount(Company $tenant)
     {
@@ -60,7 +60,7 @@ class CompanyProfile extends Component
 
     public function updatedWebsiteUrl()
     {
-        if ($this->websiteUrl && !str_starts_with($this->websiteUrl, 'http://')) {
+        if ($this->websiteUrl && ! str_starts_with($this->websiteUrl, 'http://')) {
             $this->websiteUrl = 'https://' . $this->websiteUrl;
         }
     }

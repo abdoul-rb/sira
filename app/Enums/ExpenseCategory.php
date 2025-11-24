@@ -32,4 +32,4 @@ enum ExpenseCategory: string
             self::OTHER => 'Autres',
         };
     }
-} 
+}

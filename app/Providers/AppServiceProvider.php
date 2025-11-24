@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Listeners\SetupTenantListener;
+use Carbon\Carbon;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Auth\Events\Login;
-use Carbon\Carbon;
 use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider

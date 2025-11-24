@@ -40,7 +40,7 @@ class UpdateProfileRequest extends FormRequest
             'lastname.required' => 'Le nom est requis.',
             'phone_number.required' => 'Le téléphone est requis.',
             'email.required' => "L'adresse email est requise.",
-            'email.unique' => "Cette adresse email est déjà utilisé",
+            'email.unique' => 'Cette adresse email est déjà utilisé',
         ];
     }
 }

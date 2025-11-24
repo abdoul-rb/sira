@@ -26,15 +26,15 @@ final class EditAction
             $featuredImage = $data['featuredImage'] ?? null;
             $imagePath = null;
 
-            if ($featuredImage instanceof UploadedFile && !$featuredImage->getError()) {
+            if ($featuredImage instanceof UploadedFile && ! $featuredImage->getError()) {
                 if ($product->featured_image && Storage::disk('public')->exists($product->featured_image)) {
                     Storage::disk('public')->delete($product->featured_image);
                 }
-    
+
                 $filename = $featuredImage->getClientOriginalName();
                 $path = "{$product->company->id}/products";
                 $imagePath = "{$path}/{$filename}";
-                
+
                 $featuredImage->storeAs($path, $filename, 'public');
                 $product->update(['featured_image' => $imagePath]);
             }

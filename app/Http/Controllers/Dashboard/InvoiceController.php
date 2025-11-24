@@ -1,14 +1,14 @@
 <?php
 
-declare(strict_types= 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\Order;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use App\Models\Company;
 
 class InvoiceController extends Controller
 {

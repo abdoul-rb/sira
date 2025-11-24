@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Livewire\Dashboard\Orders;
 
 use App\Actions\Order\CreateAction;
-use Livewire\Component;
-use App\Models\Customer;
-use App\Models\Product;
-use App\Models\Company;
 use App\Enums\OrderStatus;
-use App\Models\Warehouse;
 use App\Enums\PaymentStatus;
 use App\Http\Requests\Order\StoreOrderRequest;
+use App\Models\Company;
+use App\Models\Customer;
+use App\Models\Product;
+use App\Models\Warehouse;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class Create extends Component
 {
@@ -98,9 +98,9 @@ class Create extends Component
     {
         // Mettre à jour le stock disponible pour tous les produits quand l'entrepôt change
         foreach ($this->productLines as $index => $line) {
-            if (!empty($line['product_id'])) {
+            if (! empty($line['product_id'])) {
                 $product = Product::find($line['product_id']);
-                
+
                 if ($product && $this->warehouseId) {
                     $warehouse = Warehouse::find($this->warehouseId);
                     $this->productLines[$index]['available_stock'] = $warehouse ? $warehouse->getProductStock($product) : 0;
@@ -134,12 +134,12 @@ class Create extends Component
         $index = $parts[0];
         $field = $parts[1];
 
-        if ($field === 'product_id' && !empty($value)) {
+        if ($field === 'product_id' && ! empty($value)) {
             $product = Product::find($value);
-            
+
             if ($product) {
                 $this->productLines[$index]['unit_price'] = $product->price;
-                
+
                 // Afficher le stock disponible dans l'entrepôt sélectionné
                 if ($this->warehouseId) {
                     $warehouse = Warehouse::find($this->warehouseId);
@@ -147,7 +147,7 @@ class Create extends Component
                 } else {
                     $this->productLines[$index]['available_stock'] = $product->stock_quantity;
                 }
-                
+
                 $this->productLines[$index]['quantity'] = 1; // Reset quantity
                 $this->calculateLineTotal($index);
             }
@@ -165,7 +165,7 @@ class Create extends Component
 
         // Vérifier que l'entrepôt existe
         $warehouse = Warehouse::findOrFail($this->warehouseId);
-        
+
         /* if (!$warehouse) {
             $this->addError('warehouseId', "L'entrepôt sélectionné n'existe pas.");
             return;
@@ -176,7 +176,7 @@ class Create extends Component
         // Calculer les totaux finaux
         $this->calculateTotals();
         $finalTotal = $this->subtotal - ($this->discount ?? 0);
-        
+
         $validated['subtotal'] = $this->subtotal;
         $validated['discount'] = $this->discount;
         $validated['advance'] = $this->advance;
@@ -197,13 +197,13 @@ class Create extends Component
 
     /**
      * Convertir un client en customer si il est lead
-     * @param int $customerId
+     *
      * @return void
      */
     private function convertCustomer(int $customerId)
     {
         $customer = Customer::find($customerId);
-        
+
         if ($customer->isLead()) {
             $customer->convertToCustomer();
         }
@@ -212,23 +212,22 @@ class Create extends Component
     /**
      * Vérifier les stocks dans l'entrepôt sélectionné
      *
-     * @param array $productLines
-     * @param Warehouse $warehouse
      * @return void
      */
     private function checkWarehouseStock(array $productLines, Warehouse $warehouse)
     {
         foreach ($productLines as $index => $line) {
-            if (!empty($line['product_id'])) {
+            if (! empty($line['product_id'])) {
                 $product = Product::find($line['product_id']);
-                
+
                 if ($product) {
                     // Vérifier le stock dans l'entrepôt spécifique
                     $availableStock = $warehouse->getProductStock($product);
-                    
+
                     if ((int) $line['quantity'] > $availableStock) {
-                        $this->addError("productLines.{$index}.quantity", 
+                        $this->addError("productLines.{$index}.quantity",
                             "La quantité demandée ({$line['quantity']}) dépasse le stock disponible ({$availableStock}) dans l'entrepôt {$warehouse->name} pour le produit {$product->name}.");
+
                         return;
                     }
                 }
@@ -246,10 +245,10 @@ class Create extends Component
     {
         $customers = Customer::where('company_id', $this->tenant->id)->get();
         $warehouses = Warehouse::where('company_id', $this->tenant->id)->get();
-        
+
         // Filtrer les produits selon l'entrepôt sélectionné
         $products = Product::where('company_id', $this->tenant->id)->get();
-        
+
         if ($this->warehouseId) {
             $warehouse = Warehouse::find($this->warehouseId);
 

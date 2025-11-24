@@ -4,21 +4,18 @@ declare(strict_types=1);
 
 namespace App\Livewire\Dashboard\Members;
 
-use App\Http\Requests\Member\StoreMemberRequest;
-use App\Models\Company;
-use App\Models\Member;
-use App\Models\User;
-use App\Notifications\MemberInvitation;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
 use App\Actions\Members\CreateMemberAction;
 use App\Enums\RoleEnum;
+use App\Http\Requests\Member\StoreMemberRequest;
+use App\Models\Company;
+use App\Models\User;
+use App\Notifications\MemberInvitation;
 use App\Notifications\NewMemberAccountCreated;
-use Livewire\Component;
-use Spatie\Permission\Models\Role;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+use Livewire\Component;
 
 class Create extends Component
 {

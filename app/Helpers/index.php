@@ -6,7 +6,7 @@ use App\Models\Company;
 
 // require __DIR__ . '/format.php';
 
-if (!function_exists('current_tenant')) {
+if (! function_exists('current_tenant')) {
     function current_tenant(): ?Company
     {
         if (app()->bound('currentTenant')) {
@@ -21,8 +21,9 @@ if (!function_exists('current_tenant')) {
     }
 }
 
-if (!function_exists('tenant_route')) {
-    function tenant_route($name, $parameters = [], $absolute = true) {
+if (! function_exists('tenant_route')) {
+    function tenant_route($name, $parameters = [], $absolute = true)
+    {
         // $tenant = request()->route('tenant');
         return route($name, array_merge(['tenant' => current_tenant()], $parameters));
 
@@ -42,14 +43,16 @@ if (!function_exists('tenant_route')) {
     }
 }
 
-if (!function_exists('app_version')) {
-    function app_version(): int {
+if (! function_exists('app_version')) {
+    function app_version(): int
+    {
         return (int) config('app.version');
     }
 }
 
-if (!function_exists('is_version')) {
-    function is_version(int $version): bool {
+if (! function_exists('is_version')) {
+    function is_version(int $version): bool
+    {
         return app_version() === $version;
     }
 }

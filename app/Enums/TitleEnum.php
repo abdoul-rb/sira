@@ -10,9 +10,9 @@ enum TitleEnum: string
 {
     use EnumHelpers;
 
-    case MONSIEUR = "M.";
-    case MADAME = "Mme.";
-    case MADEMOISELLE = "Mlle.";
+    case MONSIEUR = 'M.';
+    case MADAME = 'Mme.';
+    case MADEMOISELLE = 'Mlle.';
 
     public function label(): string
     {
@@ -22,4 +22,4 @@ enum TitleEnum: string
             self::MADEMOISELLE => __('Mlle.'),
         };
     }
-} 
+}

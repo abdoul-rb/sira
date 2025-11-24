@@ -3,18 +3,17 @@
 namespace Database\Seeders;
 
 use App\Models\Company;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class CompanySeeder extends Seeder
 {
     public function run(): void
     {
-        $companySofaSmart = Company::where('slug',  Str::slug('Sofa Smart'))->first();
-        
-        if (!$companySofaSmart) {
+        $companySofaSmart = Company::where('slug', Str::slug('Sofa Smart'))->first();
+
+        if (! $companySofaSmart) {
             $companySofaSmart = Company::create([
                 'name' => 'Sofa Smart',
                 'email' => 'contact@sofasmart.com',
@@ -35,9 +34,9 @@ class CompanySeeder extends Seeder
             ]);
         }
 
-        $companyNomad = Company::where('slug',  Str::slug('Nomad'))->first();
+        $companyNomad = Company::where('slug', Str::slug('Nomad'))->first();
 
-        if (!$companyNomad) {
+        if (! $companyNomad) {
             $companyNomad = Company::create([
                 'name' => 'Nomad',
                 'email' => 'contact@nomad.com',

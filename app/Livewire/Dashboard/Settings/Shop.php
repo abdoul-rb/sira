@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Livewire\Dashboard\Settings;
 
-use Livewire\Component;
 use App\Models\Company;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class Shop extends Component
 {
@@ -29,7 +29,7 @@ class Shop extends Component
 
     public function getPublicShopUrl(): ?string
     {
-        if (!$this->tenant->shop || !$this->tenant->shop->active) {
+        if (! $this->tenant->shop || ! $this->tenant->shop->active) {
             return null;
         }
 

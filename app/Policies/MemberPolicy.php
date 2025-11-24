@@ -58,4 +58,4 @@ class MemberPolicy
     {
         return $user->company_id === $member->company_id;
     }
-} 
+}

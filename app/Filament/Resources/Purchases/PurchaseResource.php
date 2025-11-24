@@ -16,8 +16,8 @@ use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -34,7 +34,7 @@ class PurchaseResource extends Resource
 {
     protected static ?string $model = Purchase::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Achats & Stocks';
+    protected static string|UnitEnum|null $navigationGroup = 'Achats & Stocks';
 
     protected static ?string $navigationLabel = 'Achats';
 

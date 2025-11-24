@@ -19,8 +19,8 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads;
     use ManagesProductWarehouses;
+    use WithFileUploads;
 
     public Company $tenant;
 
@@ -41,7 +41,7 @@ class Edit extends Component
     public string $stockQuantity = '';
 
     public array $warehouseLines = [];
-    
+
     public int $totalWarehouseQuantity = 0;
 
     protected function rules()
@@ -81,7 +81,7 @@ class Edit extends Component
         $this->warehouseLines = $this->product->warehouseProducts
             ->map(fn (WarehouseProduct $item) => [
                 'warehouse_id' => $item->warehouse_id,
-                'quantity' => $item->quantity
+                'quantity' => $item->quantity,
             ])
             ->toArray();
 
@@ -100,7 +100,7 @@ class Edit extends Component
             Storage::disk('public')->delete($this->product->featured_image);
             $this->product->update(['featured_image' => null]);
         }
-    
+
         $this->currentImagePath = null;
     }
 
@@ -121,7 +121,7 @@ class Edit extends Component
         $this->dispatch('notify', 'Produit mis à jour avec succès !');
 
         $this->reset(['name', 'description', 'featuredImage', 'price', 'stockQuantity', 'warehouseLines', 'totalWarehouseQuantity']);
-        
+
         $this->dispatch('close-modal', id: 'edit-product');
     }
 

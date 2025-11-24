@@ -18,7 +18,6 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -35,7 +34,7 @@ class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Ventes & Finances';
+    protected static string|UnitEnum|null $navigationGroup = 'Ventes & Finances';
 
     protected static ?string $navigationLabel = 'Clients';
 

@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
-use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;

@@ -31,7 +31,6 @@ class Index extends Component
     /**
      * Ouvre le forumulaire modal d'edition
      *
-     * @param integer $purchaseId
      * @return void
      */
     public function edit(int $purchaseId)

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Order;
 
-use App\Models\Company;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Warehouse;
@@ -15,9 +14,7 @@ final class CreateAction
     /**
      * Création d'une commande et des produits associés deduits de l'emplacement sélectionné
      *
-     * @param array $data
-     * @param array $products Les lignes / items produits associés à la commande
-     * @return Order
+     * @param  array  $products  Les lignes / items produits associés à la commande
      */
     public function handle(array $data, array $products): Order
     {
@@ -46,17 +43,15 @@ final class CreateAction
     /**
      * Attacher les produits à la commande et décrémenter les stocks
      *
-     * @param Order $order
-     * @param array $productLines
-     * @param Warehouse $warehouse L'entrepôt d'ou sera pris les produits
+     * @param  Warehouse  $warehouse  L'entrepôt d'ou sera pris les produits
      * @return void
      */
     private function attachProductsToOrder(Order $order, array $productLines, Warehouse $warehouse)
     {
         foreach ($productLines as $line) {
-            if (!empty($line['product_id'])) {
+            if (! empty($line['product_id'])) {
                 $product = Product::find($line['product_id']);
-                
+
                 // Attacher le produit à la commande
                 $order->products()->attach($line['product_id'], [
                     'quantity' => $line['quantity'],

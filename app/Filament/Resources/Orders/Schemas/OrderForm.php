@@ -44,7 +44,7 @@ class OrderForm
                     ]),
                 /* Select::make('warehouse_id')
                     ->relationship('warehouse', 'name'), */
-                
+
                 /* Select::make('status')
                     ->options(OrderStatus::class)
                     ->required(), */

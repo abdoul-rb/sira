@@ -37,6 +37,7 @@ class MigrateUsersToMembers extends Command
         }
 
         $this->info("{$count} users successful migrated ...");
+
         return Command::SUCCESS;
     }
 }

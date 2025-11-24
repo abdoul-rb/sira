@@ -15,6 +15,7 @@ class Shop extends Component
     use WithPagination;
 
     public Company $tenant;
+
     public ShopModel $shop;
 
     public string $search = '';
@@ -26,7 +27,7 @@ class Shop extends Component
         // dd($shopSlug, url()->current(), ShopModel::get());
 
         // Check si la boutique exist sinon gérer
-        
+
         // Récupérer la boutique par son slug
         $this->shop = ShopModel::where('slug', $shopSlug)
             ->where('company_id', $tenant->id)

@@ -22,4 +22,4 @@ enum RoleEnum: string
             self::OPERATOR => 'Assistant.e/Caissier.e',
         };
     }
-} 
+}

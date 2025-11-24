@@ -6,8 +6,8 @@ namespace App\Services;
 
 use App\Models\Company;
 use App\Models\Order;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class OrderNumberService
 {
@@ -58,12 +58,11 @@ class OrderNumberService
     private function generateShortHash(Company $company): string
     {
         $data = "{$company->id} {$company->name}" . now()->timestamp;
-        
+
         $hash = hash('sha256', $data);
-        
+
         return strtoupper(substr($hash, 0, 6));
     }
-
 
     /**
      * Génère un numéro de commande avec une date spécifique
@@ -84,7 +83,7 @@ class OrderNumberService
     public function getCompanyStats(Company $company): array
     {
         $today = now()->format('ymd');
-        
+
         $todayOrders = Order::where('company_id', $company->id)
             ->where('order_number', 'like', $today . '-%')
             ->count();

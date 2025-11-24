@@ -16,7 +16,7 @@ trait ManagesProductWarehouses
     {
         $defaultWarehouse = $this->tenant->warehouses()->default()->first();
         $firstWarehouse = $this->tenant->warehouses()->first();
-        
+
         $this->warehouseLines[] = [
             'warehouse_id' => $defaultWarehouse ? $defaultWarehouse->id : ($firstWarehouse ? $firstWarehouse->id : null),
             'quantity' => 0,
@@ -24,7 +24,7 @@ trait ManagesProductWarehouses
     }
 
     /**
-     * Supprimer une ligne entrepôt-quantité 
+     * Supprimer une ligne entrepôt-quantité
      *
      * @param [type] $index ()int
      * @return void
@@ -42,8 +42,9 @@ trait ManagesProductWarehouses
     public function updatedWarehouseLines(mixed $value, ?string $key)
     {
         // Si la clé est null (mise à jour globale) ou ne contient pas de point, on recalcule tout
-        if (is_null($key) || !str_contains($key, '.')) {
+        if (is_null($key) || ! str_contains($key, '.')) {
             $this->calculateTotalWarehouseQuantity();
+
             return;
         }
 
@@ -68,15 +69,14 @@ trait ManagesProductWarehouses
     /**
      * Assigner les quantités aux entrepôts
      *
-     * @param Product $product
      * @return void
      */
     private function syncQuantitiesToWarehouses(Product $product)
     {
         foreach ($this->warehouseLines as $line) {
-            if (!empty($line['warehouse_id']) && $line['quantity'] > 0) {
+            if (! empty($line['warehouse_id']) && $line['quantity'] > 0) {
                 $warehouse = Warehouse::find($line['warehouse_id']);
-                
+
                 if ($warehouse) {
                     $warehouse->updateProductStock($product, (int) $line['quantity']);
                 }

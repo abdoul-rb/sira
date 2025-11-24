@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Livewire\Profile;
 
 use App\Actions\Profile\UpdateProfileAction;
-use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Requests\UpdateProfileRequest;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
 
 class Index extends Component
 {

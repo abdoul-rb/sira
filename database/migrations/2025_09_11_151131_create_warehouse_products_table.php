@@ -14,10 +14,10 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity')->default(0);
             $table->timestamps();
-            
+
             // Contrainte unique pour éviter les doublons
             $table->unique(['warehouse_id', 'product_id']);
-            
+
             // Index pour optimiser les requêtes
             $table->index(['warehouse_id', 'product_id']);
         });

@@ -85,6 +85,7 @@ class Edit extends Component
 
             if ($existingEmail) {
                 $this->addError('email', 'Cet email est déjà utilisé par un autre utilisateur.');
+
                 return;
             }
         }
@@ -106,7 +107,7 @@ class Edit extends Component
 
                 // Mettre à jour le rôle
                 $role = Role::where('name', $this->role)->first();
-                
+
                 if ($role) {
                     $this->member->user->syncRoles([$role]);
                 }
@@ -120,7 +121,7 @@ class Edit extends Component
 
                 // Assigner le rôle
                 $role = Role::where('name', $this->role)->first();
-                
+
                 if ($role) {
                     $user->assignRole($role);
                 }
@@ -140,6 +141,7 @@ class Edit extends Component
         }
 
         session()->flash('success', 'Employé modifié avec succès.');
+
         return redirect()->route('dashboard.members.index', [$this->tenant]);
     }
 

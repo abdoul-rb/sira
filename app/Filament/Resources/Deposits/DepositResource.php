@@ -28,7 +28,7 @@ class DepositResource extends Resource
 {
     protected static ?string $model = Deposit::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Ventes & Finances';
+    protected static string|UnitEnum|null $navigationGroup = 'Ventes & Finances';
 
     protected static ?string $navigationLabel = 'Versements';
 

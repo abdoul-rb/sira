@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->boolean('default')->default(false);
             $table->timestamps();
-            
+
             // Index pour optimiser les requêtes
             $table->index(['company_id', 'default']);
         });

@@ -8,8 +8,8 @@ use App\Enums\CustomerType;
 use App\Http\Requests\Customer\UpdateCustomerRequest;
 use App\Models\Company;
 use App\Models\Customer;
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class Edit extends Component
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Shop;
 use App\Models\Company;
+use App\Models\Shop;
+use Illuminate\Database\Seeder;
 
 class ShopSeeder extends Seeder
 {
@@ -14,8 +14,8 @@ class ShopSeeder extends Seeder
     {
         // Créer une boutique pour la première entreprise existante
         $company = Company::first();
-        
-        if ($company && !$company->shop) {
+
+        if ($company && ! $company->shop) {
             Shop::create([
                 'company_id' => $company->id,
                 'name' => 'Boutique ' . $company->name,

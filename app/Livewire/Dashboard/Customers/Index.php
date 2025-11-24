@@ -7,12 +7,12 @@ namespace App\Livewire\Dashboard\Customers;
 use App\Enums\CustomerType;
 use App\Models\Company;
 use App\Models\Customer;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
 
 #[Layout('layouts.dashboard')]
 class Index extends Component
@@ -75,7 +75,7 @@ class Index extends Component
     {
         $customer = Customer::findOrFail($customerId);
         $this->authorize('delete', $customer);
-        
+
         $customer->delete();
 
         $this->dispatch('customer-deleted');
@@ -85,7 +85,6 @@ class Index extends Component
     /**
      * Ouvre le forumulaire modal d'edition
      *
-     * @param integer $customerId
      * @return void
      */
     public function edit(int $customerId)

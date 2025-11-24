@@ -16,18 +16,17 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
-use Filament\Tables\Filters\Filter;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use UnitEnum;
 
@@ -35,7 +34,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Paramètres';
+    protected static string|UnitEnum|null $navigationGroup = 'Paramètres';
 
     protected static ?string $navigationLabel = 'Utilisateurs';
 
@@ -148,7 +147,7 @@ class UserResource extends Resource
                     ->label('Create New')
                     ->url('#')
                     ->icon('heroicon-m-plus')
-                    ->button()
+                    ->button(),
             ]);
     }
 

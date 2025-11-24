@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Member;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class UpdateMemberRequest extends FormRequest
 {
@@ -27,9 +27,8 @@ class UpdateMemberRequest extends FormRequest
             'lastname' => ['required', 'string', 'max:255'],
             'phoneNumber' => ['nullable', 'string', 'max:255'],
             'email' => ['email', Rule::unique('users', 'email')->ignore(Auth::id())],
-            'canLogin' => ['boolean']
+            'canLogin' => ['boolean'],
         ];
-
 
         return $rules;
     }
@@ -37,8 +36,8 @@ class UpdateMemberRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'firstname.required' => "Le nom est obligatoire",
-            'lastname.required' => "Le prénom est obligatoire",
+            'firstname.required' => 'Le nom est obligatoire',
+            'lastname.required' => 'Le prénom est obligatoire',
         ];
     }
 }

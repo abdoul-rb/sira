@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-            
+
             // Un utilisateur ne peut être employé qu'une seule fois par entreprise
             $table->unique(['user_id', 'company_id']);
         });

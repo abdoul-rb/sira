@@ -30,7 +30,7 @@ class Login extends Component
 
         // Tentative de connexion
         if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            $this->addError('email', __("Invalid credentials"));
+            $this->addError('email', __('Invalid credentials'));
 
             return;
         }

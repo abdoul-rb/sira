@@ -23,7 +23,7 @@ class UpdateProfileAction
                 'name' => "{$data['firstname']} {$data['lastname']}",
                 'email' => $data['email'],
             ]);
-    
+
             $user->member->update([
                 'firstname' => $data['firstname'],
                 'lastname' => $data['lastname'],

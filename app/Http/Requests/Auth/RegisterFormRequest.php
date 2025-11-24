@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
-use App\Rules\UnauthorizedEmailProviders;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterFormRequest extends FormRequest
 {
@@ -40,9 +39,9 @@ class RegisterFormRequest extends FormRequest
             'firstname.required' => 'Le prénom est requis.',
             'lastname.required' => 'Le nom est requis.',
             'companyName.required' => "Le nom de l'entreprise est requis.",
-            'companyName.unique' => "Une entreprise avec ce nom existe déjà. Contacter votre administrateur pour rejoindre cette entreprise.",
+            'companyName.unique' => 'Une entreprise avec ce nom existe déjà. Contacter votre administrateur pour rejoindre cette entreprise.',
             'email.required' => "L'adresse email est requise.",
-            'email.unique' => "Cette adresse email est déjà utilisé",
+            'email.unique' => 'Cette adresse email est déjà utilisé',
             'phoneNumber.required' => 'Le téléphone est requis.',
             'password.required' => 'Le mot de passe est requis.',
             'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',

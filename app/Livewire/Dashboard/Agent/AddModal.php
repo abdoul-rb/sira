@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Livewire\Dashboard\Agent;
 
 use App\Http\Requests\Agent\StoreAgentRequest;
-use App\Models\Company;
 use App\Models\Agent;
+use App\Models\Company;
 use Livewire\Component;
 
 class AddModal extends Component

@@ -7,11 +7,11 @@ namespace App\Livewire\Dashboard\Products;
 use App\Models\Company;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Layout;
 
 #[Layout('layouts.dashboard')]
 class Index extends Component
@@ -42,11 +42,8 @@ class Index extends Component
     /**
      * Écouter l'événement de mise à jour de la boutique
      */
-    ##[On('product-created')]
-    public function refreshProducts()
-    {
-        
-    }
+    // #[On('product-created')]
+    public function refreshProducts() {}
 
     public function sortBy(string $field, string $direction = 'desc')
     {
@@ -62,7 +59,7 @@ class Index extends Component
      */
     public function getPublicShopUrl(): ?string
     {
-        if (!$this->tenant->shop || !$this->tenant->shop->active) {
+        if (! $this->tenant->shop || ! $this->tenant->shop->active) {
             return null;
         }
 
@@ -72,7 +69,6 @@ class Index extends Component
     /**
      * Ouvre le forumulaire modal d'edition
      *
-     * @param integer $productId
      * @return void
      */
     public function edit(int $productId)
@@ -82,8 +78,7 @@ class Index extends Component
 
     /**
      * Remove the specified resource from storage.
-     * 
-     * @param int $productId
+     *
      * @return void
      */
     public function destroy(int $productId)
@@ -93,7 +88,7 @@ class Index extends Component
         if ($product->featured_image && Storage::disk('public')->exists($product->featured_image)) {
             Storage::disk('public')->delete($product->featured_image);
         }
-        
+
         $product->delete();
 
         $this->dispatch('product-deleted');

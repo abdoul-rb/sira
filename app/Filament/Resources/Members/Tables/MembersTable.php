@@ -4,18 +4,18 @@ namespace App\Filament\Resources\Members\Tables;
 
 use App\Enums\RoleEnum;
 use App\Models\Company;
-use Spatie\Permission\Models\Role;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Spatie\Permission\Models\Role;
 
 class MembersTable
 {

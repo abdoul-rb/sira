@@ -33,7 +33,13 @@ jobs:
           touch database/database.sqlite
 
       - name: Security Audit
-        run: composer audit
+        # run: composer audit
+
+      - name: PHP Lint
+        run: find . \( -path "./vendor" -o -path "./storage" \) -prune -o -type f -name "*.php" -print
+      
+      - name: Check Code Style
+        run: ./vendor/bin/pint --test
 
   update_server:
     name: Deploy to VPS

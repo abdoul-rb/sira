@@ -8,7 +8,6 @@ use App\Enums\RoleEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\Validation\Rules\Enum;
 
 class StoreMemberRequest extends FormRequest
 {
@@ -43,8 +42,8 @@ class StoreMemberRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'firstname.required' => "Le nom est obligatoire",
-            'lastname.required' => "Le prénom est obligatoire",
+            'firstname.required' => 'Le nom est obligatoire',
+            'lastname.required' => 'Le prénom est obligatoire',
         ];
     }
 }

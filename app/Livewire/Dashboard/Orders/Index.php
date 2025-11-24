@@ -11,12 +11,12 @@ use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
 
 #[Layout('layouts.dashboard')]
 class Index extends Component
@@ -90,47 +90,47 @@ class Index extends Component
         }
 
         $now = Carbon::now();
-        
-        return match($this->dateFilter) {
+
+        return match ($this->dateFilter) {
             'today' => [
                 'start' => $now->copy()->startOfDay(),
-                'end' => $now->copy()->endOfDay()
+                'end' => $now->copy()->endOfDay(),
             ],
             'yesterday' => [
                 'start' => $now->copy()->subDay()->startOfDay(),
-                'end' => $now->copy()->subDay()->endOfDay()
+                'end' => $now->copy()->subDay()->endOfDay(),
             ],
             'last_3_days' => [
                 'start' => $now->copy()->subDays(2)->startOfDay(),
-                'end' => $now->copy()->endOfDay()
+                'end' => $now->copy()->endOfDay(),
             ],
             'this_week' => [
                 'start' => $now->copy()->startOfWeek(),
-                'end' => $now->copy()->endOfWeek()
+                'end' => $now->copy()->endOfWeek(),
             ],
             'last_week' => [
                 'start' => $now->copy()->subWeek()->startOfWeek(),
-                'end' => $now->copy()->subWeek()->endOfWeek()
+                'end' => $now->copy()->subWeek()->endOfWeek(),
             ],
             'this_month' => [
                 'start' => $now->copy()->startOfMonth(),
-                'end' => $now->copy()->endOfMonth()
+                'end' => $now->copy()->endOfMonth(),
             ],
             'last_month' => [
                 'start' => $now->copy()->subMonth()->startOfMonth(),
-                'end' => $now->copy()->subMonth()->endOfMonth()
+                'end' => $now->copy()->subMonth()->endOfMonth(),
             ],
             'last_3_months' => [
                 'start' => $now->copy()->subMonths(3)->startOfMonth(),
-                'end' => $now->copy()->endOfMonth()
+                'end' => $now->copy()->endOfMonth(),
             ],
             'this_year' => [
                 'start' => $now->copy()->startOfYear(),
-                'end' => $now->copy()->endOfYear()
+                'end' => $now->copy()->endOfYear(),
             ],
             'custom' => [
                 'start' => $this->customStartDate ? Carbon::parse($this->customStartDate)->startOfDay() : $now->copy()->startOfMonth(),
-                'end' => $this->customEndDate ? Carbon::parse($this->customEndDate)->endOfDay() : $now->copy()->endOfDay()
+                'end' => $this->customEndDate ? Carbon::parse($this->customEndDate)->endOfDay() : $now->copy()->endOfDay(),
             ],
             default => null
         };
@@ -138,15 +138,14 @@ class Index extends Component
 
     /**
      * Remove the specified resource from storage.
-     * 
-     * @param int $orderId
+     *
      * @return void
      */
     public function destroy(int $orderId)
     {
         dd($orderId);
         $order = Order::findOrFail($orderId);
-        
+
         $order->delete();
 
         $this->dispatch('order-deleted');
@@ -177,16 +176,16 @@ class Index extends Component
         $totalSales = DB::table('orders')->where('company_id', $this->tenant->id)->sum('total_amount');
 
         $periods = [
-            "all" => "Toutes les périodes",
-            "yesterday" => "Hier",
-            "today" => "Aujourd'hui",
-            "last_3_days" => "3 derniers jours",
-            "this_week" => "Cette semaine",
-            "last_week" => "Semaine dernière",
-            "this_month" => "Ce mois-ci",
-            "last_month" => "Mois dernier",
-            "last_3_months" => "3 derniers mois",
-            "this_year" => "Cette année",
+            'all' => 'Toutes les périodes',
+            'yesterday' => 'Hier',
+            'today' => "Aujourd'hui",
+            'last_3_days' => '3 derniers jours',
+            'this_week' => 'Cette semaine',
+            'last_week' => 'Semaine dernière',
+            'this_month' => 'Ce mois-ci',
+            'last_month' => 'Mois dernier',
+            'last_3_months' => '3 derniers mois',
+            'this_year' => 'Cette année',
         ];
 
         return view('livewire.dashboard.orders.index', [
@@ -194,7 +193,7 @@ class Index extends Component
             'statuses' => OrderStatus::cases(),
             'creditsOrdersCount' => $creditsOrdersCount,
             'totalSales' => $totalSales,
-            'periods' => $periods
+            'periods' => $periods,
         ]);
     }
 }

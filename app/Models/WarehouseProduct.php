@@ -31,8 +31,6 @@ class WarehouseProduct extends Model
 
     /**
      * Appartient à un entrepôt.
-     *
-     * @return BelongsTo
      */
     public function warehouse(): BelongsTo
     {
@@ -41,8 +39,6 @@ class WarehouseProduct extends Model
 
     /**
      * Appartient à un produit.
-     *
-     * @return BelongsTo
      */
     public function product(): BelongsTo
     {

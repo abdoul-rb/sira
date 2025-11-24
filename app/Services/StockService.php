@@ -18,13 +18,13 @@ class StockService
      */
     public function decreaseOrderStocks(Order $order): bool
     {
-        if (!$order->warehouse) {
+        if (! $order->warehouse) {
             return false;
         }
 
         return DB::transaction(function () use ($order) {
             // Vérifier d'abord si tous les produits ont suffisamment de stock
-            if (!$this->validateOrderStockAvailability($order)) {
+            if (! $this->validateOrderStockAvailability($order)) {
                 return false;
             }
 
@@ -43,13 +43,13 @@ class StockService
      */
     public function validateOrderStockAvailability(Order $order): bool
     {
-        if (!$order->warehouse) {
+        if (! $order->warehouse) {
             return false;
         }
 
         foreach ($order->products as $product) {
             $quantity = $product->pivot->quantity;
-            if (!$this->hasSufficientStock($order->warehouse, $product, $quantity)) {
+            if (! $this->hasSufficientStock($order->warehouse, $product, $quantity)) {
                 return false;
             }
         }
@@ -68,7 +68,7 @@ class StockService
                 ->lockForUpdate()
                 ->first();
 
-            if (!$warehouseProduct || $warehouseProduct->quantity < $quantity) {
+            if (! $warehouseProduct || $warehouseProduct->quantity < $quantity) {
                 return false;
             }
 
@@ -151,8 +151,8 @@ class StockService
         return WarehouseProduct::whereHas('warehouse', function ($query) use ($product) {
             $query->where('company_id', $product->company_id);
         })
-        ->where('product_id', $product->id)
-        ->sum('quantity');
+            ->where('product_id', $product->id)
+            ->sum('quantity');
     }
 
     /**

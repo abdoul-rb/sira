@@ -7,13 +7,13 @@ namespace App\Livewire\Dashboard\Orders;
 use App\Enums\OrderStatus;
 use App\Http\Requests\Order\UpdateOrderRequest;
 use App\Models\Company;
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Customer;
 use App\Models\Warehouse;
 use Livewire\Attributes\Computed;
-use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('layouts.dashboard')]
 class Edit extends Component
@@ -74,15 +74,13 @@ class Edit extends Component
                     'total' => $item->total_price,
                 ];
             })->toArray(); */
-        
+
         // Calculer les totaux initiaux
         $this->calculateInitialTotals();
     }
 
     /**
      * Permet de savoir si la commande est verrouillée
-     *
-     * @return boolean
      */
     #[Computed]
     public function isLocked(): bool
@@ -96,10 +94,10 @@ class Edit extends Component
         $existingSubtotal = $this->order->products->sum(function ($item) {
             return $item->total_price;
         });
-        
+
         // Sous-total des nouveaux produits
         $newSubtotal = collect($this->productLines)->sum('total_price');
-        
+
         $this->subtotal = $existingSubtotal + $newSubtotal;
         $this->totalAmount = $this->subtotal + ($this->shipping_cost ?? 0);
     }
@@ -128,7 +126,7 @@ class Edit extends Component
         $index = $parts[0];
         $field = $parts[1];
 
-        if ($field === 'product_id' && !empty($value)) {
+        if ($field === 'product_id' && ! empty($value)) {
             $product = Product::find($value);
             if ($product) {
                 $this->productLines[$index]['unit_price'] = $product->price;
@@ -166,10 +164,11 @@ class Edit extends Component
 
         // Vérifier les stocks pour les nouveaux produits
         foreach ($this->productLines as $index => $line) {
-            if (!empty($line['product_id'])) {
+            if (! empty($line['product_id'])) {
                 $product = Product::find($line['product_id']);
                 if ($product && $line['quantity'] > $product->stock_quantity) {
                     $this->addError("productLines.{$index}.quantity", "La quantité demandée ({$line['quantity']}) dépasse le stock disponible ({$product->stock_quantity}) pour le produit {$product->name}.");
+
                     return;
                 }
             }
@@ -192,7 +191,7 @@ class Edit extends Component
 
         // Ajouter les nouveaux produits et décrémenter les stocks
         foreach ($this->productLines as $line) {
-            if (!empty($line['product_id'])) {
+            if (! empty($line['product_id'])) {
                 $product = Product::find($line['product_id']);
                 $this->order->products()->attach($line['product_id'], [
                     'quantity' => $line['quantity'],
@@ -206,7 +205,7 @@ class Edit extends Component
         }
 
         $this->dispatch('notify', 'Commande modifiée avec succès.');
-        return;
+
     }
 
     public function render()
@@ -222,7 +221,7 @@ class Edit extends Component
             'statuses' => OrderStatus::cases(),
             'customers' => $customers,
             'products' => $products,
-            'warehouses' => $warehouses
+            'warehouses' => $warehouses,
         ]);
     }
 }

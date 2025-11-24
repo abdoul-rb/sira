@@ -6,10 +6,10 @@ namespace App\Livewire\Dashboard\Settings\Warehouses;
 
 use App\Models\Company;
 use App\Models\Warehouse;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\On;
 
 class Index extends Component
 {
@@ -37,7 +37,7 @@ class Index extends Component
 
     public function toggleDefault(Warehouse $warehouse)
     {
-        if (!$warehouse->default) {
+        if (! $warehouse->default) {
             $warehouse->markAsDefault();
             session()->flash('success', 'Entrepôt défini comme par défaut.');
         }
@@ -55,7 +55,6 @@ class Index extends Component
     /**
      * Ouvre le forumulaire modal d'edition
      *
-     * @param integer $warehouseId
      * @return void
      */
     public function edit(int $warehouseId)

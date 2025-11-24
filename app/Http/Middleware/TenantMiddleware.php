@@ -8,12 +8,12 @@ use App\Models\Company;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class TenantMiddleware
 {
@@ -60,8 +60,7 @@ final class TenantMiddleware
                 'timestamp' => now()->toDateTimeString(),
             ]);
 
-            throw new NotFoundHttpException("Access denied ...");
-
+            throw new NotFoundHttpException('Access denied ...');
             /* return redirect()
                 ->route('dashboard.index', ['tenant' => $userCompany])
                 ->with('error', 'Accès Denied to previously url.'); */

@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Livewire\Dashboard\Agent;
 
-use App\Enums\CustomerType;
+use App\Models\Agent;
 use App\Models\Company;
 use App\Models\Customer;
+use Livewire\Attributes\Locked;
+use Livewire\Attributes\Url;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Url;
-use Livewire\Attributes\Locked;
-use Livewire\Attributes\Validate;
-use App\Models\Agent;
 
 class Index extends Component
 {
@@ -35,7 +34,7 @@ class Index extends Component
     public ?string $type = null;
 
     public $confirmingDelete = null;
-    
+
     public $selectedCustomer = null;
 
     protected $queryString = [
@@ -73,7 +72,7 @@ class Index extends Component
         $this->confirmingDelete = null;
         session()->flash('success', 'Client supprimé avec succès.');
     }
-    
+
     public function showCustomerOrders(Customer $customer)
     {
         $this->selectedCustomer = $customer;

@@ -39,7 +39,7 @@ class NewMemberAccountCreated extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject('Votre compte a été créé')
             ->line("Bonjour {$notifiable->name}")
-            ->line("Votre compte société {} a été créé")
+            ->line('Votre compte société {} a été créé')
             ->line('Voici vos identifiants de connexion :')
             ->line("**Email :** {$notifiable->email}")
             ->line("**Mot de passe temporaire :** {$this->temporaryPassword}")

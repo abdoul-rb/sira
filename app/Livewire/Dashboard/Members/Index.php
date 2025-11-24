@@ -70,7 +70,7 @@ class Index extends Component
 
         $member->delete();
 
-    // TODO: remove
+        // TODO: remove
         $this->confirmingDelete = null;
         session()->flash('success', 'Member supprimé avec succès.');
     }
@@ -78,7 +78,6 @@ class Index extends Component
     /**
      * Ouvre le forumulaire modal d'edition
      *
-     * @param integer $memberId
      * @return void
      */
     public function edit(int $memberId)

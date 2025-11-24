@@ -6,12 +6,11 @@ namespace App\Livewire\Dashboard\Purchases;
 
 use App\Http\Requests\Purchase\UpdatePurchaseRequest;
 use App\Models\Company;
-use App\Models\Customer;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class Edit extends Component
 {
@@ -63,7 +62,7 @@ class Edit extends Component
         $validated = $this->validate();
         $this->purchase->update($validated);
 
-        $this->reset(['supplierId', 'amount', 'details','purchasedAt']);
+        $this->reset(['supplierId', 'amount', 'details', 'purchasedAt']);
 
         $this->dispatch('purchase-updated');
         $this->dispatch('notify', 'Achat mis à jour avec succès !');
@@ -75,7 +74,7 @@ class Edit extends Component
         $suppliers = Supplier::where('company_id', $this->tenant->id)->get();
 
         return view('livewire.dashboard.purchases.edit', [
-            'suppliers' => $suppliers
+            'suppliers' => $suppliers,
         ]);
     }
 }

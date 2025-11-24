@@ -28,4 +28,4 @@ enum CustomerType: string
             self::CUSTOMER => 'bg-green-50 text-green-600',
         };
     }
-} 
+}

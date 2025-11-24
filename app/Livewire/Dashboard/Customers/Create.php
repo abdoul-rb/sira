@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Livewire\Dashboard\Customers;
 
-use Livewire\Component;
 use App\Enums\CustomerType;
 use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Models\Company;
 use App\Models\Customer;
+use Livewire\Component;
 
 class Create extends Component
 {
     public Company $tenant;
-    
+
     public $type = 'lead';
 
     public string $firstname = '';

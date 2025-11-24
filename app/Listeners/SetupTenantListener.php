@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Routing\Events\RouteMatched;
 use App\Models\Company;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Routing\Events\RouteMatched;
+use Illuminate\Support\Facades\Cache;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SetupTenantListener
 {
@@ -35,7 +33,7 @@ class SetupTenantListener
         $companies = $this->getCachedCompanies();
 
         // Vérification que le tenant existe
-        if (!in_array($tenantSlug, $companies)) {
+        if (! in_array($tenantSlug, $companies)) {
             throw new NotFoundHttpException("Tenant '{$tenantSlug}' not found");
         }
 
@@ -45,7 +43,7 @@ class SetupTenantListener
             return;
         } else {
             $slug = $tenantSlug;
-            $company = Cache::remember("tenant_company_{$slug}", self::CACHE_TTL, fn() => Company::where('slug', $slug)->first());
+            $company = Cache::remember("tenant_company_{$slug}", self::CACHE_TTL, fn () => Company::where('slug', $slug)->first());
         }
 
         // Exposer le tenant globalement
@@ -65,9 +63,9 @@ class SetupTenantListener
     private function getCachedCompanies(): array
     {
         return Cache::remember(
-            'tenant_companies_slugs', 
-            self::CACHE_TTL, 
-            fn() => Company::where('active', true)
+            'tenant_companies_slugs',
+            self::CACHE_TTL,
+            fn () => Company::where('active', true)
                 ->pluck('slug')
                 ->toArray()
         );

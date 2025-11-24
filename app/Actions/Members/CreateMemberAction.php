@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Members;
 
-use App\Enums\RoleEnum;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -38,7 +37,7 @@ class CreateMemberAction
                 $user->assignRole([$data['role']]);
 
                 $member->user()->associate($user);
-                $member->save();   
+                $member->save();
             }
 
             return $member;

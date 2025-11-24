@@ -128,8 +128,7 @@ class User extends Authenticatable implements FilamentUser, HasName
     public function roleLabels(): string
     {
         return $this->getRoleNames()
-            ->map(fn($role) =>
-                RoleEnum::tryFrom($role)?->label() ?? $role
+            ->map(fn ($role) => RoleEnum::tryFrom($role)?->label() ?? $role
             )
             ->join(', ');
     }

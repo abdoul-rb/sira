@@ -25,7 +25,7 @@ class UpdatePurchaseRequest extends FormRequest
             'supplierId' => ['required', 'integer', 'exists:suppliers,id'],
             'amount' => ['required', 'numeric', 'min:0'],
             'details' => ['nullable', 'string', 'max:1000'],
-            'purchasedAt' => ['required', 'date']
+            'purchasedAt' => ['required', 'date'],
         ];
     }
 

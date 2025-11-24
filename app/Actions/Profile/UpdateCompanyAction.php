@@ -22,18 +22,18 @@ final class UpdateCompanyAction
                 'address' => $data['address'],
             ]);
 
-            if ($data['logo'] instanceof UploadedFile && !$data['logo']->getError()) {
+            if ($data['logo'] instanceof UploadedFile && ! $data['logo']->getError()) {
                 if ($company->logo && Storage::disk('public')->exists($company->logo)) {
                     Storage::disk('public')->delete($company->logo);
                 }
-        
+
                 // Sauver le nouveau fichier
                 $path = "companies/{$company->id}";
-                $logo =  $data['logo'];
+                $logo = $data['logo'];
                 $filename = $logo->getClientOriginalName();
-        
+
                 $savedPath = $logo->storeAs($path, $filename, 'public');
-        
+
                 $company->update(['logo_path' => $savedPath]);
             }
 

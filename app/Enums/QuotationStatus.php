@@ -26,4 +26,4 @@ enum QuotationStatus: string
             self::EXPIRED => 'Expiré',
         };
     }
-} 
+}

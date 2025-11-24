@@ -24,12 +24,12 @@ final class CreateAction
 
             /** @var UploadedFile|null $featuredImage */
             $featuredImage = $data['featuredImage'] ?? null;
-    
+
             if ($featuredImage) {
                 $filename = $featuredImage->getClientOriginalName();
                 $path = "{$company->id}/products";
                 $imagePath = "{$path}/{$filename}";
-                
+
                 $featuredImage->storeAs($path, $filename, 'public');
                 $product->update(['featured_image' => $imagePath]);
             }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\CustomerType;
-use App\Enums\TitleEnum;
 use App\Models\Company;
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;

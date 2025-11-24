@@ -6,8 +6,10 @@ namespace App\Models;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Models\Scopes\TenantScope;
 use App\Services\OrderNumberService;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,8 +17,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Scopes\TenantScope;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
 #[ScopedBy([TenantScope::class])]
 class Order extends Model
@@ -88,8 +88,6 @@ class Order extends Model
 
     /**
      * L'entreprise tenante
-     *
-     * @return BelongsTo
      */
     public function company(): BelongsTo
     {
@@ -98,8 +96,6 @@ class Order extends Model
 
     /**
      * Le client qui à passer la commande
-     *
-     * @return BelongsTo
      */
     public function customer(): BelongsTo
     {
@@ -113,8 +109,6 @@ class Order extends Model
 
     /**
      * Liste des produits associés à la commande avec pivot
-     *
-     * @return BelongsToMany
      */
     public function products(): BelongsToMany
     {
@@ -125,8 +119,6 @@ class Order extends Model
 
     /**
      * Liste des lignes de produits (OrderProduct) associées à la commande.
-     *
-     * @return HasMany
      */
     public function productLines(): HasMany
     {
@@ -135,8 +127,6 @@ class Order extends Model
 
     /**
      * L'entrepôt d'où la commande est pris
-     *
-     * @return BelongsTo
      */
     public function warehouse(): BelongsTo
     {

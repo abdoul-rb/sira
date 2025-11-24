@@ -6,8 +6,8 @@ namespace Database\Seeders;
 
 use App\Enums\RoleEnum;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -63,7 +63,7 @@ class RolePermissionSeeder extends Seeder
             'create-order',
             'edit-order',
             'delete-order',
-            
+
             // Gestion des produits
             'view-products',
             'create-product',
@@ -75,14 +75,14 @@ class RolePermissionSeeder extends Seeder
             'create-purchase',
             'edit-purchase',
             'delete-purchase',
-            
+
             // Gestion des quotation / devis
             'view-quotations',
             'create-quotation',
             'edit-quotation',
             'delete-quotation',
             'approve-quotation',
-            
+
             // Gestion des Shop
 
             // Gestion des suppliers / Fournisseurs
@@ -136,7 +136,7 @@ class RolePermissionSeeder extends Seeder
             'view-customers', 'create-customer', 'edit-customer',
             'view-deposits', 'create-deposit', 'edit-deposit', 'delete-deposit',
             'view-expenses', 'create-expense', 'edit-expense', 'delete-expense',
-            // 'view-members' : rien 
+            // 'view-members' : rien
             'view-orders', 'create-order',
             'view-products',
             // Achats : rien

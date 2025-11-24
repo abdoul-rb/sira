@@ -133,3 +133,4 @@ Automatiser la publication des assets via GitHub Actions lors du déploiement
 
 **Autorisation avec Spatie permissions**
 -- [https://github.com/opcodesio/log-viewer/discussions/16](https://github.com/opcodesio/log-viewer/discussions/16)
+-- [https://saasykit.com/blog/laravel-ci-cd-pipelines-every-laravel-app-should-use](https://saasykit.com/blog/laravel-ci-cd-pipelines-every-laravel-app-should-use)

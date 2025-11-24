@@ -26,9 +26,9 @@ class Create extends Component
 
     public ?UploadedFile $featuredImage = null;
 
-    public int $price = 0;
+    public ?int $price = null;
 
-    public int $stockQuantity = 0;
+    public ?int $stockQuantity = null;
 
     public ?string $sku = null;
 

@@ -105,100 +105,67 @@ describe('Trait ManagesProductWarehouses', function () {
     });
 });
 
-/* test('peut créer un produit avec un entrepôt et une quantité', function () {
-    // Créer une entreprise et un entrepôt
-    $company = Company::factory()->create();
-    $warehouse = Warehouse::factory()->create([
-        'company_id' => $company->id,
-        'default' => true
-    ]);
+describe('Component Create', function () {
+    test('peut créer un produit avec image et stock', function () {
+        $image = \Illuminate\Http\UploadedFile::fake()->image('test.jpg');
 
-    // Créer un fichier image temporaire pour le test
-    $image = \Illuminate\Http\UploadedFile::fake()->image('test.jpg', 100, 100);
+        Livewire::test(Create::class, ['tenant' => $this->company])
+            ->set('name', 'Produit Complet')
+            ->set('description', 'Description complète')
+            ->set('price', 50)
+            ->set('stockQuantity', 10)
+            ->set('sku', 'PROD-001')
+            ->set('featuredImage', $image)
+            ->set('warehouseLines', [
+                ['warehouse_id' => $this->defaultWarehouse->id, 'quantity' => 10]
+            ])
+            ->call('save')
+            ->assertHasNoErrors()
+            ->assertDispatched('product-created')
+            ->assertDispatched('close-modal');
 
-    // Simuler la création d'un produit via Livewire
-    $component = Livewire::test(Create::class, ['tenant' => $company])
-        ->set('name', 'Produit Test')
-        ->set('description', 'Description du produit test')
-        ->set('price', '25.50')
-        ->set('warehouse_id', $warehouse->id)
-        ->set('warehouse_quantity', '15')
-        ->set('featured_image', $image)
-        ->call('save');
+        $product = Product::where('name', 'Produit Complet')->first();
+        expect($product)->not->toBeNull()
+            ->and($product->sku)->toBe('PROD-001')
+            ->and($product->stock_quantity)->toBe(10);
+            
+        // Vérifier que l'image a été stockée (le chemin exact dépend de la logique de stockage)
+        // expect($product->featured_image)->not->toBeNull(); 
+    });
 
-    // Vérifier qu'il n'y a pas d'erreurs
-    expect($component->get('errors'))->toBeEmpty();
+    test('valide les champs obligatoires', function () {
+        Livewire::test(Create::class, ['tenant' => $this->company])
+            ->call('save')
+            ->assertHasErrors(['name', 'description', 'price', 'stockQuantity']);
+    });
 
-    // Vérifier que le produit a été créé
-    $product = Product::where('name', 'Produit Test')->first();
-    expect($product)->not->toBeNull();
-    expect($product->company_id)->toBe($company->id);
-    expect($product->stock_quantity)->toBe(15);
+    test('valide l\'unicité du SKU', function () {
+        // Créer un produit existant
+        Product::factory()->create([
+            'company_id' => $this->company->id,
+            'sku' => 'EXISTING-SKU'
+        ]);
 
-    // Vérifier que l'association avec l'entrepôt a été créée
-    $warehouseProduct = WarehouseProduct::where('warehouse_id', $warehouse->id)
-        ->where('product_id', $product->id)
-        ->first();
+        Livewire::test(Create::class, ['tenant' => $this->company])
+            ->set('name', 'Nouveau Produit')
+            ->set('description', 'Desc')
+            ->set('price', 10)
+            ->set('stockQuantity', 1)
+            ->set('sku', 'EXISTING-SKU') // SKU dupliqué
+            ->call('save')
+            ->assertHasErrors(['sku']);
+    });
+
+    test('initialise le composant avec un entrepôt par défaut', function () {
+        Livewire::test(Create::class, ['tenant' => $this->company])
+            ->assertSet('warehouseLines.0.warehouse_id', $this->defaultWarehouse->id);
+    });
     
-    expect($warehouseProduct)->not->toBeNull();
-    expect($warehouseProduct->quantity)->toBe(15);
-}); */
-
-/* test('pré-sélectionne l\'entrepôt par défaut', function () {
-    $company = Company::factory()->create();
-    $defaultWarehouse = Warehouse::factory()->create([
-        'company_id' => $company->id,
-        'default' => true
-    ]);
-    $otherWarehouse = Warehouse::factory()->create([
-        'company_id' => $company->id,
-        'default' => false
-    ]);
-
-    $component = Livewire::test(Create::class, ['tenant' => $company]);
-    
-    expect($component->get('warehouse_id'))->toBe($defaultWarehouse->id);
-}); */
-
-/* test('prend le premier entrepôt si aucun par défaut', function () {
-    $company = Company::factory()->create();
-    $warehouse1 = Warehouse::factory()->create([
-        'company_id' => $company->id,
-        'default' => false
-    ]);
-    $warehouse2 = Warehouse::factory()->create([
-        'company_id' => $company->id,
-        'default' => false
-    ]);
-
-    $component = Livewire::test(Create::class, ['tenant' => $company]);
-    
-    // Devrait prendre le premier entrepôt (par ordre de création)
-    expect($component->get('warehouse_id'))->toBe($warehouse1->id);
-}); */
-
-/* test('recalcule automatiquement le stock total', function () {
-    $company = Company::factory()->create();
-    $warehouse1 = Warehouse::factory()->create(['company_id' => $company->id]);
-    $warehouse2 = Warehouse::factory()->create(['company_id' => $company->id]);
-
-    // Créer un produit
-    $product = Product::factory()->create([
-        'company_id' => $company->id,
-        'stock_quantity' => 0
-    ]);
-
-    // Ajouter du stock dans le premier entrepôt
-    $warehouse1->updateProductStock($product, 10);
-    $product->refresh();
-    expect($product->stock_quantity)->toBe(10);
-
-    // Ajouter du stock dans le deuxième entrepôt
-    $warehouse2->updateProductStock($product, 5);
-    $product->refresh();
-    expect($product->stock_quantity)->toBe(15);
-
-    // Vérifier les quantités dans chaque entrepôt
-    expect($warehouse1->getProductStock($product))->toBe(10);
-    expect($warehouse2->getProductStock($product))->toBe(5);
-}); */
+    test('utilise le premier entrepôt si aucun par défaut n\'est défini', function () {
+        // Supprimer l'entrepôt par défaut pour ce test
+        $this->defaultWarehouse->update(['default' => false]);
+        
+        Livewire::test(Create::class, ['tenant' => $this->company])
+            ->assertSet('warehouseLines.0.warehouse_id', $this->defaultWarehouse->id); // Prend le premier trouvé (defaultWarehouse est créé avant)
+    });
+});

@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Scopes\TenantScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 
 #[ScopedBy([TenantScope::class])]
 class Warehouse extends Model
@@ -60,14 +62,16 @@ class Warehouse extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function scopeDefault($query)
+    #[Scope]
+    protected function scopeDefault(Builder $query): void
     {
-        return $query->where('default', true);
+        $query->where('default', true);
     }
 
-    public function scopeForCompany($query, int $companyId)
+    #[Scope]
+    protected function scopeForCompany(Builder $query, int $companyId): void
     {
-        return $query->where('company_id', $companyId);
+        $query->where('company_id', $companyId);
     }
 
     /*

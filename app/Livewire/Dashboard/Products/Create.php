@@ -30,6 +30,8 @@ class Create extends Component
 
     public int $stockQuantity = 0;
 
+    public ?string $sku = null;
+
     // Propriétés pour les entrepôts
     public array $warehouseLines = [];
 

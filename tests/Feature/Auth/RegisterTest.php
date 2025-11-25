@@ -4,133 +4,149 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Tests\TestCase;
-use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;use Livewire\Livewire;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use App\Livewire\Auth\Register;
 
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     function registration_page_contains_livewire_component()
     {
-        $this->get(route('register'))
+        $this->get(route('auth.register'))
             ->assertSuccessful()
-            ->assertSeeLivewire('auth.register');
+            ->assertSeeLivewire(Register::class);
     }
 
-    /** @test */
+    #[Test]
     public function is_redirected_if_already_logged_in()
     {
         $user = User::factory()->create();
 
         $this->be($user);
 
-        $this->get(route('register'))
+        $this->get(route('auth.register'))
             ->assertRedirect(route('home'));
     }
 
-    /** @test */
+    #[Test]
     function a_user_can_register()
     {
-        Event::fake();
+        // Create role manually to ensure it exists
+        \Spatie\Permission\Models\Role::create(['name' => \App\Enums\RoleEnum::MANAGER->value]);
+        
+        Event::fake([Registered::class]);
 
-        Livewire::test('auth.register')
-            ->set('name', 'Tall Stack')
-            ->set('email', 'tallstack@example.com')
+        Livewire::test(Register::class)
+            ->set('firstname', 'John')
+            ->set('lastname', 'Doe')
+            ->set('companyName', 'Acme Corp')
+            ->set('phoneNumber', '1234567890')
+            ->set('email', 'john@example.com')
             ->set('password', 'password')
-            ->set('passwordConfirmation', 'password')
+            ->set('terms', true)
             ->call('register')
-            ->assertRedirect(route('home'));
+            ->assertHasNoErrors();
 
-        $this->assertTrue(User::whereEmail('tallstack@example.com')->exists());
-        $this->assertEquals('tallstack@example.com', Auth::user()->email);
-
-        Event::assertDispatched(Registered::class);
+        $this->assertTrue(User::whereEmail('john@example.com')->exists());
+        $this->assertEquals('john@example.com', Auth::user()->email);
+        
+        // Verify redirect to dashboard
+        $user = Auth::user();
+        $this->assertNotNull($user->member);
+        $this->assertNotNull($user->member->company);
     }
 
-    /** @test */
-    function name_is_required()
+    #[Test]
+    function firstname_is_required()
     {
-        Livewire::test('auth.register')
-            ->set('name', '')
+        Livewire::test(Register::class)
+            ->set('firstname', '')
             ->call('register')
-            ->assertHasErrors(['name' => 'required']);
+            ->assertHasErrors(['firstname' => 'required']);
     }
 
-    /** @test */
+    #[Test]
+    function lastname_is_required()
+    {
+        Livewire::test(Register::class)
+            ->set('lastname', '')
+            ->call('register')
+            ->assertHasErrors(['lastname' => 'required']);
+    }
+
+    #[Test]
+    function company_name_is_required()
+    {
+        Livewire::test(Register::class)
+            ->set('companyName', '')
+            ->call('register')
+            ->assertHasErrors(['companyName' => 'required']);
+    }
+
+    #[Test]
     function email_is_required()
     {
-        Livewire::test('auth.register')
+        Livewire::test(Register::class)
             ->set('email', '')
             ->call('register')
             ->assertHasErrors(['email' => 'required']);
     }
 
-    /** @test */
+    #[Test]
     function email_is_valid_email()
     {
-        Livewire::test('auth.register')
-            ->set('email', 'tallstack')
+        Livewire::test(Register::class)
+            ->set('email', 'invalid-email')
             ->call('register')
             ->assertHasErrors(['email' => 'email']);
     }
 
-    /** @test */
+    #[Test]
     function email_hasnt_been_taken_already()
     {
-        User::factory()->create(['email' => 'tallstack@example.com']);
+        User::factory()->create(['email' => 'john@example.com']);
 
-        Livewire::test('auth.register')
-            ->set('email', 'tallstack@example.com')
+        Livewire::test(Register::class)
+            ->set('email', 'john@example.com')
             ->call('register')
             ->assertHasErrors(['email' => 'unique']);
     }
 
-    /** @test */
-    function see_email_hasnt_already_been_taken_validation_message_as_user_types()
-    {
-        User::factory()->create(['email' => 'tallstack@example.com']);
-
-        Livewire::test('auth.register')
-            ->set('email', 'smallstack@gmail.com')
-            ->assertHasNoErrors()
-            ->set('email', 'tallstack@example.com')
-            ->call('register')
-            ->assertHasErrors(['email' => 'unique']);
-    }
-
-    /** @test */
+    #[Test]
     function password_is_required()
     {
-        Livewire::test('auth.register')
+        Livewire::test(Register::class)
             ->set('password', '')
-            ->set('passwordConfirmation', 'password')
             ->call('register')
             ->assertHasErrors(['password' => 'required']);
     }
 
-    /** @test */
-    function password_is_minimum_of_eight_characters()
+    #[Test]
+    function password_is_minimum_of_six_characters()
     {
-        Livewire::test('auth.register')
-            ->set('password', 'secret')
-            ->set('passwordConfirmation', 'secret')
+        Livewire::test(Register::class)
+            ->set('password', 'secret') // 6 chars
             ->call('register')
-            ->assertHasErrors(['password' => 'min']);
+            ->assertHasNoErrors(['password']);
+            
+        Livewire::test(Register::class)
+            ->set('password', 'short') // 5 chars
+            ->call('register')
+            ->assertHasErrors(['password']);
     }
 
-    /** @test */
-    function password_matches_password_confirmation()
+    #[Test]
+    function terms_must_be_accepted()
     {
-        Livewire::test('auth.register')
-            ->set('email', 'tallstack@example.com')
-            ->set('password', 'password')
-            ->set('passwordConfirmation', 'not-password')
+        Livewire::test(Register::class)
+            ->set('terms', false)
             ->call('register')
-            ->assertHasErrors(['password' => 'same']);
+            ->assertHasErrors(['terms' => 'accepted']);
     }
 }

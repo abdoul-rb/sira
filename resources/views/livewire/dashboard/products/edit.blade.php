@@ -14,7 +14,7 @@
                         class="size-24 lg:size-32 object-cover rounded-md">
 
                     <button type="button" wire:click="removeCurrentImage" wire:loading.attr="disabled"
-                        class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-white border border-gray-300 px-2 py-1.5 text-sm text-black cursor-pointer">
+                        class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-white border border-red-500 px-2 py-1 text-xs text-red-500 cursor-pointer">
                         {{ __('Supprimer') }}
                     </button>
                 </div>

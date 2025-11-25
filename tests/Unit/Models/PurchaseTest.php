@@ -9,6 +9,7 @@ use Carbon\Carbon;
 
 beforeEach(function () {
     $this->company = Company::factory()->create();
+    $this->supplier = Supplier::factory()->create(['company_id' => $this->company->id]);
 });
 
 test('Purchase: array expected columns', function () {
@@ -28,15 +29,18 @@ test('Purchase: array expected columns', function () {
 });
 
 describe('Purchase Model', function () {
-    test('peut créer un agent avec les données de base', function () {
+    test('peut créer un achat avec les données de base', function () {
         $purchase = Purchase::factory()->create([
             'company_id' => $this->company->id,
+            'amount' => 100.50,
+            'purchased_at' => now(),
+            'details' => 'Test details',
         ]);
 
         expect($purchase)
             ->toBeInstanceOf(Purchase::class)
             ->and($purchase->company_id)->toBe($this->company->id)
-            ->and($purchase->amount)->toBeFloat()
+            ->and($purchase->amount)->toBeString()->toBe('100.50') // decimal:2 cast returns string
             ->and($purchase->details)->toBeString()
             ->and($purchase->purchased_at)->toBeInstanceOf(Carbon::class);
     });
@@ -56,7 +60,18 @@ describe('Purchase Model', function () {
             'supplier_id' => $this->supplier->id,
         ]);
 
-        expect($purchase->company)->toBeInstanceOf(Company::class)
-            ->and($purchase->company->id)->toBe($this->company->id);
+        expect($purchase->supplier)->toBeInstanceOf(Supplier::class)
+            ->and($purchase->supplier->id)->toBe($this->supplier->id);
+    });
+
+    test('Scope: forCompany', function () {
+        Purchase::factory()->count(3)->create(['company_id' => $this->company->id]);
+        $otherCompany = Company::factory()->create();
+        Purchase::factory()->count(2)->create(['company_id' => $otherCompany->id]);
+
+        $purchases = Purchase::forCompany($this->company->id)->get();
+
+        expect($purchases)->toHaveCount(3)
+            ->and($purchases->first()->company_id)->toBe($this->company->id);
     });
 });

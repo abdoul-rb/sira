@@ -53,6 +53,19 @@ class Login extends Component
             return;
         } */
 
+        if (! $user->relationLoaded('member')) {
+            $user->load(['member' => function ($query) {
+                $query->withoutGlobalScope(\App\Models\Scopes\TenantScope::class);
+            }]);
+        }
+
+        if (! $user->member) {
+            Auth::logout();
+            $this->addError('email', 'Votre compte n\'est associé à aucune entreprise.');
+
+            return;
+        }
+
         return redirect()->intended(route('dashboard.index', ['tenant' => $user->member->company]));
     }
 

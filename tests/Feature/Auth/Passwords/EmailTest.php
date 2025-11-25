@@ -6,12 +6,12 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
-
+use PHPUnit\Framework\Attributes\Test;
 class EmailTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function can_view_password_request_page()
     {
         $this->get(route('password.request'))
@@ -19,7 +19,7 @@ class EmailTest extends TestCase
             ->assertSeeLivewire('auth.passwords.email');
     }
 
-    /** @test */
+    #[Test]
     public function a_user_must_enter_an_email_address()
     {
         Livewire::test('auth.passwords.email')
@@ -27,7 +27,7 @@ class EmailTest extends TestCase
             ->assertHasErrors(['email' => 'required']);
     }
 
-    /** @test */
+    #[Test]
     public function a_user_must_enter_a_valid_email_address()
     {
         Livewire::test('auth.passwords.email')
@@ -36,7 +36,7 @@ class EmailTest extends TestCase
             ->assertHasErrors(['email' => 'email']);
     }
 
-    /** @test */
+    #[Test]
     public function a_user_who_enters_a_valid_email_address_will_get_sent_an_email()
     {
         $user = User::factory()->create();

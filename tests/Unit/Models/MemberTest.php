@@ -21,6 +21,9 @@ test('Member: array expected columns', function () {
         'created_at',
         'updated_at',
         'deleted_at',
+        'firstname',
+        'lastname',
+        'phone_number',
     ]);
 });
 

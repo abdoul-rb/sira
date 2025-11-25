@@ -24,7 +24,12 @@ class TenantScope implements Scope
         $user = Auth::user();
 
         if (Auth::check() && ! $user->hasRole(RoleEnum::SUPERADMIN)) {
-            $builder->where($model->getTable() . '.company_id', $user->member?->company_id);
+            if (! $user->relationLoaded('member')) {
+                $user->load('member');
+            }
+            
+            $member = $user->getRelation('member');
+            $builder->where($model->getTable() . '.company_id', $member?->company_id);
         }
     }
 }

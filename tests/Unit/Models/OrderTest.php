@@ -24,13 +24,9 @@ test('Order: array expected columns', function () {
         'id',
         'company_id',
         'customer_id',
-        'warehouse_id',
         'order_number',
         'status',
         'subtotal',
-        'discount',
-        'advance',
-        'payment_status',
         'total_amount',
         'paid_at',
         'delivered_at',
@@ -38,6 +34,10 @@ test('Order: array expected columns', function () {
         'created_at',
         'updated_at',
         'deleted_at',
+        'warehouse_id',
+        'discount',
+        'advance',
+        'payment_status',
     ]);
 });
 
@@ -55,8 +55,8 @@ describe('Order Model', function () {
             ->and($order->order_number)->toBeString()
             ->and($order->subtotal)->toBeGreaterThan(0)
             ->and($order->total_amount)->toBeGreaterThan($order->subtotal)
-            ->and($order->order_number)->toMatch('/^\d{6}-\d{3}-\d{5}$/')
-            ->and($order->order_number)->toHaveLength(16);
+            ->and($order->order_number)->toMatch('/^\d{6}-\d{2}-\d{3}$/')
+            ->and($order->order_number)->toHaveLength(13);
     });
 
     test('peut créer une commande en attente', function () {
@@ -260,19 +260,10 @@ describe('Order Model', function () {
         });
 
         test("peut décrémenter les stocks de tous les produits de la commande", function () {
-            $warehouse = Warehouse::factory()->create([
-                'company_id' => $this->company->id,
-            ]);
+            $warehouse = Warehouse::factory()->create(['company_id' => $this->company->id]);
+            $product1 = Product::factory()->create(['company_id' => $this->company->id]);
+            $product2 = Product::factory()->create(['company_id' => $this->company->id]);
 
-            $product1 = Product::factory()->create([
-                'company_id' => $this->company->id,
-            ]);
-
-            $product2 = Product::factory()->create([
-                'company_id' => $this->company->id,
-            ]);
-
-            // Ajouter des stocks dans l'entrepôt
             $warehouse->updateProductStock($product1, 10);
             $warehouse->updateProductStock($product2, 5);
 
@@ -282,29 +273,19 @@ describe('Order Model', function () {
                 'warehouse_id' => $warehouse->id,
             ]);
 
-            // Ajouter des produits à la commande
-            $order->products()->attach($product1->id, [
-                'quantity' => 3,
-                'unit_price' => 50.00,
-                'total_price' => 150.00,
-            ]);
+            $order->products()->attach($product1->id, ['quantity' => 3, 'unit_price' => 50, 'total_price' => 150]);
+            $order->products()->attach($product2->id, ['quantity' => 2, 'unit_price' => 75, 'total_price' => 150]);
 
-            $order->products()->attach($product2->id, [
-                'quantity' => 2,
-                'unit_price' => 75.00,
-                'total_price' => 150.00,
-            ]);
+            $order->refresh();
 
-            // Vérifier les stocks avant décrémentation
             expect($warehouse->getProductStock($product1))->toBe(10)
                 ->and($warehouse->getProductStock($product2))->toBe(5);
 
-            // Décrémenter les stocks
             $result = $order->decreaseStocks();
 
             expect($result)->toBeTrue()
-                ->and($warehouse->fresh()->getProductStock($product1))->toBe(7) // 10 - 3
-                ->and($warehouse->fresh()->getProductStock($product2))->toBe(3); // 5 - 2
+                ->and($warehouse->fresh()->getProductStock($product1))->toBe(7)
+                ->and($warehouse->fresh()->getProductStock($product2))->toBe(3);
         });
 
         test('retourne false si stock insuffisant lors de la décrémentation', function () {

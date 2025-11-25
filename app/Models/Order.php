@@ -140,25 +140,25 @@ class Order extends Model
     */
 
     #[Scope]
-    public function pending(Builder $query): void
+    protected function pending(Builder $query): void
     {
         $query->where('status', OrderStatus::PENDING);
     }
 
     #[Scope]
-    public function paid(Builder $query): void
+    protected function paid(Builder $query): void
     {
         $query->where('status', OrderStatus::PAID);
     }
 
     #[Scope]
-    public function delivered(Builder $query): void
+    protected function delivered(Builder $query): void
     {
         $query->where('status', OrderStatus::DELIVERED);
     }
 
     #[Scope]
-    public function cancelled(Builder $query): void
+    protected function cancelled(Builder $query): void
     {
         $query->where('status', OrderStatus::CANCELLED);
     }
@@ -245,20 +245,19 @@ class Order extends Model
             return false; // Pas d'entrepôt sélectionné
         }
 
-        // @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
-        foreach ($this->products as $item) {
-            $quantity = $item->quantity;
+        // Vérifier d'abord si le stock est suffisant pour TOUS les produits
+        foreach ($this->products as $product) {
+            $quantity = $product->pivot->quantity;
 
-            // @var \App\Models\Product $product
-            if (! $this->warehouse->hasSufficientStock($item->product, $quantity)) {
+            if (! $this->warehouse->hasSufficientStock($product, $quantity)) {
                 return false; // Stock insuffisant pour au moins un produit
             }
         }
 
-        // Décrémenter les stocks de tous les produits
-        foreach ($this->products as $item) {
-            $quantity = $item->pivot->quantity;
-            $this->warehouse->decreaseProductStock($item->product, $quantity);
+        // Si tout est bon, on décrémente
+        foreach ($this->products as $product) {
+            $quantity = $product->pivot->quantity;
+            $this->warehouse->decreaseProductStock($product, $quantity);
         }
 
         return true;
@@ -273,10 +272,10 @@ class Order extends Model
             return false;
         }
 
-        foreach ($this->products as $item) {
-            $quantity = $item->quantity;
+        foreach ($this->products as $product) {
+            $quantity = $product->pivot->quantity;
 
-            if (! $this->warehouse->hasSufficientStock($item->product, $quantity)) {
+            if (! $this->warehouse->hasSufficientStock($product, $quantity)) {
                 return false;
             }
         }

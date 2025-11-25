@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 
 class Company extends Model
 {
@@ -68,11 +70,6 @@ class Company extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function quotations(): HasMany
-    {
-        return $this->hasMany(Quotation::class);
-    }
-
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
@@ -81,11 +78,6 @@ class Company extends Model
     public function members(): HasMany
     {
         return $this->hasMany(Member::class);
-    }
-
-    public function shop(): HasOne
-    {
-        return $this->hasOne(Shop::class);
     }
 
     public function warehouses(): HasMany
@@ -103,9 +95,36 @@ class Company extends Model
         return $this->hasMany(Deposit::class);
     }
 
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function shop(): HasOne
+    {
+        return $this->hasOne(Shop::class);
+    }
+
+    public function quotations(): HasMany
+    {
+        return $this->hasMany(Quotation::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
-    | Attributes
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+    
+    #[Scope]
+    protected function active(Builder $query): void
+    {
+        $query->where('active', true);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Attributes & Methods
     |--------------------------------------------------------------------------
     */
     public function getInitialsAttribute(): string

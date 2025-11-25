@@ -13,16 +13,15 @@ class OrderNumberService
 {
     /**
      * Génère un numéro de commande unique pour une entreprise
-     * Pattern: CYYYYMMDD-XXX-HHHH
+     * Pattern: YYYYMMDD-XX-HHH / 231125-99-001
      */
     public function generate(Company $company): string
     {
         $today = now()->format('ymd');
         $increment = $this->getDailyIncrement($company, $today);
-        $globalIncrement = $this->getGlobalIncrement($company);
-        $hash = $this->generateShortHash($company);
+        $tenantId = str_pad((string) $company->id, 2, '0', STR_PAD_LEFT);
 
-        return "{$today}-{$increment}-{$company->id}{$globalIncrement}";
+        return "{$today}-{$tenantId}-{$increment}";
     }
 
     /**
@@ -58,7 +57,6 @@ class OrderNumberService
     private function generateShortHash(Company $company): string
     {
         $data = "{$company->id} {$company->name}" . now()->timestamp;
-
         $hash = hash('sha256', $data);
 
         return strtoupper(substr($hash, 0, 6));
@@ -72,7 +70,7 @@ class OrderNumberService
     {
         $dateString = $date->format('Ymd');
         $increment = $this->getDailyIncrement($company, $dateString);
-        $hash = $this->generateShortHash($company, $dateString, $increment);
+        $hash = $this->generateShortHash($company);
 
         return sprintf('%s-%03d-%s', $dateString, $increment, $hash);
     }

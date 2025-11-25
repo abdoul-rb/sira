@@ -29,59 +29,54 @@ final class TenantMiddleware
         /** @var User $user */
         $user = Auth::user();
 
-        if (! $user->member) {
-            abort(403, "Votre compte n'est associé à aucun membre.");
-        }
-
-        if (! $user->member->company) {
-            abort(403, "Vous n'êtes associé à aucune entreprise.");
+        if (! $user->member || ! $user->member->company) {
+            abort(403, "Votre compte n'est associé à aucune entreprise.");
         }
 
         $tenant = $request->route('tenant');
+
+        if (is_null($tenant)) {
+            // Cas rare si le middleware est mal placé sur une route sans {tenant}
+            throw new NotFoundHttpException('Tenant parameter is required');
+        }
 
         if (is_string($tenant)) {
             $tenant = Company::where('slug', $tenant)->firstOrFail();
         }
 
-        if (is_null($tenant)) {
-            throw new NotFoundHttpException('Tenant parameter is required');
-        }
-
         $userCompany = $user->member->company;
 
         if ($tenant->id !== $userCompany->id) {
-            Log::warning("Tentative d'accès non autorisé à un autre tenant", [
+            Log::warning("Tentative d'accès inter-tenant bloquée", [
                 'user_id' => $user->id,
-                'user_company_slug' => $userCompany->slug,
-                'attempted_tenant_slug' => $tenant->slug,
-                'ip_address' => $request->ip(),
+                'user_company' => $userCompany->slug,
+                'target_tenant' => $tenant->slug,
+                'ip' => $request->ip(),
                 'url' => $request->fullUrl(),
-                'user_agent' => $request->userAgent(),
-                'timestamp' => now()->toDateTimeString(),
             ]);
 
-            throw new NotFoundHttpException('Access denied ...');
-            /* return redirect()
-                ->route('dashboard.index', ['tenant' => $userCompany])
-                ->with('error', 'Accès Denied to previously url.'); */
+            throw new NotFoundHttpException('Access denied.');
         }
 
-        // dd($tenant);
-        // Stocker l'entreprise courante dans l'application (accessible partout)
-        app()->instance('currentTenant', $tenant ?? $user->member->company);
+        // On écrase l'instance si le Listener l'avait déjà mise, pour être sûr d'avoir la version validée par le middleware
+        app()->instance('currentTenant', $tenant);
 
-        if ($tenant && Schema::hasTable('companies')) {
+        // Injection dans toutes les vues
+        if (! app()->runningInConsole()) {
             View::share('currentTenant', $tenant);
         }
 
-        // Configuration de l'URL pour inclure automatiquement le tenant
+        // Configurer les URLs pour ne plus avoir à passer ['tenant' => ...]
         app('url')->defaults(['tenant' => $tenant]);
 
         // Injecter la company tenant dans la requête pour le Route Model Binding
         $request->route()->setParameter('tenant', $tenant);
 
-        // Ajout du tenant dans les logs
-        Log::withContext(['tenant' => $tenant->slug]);
+        // Mettre à jour la route pour le Route Model Binding suivant
+        $request->route()->setParameter('tenant', $tenant);
+
+        // Contextualiser les Logs
+        Log::withContext(['tenant_slug' => $tenant->slug]);
 
         return $next($request);
     }

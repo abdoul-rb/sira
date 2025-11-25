@@ -32,6 +32,7 @@ class SetupTenantListener
         // 2. Cas où Laravel a déjà fait le travail (Route Model Binding)
         if ($tenantSlug instanceof Company) {
             $this->bindToContainer($tenantSlug);
+
             return;
         }
 
@@ -52,7 +53,7 @@ class SetupTenantListener
 
         // 5. CRUCIAL : On rend le tenant disponible pour toute l'application
         $this->bindToContainer($company);
-        
+
         // Optionnel : Mettre à jour le paramètre de route pour que les contrôleurs reçoivent l'objet Company et non le string
         $event->route->setParameter('tenant', $company);
     }
@@ -73,7 +74,7 @@ class SetupTenantListener
     {
         // Permet d'utiliser app('currentTenant') n'importe où
         $this->app->instance('currentTenant', $company);
-        
+
         // Permet d'utiliser l'injection de dépendance Company dans les constructeurs si besoin
         $this->app->instance(Company::class, $company);
     }

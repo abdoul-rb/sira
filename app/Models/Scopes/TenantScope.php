@@ -27,7 +27,7 @@ class TenantScope implements Scope
             if (! $user->relationLoaded('member')) {
                 $user->load('member');
             }
-            
+
             $member = $user->getRelation('member');
             $builder->where($model->getTable() . '.company_id', $member?->company_id);
         }

@@ -95,6 +95,40 @@ Injecte currentTenant dans l'app container
 Ajoute le tenant dans les logs
 Définit les defaults pour les URLs
 
+## Gestion Multi-Tenant (SetupTenantListener)
+
+Ce listener écoute l'événement RouteMatched. Il intercepte toutes les requêtes contenant un paramètre {tenant}.
+
+Il vérifie l'existence du tenant via une liste de slugs mise en cache (TTL : 30 min).
+
+Si le tenant n'existe pas ou est inactif, une NotFoundHttpException (404) est levée.
+
+Si le tenant est valide, il charge l'objet Company (aussi mis en cache) et l'injecte dans le conteneur de services pour qu'il soit accessible globalement via app('currentTenant').
+
+## TenantMiddleware
+Rôle : Sécurisation et initialisation du contexte Multi-Tenant. Ce middleware intercepte les requêtes HTTP nécessitant un contexte "Entreprise" identifié.
+
+Fonctionnalités :
+
+Authentification Forte : Vérifie que l'utilisateur est connecté et rattaché à un Membre et une Entreprise.
+
+Résolution du Tenant : Convertit le paramètre de route {tenant} (slug) en modèle Company si le Route Model Binding ne l'a pas fait.
+
+Autorisation (Cloisonnement) :
+
+Compare l'ID du tenant demandé dans l'URL avec l'ID de l'entreprise de l'utilisateur.
+
+Si un utilisateur de l'entreprise A tente d'accéder à l'URL de l'entreprise B, une NotFoundHttpException est levée (Security by Obscurity) et l'incident est loggué.
+
+Injection de Contexte :
+
+Enregistre le tenant dans le conteneur : app('currentTenant').
+
+Partage la variable $currentTenant avec toutes les vues Blade.
+
+Configure le générateur d'URL pour inclure automatiquement le paramètre tenant dans tous les liens route().
+
+Ajoute le slug du tenant dans le contexte des Logs (pour le débogage).
 
 ## Log Viewer (opcodesio/log-viewer)
 

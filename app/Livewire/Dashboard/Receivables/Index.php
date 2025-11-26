@@ -7,10 +7,10 @@ namespace App\Livewire\Dashboard\Receivables;
 use App\Enums\PaymentStatus;
 use App\Models\Company;
 use App\Models\Order;
+use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Illuminate\Database\Eloquent\Builder;
 
 #[Layout('layouts.dashboard')]
 class Index extends Component

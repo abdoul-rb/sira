@@ -15,7 +15,7 @@ if (! function_exists('current_tenant')) {
 
         if (Auth::check()) {
             $user = Auth::user();
-            
+
             if (! $user->relationLoaded('member')) {
                 $user->load(['member' => function ($query) {
                     $query->withoutGlobalScope(\App\Models\Scopes\TenantScope::class);

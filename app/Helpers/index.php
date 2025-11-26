@@ -13,8 +13,16 @@ if (! function_exists('current_tenant')) {
             return resolve('currentTenant');
         }
 
-        if (Auth::check() && Auth::user()->member && Auth::user()->member->company) {
-            return Auth::user()->member->company;
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            if (! $user->relationLoaded('member')) {
+                $user->load(['member' => function ($query) {
+                    $query->withoutGlobalScope(\App\Models\Scopes\TenantScope::class);
+                }]);
+            }
+
+            return $user->member?->company;
         }
 
         return null;

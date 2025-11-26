@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Expense;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -29,9 +30,26 @@ class DashboardController extends Controller
 
         $totalOrders = Order::where('company_id', $tenant->id)->count();
 
-        // dd();
+        // 1. ARGENT ENTRÉ (Ventes réellement encaissées)
+        $cashIn = Order::where('company_id', $tenant->id)
+            ->notCredit()
+            ->sum('total_amount');
 
-        // dd(resolve('currentTenant'));
+        // 2. ARGENT SORTI (Dépenses / Charges)
+        $totalCashOut = Expense::where('company_id', $tenant->id)->sum('amount');
+
+        // Trésorerie Actuelle: l'argent réel dans la caisse
+        $cashBalance = $cashIn - $totalCashOut;
+
+        $monthExpenses = (float) Expense::where('company_id', $tenant->id)
+            ->whereMonth('spent_at', now()->month)
+            ->whereYear('spent_at', now()->year)
+            ->sum('amount');
+
+        $totalCredits = Order::query()
+            ->where('company_id', $tenant->id)
+            ->credit()
+            ->sum('total_amount');
 
         return view('dashboard.index', [
             'orders' => $orders,
@@ -40,6 +58,9 @@ class DashboardController extends Controller
             'productsCount' => $productsCount,
             'totalSales' => $totalSales,
             'totalOrders' => $totalOrders,
+            'cashBalance' => $cashBalance,
+            'monthExpenses' => $monthExpenses,
+            'totalCredits' => $totalCredits,
         ]);
     }
 }

@@ -130,6 +130,13 @@ Configure le générateur d'URL pour inclure automatiquement le paramètre tenan
 
 Ajoute le slug du tenant dans le contexte des Logs (pour le débogage).
 
+## Flux financier
+Order (non crédit) = L'argent qui rentre dans l'entreprise (Recette).
+
+Deposit = L'argent qui bouge de la caisse vers la banque (Transfert interne).
+
+Expense = L'argent qui sort définitivement (Charges).
+
 ## Log Viewer (opcodesio/log-viewer)
 
 ### Installation locale

@@ -20,16 +20,16 @@
             <div class="mt-5 flex justify-center lg:mt-0">
                 <a href="{{ route('dashboard.profile.index') }}"
                     class="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-medium text-black shadow-xs ring-1 ring-gray-200">
-                    Consultations
+                    Finances
                 </a>
             </div>
         </div>
 
         {{-- @dump($currentTenant) --}}
 
-        <div class="mt-6 grid grid-cols-12 gap-4">
-            <div class="col-span-12 gap-4 lg:col-span-7 space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="mt-6 grid grid-cols-12 gap-3">
+            <div class="col-span-12 gap-4 lg:col-span-7 space-y-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <x-ui.cards.trending-stat label="Clients" :value="$customersCount">
                         <x-slot:icon>
                             <svg class="size-5 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
@@ -39,7 +39,7 @@
                                     d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z">
                                 </path>
                             </svg>
-                        </x-slot>
+                            </x-slot>
                     </x-ui.cards.trending-stat>
 
                     <x-ui.cards.trending-stat label="Produits en stock" :value="$productsCount">
@@ -51,33 +51,62 @@
                                     d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z">
                                 </path>
                             </svg>
-                        </x-slot>
+                            </x-slot>
                     </x-ui.cards.trending-stat>
-                </div>
 
-                <x-ui.cards.trending-stat label="Nombre de commandes" :value="$totalOrders">
-                    <x-slot:icon>
-                        <svg class="size-5 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
-                            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z">
-                            </path>
-                        </svg>
-                    </x-slot>
-                </x-ui.cards.trending-stat>
+                    <x-ui.cards.trending-stat label="Nombre de commandes" :value="$totalOrders">
+                        <x-slot:icon>
+                            <svg class="size-5 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
+                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z">
+                                </path>
+                            </svg>
+                            </x-slot>
+                    </x-ui.cards.trending-stat>
+
+                    {{-- <x-ui.cards.trending-stat label="Total des ventes (CA)"
+                        :value="Number::currency($totalSales, in: 'XOF', locale: 'fr')">
+                        <x-slot:icon>
+                            <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
+                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z">
+                                </path>
+                            </svg>
+                            </x-slot>
+                    </x-ui.cards.trending-stat> --}}
+
+                    <x-ui.cards.trending-stat-big mainLabel="Total des ventes (CA)"
+                        :mainValue="Number::currency($totalSales, in: 'XOF', locale: 'fr')" subLabel="Crédit"
+                        :subValue="Number::currency($totalCredits, in: 'XOF', locale: 'fr')" link="#">
+                        <x-slot:mainIcon>
+                            <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
+                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z">
+                                </path>
+                            </svg>
+                        </x-slot:mainIcon>
+                    </x-ui.cards.trending-stat-big>
+                </div>
             </div>
 
-            <x-ui.cards.trending-stat class="col-span-12 lg:col-span-5" label="Total des ventes (revenu brut)"
-                :value="Number::currency($totalSales, in: 'XOF', locale: 'fr')">
-                <x-slot:icon>
-                    <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
-                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <x-ui.cards.trending-stat-big class="col-span-12 lg:col-span-5" mainLabel="Trésorerie Actuelle"
+                mainValue="{{ Number::currency($cashBalance, in: 'XOF', locale: 'fr') }}" subLabel="Dépenses du mois"
+                subValue="{{ Number::currency($monthExpenses, in: 'XOF', locale: 'fr') }}" link="#">
+                <x-slot:mainIcon>
+                    <svg class="size-8 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z">
+                            d="M21 12a2.25 2.25 0 0 0-2.25-2.25H15a3 3 0 1 1-6 0H5.25A2.25 2.25 0 0 0 3 12m18 0v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 9m18 0V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v3">
                         </path>
                     </svg>
-                </x-slot>
-            </x-ui.cards.trending-stat>
+                </x-slot:mainIcon>
+            </x-ui.cards.trending-stat-big>
         </div>
 
         <div class="mt-10 overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
@@ -107,8 +136,7 @@
                                 <div x-data="{ checked: false }" class="flex items-center gap-3">
                                     <div @click="checked = !checked"
                                         class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white /0 border-gray-300 "
-                                        :class="checked ? 'border-brand-500  bg-brand-500' :
-                                            'bg-white /0 border-gray-300 '">
+                                        :class="checked ? 'border-brand-500  bg-brand-500' : 'bg-white /0 border-gray-300 '">
                                         <svg :class="checked ? 'block' : 'hidden'" width="14" height="14"
                                             viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                                             class="hidden">
@@ -129,12 +157,10 @@
                                 </span>
                             </x-ui.tables.heading>
 
-                            <x-ui.tables.heading class="">
-                                <div class="">
-                                    <span class="font-medium text-gray-500 text-xs">
-                                        {{ __('Product/Service') }}
-                                    </span>
-                                </div>
+                            <x-ui.tables.heading>
+                                <span class="font-medium text-gray-500 text-xs">
+                                    {{ __('Produits') }}
+                                </span>
                             </x-ui.tables.heading>
 
                             <x-ui.tables.heading>
@@ -172,14 +198,12 @@
                                     <div x-data="{ checked: false }" class="flex items-center gap-3">
                                         <div @click="checked = !checked"
                                             class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white /0 border-gray-300 "
-                                            :class="checked ? 'border-brand-500  bg-brand-500' :
-                                                'bg-white /0 border-gray-300 '">
+                                            :class="checked ? 'border-brand-500  bg-brand-500' : 'bg-white /0 border-gray-300 '">
                                             <svg :class="checked ? 'block' : 'hidden'" width="14" height="14"
                                                 viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                                                 class="hidden">
                                                 <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
-                                                    stroke-width="1.94437" stroke-linecap="round"
-                                                    stroke-linejoin="round">
+                                                    stroke-width="1.94437" stroke-linecap="round" stroke-linejoin="round">
                                                 </path>
                                             </svg>
                                         </div>
@@ -209,7 +233,7 @@
 
                                 <x-ui.tables.cell class="w-16">
                                     <span class="text-gray-700 text-sm">
-                                        {{ $order->products->pluck('product.name')->implode(', ') }}
+                                        {{-- {{ $order->products->pluck('product.name')->implode(', ') }} --}}
                                     </span>
                                 </x-ui.tables.cell>
 
@@ -221,22 +245,19 @@
 
                                 <x-ui.tables.cell>
                                     <span class="text-gray-700 text-sm">
-                                        {{ $order->created_at->format('d/m/Y') }}
+                                        {{ $order->created_at->format('d M. Y') }}
                                     </span>
                                 </x-ui.tables.cell>
 
                                 <x-ui.tables.cell>
-                                    <p class="mt-1 flex items-center gap-1 text-xs font-medium text-black">
-                                        <span
-                                            class="inline-block w-2 h-2 rounded-full {{ $order->payment_status->color() }}"></span>
+                                    <span class="{{ $order->payment_status->color() }} text-xs rounded-full px-2 py-0.5">
                                         {{ $order->payment_status->label() }}
-                                    </p>
+                                    </span>
                                 </x-ui.tables.cell>
 
                                 <x-ui.tables.cell>
                                     <div class="flex items-center gap-2">
-                                        <a href="#"
-                                            class="flex items-center gap-1 text-blue-600 text-sm font-medium p-1">
+                                        <a href="#" class="flex items-center gap-1 text-blue-600 text-sm font-medium p-1">
                                             <svg class="size-5 text-blue/50 shrink-0" data-slot="icon" fill="none"
                                                 stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

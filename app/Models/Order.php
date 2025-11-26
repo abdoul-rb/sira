@@ -172,6 +172,12 @@ class Order extends Model
         $query->where('payment_status', PaymentStatus::CREDIT);
     }
 
+    #[Scope]
+    protected function notCredit(Builder $query): void
+    {
+        $query->where('payment_status', '!=', PaymentStatus::CREDIT);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Methods
@@ -288,7 +294,7 @@ class Order extends Model
      */
     public function getRemainingAmountAttribute(): float
     {
-        return $this->total_amount - $this->advance;
+        return max(0, $this->total_amount - $this->advance);
     }
 
     /**

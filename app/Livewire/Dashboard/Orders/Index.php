@@ -143,7 +143,6 @@ class Index extends Component
      */
     public function destroy(int $orderId)
     {
-        dd($orderId);
         $order = Order::findOrFail($orderId);
 
         $order->delete();

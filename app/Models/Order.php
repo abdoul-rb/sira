@@ -288,7 +288,7 @@ class Order extends Model
      */
     public function getRemainingAmountAttribute(): float
     {
-        return $this->total_amount - $this->advance;
+        return max(0, $this->total_amount - $this->advance);
     }
 
     /**

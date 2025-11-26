@@ -41,7 +41,7 @@
                 </svg>
             </span>
             <input type="text" wire:model.live.debounce.400ms="search" placeholder="Rechercher un produit ..."
-                class="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm   shadow-xs focus:border-brand-300 h-11 bg-transparent pr-14 pl-12 focus:outline-hidden xl:w-[430px]">
+                class="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm shadow-xs focus:border-brand-300 h-11 bg-transparent pr-14 pl-12 focus:outline-hidden xl:w-[430px]">
         </div>
 
         <!-- Tabs -->

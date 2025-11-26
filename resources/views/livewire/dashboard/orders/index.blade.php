@@ -41,10 +41,6 @@
                             class="flex justify-between px-4 py-2 text-sm text-gray-700 focus:text-gray-900 focus:outline-hidden hover:bg-gray-100">
                             <span>Consulter les créances</span>
                         </a>
-                        <a href="#"
-                            class="flex justify-between px-4 py-2 text-sm text-gray-700 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-50">
-                            <span>Consultations</span>
-                        </a>
                     </div>
                 </div>
             </div>

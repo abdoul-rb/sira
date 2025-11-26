@@ -1,6 +1,6 @@
 @props(['label', 'value', 'increased' => ''])
 
-<div {{ $attributes->class(['rounded-2xl border border-gray-200 bg-white p-5 flex flex-col min-h-24']) }}>
+<div {{ $attributes->class(['rounded-xl border border-gray-200 bg-white p-5 flex flex-col min-h-24']) }}>
     <div class="flex items-start justify-between">
         <span class="block text-sm text-gray-500">{{ $label }}</span>
         @isset($icon)
@@ -12,7 +12,7 @@
 
     {{-- le placer en bottom --}}
     <div class="mt-auto flex items-end gap-x-3">
-        <h4 class="text-title-sm font-bold text-gray-800">
+        <h4 class="text-base font-bold text-gray-800">
             {{ $value }}
         </h4>
 

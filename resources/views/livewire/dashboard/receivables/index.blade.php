@@ -7,6 +7,11 @@
         })
     }
 }">
+    <x-ui.breadcrumb :items="[
+        ['label' => 'Ventes', 'url' => route('dashboard.orders.index', ['tenant' => $tenant->slug])],
+        ['label' => 'Créances', 'url' => '#'],
+    ]" />
+
     <div>
         <h1 class="text-2xl font-bold text-black">
             {{ __('Créances') }}

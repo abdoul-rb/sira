@@ -22,7 +22,7 @@ if (! function_exists('current_tenant')) {
                 }]);
             }
 
-            return $user->member?->company;
+            return $user->getRelation('member')?->company;
         }
 
         return null;

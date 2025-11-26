@@ -64,6 +64,8 @@ class CompanyResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->label('ID'),
+                TextColumn::make('slug')
+                    ->label('Slug'),
                 TextColumn::make('name')
                     ->label('Nom')
                     ->searchable(),

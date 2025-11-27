@@ -52,43 +52,83 @@
     </div>
 
     <!-- Search and filters -->
-    <div class="flex items-center justify-between">
-        <div class="relative">
-            <span class="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2">
-                <svg class="fill-gray-500" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M3.04175 9.37363C3.04175 5.87693 5.87711 3.04199 9.37508 3.04199C12.8731 3.04199 15.7084 5.87693 15.7084 9.37363C15.7084 12.8703 12.8731 15.7053 9.37508 15.7053C5.87711 15.7053 3.04175 12.8703 3.04175 9.37363ZM9.37508 1.54199C5.04902 1.54199 1.54175 5.04817 1.54175 9.37363C1.54175 13.6991 5.04902 17.2053 9.37508 17.2053C11.2674 17.2053 13.003 16.5344 14.357 15.4176L17.177 18.238C17.4699 18.5309 17.9448 18.5309 18.2377 18.238C18.5306 17.9451 18.5306 17.4703 18.2377 17.1774L15.418 14.3573C16.5365 13.0033 17.2084 11.2669 17.2084 9.37363C17.2084 5.04817 13.7011 1.54199 9.37508 1.54199Z"
-                        fill=""></path>
-                </svg>
-            </span>
-            <input type="text" wire:model.live.debounce.400ms="search" placeholder="Rechercher une transaction ..."
-                class="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 placeholder:text-sm focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm shadow-xs focus:border-brand-300 h-10 bg-transparent pr-14 pl-12 focus:outline-hidden xl:w-[430px]">
+    <div class="space-y-4">
+        <div class="lg:flex lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+            <div class="relative">
+                <span class="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2">
+                    <svg class="fill-gray-500" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M3.04175 9.37363C3.04175 5.87693 5.87711 3.04199 9.37508 3.04199C12.8731 3.04199 15.7084 5.87693 15.7084 9.37363C15.7084 12.8703 12.8731 15.7053 9.37508 15.7053C5.87711 15.7053 3.04175 12.8703 3.04175 9.37363ZM9.37508 1.54199C5.04902 1.54199 1.54175 5.04817 1.54175 9.37363C1.54175 13.6991 5.04902 17.2053 9.37508 17.2053C11.2674 17.2053 13.003 16.5344 14.357 15.4176L17.177 18.238C17.4699 18.5309 17.9448 18.5309 18.2377 18.238C18.5306 17.9451 18.5306 17.4703 18.2377 17.1774L15.418 14.3573C16.5365 13.0033 17.2084 11.2669 17.2084 9.37363C17.2084 5.04817 13.7011 1.54199 9.37508 1.54199Z"
+                            fill=""></path>
+                    </svg>
+                </span>
+                <input type="text" wire:model.live.debounce.400ms="search" placeholder="Rechercher une transaction ..."
+                    class="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 placeholder:text-sm focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm shadow-xs focus:border-brand-300 h-10 bg-transparent pr-14 pl-12 focus:outline-hidden xl:w-[430px]">
+            </div>
+
+            <div class="flex items-center gap-2">
+                <x-ui.btn.primary type="button" :icon="false" wire:click="$set('typeFilter', 'all')">
+                    {{ __('Tout') }}
+                </x-ui.btn.primary>
+
+                <x-ui.btn.primary type="button" :icon="false"
+                    class="bg-green-600 hover:bg-green-500 border-green-600 text-white"
+                    wire:click="$set('typeFilter', 'in')">
+                    {{ __('Entrées') }}
+                </x-ui.btn.primary>
+
+                <x-ui.btn.primary type="button" :icon="false"
+                    class="bg-red-600 hover:bg-red-500 border-red-600 text-white"
+                    wire:click="$set('typeFilter', 'out')">
+                    {{ __('Sorties') }}
+                </x-ui.btn.primary>
+            </div>
         </div>
 
-        <div class="flex items-center gap-2">
-            <x-ui.btn.primary type="button" :icon="false">
-                {{ __('Tout') }}
-            </x-ui.btn.primary>
+        <!-- Date Filters -->
+        <div class="lg:flex lg:items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-700">Période :</span>
+                    <select wire:model.live="period"
+                        class="block w-40 rounded-md border-gray-300 py-1 text-sm focus:border-black focus:ring-black">
+                        <option value="this_month">Ce mois</option>
+                        <option value="last_month">Mois dernier</option>
+                        <option value="this_year">Cette année</option>
+                        <option value="custom">Personnalisé</option>
+                    </select>
+                </div>
 
-            <x-ui.btn.transparent type="button" class="text-green-500">
-                {{ __('Entrées') }}
-            </x-ui.btn.transparent>
+                <div class="mt-2 lg:mt-0 ml-auto text-xs text-gray-500">
+                    @if($period === 'this_month')
+                        <span class="text-gray-900">1er - {{ now()->endOfMonth()->format('d M') }}</span>
+                    @elseif($period === 'this_year')
+                        <span class="text-gray-900">Année {{ now()->year }}</span>
+                    @endif
+                </div>
+            </div>
 
-            <x-ui.btn.transparent type="button" class="text-red-500">
-                {{ __('Sorties') }}
-            </x-ui.btn.transparent>
+            <div class="mt-2 lg:mt-0 flex items-center gap-2" x-show="$wire.period === 'custom'" x-transition>
+                <input type="date" wire:model.live="dateStart"
+                    class="block rounded-md border-gray-300 py-1.5 text-xs focus:border-black focus:ring-black">
+                <span class="text-gray-500">au</span>
+                <input type="date" wire:model.live="dateEnd"
+                    class="block rounded-md border-gray-300 py-1.5 text-xs focus:border-black focus:ring-black">
+            </div>
         </div>
     </div>
 
-    <div class="mt-8 flow-root">
+    <div class="mt-8 flow-root px-4 lg:px-0">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                <div class="overflow-hidden shadow-sm outline-1 outline-black/5 sm:rounded-lg">
+                <div
+                    class="overflow-hidden shadow-sm outline-1 outline-black/5 border border-black/10 lg:border-0 rounded-lg">
                     <table class="relative min-w-full divide-y divide-gray-300">
                         <thead class="border-gray-100 border-y bg-gray-100">
                             <x-ui.tables.row>
-                                <x-ui.tables.heading>
+                                <x-ui.tables.heading sortable direction="asc"
+                                    wire:click.prevent="sortBy('spent_at', '{{ $sortDirection === 'asc' ? 'desc' : 'asc' }}')">
                                     <span class="font-medium text-gray-500 text-xs">
                                         {{ __('Date') }}
                                     </span>
@@ -115,17 +155,17 @@
                         </thead>
 
                         <tbody class="divide-y divide-gray-100 bg-white">
-                            @forelse($expenses as $expense)
+                            @forelse($transactions as $transaction)
                                 <x-ui.tables.row class="hover:bg-gray-50">
                                     <x-ui.tables.cell>
                                         <span class="text-gray-700 text-sm">
-                                            {{ $expense['date']->format('d M. Y') }}
+                                            {{ $transaction->date->format('d M. Y') }}
                                         </span>
                                     </x-ui.tables.cell>
 
                                     <x-ui.tables.cell>
                                         <span class="inline-flex items-center gap-2 text-gray-700 text-sm">
-                                            @if ($expense['type'] === 'in')
+                                            @if ($transaction->type === 'in')
                                                 <div
                                                     class="w-6 h-6 rounded flex items-center justify-center flex-shrink-0 bg-green-50">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -136,7 +176,7 @@
                                                         <path d="M7 17 17 7"></path>
                                                     </svg>
                                                 </div>
-                                            @elseif ($expense['type'] === 'out')
+                                            @elseif ($transaction->type === 'out')
                                                 <div
                                                     class="w-6 h-6 rounded flex items-center justify-center flex-shrink-0 bg-red-50">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -148,21 +188,21 @@
                                                     </svg>
                                                 </div>
                                             @endif
-                                            {{ $expense['label'] }}
+                                            {{ $transaction->label }}
                                         </span>
                                     </x-ui.tables.cell>
 
                                     <x-ui.tables.cell>
                                         <span
                                             class="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-                                            {{ $expense['category'] }}
+                                            {{ $transaction->category }}
                                         </span>
                                     </x-ui.tables.cell>
 
                                     <x-ui.tables.cell class="text-right">
                                         <span
-                                            class="text-gray-700 text-sm {{ $expense['type'] === 'out' ? 'text-red-500' : 'text-green-500' }}">
-                                            {{ Number::currency($expense['amount'], in: 'XOF', locale: 'fr') }}
+                                            class="text-gray-700 text-sm {{ $transaction->type === 'out' ? 'text-red-500' : 'text-green-500' }}">
+                                            {{ Number::currency($transaction->amount, in: 'XOF', locale: 'fr') }}
                                         </span>
                                     </x-ui.tables.cell>
                                 </x-ui.tables.row>
@@ -177,6 +217,8 @@
                     </table>
                 </div>
             </div>
+
+            {{-- {{ $transactions->links() }} --}}
         </div>
     </div>
 </div>

@@ -22,7 +22,7 @@
     </div>
 
     <p class="text-sm overflow-hidden break-words text-gray-500 mt-1">
-        Gérez et visualisez vos versements en banque.
+        Historique des dépôts en banque
     </p>
 
     <!-- Recherche -->
@@ -124,10 +124,10 @@
                                             <div @click="checked = !checked"
                                                 class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white /0 border-gray-300 "
                                                 :class="checked ? 'border-brand-500  bg-brand-500' :
-                                                    'bg-white /0 border-gray-300 '">
+                                                        'bg-white /0 border-gray-300 '">
                                                 <svg :class="checked ? 'block' : 'hidden'" width="14" height="14"
-                                                    viewBox="0 0 14 14" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg" class="hidden">
+                                                    viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                                    class="hidden">
                                                     <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white"
                                                         stroke-width="1.94437" stroke-linecap="round"
                                                         stroke-linejoin="round">
@@ -168,10 +168,9 @@
                                         <div class="flex items-center gap-2">
                                             <button type="button" wire:click="edit({{ $deposit->id }})"
                                                 class="flex items-center gap-1 text-blue-600 text-sm font-medium p-1 cursor-pointer">
-                                                <svg class="size-5 text-blue/50 shrink-0" data-slot="icon"
-                                                    fill="none" stroke-width="2" stroke="currentColor"
-                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                                                    aria-hidden="true">
+                                                <svg class="size-5 text-blue/50 shrink-0" data-slot="icon" fill="none"
+                                                    stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10">
                                                     </path>

@@ -5,27 +5,25 @@
 @section('content')
     <div>
         <div class="lg:flex lg:items-center lg:justify-between">
-            <div class="flex gap-4">
-                <div class="size-20 shrink-0 rounded-full bg-black flex items-center justify-center">
+            <div class="flex items-center gap-x-3">
+                <div class="size-16 lg:size-20 shrink-0 rounded-full bg-black flex items-center justify-center">
                     <span class="lg:text-3xl font-medium text-white">
                         {{ auth()->user()->initials }}
                     </span>
                 </div>
-                <div class="mt-4 text-center lg:mt-0 lg:pt-1 lg:text-left">
+                <div class="lg:pt-1 text-left">
                     <p class="text-sm font-medium text-gray-600">Welcome back,</p>
                     <p class="text-xl font-bold text-gray-900 lg:text-2xl">{{ auth()->user()->name }}</p>
                     <p class="text-sm font-medium text-gray-600">{{ Auth::user()->roleLabels() }}</p>
                 </div>
             </div>
-            <div class="mt-5 flex justify-center lg:mt-0">
-                <a href="{{ route('dashboard.profile.index') }}"
+            <div class="mt-5 flex lg:justify-center lg:mt-0">
+                <a href="{{ route('dashboard.transactions.index') }}"
                     class="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-medium text-black shadow-xs ring-1 ring-gray-200">
-                    Finances
+                    Mouvements de caisse
                 </a>
             </div>
         </div>
-
-        {{-- @dump($currentTenant) --}}
 
         <div class="mt-6 grid grid-cols-12 gap-3">
             <div class="col-span-12 gap-4 lg:col-span-7 space-y-3">
@@ -66,22 +64,9 @@
                             </x-slot>
                     </x-ui.cards.trending-stat>
 
-                    {{-- <x-ui.cards.trending-stat label="Total des ventes (CA)"
-                        :value="Number::currency($totalSales, in: 'XOF', locale: 'fr')">
-                        <x-slot:icon>
-                            <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
-                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                                aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z">
-                                </path>
-                            </svg>
-                            </x-slot>
-                    </x-ui.cards.trending-stat> --}}
-
                     <x-ui.cards.trending-stat-big mainLabel="Total des ventes (CA)"
-                        :mainValue="Number::currency($totalSales, in: 'XOF', locale: 'fr')" subLabel="Crédit"
-                        :subValue="Number::currency($totalCredits, in: 'XOF', locale: 'fr')" link="#">
+                        :mainValue="Number::currency($totalSales, in: 'XOF', locale: 'fr')" subLabel="Crédit en cours"
+                        :subValue="Number::currency($totalCredits, in: 'XOF', locale: 'fr')">
                         <x-slot:mainIcon>
                             <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
                                 stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
@@ -96,8 +81,8 @@
             </div>
 
             <x-ui.cards.trending-stat-big class="col-span-12 lg:col-span-5" mainLabel="Trésorerie Actuelle"
-                mainValue="{{ Number::currency($cashBalance, in: 'XOF', locale: 'fr') }}" subLabel="Dépenses du mois"
-                subValue="{{ Number::currency($monthExpenses, in: 'XOF', locale: 'fr') }}" link="#">
+                :mainValue="Number::currency($cashBalance, in: 'XOF', locale: 'fr')" subLabel="Dépenses du mois"
+                :subValue="Number::currency($monthExpenses, in: 'XOF', locale: 'fr')" :link="['label' => 'Journal', 'url' => route('dashboard.transactions.index')]">
                 <x-slot:mainIcon>
                     <svg class="size-8 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

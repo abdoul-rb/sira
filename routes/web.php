@@ -17,6 +17,7 @@ use App\Livewire\Dashboard\Settings\Expenses\Index as ExpenseIndex;
 use App\Livewire\Dashboard\Settings\Shop as ShopSetting;
 use App\Livewire\Dashboard\Settings\Suppliers\Index as SupplierIndex;
 use App\Livewire\Dashboard\Settings\Warehouses\Index as WarehouseIndex;
+use App\Livewire\Dashboard\Transactions\Index as TransactionIndex;
 use App\Livewire\Profile\Index as ProfileIndex;
 use App\Livewire\Public\Shop as ShopPublic;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,9 @@ Route::prefix('{tenant}')
 
             // Receivables: Créances
             Route::get('receivables', ReceivableIndex::class)->name('receivables.index');
+
+            // Transactions: mouvements de caisse
+            Route::get('transactions', TransactionIndex::class)->name('transactions.index');
 
             // Membres
             Route::get('members', MemberIndex::class)->name('members.index');

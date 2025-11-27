@@ -1,10 +1,15 @@
-@props([
-    'sortable' => null,
-    'direction' => null,
-])
+@props(['sortable' => null, 'direction' => null, 'align' => 'left'])
+
+@php
+    $align = match ($align) {
+        'left' => 'justify-start',
+        'right' => 'justify-end',
+        default => 'justify-center',
+    };
+@endphp
 
 <th {{ $attributes->merge(['class' => 'px-6 py-4 whitespace-nowrap']) }} scope="col">
-    <div class="flex items-center gap-x-2">
+    <div class="flex items-center {{ $align }} gap-x-2">
         {{ $slot }}
 
         @if ($sortable)

@@ -8,9 +8,9 @@ use App\Models\Company;
 use App\Models\Deposit;
 use App\Models\Expense;
 use App\Models\Order;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 
 #[Layout('layouts.dashboard')]
 class Index extends Component
@@ -70,7 +70,7 @@ class Index extends Component
             'totalCashIn' => $totalCashIn,
             'totalCashOut' => $totalCashOut,
             'cashBalance' => $cashBalance,
-            'expenses' => $expenses
+            'expenses' => $expenses,
         ]);
     }
 }

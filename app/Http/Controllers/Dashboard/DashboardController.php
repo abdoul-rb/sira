@@ -18,7 +18,7 @@ class DashboardController extends Controller
     public function index(Request $request, Company $tenant)
     {
         $orders = Cache::remember("dashboard-last-orders-{$tenant->id}", 60 * 60, function () use ($tenant) {
-            return Order::where('company_id', $tenant->id)->orderBy('created_at', 'desc')->take(5)->get();
+            return Order::where('company_id', $tenant->id)->orderBy('created_at', 'desc')->take(3)->get();
         });
 
         $customersCount = DB::table('customers')->where('company_id', $tenant->id)->count();

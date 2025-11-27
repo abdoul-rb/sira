@@ -12,6 +12,7 @@ use App\Livewire\Dashboard\Orders\Index as OrderIndex;
 use App\Livewire\Dashboard\Products\Index as ProductIndex;
 use App\Livewire\Dashboard\Purchases\Index as PurchaseIndex;
 use App\Livewire\Dashboard\Receivables\Index as ReceivableIndex;
+use App\Livewire\Dashboard\Transactions\Index as TransactionIndex;
 use App\Livewire\Dashboard\Settings\Deposits\Index as DepositIndex;
 use App\Livewire\Dashboard\Settings\Expenses\Index as ExpenseIndex;
 use App\Livewire\Dashboard\Settings\Shop as ShopSetting;
@@ -55,6 +56,9 @@ Route::prefix('{tenant}')
 
             // Receivables: Créances
             Route::get('receivables', ReceivableIndex::class)->name('receivables.index');
+
+            // Transactions: mouvements de caisse
+            Route::get('transactions', TransactionIndex::class)->name('transactions.index');
 
             // Membres
             Route::get('members', MemberIndex::class)->name('members.index');

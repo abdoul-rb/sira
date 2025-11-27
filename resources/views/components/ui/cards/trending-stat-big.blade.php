@@ -1,8 +1,9 @@
-@props(['mainLabel', 'mainValue', 'subLabel', 'subValue', 'link' => null])
-
+@props(['mainLabel', 'mainValue', 'subLabel', 'subValue', 'link' => []])
 
 <div {{ $attributes->class(['rounded-xl border border-gray-200 bg-white p-5 relative overflow-hidden flex flex-col group cursor-pointer transition hover:border-blue-400']) }}>
-    <a href="{{ $link }}" class="absolute inset-0 z-10"></a>
+    @if ($link)
+        <a href="{{ $link['url'] }}" class="absolute inset-0 z-10"></a>
+    @endif
 
     <div class="flex justify-between items-start mb-2">
         <div>
@@ -36,13 +37,15 @@
             </span>
         </div>
         <!-- Petit indicateur visuel pour dire "cliquez pour voir le journal" -->
-        <div class="text-xs text-blue-600 font-medium flex items-center group-hover:underline">
-            Journal
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="w-3 h-3 ml-1">
-                <path d="m9 18 6-6-6-6"></path>
-            </svg>
-        </div>
+        @if ($link)
+            <div class="text-xs text-blue-600 font-medium flex items-center group-hover:underline">
+                {{ $link['label'] }}
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="w-3 h-3 ml-1">
+                    <path d="m9 18 6-6-6-6"></path>
+                </svg>
+            </div>
+        @endif
     </div>
 </div>

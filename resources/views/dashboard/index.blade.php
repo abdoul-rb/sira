@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="mt-5 flex lg:justify-center lg:mt-0">
-                <a href="{{ route('dashboard.profile.index') }}"
+                <a href="{{ route('dashboard.transactions.index') }}"
                     class="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-medium text-black shadow-xs ring-1 ring-gray-200">
                     Mouvements de caisse
                 </a>
@@ -66,7 +66,7 @@
 
                     <x-ui.cards.trending-stat-big mainLabel="Total des ventes (CA)"
                         :mainValue="Number::currency($totalSales, in: 'XOF', locale: 'fr')" subLabel="Crédit en cours"
-                        :subValue="Number::currency($totalCredits, in: 'XOF', locale: 'fr')" link="#">
+                        :subValue="Number::currency($totalCredits, in: 'XOF', locale: 'fr')">
                         <x-slot:mainIcon>
                             <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5"
                                 stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +82,7 @@
 
             <x-ui.cards.trending-stat-big class="col-span-12 lg:col-span-5" mainLabel="Trésorerie Actuelle"
                 :mainValue="Number::currency($cashBalance, in: 'XOF', locale: 'fr')" subLabel="Dépenses du mois"
-                :subValue="Number::currency($monthExpenses, in: 'XOF', locale: 'fr')" link="#">
+                :subValue="Number::currency($monthExpenses, in: 'XOF', locale: 'fr')" :link="['label' => 'Journal', 'url' => route('dashboard.transactions.index')]">
                 <x-slot:mainIcon>
                     <svg class="size-8 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

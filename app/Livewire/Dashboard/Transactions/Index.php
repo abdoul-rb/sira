@@ -20,9 +20,15 @@ class Index extends Component
     #[Url]
     public string $search = '';
 
-    public string $sortField = 'name';
+    public string $sortField = 'spent_at';
 
     public string $sortDirection = 'asc';
+
+    public function sortBy(string $field, string $direction = 'asc')
+    {
+        $this->sortField = $field;
+        $this->sortDirection = $direction;
+    }
 
     public function render()
     {
@@ -59,8 +65,6 @@ class Index extends Component
                     'category' => $expense->category,
                 ];
             });
-
-        // dd($expenses);
 
         $cashBalance = $totalCashIn - $totalCashOut;
 

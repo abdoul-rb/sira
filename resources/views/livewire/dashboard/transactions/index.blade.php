@@ -88,7 +88,8 @@
                     <table class="relative min-w-full divide-y divide-gray-300">
                         <thead class="border-gray-100 border-y bg-gray-100">
                             <x-ui.tables.row>
-                                <x-ui.tables.heading>
+                                <x-ui.tables.heading sortable direction="asc"
+                                    wire:click.prevent="sortBy('spent_at', '{{ $sortDirection === 'asc' ? 'desc' : 'asc' }}')">
                                     <span class="font-medium text-gray-500 text-xs">
                                         {{ __('Date') }}
                                     </span>

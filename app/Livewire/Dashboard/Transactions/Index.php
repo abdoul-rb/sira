@@ -110,11 +110,13 @@ class Index extends Component
             $query = $orders->toBase()->unionAll($expenses->toBase());
         }
 
-        $transactions = $query->paginate(10)->getCollection()->transform(function ($transaction) {
-            $transaction->date = Carbon::parse($transaction->date);
+        $transactions = $query
+            ->orderBy('date', 'desc')
+            ->paginate(10)->getCollection()->transform(function ($transaction) {
+                $transaction->date = Carbon::parse($transaction->date);
 
-            return $transaction;
-        });
+                return $transaction;
+            });
 
         $cashBalance = $totalCashIn - $totalCashOut;
 

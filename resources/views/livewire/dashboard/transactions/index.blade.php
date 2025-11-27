@@ -53,7 +53,7 @@
 
     <!-- Search and filters -->
     <div class="space-y-4">
-        <div class="flex items-center justify-between">
+        <div class="lg:flex lg:items-center lg:justify-between space-y-4 lg:space-y-0">
             <div class="relative">
                 <span class="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2">
                     <svg class="fill-gray-500" width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -87,40 +87,43 @@
         </div>
 
         <!-- Date Filters -->
-        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+        <div class="lg:flex lg:items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
             <div class="flex items-center gap-2">
-                <span class="text-sm font-medium text-gray-700">Période :</span>
-                <select wire:model.live="period"
-                    class="block w-40 rounded-md border-gray-300 py-1.5 text-sm focus:border-black focus:ring-black">
-                    <option value="this_month">Ce mois</option>
-                    <option value="last_month">Mois dernier</option>
-                    <option value="this_year">Cette année</option>
-                    <option value="custom">Personnalisé</option>
-                </select>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-700">Période :</span>
+                    <select wire:model.live="period"
+                        class="block w-40 rounded-md border-gray-300 py-1 text-sm focus:border-black focus:ring-black">
+                        <option value="this_month">Ce mois</option>
+                        <option value="last_month">Mois dernier</option>
+                        <option value="this_year">Cette année</option>
+                        <option value="custom">Personnalisé</option>
+                    </select>
+                </div>
+
+                <div class="mt-2 lg:mt-0 ml-auto text-xs text-gray-500">
+                    @if($period === 'this_month')
+                        <span class="text-gray-900">1er - {{ now()->endOfMonth()->format('d M') }}</span>
+                    @elseif($period === 'this_year')
+                        <span class="text-gray-900">Année {{ now()->year }}</span>
+                    @endif
+                </div>
             </div>
 
-            <div class="flex items-center gap-2" x-show="$wire.period === 'custom'" x-transition>
+            <div class="mt-2 lg:mt-0 flex items-center gap-2" x-show="$wire.period === 'custom'" x-transition>
                 <input type="date" wire:model.live="dateStart"
-                    class="block rounded-md border-gray-300 py-1.5 text-sm focus:border-black focus:ring-black">
+                    class="block rounded-md border-gray-300 py-1.5 text-xs focus:border-black focus:ring-black">
                 <span class="text-gray-500">au</span>
                 <input type="date" wire:model.live="dateEnd"
-                    class="block rounded-md border-gray-300 py-1.5 text-sm focus:border-black focus:ring-black">
-            </div>
-
-            <div class="ml-auto text-sm text-gray-500">
-                @if($period === 'this_month')
-                    <span class="font-medium text-gray-900">1er - {{ now()->endOfMonth()->format('d M') }}</span>
-                @elseif($period === 'this_year')
-                    <span class="font-medium text-gray-900">Année {{ now()->year }}</span>
-                @endif
+                    class="block rounded-md border-gray-300 py-1.5 text-xs focus:border-black focus:ring-black">
             </div>
         </div>
     </div>
 
-    <div class="mt-8 flow-root">
+    <div class="mt-8 flow-root px-4 lg:px-0">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                <div class="overflow-hidden shadow-sm outline-1 outline-black/5 sm:rounded-lg">
+                <div
+                    class="overflow-hidden shadow-sm outline-1 outline-black/5 border border-black/10 lg:border-0 rounded-lg">
                     <table class="relative min-w-full divide-y divide-gray-300">
                         <thead class="border-gray-100 border-y bg-gray-100">
                             <x-ui.tables.row>
@@ -214,6 +217,8 @@
                     </table>
                 </div>
             </div>
+
+            {{-- {{ $transactions->links() }} --}}
         </div>
     </div>
 </div>

@@ -22,8 +22,11 @@ class Index extends Component
     public string $search = '';
 
     public $dateStart = null;
+
     public $dateEnd = null;
+
     public string $period = 'this_month'; // this_month, this_year, custom
+
     public string $typeFilter = 'all'; // all, in, out
 
     public string $sortField = '';
@@ -86,9 +89,9 @@ class Index extends Component
             ");
 
         if ($this->search) {
-            $expenses->where(function(Builder $q) {
+            $expenses->where(function (Builder $q) {
                 $q->where('name', 'like', "%{$this->search}%")
-                  ->orWhere('category', 'like', "%{$this->search}%");
+                    ->orWhere('category', 'like', "%{$this->search}%");
             });
         }
 

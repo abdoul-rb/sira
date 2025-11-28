@@ -7,6 +7,7 @@ namespace App\Livewire\Dashboard\Customers;
 use App\Enums\CustomerType;
 use App\Models\Company;
 use App\Models\Customer;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Url;
@@ -104,8 +105,8 @@ class Index extends Component
             ->with(['orders' => function ($q) {
                 $q->with(['products', 'customer'])->latest();
             }])
-            ->when($this->search, function ($q) {
-                $q->where(function ($q) {
+            ->when($this->search, function (Builder $q) {
+                $q->where(function (Builder $q) {
                     $q->where('firstname', 'like', "%{$this->search}%")
                         ->orWhere('lastname', 'like', "%{$this->search}%")
                         ->orWhere('email', 'like', "%{$this->search}%");

@@ -80,6 +80,9 @@ class Company extends Model
         return $this->hasMany(Member::class);
     }
 
+    /**
+     * @return HasMany<Warehouse>
+     */
     public function warehouses(): HasMany
     {
         return $this->hasMany(Warehouse::class);

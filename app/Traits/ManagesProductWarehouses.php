@@ -6,15 +6,22 @@ namespace App\Traits;
 
 use App\Models\Product;
 use App\Models\Warehouse;
+use App\Models\Company;
 
+/**
+ * @property Company $tenant
+ */
 trait ManagesProductWarehouses
 {
     /**
      * Ajouter une nouvelle ligne entrepôt-quantité
      */
-    public function addWarehouseLine()
+    public function addWarehouseLine(): void
     {
+        /** @var Warehouse|null $defaultWarehouse */
         $defaultWarehouse = $this->tenant->warehouses()->default()->first();
+        
+        /** @var Warehouse|null $firstWarehouse */
         $firstWarehouse = $this->tenant->warehouses()->first();
 
         $this->warehouseLines[] = [
@@ -26,10 +33,10 @@ trait ManagesProductWarehouses
     /**
      * Supprimer une ligne entrepôt-quantité
      *
-     * @param [type] $index ()int
+     * @param int $index
      * @return void
      */
-    public function removeWarehouseLine($index)
+    public function removeWarehouseLine(int $index): void
     {
         unset($this->warehouseLines[$index]);
         $this->warehouseLines = array_values($this->warehouseLines);
@@ -39,7 +46,7 @@ trait ManagesProductWarehouses
     /**
      * Mise à jour des lignes entrepôt
      */
-    public function updatedWarehouseLines(mixed $value, ?string $key)
+    public function updatedWarehouseLines(mixed $value, ?string $key): void
     {
         // Si la clé est null (mise à jour globale) ou ne contient pas de point, on recalcule tout
         if (is_null($key) || ! str_contains($key, '.')) {
@@ -61,7 +68,7 @@ trait ManagesProductWarehouses
     /**
      * Calculer le total des quantités assignées aux entrepôts
      */
-    public function calculateTotalWarehouseQuantity()
+    public function calculateTotalWarehouseQuantity(): void
     {
         $this->totalWarehouseQuantity = collect($this->warehouseLines)->sum('quantity');
     }
@@ -71,7 +78,7 @@ trait ManagesProductWarehouses
      *
      * @return void
      */
-    private function syncQuantitiesToWarehouses(Product $product)
+    private function syncQuantitiesToWarehouses(Product $product): void
     {
         foreach ($this->warehouseLines as $line) {
             if (! empty($line['warehouse_id']) && $line['quantity'] > 0) {

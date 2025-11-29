@@ -41,15 +41,7 @@ class OrderNumberService
         return str_pad((string) $daily, 3, '0', STR_PAD_LEFT);
     }
 
-    // compteur global par entreprise.
-    private function getGlobalIncrement(Company $company): string
-    {
-        $global = DB::table('orders')
-            ->where('company_id', $company->id)
-            ->max('id') + 1;
 
-        return str_pad((string) $global, 3, '0', STR_PAD_LEFT);
-    }
 
     /**
      * Génère un hash court unique basé sur l'entreprise

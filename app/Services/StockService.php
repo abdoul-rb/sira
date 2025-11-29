@@ -29,9 +29,11 @@ class StockService
             }
 
             // Décrémenter les stocks
-            foreach ($order->products as $product) {
-                $quantity = $product->pivot->quantity;
-                $this->decreaseProductStock($order->warehouse, $product, $quantity);
+            foreach ($order->productLines as $line) {
+                $quantity = $line->quantity;
+                if ($line->product) {
+                    $this->decreaseProductStock($order->warehouse, $line->product, $quantity);
+                }
             }
 
             return true;
@@ -47,9 +49,9 @@ class StockService
             return false;
         }
 
-        foreach ($order->products as $product) {
-            $quantity = $product->pivot->quantity;
-            if (! $this->hasSufficientStock($order->warehouse, $product, $quantity)) {
+        foreach ($order->productLines as $line) {
+            $quantity = $line->quantity;
+            if ($line->product && ! $this->hasSufficientStock($order->warehouse, $line->product, $quantity)) {
                 return false;
             }
         }

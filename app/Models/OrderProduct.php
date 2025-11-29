@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $quantity
+ * @property float $unit_price
+ * @property float $total_price
+ */
 class OrderProduct extends Model
 {
     /** @use HasFactory<\Database\Factories\OrderFactory> */

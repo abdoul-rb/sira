@@ -42,8 +42,16 @@ jobs:
       - name: Check Code Style
         run: ./vendor/bin/pint --test
 
+      - name: Run Static Analysis
+        run: ./vendor/bin/phpstan analyse
+
       - name: Run Tests
         run: php artisan test --parallel
+
+      - name: Migrate Database
+        run: |
+          php artisan migrate --env=testing
+          php artisan db:seed --env=testing
 
   update_server:
     name: Deploy to VPS

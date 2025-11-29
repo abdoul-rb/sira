@@ -35,6 +35,7 @@ class RegisterAction
                 'phone_number' => $data['phoneNumber'],
             ]);
 
+            /** @var User $user */
             $user = User::create([
                 'name' => "{$data['firstname']} {$data['lastname']}",
                 'email' => $data['email'],

@@ -88,6 +88,7 @@ class Order extends Model
 
     /**
      * L'entreprise tenante
+     * @return BelongsTo<Company, Order>
      */
     public function company(): BelongsTo
     {
@@ -109,6 +110,7 @@ class Order extends Model
 
     /**
      * Liste des produits associés à la commande avec pivot
+     * @return BelongsToMany<Product>
      */
     public function products(): BelongsToMany
     {
@@ -119,6 +121,7 @@ class Order extends Model
 
     /**
      * Liste des lignes de produits (OrderProduct) associées à la commande.
+     * @return HasMany<OrderProduct>
      */
     public function productLines(): HasMany
     {
@@ -127,6 +130,7 @@ class Order extends Model
 
     /**
      * L'entrepôt d'où la commande est pris
+     * @return BelongsTo<Warehouse, Order>
      */
     public function warehouse(): BelongsTo
     {

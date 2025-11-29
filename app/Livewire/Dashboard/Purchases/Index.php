@@ -6,6 +6,7 @@ namespace App\Livewire\Dashboard\Purchases;
 
 use App\Models\Company;
 use App\Models\Purchase;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -41,8 +42,8 @@ class Index extends Component
     public function render()
     {
         $query = Purchase::where('company_id', $this->tenant->id)
-            ->when($this->search, function ($q) {
-                $q->where(function ($q) {
+            ->when($this->search, function (Builder $q) {
+                $q->where(function (Builder $q) {
                     $q->where('details', 'like', "%{$this->search}%");
                 });
             });

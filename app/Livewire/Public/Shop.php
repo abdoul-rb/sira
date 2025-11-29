@@ -7,6 +7,7 @@ namespace App\Livewire\Public;
 use App\Models\Company;
 use App\Models\Product;
 use App\Models\Shop as ShopModel;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -45,8 +46,8 @@ class Shop extends Component
     {
         // Récupérer tous les produits de la boutique (entreprise)
         $products = Product::where('company_id', $this->tenant->id)
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
+            ->when($this->search, function (Builder $query) {
+                $query->where(function (Builder $q) {
                     $q->where('name', 'like', "%{$this->search}%")
                         ->orWhere('description', 'like', "%{$this->search}%")
                         ->orWhere('sku', 'like', "%{$this->search}%");

@@ -37,7 +37,7 @@
                 <div x-show="openMore"
                     class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
                     <div class="py-1" role="none">
-                        <a href="{{ route('dashboard.receivables.index') }}" wire:navigate
+                        <a href="{{ route('dashboard.receivables.index', ['tenant' => $tenant]) }}" wire:navigate
                             class="flex justify-between px-4 py-2 text-sm text-gray-700 focus:text-gray-900 focus:outline-hidden hover:bg-gray-100">
                             <span>Consulter les créances</span>
                         </a>

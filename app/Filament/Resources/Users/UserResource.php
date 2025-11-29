@@ -49,7 +49,8 @@ class UserResource extends Resource
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->label('Nom complet'),
+                    ->label('Nom complet')
+                    ->disabled(),
                 TextInput::make('email')
                     ->label('Adresse email')
                     ->email()

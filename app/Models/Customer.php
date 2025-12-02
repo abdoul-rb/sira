@@ -64,16 +64,31 @@ class Customer extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the customer's company.
+     *
+     * @return BelongsTo<Company, Customer>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * Get all of the customer's quotations.
+     *
+     * @return HasMany<Quotation, Customer>
+     */
     public function quotations(): HasMany
     {
         return $this->hasMany(Quotation::class);
     }
 
+    /**
+     * Summary of orders
+     *
+     * @return HasMany<Order, Customer>
+     */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);

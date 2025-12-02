@@ -60,51 +60,101 @@ class Company extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get all of the company's customers.
+     *
+     * @return HasMany<Customer, Company>
+     */
     public function customers(): HasMany
     {
         return $this->hasMany(Customer::class);
     }
 
+    /**
+     * Get all of the company's products.
+     *
+     * @return HasMany<Product, Company>
+     */
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }
 
+    /**
+     * Get all of the company's orders.
+     *
+     * @return HasMany<Order, Company>
+     */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
+    /**
+     * Get all of the company's members.
+     *
+     * @return HasMany<Member, Company>
+     */
     public function members(): HasMany
     {
         return $this->hasMany(Member::class);
     }
 
+    /**
+     * Get all of the company's warehouses.
+     *
+     * @return HasMany<Warehouse, Company>
+     */
     public function warehouses(): HasMany
     {
         return $this->hasMany(Warehouse::class);
     }
 
+    /**
+     * Get all of the company's suppliers.
+     *
+     * @return HasMany<Supplier, Company>
+     */
     public function suppliers(): HasMany
     {
         return $this->hasMany(Supplier::class);
     }
 
+    /**
+     * Get all of the company's deposits.
+     *
+     * @return HasMany<Deposit, Company>
+     */
     public function deposits(): HasMany
     {
         return $this->hasMany(Deposit::class);
     }
 
+    /**
+     * Get all of the company's purchases.
+     *
+     * @return HasMany<Purchase, Company>
+     */
     public function purchases(): HasMany
     {
         return $this->hasMany(Purchase::class);
     }
 
+    /**
+     * Get the company's shop.
+     *
+     * @return HasOne<Shop, Company>
+     */
     public function shop(): HasOne
     {
         return $this->hasOne(Shop::class);
     }
 
+    /**
+     * Get all of the company's quotations.
+     *
+     * @return HasMany<Quotation, Company>
+     */
     public function quotations(): HasMany
     {
         return $this->hasMany(Quotation::class);
@@ -132,11 +182,21 @@ class Company extends Model
         return Str::upper(Str::substr($this->name, 0, 2));
     }
 
+    /**
+     * Get the company's default warehouse.
+     *
+     * @return HasOne<Warehouse, Company>
+     */
     public function defaultWarehouse(): ?Warehouse
     {
         return $this->warehouses()->default()->first();
     }
 
+    /**
+     * Get the company's main supplier.
+     *
+     * @return HasOne<Supplier, Company>
+     */
     public function mainSupplier(): ?Supplier
     {
         return $this->suppliers()->main()->first();

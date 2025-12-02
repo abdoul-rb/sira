@@ -94,6 +94,9 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->name;
     }
 
+    /**
+     * Check if the user can access the panel.
+     */
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->isSuper(); // $this->hasVerifiedEmail();
@@ -107,6 +110,8 @@ class User extends Authenticatable implements FilamentUser, HasName
 
     /**
      * Relation avec le membre de l'entreprise
+     *
+     * @return HasOne<Member, User>
      */
     public function member(): HasOne
     {
@@ -119,11 +124,17 @@ class User extends Authenticatable implements FilamentUser, HasName
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the initials of the user.
+     */
     public function getInitialsAttribute(): string
     {
         return strtoupper(substr($this->name, 0, 1));
     }
 
+    /**
+     * Get the role labels of the user.
+     */
     public function roleLabels(): string
     {
         return $this->getRoleNames()

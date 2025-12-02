@@ -40,11 +40,21 @@ class Purchase extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the company associated with the purchase.
+     *
+     * @return BelongsTo<Company, Purchase>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * Get the supplier associated with the purchase.
+     *
+     * @return BelongsTo<Supplier, Purchase>
+     */
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);

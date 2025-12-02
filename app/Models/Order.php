@@ -59,7 +59,6 @@ class Order extends Model
         parent::boot();
 
         static::creating(function (Order $order) {
-            // Génération du numéro de commande avec le nouveau service
             $orderNumberService = app(OrderNumberService::class);
             $order->order_number = $orderNumberService->generate($order->company);
         });
@@ -87,7 +86,9 @@ class Order extends Model
     */
 
     /**
-     * L'entreprise tenante
+     * Get the order's company.
+     *
+     * @return BelongsTo<Company, Order>
      */
     public function company(): BelongsTo
     {
@@ -95,13 +96,20 @@ class Order extends Model
     }
 
     /**
-     * Le client qui à passer la commande
+     * Get the order's customer.
+     *
+     * @return BelongsTo<Customer, Order>
      */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
+    /**
+     * Get the order's quotation.
+     *
+     * @return BelongsTo<Quotation, Order>
+     */
     public function quotation(): BelongsTo
     {
         return $this->belongsTo(Quotation::class);
@@ -109,6 +117,8 @@ class Order extends Model
 
     /**
      * Liste des produits associés à la commande avec pivot
+     *
+     * @return BelongsToMany<Product, Order>
      */
     public function products(): BelongsToMany
     {
@@ -119,6 +129,8 @@ class Order extends Model
 
     /**
      * Liste des lignes de produits (OrderProduct) associées à la commande.
+     *
+     * @return HasMany<OrderProduct, Order>
      */
     public function productLines(): HasMany
     {
@@ -127,6 +139,8 @@ class Order extends Model
 
     /**
      * L'entrepôt d'où la commande est pris
+     *
+     * @return BelongsTo<Warehouse, Order>
      */
     public function warehouse(): BelongsTo
     {
@@ -184,6 +198,9 @@ class Order extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Marquer la commande comme payée
+     */
     public function markAsPaid(): void
     {
         $this->update([
@@ -192,6 +209,9 @@ class Order extends Model
         ]);
     }
 
+    /**
+     * Marquer la commande comme livrée
+     */
     public function markAsDelivered(): void
     {
         $this->update([
@@ -200,6 +220,9 @@ class Order extends Model
         ]);
     }
 
+    /**
+     * Marquer la commande comme annulée
+     */
     public function markAsCancelled(): void
     {
         $this->update([
@@ -208,6 +231,9 @@ class Order extends Model
         ]);
     }
 
+    /**
+     * Calculer les totaux de la commande
+     */
     public function calculateTotals(): void
     {
         $subtotal = $this->products->sum(function ($product) {
@@ -222,6 +248,9 @@ class Order extends Model
         ]);
     }
 
+    /**
+     * Vérifier si la commande peut être expédiée
+     */
     public function canBeShipped(): bool
     {
         return in_array($this->status, [
@@ -229,11 +258,17 @@ class Order extends Model
         ]);
     }
 
+    /**
+     * Vérifier si la commande peut être livrée
+     */
     public function canBeDelivered(): bool
     {
         return $this->status === OrderStatus::PAID;
     }
 
+    /**
+     * Vérifier si la commande peut être annulée
+     */
     public function canBeCancelled(): bool
     {
         return in_array($this->status, [

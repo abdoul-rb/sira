@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,6 +32,8 @@ class WarehouseProduct extends Model
 
     /**
      * Appartient à un entrepôt.
+     *
+     * @return BelongsTo<Warehouse, WarehouseProduct>
      */
     public function warehouse(): BelongsTo
     {
@@ -39,6 +42,8 @@ class WarehouseProduct extends Model
 
     /**
      * Appartient à un produit.
+     *
+     * @return BelongsTo<Product, WarehouseProduct>
      */
     public function product(): BelongsTo
     {
@@ -51,19 +56,19 @@ class WarehouseProduct extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function scopeInStock($query)
+    protected function scopeInStock(Builder $query): void
     {
-        return $query->where('quantity', '>', 0);
+        $query->where('quantity', '>', 0);
     }
 
-    public function scopeForWarehouse($query, int $warehouseId)
+    protected function scopeForWarehouse(Builder $query, int $warehouseId): void
     {
-        return $query->where('warehouse_id', $warehouseId);
+        $query->where('warehouse_id', $warehouseId);
     }
 
-    public function scopeForProduct($query, int $productId)
+    protected function scopeForProduct(Builder $query, int $productId): void
     {
-        return $query->where('product_id', $productId);
+        $query->where('product_id', $productId);
     }
 
     /*

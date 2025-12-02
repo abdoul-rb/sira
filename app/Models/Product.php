@@ -64,11 +64,21 @@ class Product extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the company associated with the product.
+     *
+     * @return BelongsTo<Company, Product>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * Get the quotations associated with the product.
+     *
+     * @return BelongsToMany<Quotation, Product>
+     */
     public function quotations(): BelongsToMany
     {
         return $this->belongsToMany(Quotation::class, 'product_quotation')
@@ -76,6 +86,11 @@ class Product extends Model
             ->withTimestamps();
     }
 
+    /**
+     * Get the orders associated with the product.
+     *
+     * @return BelongsToMany<Order, Product>
+     */
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class, 'order_product')
@@ -83,6 +98,11 @@ class Product extends Model
             ->withTimestamps();
     }
 
+    /**
+     * Get the order items associated with the product.
+     *
+     * @return HasMany<OrderProduct, Product>
+     */
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderProduct::class);
@@ -90,6 +110,8 @@ class Product extends Model
 
     /**
      * Un produit peut être présent dans plusieurs entrepôts.
+     *
+     * @return HasMany<WarehouseProduct, Product>
      */
     public function warehouseProducts(): HasMany
     {
@@ -114,6 +136,11 @@ class Product extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the profit margin of the product.
+     *
+     * @return float|int
+     */
     public function getProfitMarginAttribute(): float
     {
         if (! $this->cost_price || $this->cost_price == 0) {
@@ -123,21 +150,33 @@ class Product extends Model
         return (($this->price - $this->cost_price) / $this->cost_price) * 100;
     }
 
+    /**
+     * Update the stock quantity of the product.
+     */
     public function updateStock(int $quantity): void
     {
         $this->increment('stock_quantity', $quantity);
     }
 
+    /**
+     * Decrease the stock quantity of the product.
+     */
     public function decreaseStock(int $quantity): void
     {
         $this->decrement('stock_quantity', $quantity);
     }
 
+    /**
+     * Check if the product is in stock.
+     */
     public function isInStock(): bool
     {
         return $this->stock_quantity > 0;
     }
 
+    /**
+     * Check if the product has sufficient stock.
+     */
     public function hasSufficientStock(int $quantity): bool
     {
         return $this->stock_quantity >= $quantity;

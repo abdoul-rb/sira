@@ -54,6 +54,11 @@ class Agent extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the company that owns the agent.
+     *
+     * @return BelongsTo<Company, Agent>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

@@ -41,11 +41,21 @@ class OrderProduct extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the order associated with the order product.
+     *
+     * @return BelongsTo<Order, OrderProduct>
+     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
+    /**
+     * Get the product associated with the order product.
+     *
+     * @return BelongsTo<Product, OrderProduct>
+     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

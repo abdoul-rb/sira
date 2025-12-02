@@ -37,6 +37,11 @@ class Expense extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the expense's company.
+     *
+     * @return BelongsTo<Company, Expense>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

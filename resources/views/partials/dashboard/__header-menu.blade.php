@@ -82,11 +82,6 @@
                             id="item-2" role="menuitem" tabindex="-1">
                             Paramètres
                         </a>
-                        <a href="#"
-                            class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 hover:bg-gray-50 focus:outline-hidden"
-                            id="item-2" role="menuitem" tabindex="-1">
-                            Marketing
-                        </a>
                         <div class="inline-block w-full px-0 py-0 text-sm text-gray-700 hover:bg-gray-50">
                             <a href="{{ route('logout') }}"
                                 class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 hover:bg-gray-50 focus:outline-hidden"

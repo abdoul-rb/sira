@@ -30,8 +30,8 @@
     </p>
 
     <!-- Recherche globale -->
-    <div class="flex items-center justify-between">
-        <div class="relative">
+    <div class="lg:flex lg:items-center justify-between">
+        <div class="relative mb-2 lg:mb-0">
             <span class="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2">
                 <svg class="fill-gray-500" width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -45,40 +45,38 @@
         </div>
 
         <!-- Tabs -->
-        <div class="flex justify-end">
-            <div
-                class="relative inline-flex items-center justify-center w-full max-w-44 py-2 px-4 grid-cols-2 gap-x-6 bg-gray-100 border border-gray-200 rounded-lg select-none">
-                <button type="button"
-                    class="z-20 inline-flex items-center justify-center w-full py-1 px-2 transition-all rounded-md cursor-pointer whitespace-nowrap"
-                    :class="{ 'text-black': viewType === 'card', 'text-slate-900': viewType !== 'card' }"
-                    @click="viewType = 'card'">
+        <div
+            class="relative inline-flex items-center justify-center w-full max-w-44 py-1.5 px-4 grid-cols-2 gap-x-4 bg-gray-100 border border-gray-200 rounded-lg select-none">
+            <button type="button"
+                class="z-20 inline-flex items-center justify-center w-full py-1 px-2 transition-all rounded-md cursor-pointer whitespace-nowrap"
+                :class="{ 'text-black': viewType === 'card', 'text-slate-900': viewType !== 'card' }"
+                @click="viewType = 'card'">
 
-                    <span class="sr-only">En carte</span>
+                <span class="sr-only">En carte</span>
 
-                    <svg class="size-6 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z" />
-                    </svg>
-                </button>
+                <svg class="size-6 shrink-0 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z" />
+                </svg>
+            </button>
 
-                <button type="button"
-                    class="z-20 inline-flex items-center justify-center w-full py-1 px-2 transition-all rounded-md cursor-pointer whitespace-nowrap"
-                    :class="{ 'text-black': viewType === 'table', 'text-slate-900': viewType !== 'table' }"
-                    @click="viewType = 'table'">
+            <button type="button"
+                class="z-20 inline-flex items-center justify-center w-full py-1 px-2 transition-all rounded-md cursor-pointer whitespace-nowrap"
+                :class="{ 'text-black': viewType === 'table', 'text-slate-900': viewType !== 'table' }"
+                @click="viewType = 'table'">
 
-                    <span class="sr-only">Tableau</span>
-                    <svg class="size-6 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
-                    </svg>
-                </button>
+                <span class="sr-only">Tableau</span>
+                <svg class="size-6 shrink-0 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
+                </svg>
+            </button>
 
-                <div class="absolute left-0 z-10 w-1/2 h-full duration-300 ease-out py-1 px-1 transition-all"
-                    :class="viewType === 'card' ? 'left-0' : 'left-1/2'">
-                    <div class="w-full h-full bg-white z-0 rounded-lg shadow-sm flex items-center justify-center"></div>
-                </div>
+            <div class="absolute left-0 z-10 w-1/2 h-full duration-300 ease-out py-1 px-1 transition-all"
+                :class="viewType === 'card' ? 'left-0' : 'left-1/2'">
+                <div class="w-full h-full bg-white z-0 rounded-lg shadow-sm flex items-center justify-center"></div>
             </div>
         </div>
     </div>

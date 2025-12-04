@@ -63,6 +63,9 @@ Route::prefix('{tenant}')
             // Membres
             Route::get('members', MemberIndex::class)->name('members.index');
 
+            // Dépenses
+            Route::get('expenses', ExpenseIndex::class)->name('expenses.index');
+
             // Paramètres
             Route::prefix('settings')->name('settings.')->group(function () {
                 Route::get('', [SettingController::class, 'index'])->name('index');
@@ -75,9 +78,6 @@ Route::prefix('{tenant}')
 
                 // Versements
                 Route::get('deposits', DepositIndex::class)->name('deposits.index');
-
-                // Dépenses
-                Route::get('expenses', ExpenseIndex::class)->name('expenses.index');
 
                 // Shop
                 Route::get('shop', ShopSetting::class)->name('shop');

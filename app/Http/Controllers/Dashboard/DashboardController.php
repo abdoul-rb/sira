@@ -10,6 +10,7 @@ use App\Models\Expense;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -20,6 +21,49 @@ class DashboardController extends Controller
         $orders = Cache::remember("dashboard-last-orders-{$tenant->id}", 60 * 60, function () use ($tenant) {
             return Order::where('company_id', $tenant->id)->orderBy('created_at', 'desc')->take(3)->get();
         });
+
+        // TODO Move in service
+        $ordersEntries = Order::query()
+            ->where('company_id', $tenant->id)
+            ->notCredit()
+            ->selectRaw("
+                id,
+                company_id,
+                (SELECT CONCAT(firstname, ' ', lastname) FROM customers WHERE customers.id = orders.customer_id) as customer,
+                order_number as label,
+                created_at as date,
+                total_amount as amount,
+                payment_status as category,
+                'in' as type
+            ");
+
+        $expenses = Expense::query()
+            ->where('company_id', $tenant->id)
+            ->selectRaw("
+                id,
+                company_id,
+                NULL as customer,
+                name as label,
+                spent_at as date,
+                amount,
+                category,
+                'out' as type
+            ");
+        
+        $transactions = $ordersEntries->toBase()
+            ->unionAll($expenses->toBase())
+            ->orderBy('date', 'desc')
+            ->take(6)->get()->transform(function ($transaction) {
+                $transaction->date = Carbon::parse($transaction->date);
+
+                return $transaction;
+            });
+
+        $receivablesOrders = Order::query()
+            ->where('company_id', $tenant->id)
+            ->credit()
+            ->take(6)
+            ->get();
 
         $customersCount = DB::table('customers')->where('company_id', $tenant->id)->count();
 
@@ -53,6 +97,8 @@ class DashboardController extends Controller
 
         return view('dashboard.index', [
             'orders' => $orders,
+            'transactions' => $transactions,
+            'receivablesOrders' => $receivablesOrders,
             'tenant' => $tenant,
             'customersCount' => $customersCount,
             'productsCount' => $productsCount,

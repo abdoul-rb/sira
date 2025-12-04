@@ -7,11 +7,13 @@ namespace App\Livewire\Dashboard\Settings\Expenses;
 use App\Models\Company;
 use App\Models\Expense;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+#[Layout('layouts.dashboard')]
 class Index extends Component
 {
     use WithPagination;
@@ -69,7 +71,6 @@ class Index extends Component
 
         return view('livewire.dashboard.settings.expenses.index', [
             'expenses' => $expenses,
-        ])->extends('dashboard.settings.index')
-            ->section('viewbody');
+        ]);
     }
 }

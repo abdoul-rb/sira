@@ -17,9 +17,9 @@
                         {{ __('Produits') }}
                     </a>
 
-                    <a href="#"
-                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.marketings.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
-                        {{ __('Marketing') }}
+                    <a href="{{ route('dashboard.settings.expenses.index') }}"
+                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.settings.expenses.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
+                        {{ __('Dépenses') }}
                     </a>
 
                     <a href="{{ route('dashboard.orders.index') }}"
@@ -29,7 +29,7 @@
 
                     <a href="{{ route('dashboard.customers.index') }}"
                         class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.customers.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
-                        {{ __('Contacts') }}
+                        {{ __('Clients') }}
                     </a>
                 </div>
             </div>
@@ -81,6 +81,11 @@
                             class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 hover:bg-gray-50 focus:outline-hidden"
                             id="item-2" role="menuitem" tabindex="-1">
                             Paramètres
+                        </a>
+                        <a href="#"
+                            class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 hover:bg-gray-50 focus:outline-hidden"
+                            id="item-2" role="menuitem" tabindex="-1">
+                            Marketing
                         </a>
                         <div class="inline-block w-full px-0 py-0 text-sm text-gray-700 hover:bg-gray-50">
                             <a href="{{ route('logout') }}"

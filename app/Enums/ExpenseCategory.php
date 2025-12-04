@@ -17,6 +17,7 @@ enum ExpenseCategory: string
     case SALARIES = 'salaries';
     case TAX = 'tax';
     case CNPS = 'CNPS_contribution';
+    case GOODS = 'Goods';
     case OTHER = 'other';
 
     public function label(): string
@@ -29,6 +30,7 @@ enum ExpenseCategory: string
             self::SALARIES => 'Salaires',
             self::TAX => 'Impôt',
             self::CNPS => 'Cotisation CNPS',
+            self::GOODS => 'Marchandises',
             self::OTHER => 'Autres',
         };
     }

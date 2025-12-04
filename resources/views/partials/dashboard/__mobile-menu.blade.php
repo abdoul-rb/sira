@@ -10,7 +10,7 @@
             </svg>
         </x-ui.mobile-link>
 
-        <x-ui.mobile-link label="Produits" :route="route('dashboard.products.index')"
+        <x-ui.mobile-link label="Stock" :route="route('dashboard.products.index')"
             :active="request()->routeIs('dashboard.products.*')">
             <svg class="w-4 h-4" data-slot="icon" fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

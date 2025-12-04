@@ -5,7 +5,7 @@
 @section('content')
     <!-- Header -->
     <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
-        <aside class="px-0 py-6 sm:px-6 lg:col-span-3 lg:px-0 lg:py-0">
+        <aside class="px-0 sm:px-6 lg:col-span-3 lg:px-0 lg:py-0">
             <div class="p-3 bg-white rounded-xl ring-1 ring-gray-200">
                 <div class="grid gap-4 grid-cols-1 sm:gap-y-4">
                     <x-ui.cards.settings-card-link routeName="dashboard.settings.index" title="Général"

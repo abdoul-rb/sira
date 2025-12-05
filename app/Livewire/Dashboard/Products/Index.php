@@ -67,6 +67,16 @@ class Index extends Component
     }
 
     /**
+     * Open the modal to upgrade to Pro
+     * 
+     * @return void
+     */
+    public function openProModal(): void
+    {
+        $this->dispatch('open-modal', id: 'upgrade-pro');
+    }
+
+    /**
      * Ouvre le forumulaire modal d'edition
      *
      * @return void

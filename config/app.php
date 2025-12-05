@@ -56,6 +56,8 @@ return [
 
     'version' => env('APP_VERSION', '1'),
 
+    'price' => env('BASIC_PRICE', 8000),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

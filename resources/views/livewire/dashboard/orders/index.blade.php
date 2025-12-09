@@ -17,7 +17,12 @@
                 {{ __('Ajouter une vente') }}
             </x-ui.btn.primary>
 
-            <div class="relative inline-block text-left" x-data="{ openMore: false }">
+            <a href="{{ route('dashboard.receivables.index', ['tenant' => $tenant]) }}" wire:navigate
+                class="flex items-center justify-center rounded-md bg-white px-3 py-1.5 text-sm text-black shadow-xs ring-1 ring-gray-200">
+                Consulter les créances
+            </a>
+
+            {{-- <div class="relative inline-block text-left" x-data="{ openMore: false }">
                 <div class="inline-flex divide-x divide-gray-200 rounded-md border border-gray-100">
                     <div
                         class="inline-flex items-center gap-x-1.5 rounded-l-md bg-white px-4 py-1.5 text-black text-sm">
@@ -43,7 +48,7 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 

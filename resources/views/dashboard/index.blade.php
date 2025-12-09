@@ -19,7 +19,7 @@
             </div>
             <div class="mt-5 flex lg:justify-center lg:mt-0">
                 <a href="{{ route('dashboard.transactions.index') }}"
-                    class="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-medium text-black shadow-xs ring-1 ring-gray-200">
+                    class="flex items-center justify-center rounded-md bg-white px-3 py-1.5 text-sm text-black shadow-xs ring-1 ring-gray-200">
                     Mouvements de caisse
                 </a>
             </div>

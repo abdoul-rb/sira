@@ -20,14 +20,58 @@
             {{ __('Mes produits') }}
         </h1>
 
-        <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-product' })">
-            {{ __('Ajouter un produit') }}
-        </x-ui.btn.primary>
+        @if($tenant->hasReachedFreeLimit())
+            <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'upgrade-pro' })">
+                {{ __('Ajouter un produit') }}
+            </x-ui.btn.primary>
+        @else
+            <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-product' })">
+                {{ __('Ajouter un produit') }}
+            </x-ui.btn.primary>
+        @endif
     </div>
 
     <p class="-mt-2 text-sm text-gray-500">
         {{ __('Consultez et gérez vos stocks de produits ici. Vous pouvez ajouter, modifier et supprimer des produits.') }}
     </p>
+
+    {{-- @dump($tenant->subscribed('default')) --}}
+
+    @if (session('success'))
+        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+            <strong class="font-bold">Succès !</strong>
+            <span class="block sm:inline">{{ session('success') }}</span>
+        </div>
+    @endif
+
+    @if($tenant->hasReachedFreeLimit())
+        <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-blue-50 via-blue-100 to-transparent border border-blue-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 rounded-lg bg-blue-100"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-crown h-5 w-5 text-blue-600">
+                            <path
+                                d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z">
+                            </path>
+                            <path d="M5 21h14"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Limite de produits atteinte</p>
+                        <p class="text-sm text-gray-600">Passez à Pro pour ajouter des produits illimités</p>
+                    </div>
+                </div>
+
+                <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'upgrade-pro' })" :icon="false">
+                    {{ __('Passer à Pro') }}
+                </x-ui.btn.primary>
+            </div>
+            <!-- Modal Upgrade to Pro -->
+        </div>
+    @endif
+
+    <x-ui.modals.upgrade-pro-modal :tenant="$tenant" />
 
     <!-- Recherche globale -->
     <div class="lg:flex lg:items-center justify-between">
@@ -54,10 +98,11 @@
 
                 <span class="sr-only">En carte</span>
 
-                <svg class="size-6 shrink-0 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <svg class="size-6 shrink-0 text-gray-700" data-slot="icon" fill="none" stroke-width="1.5"
+                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z" />
+                        d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z">
+                    </path>
                 </svg>
             </button>
 

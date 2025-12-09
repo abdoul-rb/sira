@@ -9,8 +9,8 @@ use App\Models\Company;
 use App\Models\Expense;
 use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -49,7 +49,7 @@ class DashboardController extends Controller
                 category,
                 'out' as type
             ");
-        
+
         $transactions = $ordersEntries->toBase()
             ->unionAll($expenses->toBase())
             ->orderBy('date', 'desc')

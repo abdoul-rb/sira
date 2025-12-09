@@ -75,6 +75,14 @@ class Create extends Component
     {
         $validated = $this->validate();
 
+        if ($this->tenant->hasReachedFreeLimit()) {
+            $this->addError('limit', 'Limite atteinte, veuillez passer à un abonnement Pro.');
+
+            $this->dispatch('open-modal', id: 'upgrade-pro');
+
+            return;
+        }
+
         // Vérifier que le total des quantités assignées correspond au stockQuantity
         $this->calculateTotalWarehouseQuantity();
 

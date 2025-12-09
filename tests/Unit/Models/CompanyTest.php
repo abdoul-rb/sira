@@ -31,6 +31,10 @@ test('Category: array expected columns', function () {
         'created_at',
         'updated_at',
         'deleted_at',
+        'stripe_id',
+        'pm_type',
+        'pm_last_four',
+        'trial_ends_at'
     ]);
 });
 

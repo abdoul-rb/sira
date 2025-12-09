@@ -94,6 +94,209 @@
             </x-ui.cards.trending-stat-big>
         </div>
 
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-4">
+            <div class="col-span-2">
+                <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
+                    <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                {{ __('Dernières transactions') }}
+                            </h3>
+                        </div>
+
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                            <a href="{{ route('dashboard.transactions.index') }}"
+                                class="text-xs font-medium text-blue-500 hover:underline">
+                                {{ __('Voir tous') }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flow-root px-4 lg:px-0">
+                        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                <div
+                                    class="overflow-hidden shadow-sm outline-1 outline-black/5 border border-black/10 lg:border-0 rounded-lg">
+                                    <table class="relative min-w-full divide-y divide-gray-300">
+                                        <thead class="border-gray-100 border-y bg-gray-100">
+                                            <x-ui.tables.row>
+                                                <x-ui.tables.heading sortable direction="asc">
+                                                    <span class="font-medium text-gray-500 text-xs">
+                                                        {{ __('Date') }}
+                                                    </span>
+                                                </x-ui.tables.heading>
+
+                                                <x-ui.tables.heading>
+                                                    <span class="font-medium text-gray-500 text-xs">
+                                                        {{ __('Description') }}
+                                                    </span>
+                                                </x-ui.tables.heading>
+
+                                                <x-ui.tables.heading>
+                                                    <span class="font-medium text-gray-500 text-xs">
+                                                        {{ __('Catégorie') }}
+                                                    </span>
+                                                </x-ui.tables.heading>
+
+                                                <x-ui.tables.heading align="right">
+                                                    <span class="font-medium text-gray-500 text-xs text-right">
+                                                        {{ __('Montant') }}
+                                                    </span>
+                                                </x-ui.tables.heading>
+                                            </x-ui.tables.row>
+                                        </thead>
+
+                                        <tbody class="divide-y divide-gray-100 bg-white">
+                                            @forelse($transactions as $transaction)
+                                                <x-ui.tables.row class="hover:bg-gray-50">
+                                                    <x-ui.tables.cell>
+                                                        <span class="text-gray-700 text-sm">
+                                                            {{ $transaction->date->format('d M. Y') }}
+                                                        </span>
+                                                    </x-ui.tables.cell>
+
+                                                    <x-ui.tables.cell>
+                                                        <span class="inline-flex items-center gap-2 text-gray-700 text-sm">
+                                                            @if ($transaction->type === 'in')
+                                                                <div
+                                                                    class="w-6 h-6 rounded flex items-center justify-center flex-shrink-0 bg-green-50">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                        stroke-width="2" stroke-linecap="round"
+                                                                        stroke-linejoin="round" class="w-3 h-3 text-green-500">
+                                                                        <path d="M7 7h10v10"></path>
+                                                                        <path d="M7 17 17 7"></path>
+                                                                    </svg>
+                                                                </div>
+                                                            @elseif ($transaction->type === 'out')
+                                                                <div
+                                                                    class="w-6 h-6 rounded flex items-center justify-center flex-shrink-0 bg-red-50">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                        stroke-width="2" stroke-linecap="round"
+                                                                        stroke-linejoin="round" class="w-3 h-3 text-red-500">
+                                                                        <path d="m7 7 10 10"></path>
+                                                                        <path d="M17 7v10H7"></path>
+                                                                    </svg>
+                                                                </div>
+                                                            @endif
+                                                            {{ $transaction->label }}
+                                                        </span>
+                                                    </x-ui.tables.cell>
+
+                                                    <x-ui.tables.cell>
+                                                        <span
+                                                            class="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                                                            {{ $transaction->category }}
+                                                        </span>
+                                                    </x-ui.tables.cell>
+
+                                                    <x-ui.tables.cell class="text-right">
+                                                        <span
+                                                            class="text-gray-700 text-xs font-medium {{ $transaction->type === 'out' ? 'text-red-500' : 'text-green-500' }}">
+                                                            {{ Number::currency($transaction->amount, in: 'XOF', locale: 'fr') }}
+                                                        </span>
+                                                    </x-ui.tables.cell>
+                                                </x-ui.tables.row>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="6" class="text-center text-gray-400 py-8">
+                                                        Aucune transaction trouvée.
+                                                    </td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
+                    <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                {{ __('Créances') }}
+                            </h3>
+                        </div>
+
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                            <a href="{{ route('dashboard.receivables.index') }}"
+                                class="text-xs font-medium text-blue-500 hover:underline">
+                                {{ __('Voir tous') }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="overflow-hidden rounded-lg border border-gray-200 bg-white">
+                        <div class="max-w-full overflow-x-auto custom-scrollbar">
+                            <table class="min-w-full">
+                                <!-- table header start -->
+                                <thead class="border-gray-100 border-y bg-gray-50">
+                                    <x-ui.tables.row>
+                                        <x-ui.tables.heading>
+                                            <span class="font-medium text-gray-500 text-xs">
+                                                {{ __('Client') }}
+                                            </span>
+                                        </x-ui.tables.heading>
+
+                                        <x-ui.tables.heading>
+                                            <span class="font-medium text-gray-500 text-xs">
+                                                {{ __('Reste à payer') }}
+                                            </span>
+                                        </x-ui.tables.heading>
+                                    </x-ui.tables.row>
+                                </thead>
+                                <!-- table header end -->
+
+                                <!-- table body start -->
+                                <tbody class="divide-y divide-gray-100">
+                                    @forelse($receivablesOrders as $receivable)
+                                        <x-ui.tables.row class="hover:bg-gray-50">
+                                            <x-ui.tables.cell>
+                                                <div class="flex items-center gap-2">
+                                                    <div
+                                                        class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-50">
+                                                        <span class="text-xs font-semibold text-blue-500">
+                                                            {{ $receivable->customer?->initials ?? '-' }}
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="text-sm block font-medium text-gray-700">
+                                                            {{ $receivable->customer?->fullname ?? '-' }}
+                                                        </span>
+                                                        <span class="text-gray-500 text-xs">
+                                                            {{ $receivable->customer?->email ?? '-' }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </x-ui.tables.cell>
+
+                                            <x-ui.tables.cell>
+                                                <span class="text-gray-700 text-xs font-medium">
+                                                    {{ Number::currency($receivable->remaining_amount, in: 'XOF', locale: 'fr') }}
+                                                </span>
+                                            </x-ui.tables.cell>
+                                        </x-ui.tables.row>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center text-gray-400 py-8">
+                                                Aucune créance trouvée.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                                <!-- table body end -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="mt-10 overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
             <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>

@@ -61,6 +61,11 @@ class Shop extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the company associated with the shop.
+     *
+     * @return BelongsTo<Company, Shop>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

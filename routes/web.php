@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\InvoiceController;
 use App\Http\Controllers\Dashboard\SettingController;
+use App\Http\Controllers\SubscriptionController;
 use App\Livewire\Auth\SetupPassword;
 use App\Livewire\Dashboard\Agent\Index as AgentIndex;
 use App\Livewire\Dashboard\Customers\Index as CustomerIndex;
@@ -63,6 +64,9 @@ Route::prefix('{tenant}')
             // Membres
             Route::get('members', MemberIndex::class)->name('members.index');
 
+            // Dépenses
+            Route::get('expenses', ExpenseIndex::class)->name('expenses.index');
+
             // Paramètres
             Route::prefix('settings')->name('settings.')->group(function () {
                 Route::get('', [SettingController::class, 'index'])->name('index');
@@ -76,9 +80,6 @@ Route::prefix('{tenant}')
                 // Versements
                 Route::get('deposits', DepositIndex::class)->name('deposits.index');
 
-                // Dépenses
-                Route::get('expenses', ExpenseIndex::class)->name('expenses.index');
-
                 // Shop
                 Route::get('shop', ShopSetting::class)->name('shop');
             });
@@ -89,3 +90,6 @@ Route::prefix('{tenant}')
 
         Route::get('shop/{shopSlug}', ShopPublic::class)->name('shop.public');
     });
+
+// Checkout
+Route::get('checkout/{company:uuid}', SubscriptionController::class)->name('checkout.index');

@@ -48,7 +48,9 @@ class Member extends Model
     */
 
     /**
-     * Relation avec User
+     * Get the member's user.
+     *
+     * @return BelongsTo<User, Member>
      */
     public function user(): BelongsTo
     {
@@ -56,7 +58,9 @@ class Member extends Model
     }
 
     /**
-     * Relation avec Company
+     * Get the member's company.
+     *
+     * @return BelongsTo<Company, Member>
      */
     public function company(): BelongsTo
     {
@@ -81,16 +85,25 @@ class Member extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the member's full name.
+     */
     public function getFullnameAttribute(): string
     {
         return "{$this->firstname} {$this->lastname}";
     }
 
+    /**
+     * Get the member's initials.
+     */
     public function getInitialsAttribute(): string
     {
         return strtoupper(substr($this->firstname, 0, 1) . substr($this->lastname, 0, 1));
     }
 
+    /**
+     * Get the member's roles names.
+     */
     public function getRolesName(): Collection
     {
         if (! $this->user) {

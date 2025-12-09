@@ -38,6 +38,11 @@ class Deposit extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the deposit's company.
+     *
+     * @return BelongsTo<Company, Deposit>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

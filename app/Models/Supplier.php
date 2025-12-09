@@ -36,11 +36,19 @@ class Supplier extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the company associated with the supplier.
+     *
+     * @return BelongsTo<Company, Supplier>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * Mark the supplier as main.
+     */
     public function markAsMain(): void
     {
         $this->update(['main' => true]);

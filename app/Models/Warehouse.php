@@ -36,6 +36,11 @@ class Warehouse extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the company associated with the warehouse.
+     *
+     * @return BelongsTo<Company, Warehouse>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
@@ -43,12 +48,19 @@ class Warehouse extends Model
 
     /**
      * Un entrepôt peut contenir plusieurs produits.
+     *
+     * @return HasMany<WarehouseProduct, Warehouse>
      */
     public function warehouseProducts(): HasMany
     {
         return $this->hasMany(WarehouseProduct::class);
     }
 
+    /**
+     * Get the orders associated with the warehouse.
+     *
+     * @return HasMany<Order, Warehouse>
+     */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);

@@ -14,12 +14,12 @@
 
                     <a href="{{ route('dashboard.products.index') }}"
                         class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.products.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
-                        {{ __('Produits') }}
+                        {{ __('Stock') }}
                     </a>
 
-                    <a href="#"
-                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.marketings.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
-                        {{ __('Marketing') }}
+                    <a href="{{ route('dashboard.expenses.index') }}"
+                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.expenses.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
+                        {{ __('Dépenses') }}
                     </a>
 
                     <a href="{{ route('dashboard.orders.index') }}"
@@ -29,7 +29,7 @@
 
                     <a href="{{ route('dashboard.customers.index') }}"
                         class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.customers.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
-                        {{ __('Contacts') }}
+                        {{ __('Clients') }}
                     </a>
                 </div>
             </div>

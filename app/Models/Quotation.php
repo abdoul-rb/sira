@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\QuotationStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -40,7 +42,7 @@ class Quotation extends Model
         'subtotal' => 'decimal:2',
         'tax_amount' => 'decimal:2',
         'total_amount' => 'decimal:2',
-        'valid_until' => 'date',
+        'valid_until' => 'datetime',
         'sent_at' => 'datetime',
         'accepted_at' => 'datetime',
         'rejected_at' => 'datetime',
@@ -61,16 +63,31 @@ class Quotation extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the company associated with the quotation.
+     *
+     * @return BelongsTo<Company, Quotation>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * Get the customer associated with the quotation.
+     *
+     * @return BelongsTo<Customer, Quotation>
+     */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
+    /**
+     * Get the products associated with the quotation.
+     *
+     * @return BelongsToMany<Product, Quotation, Pivot>
+     */
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_quotation')
@@ -78,6 +95,11 @@ class Quotation extends Model
             ->withTimestamps();
     }
 
+    /**
+     * Get the orders associated with the quotation.
+     *
+     * @return HasMany<Order, Quotation>
+     */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
@@ -89,29 +111,29 @@ class Quotation extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function scopeDraft($query)
+    public function scopeDraft(Builder $query): void
     {
-        return $query->where('status', QuotationStatus::DRAFT);
+        $query->where('status', QuotationStatus::DRAFT);
     }
 
-    public function scopeSent($query)
+    public function scopeSent(Builder $query): void
     {
-        return $query->where('status', QuotationStatus::SENT);
+        $query->where('status', QuotationStatus::SENT);
     }
 
-    public function scopeAccepted($query)
+    public function scopeAccepted(Builder $query): void
     {
-        return $query->where('status', QuotationStatus::ACCEPTED);
+        $query->where('status', QuotationStatus::ACCEPTED);
     }
 
-    public function scopeRejected($query)
+    public function scopeRejected(Builder $query): void
     {
-        return $query->where('status', QuotationStatus::REJECTED);
+        $query->where('status', QuotationStatus::REJECTED);
     }
 
-    public function scopeExpired($query)
+    public function scopeExpired(Builder $query): void
     {
-        return $query->where('status', QuotationStatus::EXPIRED);
+        $query->where('status', QuotationStatus::EXPIRED);
     }
 
     /*
@@ -120,6 +142,9 @@ class Quotation extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Mark the quotation as sent.
+     */
     public function markAsSent(): void
     {
         $this->update([
@@ -128,6 +153,9 @@ class Quotation extends Model
         ]);
     }
 
+    /**
+     * Mark the quotation as accepted.
+     */
     public function markAsAccepted(): void
     {
         $this->update([
@@ -136,6 +164,9 @@ class Quotation extends Model
         ]);
     }
 
+    /**
+     * Mark the quotation as rejected.
+     */
     public function markAsRejected(): void
     {
         $this->update([
@@ -144,6 +175,9 @@ class Quotation extends Model
         ]);
     }
 
+    /**
+     * Mark the quotation as expired.
+     */
     public function markAsExpired(): void
     {
         $this->update([
@@ -151,16 +185,25 @@ class Quotation extends Model
         ]);
     }
 
+    /**
+     * Check if the quotation is expired.
+     */
     public function isExpired(): bool
     {
         return $this->valid_until && $this->valid_until->isPast();
     }
 
+    /**
+     * Check if the quotation can be converted to an order.
+     */
     public function canBeConvertedToOrder(): bool
     {
         return $this->status === QuotationStatus::ACCEPTED;
     }
 
+    /**
+     * Calculate the totals for the quotation.
+     */
     public function calculateTotals(): void
     {
         $subtotal = $this->products->sum(function ($product) {

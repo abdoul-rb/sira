@@ -37,6 +37,12 @@ class Index extends Component
     public function mount(Company $tenant)
     {
         $this->tenant = $tenant;
+
+        if (request()->get('checkout') === 'success') {
+            session()->flash('success', 'Abonnement activé avec succès ! Merci de votre confiance.');
+
+            return redirect()->route('dashboard.products.index', ['tenant' => $this->tenant->slug]);
+        }
     }
 
     /**
@@ -68,8 +74,6 @@ class Index extends Component
 
     /**
      * Open the modal to upgrade to Pro
-     * 
-     * @return void
      */
     public function openProModal(): void
     {

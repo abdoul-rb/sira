@@ -1,3 +1,5 @@
+@props(['tenant'])
+
 <x-ui.modals.base id="upgrade-pro" size="md">
     <x-slot:title>
         {{ __('Passez à Pro pour continuer') }}
@@ -97,9 +99,10 @@
             </ul>
         </div>
 
-        <x-ui.btn.primary class="mt-6 w-full" :icon="false">
+        <a href="{{ route('checkout.index', ['company' => $tenant]) }}"
+            class="mt-6 w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-1.5 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-gray-900 cursor-pointer">
             {{ __('Passer à Pro maintenant') }}
-        </x-ui.btn.primary>
+        </a>
 
         <p class="text-center text-xs text-gray-600 mt-4">
             Annulez à tout moment • Paiement sécurisé par Stripe

@@ -20,41 +20,58 @@
             {{ __('Mes produits') }}
         </h1>
 
-        <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-product' })">
-            {{ __('Ajouter un produit') }}
-        </x-ui.btn.primary>
+        @if($tenant->hasReachedFreeLimit())
+            <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'upgrade-pro' })">
+                {{ __('Ajouter un produit') }}
+            </x-ui.btn.primary>
+        @else
+            <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-product' })">
+                {{ __('Ajouter un produit') }}
+            </x-ui.btn.primary>
+        @endif
     </div>
 
     <p class="-mt-2 text-sm text-gray-500">
         {{ __('Consultez et gérez vos stocks de produits ici. Vous pouvez ajouter, modifier et supprimer des produits.') }}
     </p>
 
-    <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-blue-50 via-blue-100 to-transparent border border-blue-200">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="p-2 rounded-lg bg-blue-100"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="lucide lucide-crown h-5 w-5 text-blue-600">
-                        <path
-                            d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z">
-                        </path>
-                        <path d="M5 21h14"></path>
-                    </svg>
-                </div>
-                <div>
-                    <p class="font-medium text-gray-700">Limite de produits atteinte</p>
-                    <p class="text-sm text-gray-600">Passez à Pro pour ajouter des produits illimités</p>
-                </div>
-            </div>
+    {{-- @dump($tenant->subscribed('default')) --}}
 
-            <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'upgrade-pro' })" :icon="false">
-                {{ __('Passer à Pro') }}
-            </x-ui.btn.primary>
+    @if (session('success'))
+        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+            <strong class="font-bold">Succès !</strong>
+            <span class="block sm:inline">{{ session('success') }}</span>
         </div>
+    @endif
 
-        <!-- Modal Upgrade to Pro -->
-        <x-ui.modals.upgrade-pro-modal />
-    </div>
+    @if($tenant->hasReachedFreeLimit())
+        <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-blue-50 via-blue-100 to-transparent border border-blue-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 rounded-lg bg-blue-100"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-crown h-5 w-5 text-blue-600">
+                            <path
+                                d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z">
+                            </path>
+                            <path d="M5 21h14"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Limite de produits atteinte</p>
+                        <p class="text-sm text-gray-600">Passez à Pro pour ajouter des produits illimités</p>
+                    </div>
+                </div>
+
+                <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'upgrade-pro' })" :icon="false">
+                    {{ __('Passer à Pro') }}
+                </x-ui.btn.primary>
+            </div>
+            <!-- Modal Upgrade to Pro -->
+        </div>
+    @endif
+
+    <x-ui.modals.upgrade-pro-modal :tenant="$tenant" />
 
     <!-- Recherche globale -->
     <div class="lg:flex lg:items-center justify-between">

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Listeners\SetupTenantListener;
+use App\Models\Company;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Routing\Events\RouteMatched;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Cashier\Cashier;
 use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
@@ -67,5 +69,7 @@ class AppServiceProvider extends ServiceProvider
             return $request->user()
                 && in_array($request->user()->email, explode(',', config('auth.admin_emails')));
         });
+
+        Cashier::useCustomerModel(Company::class);
     }
 }

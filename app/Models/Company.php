@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSubscription;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
+use Laravel\Cashier\Billable;
 
 class Company extends Model
 {
+    use Billable;
+
     /** @use HasFactory<\Database\Factories\CompanyFactory> */
     use HasFactory;
+
+    use HasSubscription;
 
     protected $fillable = [
         'uuid',
@@ -29,6 +36,10 @@ class Company extends Model
         'address',
         'city',
         'country',
+        'stripe_id',
+        'pm_type',
+        'pm_last_four',
+        'trial_ends_at',
     ];
 
     protected $casts = [
@@ -98,6 +109,18 @@ class Company extends Model
     public function members(): HasMany
     {
         return $this->hasMany(Member::class);
+    }
+
+    /**
+     * Get all of the company's users.
+     *
+     * @return BelongsToMany<User, Member, Company>
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'members')
+            ->withPivot(['firstname', 'lastname', 'phone_number'])
+            ->withTimestamps();
     }
 
     /**

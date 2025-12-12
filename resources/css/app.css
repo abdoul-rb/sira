@@ -22,6 +22,9 @@
     --font-raleway: 'Raleway', sans-serif;
     --font-playwrite: "Playwrite CA", cursive;
     --font-dancing: "Dancing Script", cursive;
+
+    /* Colors */
+    --color-primary: #165DFC;
 }
 
 /* Remove default red box-shadow on invalid form elements */

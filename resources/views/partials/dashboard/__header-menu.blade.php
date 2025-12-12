@@ -2,32 +2,32 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4 xl:px-0">
         <div class="flex h-16 justify-between">
             <div class="flex">
-                <div class="flex shrink-0 items-center">
+                <a href="{{ route('dashboard.index') }}" class="flex shrink-0 items-center">
                     <x-logo class="h-16 w-auto shrink-0" />
-                </div>
+                </a>
                 <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                     <a href="{{ route('dashboard.index') }}" aria-current="page"
-                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.index') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
+                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.index') ? 'border-primary text-gray-900' : 'border-transparent' }}">
                         {{ __('Tableau de bord') }}
                     </a>
 
                     <a href="{{ route('dashboard.products.index') }}"
-                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.products.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
+                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.products.*') ? 'border-primary text-gray-900' : 'border-transparent' }}">
                         {{ __('Stock') }}
                     </a>
 
                     <a href="{{ route('dashboard.expenses.index') }}"
-                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.expenses.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
+                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.expenses.*') ? 'border-primary text-gray-900' : 'border-transparent' }}">
                         {{ __('Dépenses') }}
                     </a>
 
                     <a href="{{ route('dashboard.orders.index') }}"
-                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.orders.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
+                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.orders.*') ? 'border-primary text-gray-900' : 'border-transparent' }}">
                         {{ __('Ventes') }}
                     </a>
 
                     <a href="{{ route('dashboard.customers.index') }}"
-                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.customers.*') ? 'border-indigo-600 text-gray-900' : 'border-transparent' }}">
+                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.customers.*') ? 'border-primary text-gray-900' : 'border-transparent' }}">
                         {{ __('Clients') }}
                     </a>
                 </div>
@@ -35,7 +35,7 @@
 
             <div class="sm:ml-6 flex items-center">
                 <button type="button"
-                    class="relative rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600">
+                    class="relative rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-primary">
                     <span class="absolute -inset-1.5"></span>
                     <span class="sr-only">View notifications</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
@@ -52,7 +52,7 @@
                     @click.outside="dropdownOpen = false">
                     <button x-ref="button" x-on:click="dropdownOpen = !dropdownOpen" :aria-expanded="dropdownOpen"
                         type="button"
-                        class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
+                        class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary cursor-pointer"
                         id="menu-button-1" aria-haspopup="menu" aria-controls="menu-0" aria-expanded="false"
                         popovertarget="menu-0">
                         <span class="absolute -inset-1.5"></span>
@@ -98,7 +98,7 @@
             {{-- <div class="-mr-2 flex items-center sm:hidden">
                 <!-- Mobile menu button -->
                 <button type="button" command="--toggle" commandfor="mobile-menu"
-                    class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
+                    class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-primary"
                     aria-expanded="false" aria-controls="mobile-menu">
                     <span class="absolute -inset-0.5"></span>
                     <span class="sr-only">Open

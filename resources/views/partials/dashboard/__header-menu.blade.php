@@ -3,8 +3,7 @@
         <div class="flex h-16 justify-between">
             <div class="flex">
                 <div class="flex shrink-0 items-center">
-                    <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&amp;shade=600"
-                        alt="Your Company" class="h-8 w-auto">
+                    <x-logo class="h-16 w-auto shrink-0" />
                 </div>
                 <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                     <a href="{{ route('dashboard.index') }}" aria-current="page"

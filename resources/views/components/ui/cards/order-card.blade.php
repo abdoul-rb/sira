@@ -23,11 +23,13 @@
                 </x-slot>
 
                 <x-slot name="content">
-                    <a href="{{ route('dashboard.orders.edit', ['tenant' => current_tenant(), 'order' => $order]) }}"
-                        class="block w-full block px-3 py-1 text-xs font-medium leading-6 text-gray-900 hover:bg-gray-50 text-left cursor-pointer">
-                        Modifer
-                        <span class="sr-only">, {{ $order->order_number }}</span>
-                    </a>
+                    @can('create-product')
+                        <a href="{{ route('dashboard.orders.edit', ['tenant' => current_tenant(), 'order' => $order]) }}"
+                            class="block w-full block px-3 py-1 text-xs font-medium leading-6 text-gray-900 hover:bg-gray-50 text-left cursor-pointer">
+                            Modifer
+                            <span class="sr-only">, {{ $order->order_number }}</span>
+                        </a>
+                    @endcan
                     <a href="{{ route('dashboard.orders.invoice', ['tenant' => current_tenant(), 'order' => $order]) }}"
                         target="_blank"
                         class="flex items-center gap-x-1 w-full px-3 py-1 text-xs font-medium leading-6 text-gray-900 hover:bg-gray-50 text-left cursor-pointer outline-none transition-colors">

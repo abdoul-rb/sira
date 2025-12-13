@@ -1,5 +1,6 @@
 <section id="benefits" aria-label="Simplifiez les tâches du quotidien." class="pt-20 pb-14 sm:pt-28 sm:pb-20 lg:pb-28">
-    <div class="-mx-4 grid max-w-2xl grid-cols-1 gap-y-10 lg:mx-auto lg:max-w-4xl lg:grid-cols-2 lg:gap-x-8">
+    <div
+        class="-mx-4 grid max-w-2xl px-8 lg:px-0 grid-cols-1 gap-y-10 lg:mx-auto lg:max-w-4xl lg:grid-cols-2 lg:gap-x-8">
         <div class="group bg-white rounded-xl px-8 py-12 shadow-sm border border-gray-50 hover:border-blue-400">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">

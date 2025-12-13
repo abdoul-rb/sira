@@ -19,7 +19,8 @@
             </p>
         </div>
 
-        <div class="-mx-4 mt-12 grid max-w-2xl grid-cols-1 gap-y-10 lg:mx-auto lg:max-w-4xl lg:grid-cols-2 lg:gap-x-8">
+        <div
+            class="lg:-mx-4 mt-12 grid max-w-2xl grid-cols-1 gap-y-10 lg:mx-auto lg:max-w-4xl lg:grid-cols-2 lg:gap-x-8">
             <section class="flex flex-col rounded-3xl px-6 sm:px-8 lg:py-8">
                 <h3 class="mt-5 font-display text-lg text-white">Gratuit</h3>
                 <p class="mt-2 text-base text-slate-400">

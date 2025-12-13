@@ -1,0 +1,26 @@
+[
+    {
+        "question": ":app_name est-il difficile à utiliser ?",
+        "answer": "Non. :app_name a été conçu pour être utilisé même par les commerçants peu habitués aux applications. La prise en main est immédiate."
+    },
+    {
+        "question": "Ai-je besoin d'un ordinateur ?",
+        "answer": "Non. :app_name fonctionne parfaitement sur mobile. Vous pouvez gérer votre boutique directement depuis votre téléphone."
+    },
+    {
+        "question": "Dois-je payer pour créer un compte ?",
+        "answer": "Non. La création de compte est gratuite et sans engagement."
+    },
+    {
+        "question": ":app_name fonctionne-t-il si ma connexion internet est faible ?",
+        "answer": "Oui. L'application a été pensée pour les réalités africaines, avec une utilisation légère et une synchronisation optimisée."
+    },
+    {
+        "question": ":app_name est-il adapté à tous les types de boutiques ?",
+        "answer": "Oui, tant que vous avez une boutique physique : alimentation, cosmétique, mode, électronique, accessoires, bazar, etc."
+    },
+    {
+        "question": "Puis-je obtenir de l'aide si j'ai des difficultés ?",
+        "answer": "Oui. Vous avez accès à un support simple et réactif, ainsi qu'à la communauté WhatsApp des commerçants utilisateurs de :app_name."
+    }
+]

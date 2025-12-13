@@ -8,7 +8,9 @@
 
         @include('partials.primary-features')
 
-        @include('partials.secondary-features')
+        {{-- @include('partials.secondary-features') --}}
+
+        @include('partials.benefits')
 
         @include('partials.call-to-action')
 
@@ -16,6 +18,10 @@
 
         @include('partials.pricing')
 
-        @include('partials.faqs')
+        @include('partials.support')
+
+        @include('partials.whatsapp-community')
+
+        @include('partials.faqs', ['faqs' => $faqs])
     </main>
 @endsection

@@ -12,9 +12,9 @@
                 Prenez le contrôle de votre activité. Simplifiez la gestion de votre entreprise, et concentrez-vous sur
                 ce qui compte vraiment.
             </p>
-            <a class="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 bg-white text-slate-900 hover:bg-blue-50 active:bg-blue-200 active:text-slate-600 focus-visible:outline-white mt-10"
-                color="white" variant="solid" href="/register">
-                Essayez gratuitement
+            <a href="{{ route('auth.login') }}"
+                class="mt-10 w-full lg:w-auto group inline-flex items-center justify-center rounded-full py-2 px-5 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 bg-slate-900 text-white hover:bg-slate-700 hover:text-slate-100 active:bg-slate-800 active:text-slate-300 focus-visible:outline-slate-900">
+                Créer un compte gratuitement
             </a>
         </div>
     </div>

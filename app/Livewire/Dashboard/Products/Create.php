@@ -9,6 +9,8 @@ use App\Http\Requests\Product\StoreProductRequest;
 use App\Models\Company;
 use App\Traits\ManagesProductWarehouses;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -18,6 +20,7 @@ class Create extends Component
     use ManagesProductWarehouses;
     use WithFileUploads;
 
+    #[Locked]
     public Company $tenant;
 
     public string $name = '';
@@ -73,7 +76,12 @@ class Create extends Component
 
     public function save(ProductAction $action)
     {
-        $validated = $this->validate();
+        if (! Auth::user()->can('create-product')) {
+            $this->dispatch('notify', "Impossible pour vous d'ajouter un produit");
+            $this->dispatch('close-modal', id: 'create-product');
+
+            return;
+        }
 
         if ($this->tenant->hasReachedFreeLimit()) {
             $this->addError('limit', 'Limite atteinte, veuillez passer à un abonnement Pro.');
@@ -82,6 +90,8 @@ class Create extends Component
 
             return;
         }
+
+        $validated = $this->validate();
 
         // Vérifier que le total des quantités assignées correspond au stockQuantity
         $this->calculateTotalWarehouseQuantity();

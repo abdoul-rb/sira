@@ -15,9 +15,11 @@
             {{ __('Emplacements') }}
         </h1>
 
-        <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-warehouse' })">
-            {{ __('Ajouter un entrepôt') }}
-        </x-ui.btn.primary>
+        @can('create-warehouse')
+            <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-warehouse' })">
+                {{ __('Ajouter un entrepôt') }}
+            </x-ui.btn.primary>
+        @endcan
     </div>
 
     <p class="text-sm overflow-hidden break-words text-gray-500 mt-1">

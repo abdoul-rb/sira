@@ -7,28 +7,37 @@ use App\Models\Member;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Warehouse;
-use App\Models\WarehouseProduct;
 use Livewire\Livewire;
 use App\Livewire\Dashboard\Products\Create;
+use Spatie\Permission\Models\Permission;
+use Tests\TestCase;
 
 beforeEach(function () {
+    /** @var TestCase $this */
     $this->company = Company::factory()->create();
 
+    /** @var TestCase $this */
     $this->user = User::factory()
         ->has(Member::factory()->state([
             'company_id' => $this->company->id
         ]))
         ->create();
 
+    // Créer et assigner la permission 'create-product' à l'utilisateur
+    $permission = Permission::firstOrCreate(['name' => 'create-product']);
+    $this->user->givePermissionTo($permission);
+
     $this->company->load('warehouses');
     $this->user->load('member');
 
     $this->actingAs($this->user);
 
+    /** @var TestCase $this */
     $this->defaultWarehouse = Warehouse::factory()
         ->for($this->company)
         ->create(['default' => true]);
     
+    /** @var TestCase $this */
     $this->otherWarehouse = Warehouse::factory()
         ->for($this->company)
         ->create(['default' => false]);

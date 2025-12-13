@@ -20,15 +20,17 @@
             {{ __('Mes produits') }}
         </h1>
 
-        @if($tenant->hasReachedFreeLimit())
-            <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'upgrade-pro' })">
-                {{ __('Ajouter un produit') }}
-            </x-ui.btn.primary>
-        @else
-            <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-product' })">
-                {{ __('Ajouter un produit') }}
-            </x-ui.btn.primary>
-        @endif
+        @can('create-product')
+            @if($tenant->hasReachedFreeLimit())
+                <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'upgrade-pro' })">
+                    {{ __('Ajouter un produit') }}
+                </x-ui.btn.primary>
+            @else
+                <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-product' })">
+                    {{ __('Ajouter un produit') }}
+                </x-ui.btn.primary>
+            @endif
+        @endcan
     </div>
 
     <p class="-mt-2 text-sm text-gray-500">

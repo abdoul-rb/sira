@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\InvoiceController;
 use App\Http\Controllers\Dashboard\SettingController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubscriptionController;
 use App\Livewire\Auth\SetupPassword;
 use App\Livewire\Dashboard\Agent\Index as AgentIndex;
@@ -23,7 +24,7 @@ use App\Livewire\Profile\Index as ProfileIndex;
 use App\Livewire\Public\Shop as ShopPublic;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
+Route::get('/', HomeController::class)->name('home');
 
 require __DIR__ . '/auth.php';
 

@@ -1,11 +1,11 @@
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-16 text-center lg:pt-20">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-16 text-center lg:pt-20 overflow-hidden">
     <div class="inline-flex items-center gap-2 bg-blue-50 rounded-full px-4 py-2 mb-8 animate-fade-in-up">
         <span class="w-2 h-2 bg-blue-600 rounded-full animate-pulse-soft"></span>
         <span class="text-sm font-medium text-gray-700">
             Conçu pour les commerçants africains
         </span>
     </div>
-    <h1 class="mx-auto max-w-5xl font-display text-5xl font-medium tracking-tight text-slate-900 lg:text-7xl">
+    <h1 class="mx-auto max-w-5xl font-display text-4xl font-medium tracking-tight text-slate-900 lg:text-7xl">
         L'outil simple et fiable pour
         <span class="relative whitespace-nowrap text-blue-600">
             <svg aria-hidden="true" viewBox="0 0 418 42"
@@ -15,10 +15,11 @@
                 </path>
             </svg>
             <span class="relative">gérer et développer</span>
-        </span>votre boutique en Afrique
+        </span>
+        votre boutique en Afrique
     </h1>
 
-    <p class="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-gray-600">
+    <p class="mx-auto mt-6 max-w-2xl lg:text-lg tracking-tight text-gray-600">
         {{ __(":app_name vous aide à organiser vos achats, vos ventes et vos dépenses avec une clarté totale, même si vous n'êtes pas à l'aise avec la technologie.", ["app_name" => config("app.name")]) }}
     </p>
 
@@ -53,7 +54,7 @@
         @endforeach
     </div>
 
-    <div class="mt-36 lg:mt-44">
+    <div class="mt-20 lg:mt-44">
         <p class="font-display text-base text-slate-900">
             {{ __('Plusieurs entreprises nous font déjà confiance') }}
         </p>

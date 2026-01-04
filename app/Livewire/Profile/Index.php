@@ -78,8 +78,6 @@ class Index extends Component
             (new UpdatePasswordRequest)->messages()
         )->validate();
 
-        dd($validated);
-
         $this->user->update([
             'password' => $validated['password'],
         ]);

@@ -17,12 +17,12 @@
                     <p class="text-sm font-medium text-gray-600">{{ Auth::user()->roleLabels() }}</p>
                 </div>
             </div>
-            <div class="mt-5 flex lg:justify-center lg:mt-0">
+            {{-- <div class="mt-5 flex lg:justify-center lg:mt-0">
                 <a href="{{ route('dashboard.transactions.index') }}"
                     class="flex items-center justify-center rounded-md bg-white px-3 py-1.5 text-sm text-black shadow-xs ring-1 ring-gray-200">
                     Mouvements de caisse
                 </a>
-            </div>
+            </div> --}}
         </div>
 
         <div class="mt-6 grid grid-cols-12 gap-3">
@@ -100,19 +100,15 @@
         <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 gap-y-4">
             <div class="col-span-2">
                 <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
-                    <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800">
-                                {{ __('Dernières transactions') }}
-                            </h3>
-                        </div>
+                    <div class="flex gap-5 px-6 mb-4 sm:flex-row items-center justify-between">
+                        <h3 class="text-lg font-semibold text-gray-800">
+                            {{ __('Dernières transactions') }}
+                        </h3>
 
-                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-                            <a href="{{ route('dashboard.transactions.index') }}"
-                                class="text-xs font-medium text-blue-500 hover:underline">
-                                {{ __('Voir tous') }}
-                            </a>
-                        </div>
+                        <a href="{{ route('dashboard.transactions.index') }}"
+                            class="text-sm font-medium text-blue-500 hover:underline">
+                            {{ __('Voir tous') }}
+                        </a>
                     </div>
 
                     <div class="flow-root px-4 lg:px-0">
@@ -219,19 +215,15 @@
 
             <div>
                 <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
-                    <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800">
-                                {{ __('Créances') }}
-                            </h3>
-                        </div>
+                    <div class="flex gap-5 px-6 mb-4 sm:flex-row items-center justify-between">
+                        <h3 class="text-lg font-semibold text-gray-800">
+                            {{ __('Créances') }}
+                        </h3>
 
-                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-                            <a href="{{ route('dashboard.receivables.index') }}"
-                                class="text-xs font-medium text-blue-500 hover:underline">
-                                {{ __('Voir tous') }}
-                            </a>
-                        </div>
+                        <a href="{{ route('dashboard.receivables.index') }}"
+                            class="text-sm font-medium text-blue-500 hover:underline">
+                            {{ __('Voir tous') }}
+                        </a>
                     </div>
 
                     <div class="overflow-hidden rounded-lg border border-gray-200 bg-white">

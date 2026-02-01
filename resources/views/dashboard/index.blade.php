@@ -97,7 +97,7 @@
             </div>
         </div>
 
-        <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-4">
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 gap-y-4">
             <div class="col-span-2">
                 <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
                     <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">

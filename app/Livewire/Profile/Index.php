@@ -15,7 +15,7 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    public Company $tenant;
+    public Company $company;
 
     public User $user;
 
@@ -33,9 +33,9 @@ class Index extends Component
 
     public $password_confirmation;
 
-    public function mount(Company $tenant)
+    public function mount(Company $company)
     {
-        $this->tenant = $tenant;
+        $this->company = $company;
 
         /** @var User $user */
         $this->user = Auth::user();

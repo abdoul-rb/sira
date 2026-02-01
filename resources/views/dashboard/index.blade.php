@@ -25,6 +25,8 @@
             </div>
         </div>
 
+        @include('partials.dashboard._company-inactive-banner')
+
         <div class="mt-6 grid grid-cols-12 gap-3">
             <div class="col-span-12 gap-4 lg:col-span-7 space-y-3">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">

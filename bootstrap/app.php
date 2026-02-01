@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\EnsureCompanyIsActive;
 use App\Http\Middleware\TenantMiddleware;
+use App\Models\Company;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,25 +16,16 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
         then: function () {
-            // Route::bind('tenant', fn(string $value) => Company::where('slug', $value)->firstOrFail());
-            /* Route::bind('tenant', function (string $value) {
-                $company = Company::where('slug', $value)->first();
-
-                if (!$company) {
-                    \Log::error("Tenant not found", [
-                        'slug' => $value,
-                        'all_slugs' => Company::pluck('slug')->toArray(),
-                    ]);
-                    abort(404, "Entreprise '{$value}' introuvable");
-                }
-
-                return $company;
-            }); */
-        }
+            // Binding explicite du paramètre {company} vers Company par slug
+            Route::bind('company', function (string $value) {
+                return \App\Models\Company::where('slug', $value)->firstOrFail();
+            });
+        },
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'tenant' => TenantMiddleware::class,
+            'company.active' => EnsureCompanyIsActive::class,
         ]);
 
         $middleware->redirectGuestsTo(fn () => route('auth.login'));

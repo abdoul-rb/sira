@@ -19,7 +19,7 @@ use Livewire\Component;
 
 class Create extends Component
 {
-    public Company $tenant;
+    public Company $company;
 
     public string $firstname = '';
 
@@ -35,9 +35,9 @@ class Create extends Component
 
     public ?RoleEnum $role = null;
 
-    public function mount(Company $tenant)
+    public function mount(Company $company)
     {
-        $this->tenant = $tenant;
+        $this->company = $company;
     }
 
     protected function rules(): array
@@ -59,7 +59,7 @@ class Create extends Component
     public function save(CreateMemberAction $action)
     {
         $validated = $this->validate();
-        $validated['company_id'] = $this->tenant->id;
+        $validated['company_id'] = $this->company->id;
 
         try {
             $member = $action->handle($validated);
@@ -87,10 +87,10 @@ class Create extends Component
         $setupUrl = URL::temporarySignedRoute(
             'dashboard.members.setup-password',
             now()->addDays(7),
-            ['tenant' => $this->tenant, 'user' => $user->id]
+            ['company' => $this->company, 'user' => $user->id]
         );
 
-        $user->notify(new MemberInvitation($this->tenant, $setupUrl));
+        $user->notify(new MemberInvitation($this->company, $setupUrl));
     }
 
     public function render()

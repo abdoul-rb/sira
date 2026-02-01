@@ -32,22 +32,7 @@ if (! function_exists('current_tenant')) {
 if (! function_exists('tenant_route')) {
     function tenant_route($name, $parameters = [], $absolute = true)
     {
-        // $tenant = request()->route('tenant');
-        return route($name, array_merge(['tenant' => current_tenant()], $parameters));
-
-        if ($tenant) {
-            // Si c'est déjà un objet Company, on le passe
-            if ($tenant instanceof Company) {
-                $parameters = array_merge(['tenant' => current_tenant()], $parameters);
-            } else {
-                // Si c'est un slug (string), on tente de retrouver l'objet Company
-                $company = Company::where('slug', $tenant)->first();
-                $parameters = array_merge(['tenant' => $company ?: $tenant], $parameters);
-            }
-        }
-
-        return route($name, $parameters, $absolute);
-        // return route($name, array_merge(['tenant' => current_tenant()], $parameters));
+        return route($name, array_merge(['company' => current_tenant()], $parameters), $absolute);
     }
 }
 

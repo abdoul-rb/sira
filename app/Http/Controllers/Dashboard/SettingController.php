@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
-    public function index(Request $request, Company $tenant)
+    public function index(Request $request, Company $company)
     {
-        return view('dashboard.settings.index', compact('tenant'));
+        return view('dashboard.settings.index', compact('company'));
     }
 }

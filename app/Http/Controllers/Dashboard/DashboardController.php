@@ -16,15 +16,15 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request, Company $tenant)
+    public function index(Request $request, Company $company)
     {
-        $orders = Cache::remember("dashboard-last-orders-{$tenant->id}", 60 * 60, function () use ($tenant) {
-            return Order::where('company_id', $tenant->id)->orderBy('created_at', 'desc')->take(3)->get();
+        $orders = Cache::remember("dashboard-last-orders-{$company->id}", 60 * 60, function () use ($company) {
+            return Order::where('company_id', $company->id)->orderBy('created_at', 'desc')->take(3)->get();
         });
 
         // TODO Move in service
         $ordersEntries = Order::query()
-            ->where('company_id', $tenant->id)
+            ->where('company_id', $company->id)
             ->notCredit()
             ->selectRaw("
                 id,
@@ -38,7 +38,7 @@ class DashboardController extends Controller
             ");
 
         $expenses = Expense::query()
-            ->where('company_id', $tenant->id)
+            ->where('company_id', $company->id)
             ->selectRaw("
                 id,
                 company_id,
@@ -60,38 +60,38 @@ class DashboardController extends Controller
             });
 
         $receivablesOrders = Order::query()
-            ->where('company_id', $tenant->id)
+            ->where('company_id', $company->id)
             ->credit()
             ->take(6)
             ->get();
 
-        $customersCount = DB::table('customers')->where('company_id', $tenant->id)->count();
+        $customersCount = DB::table('customers')->where('company_id', $company->id)->count();
 
-        $productsCount = Product::where('company_id', $tenant->id)->count();
-        $productsStock = Product::where('company_id', $tenant->id)->sum('stock_quantity');
+        $productsCount = Product::where('company_id', $company->id)->count();
+        $productsStock = Product::where('company_id', $company->id)->sum('stock_quantity');
 
-        $totalSales = Order::where('company_id', $tenant->id)->sum('total_amount');
+        $totalSales = Order::where('company_id', $company->id)->sum('total_amount');
 
-        $totalOrders = Order::where('company_id', $tenant->id)->count();
+        $totalOrders = Order::where('company_id', $company->id)->count();
 
         // 1. ARGENT ENTRÉ (Ventes réellement encaissées)
-        $cashIn = Order::where('company_id', $tenant->id)
+        $cashIn = Order::where('company_id', $company->id)
             ->notCredit()
             ->sum('total_amount');
 
         // 2. ARGENT SORTI (Dépenses / Charges)
-        $totalCashOut = Expense::where('company_id', $tenant->id)->sum('amount');
+        $totalCashOut = Expense::where('company_id', $company->id)->sum('amount');
 
         // Trésorerie Actuelle: l'argent réel dans la caisse
         $cashBalance = $cashIn - $totalCashOut;
 
-        $monthExpenses = (float) Expense::where('company_id', $tenant->id)
+        $monthExpenses = (float) Expense::where('company_id', $company->id)
             ->whereMonth('spent_at', now()->month)
             ->whereYear('spent_at', now()->year)
             ->sum('amount');
 
         $totalCredits = Order::query()
-            ->where('company_id', $tenant->id)
+            ->where('company_id', $company->id)
             ->credit()
             ->sum('total_amount');
 
@@ -99,7 +99,7 @@ class DashboardController extends Controller
             'orders' => $orders,
             'transactions' => $transactions,
             'receivablesOrders' => $receivablesOrders,
-            'tenant' => $tenant,
+            'company' => $company,
             'customersCount' => $customersCount,
             'productsCount' => $productsCount,
             'totalSales' => $totalSales,

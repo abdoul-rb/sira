@@ -22,40 +22,43 @@ class SetupTenantListener
     // https://laravel-france.com/posts/votre-application-multi-tenant-avec-laravel-sans-package-tiers
     public function handle(RouteMatched $event): void
     {
-        // Récupération du paramètre tenant (slug)
-        $tenantSlug = $event->route->parameter('tenant');
+        // Récupération du paramètre company (slug) - maintenant via Route Model Binding implicite
+        $company = $event->route->parameter('company');
 
-        if (is_null($tenantSlug)) {
+        if (is_null($company)) {
             return;
         }
 
-        // 2. Cas où Laravel a déjà fait le travail (Route Model Binding)
-        if ($tenantSlug instanceof Company) {
-            $this->bindToContainer($tenantSlug);
+        // Cas où Laravel a déjà fait le travail (Route Model Binding implicite)
+        if ($company instanceof Company) {
+            $this->bindToContainer($company);
 
             return;
         }
 
-        // 3. Vérification rapide via Cache (Liste des slugs actifs)
+        // Fallback: si c'est encore une string (ne devrait plus arriver), on résout manuellement
+        $companySlug = $company;
+
+        // Vérification rapide via Cache (Liste des slugs actifs)
         $activeSlugs = $this->getCachedCompaniesSlugs();
 
-        // Vérification que le tenant existe
-        if (! in_array($tenantSlug, $activeSlugs)) {
-            throw new NotFoundHttpException("Tenant '{$tenantSlug}' not found or inactive.");
+        // Vérification que la company existe
+        if (! in_array($companySlug, $activeSlugs)) {
+            throw new NotFoundHttpException("Company '{$companySlug}' not found or inactive.");
         }
 
-        // 4. Récupération de l'objet complet avec Cache individuel
-        $company = Cache::remember(
-            "tenant_company_{$tenantSlug}",
+        // Récupération de l'objet complet avec Cache individuel
+        $companyModel = Cache::remember(
+            "tenant_company_{$companySlug}",
             self::CACHE_TTL,
-            fn () => Company::where('slug', $tenantSlug)->firstOrFail()
+            fn () => Company::where('slug', $companySlug)->firstOrFail()
         );
 
-        // 5. CRUCIAL : On rend le tenant disponible pour toute l'application
-        $this->bindToContainer($company);
+        // CRUCIAL : On rend le tenant disponible pour toute l'application
+        $this->bindToContainer($companyModel);
 
-        // Optionnel : Mettre à jour le paramètre de route pour que les contrôleurs reçoivent l'objet Company et non le string
-        $event->route->setParameter('tenant', $company);
+        // Mettre à jour le paramètre de route pour que les contrôleurs reçoivent l'objet Company
+        $event->route->setParameter('company', $companyModel);
     }
 
     /**

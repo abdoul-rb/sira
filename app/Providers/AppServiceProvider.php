@@ -11,6 +11,7 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
@@ -34,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') === 'production') {
             URL::forceScheme('https');
         }
+
+        // Le binding Route::bind('company') est défini dans bootstrap/app.php
 
         // Enregistrement du listener pour la configuration multi-tenant
         Event::listen(

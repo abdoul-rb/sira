@@ -61,7 +61,7 @@ class Register extends Component
                 $query->withoutGlobalScope(\App\Models\Scopes\TenantScope::class);
             }]);
 
-            return redirect()->intended(route('dashboard.index', ['tenant' => $user->member->company]));
+            return redirect()->intended(route('dashboard.index', ['company' => $user->member->company]));
         } catch (Exception $e) {
             Log::error('Registration failed', [
                 'email' => $validated['email'],

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\InvoiceController;
 use App\Http\Controllers\Dashboard\SettingController;
@@ -22,72 +24,87 @@ use App\Livewire\Dashboard\Settings\Warehouses\Index as WarehouseIndex;
 use App\Livewire\Dashboard\Transactions\Index as TransactionIndex;
 use App\Livewire\Profile\Index as ProfileIndex;
 use App\Livewire\Public\Shop as ShopPublic;
+use App\Models\Company;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
 
+// DEBUG: Test Route Model Binding avec binding explicite
+Route::get('test-binding/{company}', function (Company $company) {
+    return 'Company: ' . $company->name;
+});
+
+Route::get('/{user}/test', function (User $user) {
+    return "User: {$user->id} / {$user->email}";
+});
+
 require __DIR__ . '/auth.php';
 
-// domain('{tenant}.' . config('app.url')) Route::prefix('{tenant}/dashboard')->name('dashboard.')
-Route::prefix('{tenant}')
+// Routes multi-tenant avec le préfixe {company}
+Route::prefix('{company}')
     ->middleware(['auth', 'tenant'])
     ->group(function () {
-        Route::prefix('dashboard')->name('dashboard.')->group(function () {
-            Route::get('', [DashboardController::class, 'index'])->name('index');
+        // Dashboard accessible même si l'entreprise est inactive
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-            Route::get('profile', ProfileIndex::class)->name('profile.index');
+        // Toutes les autres routes nécessitent une entreprise active
+        Route::prefix('dashboard')->name('dashboard.')
+            ->middleware(['company.active'])
+            ->group(function () {
+                Route::get('profile', ProfileIndex::class)->name('profile.index');
 
-            // Purchases
-            Route::get('purchases', PurchaseIndex::class)->name('purchases.index');
+                // Purchases
+                Route::get('purchases', PurchaseIndex::class)->name('purchases.index');
 
-            // Customers
-            Route::get('customers', CustomerIndex::class)->name('customers.index');
+                // Customers
+                Route::get('customers', CustomerIndex::class)->name('customers.index');
 
-            // Agents
-            Route::get('agents', AgentIndex::class)->name('agents.index');
+                // Agents
+                Route::get('agents', AgentIndex::class)->name('agents.index');
 
-            // Products
-            Route::get('products', ProductIndex::class)->name('products.index');
+                // Products
+                Route::get('products', ProductIndex::class)->name('products.index');
 
-            // Orders
-            Route::prefix('orders')->name('orders.')->group(function () {
-                Route::get('', OrderIndex::class)->name('index');
-                Route::get('{order}/edit', OrderEdit::class)->name('edit');
-                Route::get('{order}/invoice', [InvoiceController::class, 'show'])->name('invoice');
+                // Orders
+                Route::prefix('orders')->name('orders.')->group(function () {
+                    Route::get('', OrderIndex::class)->name('index');
+                    Route::get('{order}/edit', OrderEdit::class)->name('edit');
+                    Route::get('{order}/invoice', [InvoiceController::class, 'show'])->name('invoice');
+                });
+
+                // Receivables: Créances
+                Route::get('receivables', ReceivableIndex::class)->name('receivables.index');
+
+                // Transactions: mouvements de caisse
+                Route::get('transactions', TransactionIndex::class)->name('transactions.index');
+
+                // Membres
+                Route::get('members', MemberIndex::class)->name('members.index');
+
+                // Dépenses
+                Route::get('expenses', ExpenseIndex::class)->name('expenses.index');
+
+                // Paramètres
+                Route::prefix('settings')->name('settings.')->group(function () {
+                    Route::get('', [SettingController::class, 'index'])->name('index');
+
+                    // Warehouse
+                    Route::get('warehouses', WarehouseIndex::class)->name('warehouses.index');
+
+                    // Fournisseurs
+                    Route::get('suppliers', SupplierIndex::class)->name('suppliers.index');
+
+                    // Versements
+                    Route::get('deposits', DepositIndex::class)->name('deposits.index');
+
+                    // Shop
+                    Route::get('shop', ShopSetting::class)->name('shop');
+                });
+
+                // Route pour la configuration du mot de passe des employés
+                Route::get('member/setup-password/{user}', SetupPassword::class)->name('members.setup-password');
             });
-
-            // Receivables: Créances
-            Route::get('receivables', ReceivableIndex::class)->name('receivables.index');
-
-            // Transactions: mouvements de caisse
-            Route::get('transactions', TransactionIndex::class)->name('transactions.index');
-
-            // Membres
-            Route::get('members', MemberIndex::class)->name('members.index');
-
-            // Dépenses
-            Route::get('expenses', ExpenseIndex::class)->name('expenses.index');
-
-            // Paramètres
-            Route::prefix('settings')->name('settings.')->group(function () {
-                Route::get('', [SettingController::class, 'index'])->name('index');
-
-                // Warehouse
-                Route::get('warehouses', WarehouseIndex::class)->name('warehouses.index');
-
-                // Fournisseurs
-                Route::get('suppliers', SupplierIndex::class)->name('suppliers.index');
-
-                // Versements
-                Route::get('deposits', DepositIndex::class)->name('deposits.index');
-
-                // Shop
-                Route::get('shop', ShopSetting::class)->name('shop');
-            });
-
-            // Route pour la configuration du mot de passe des employés
-            Route::get('member/setup-password/{user}', SetupPassword::class)->name('members.setup-password');
-        });
 
         Route::get('shop/{shopSlug}', ShopPublic::class)->name('shop.public');
     });

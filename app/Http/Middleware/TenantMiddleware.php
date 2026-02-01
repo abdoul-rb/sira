@@ -32,24 +32,25 @@ final class TenantMiddleware
             abort(403, "Votre compte n'est associé à aucune entreprise.");
         }
 
-        $tenant = $request->route('tenant');
+        // Le paramètre est maintenant 'company' grâce au Route Model Binding implicite
+        $company = $request->route('company');
 
-        if (is_null($tenant)) {
-            // Cas rare si le middleware est mal placé sur une route sans {tenant}
-            throw new NotFoundHttpException('Tenant parameter is required');
+        if (is_null($company)) {
+            throw new NotFoundHttpException('Company parameter is required');
         }
 
-        if (is_string($tenant)) {
-            $tenant = Company::where('slug', $tenant)->firstOrFail();
+        // Si c'est une string (ne devrait plus arriver avec le binding implicite), on résout
+        if (is_string($company)) {
+            $company = Company::where('slug', $company)->firstOrFail();
         }
 
         $userCompany = $user->member->company;
 
-        if ($tenant->id !== $userCompany->id) {
+        if ($company->id !== $userCompany->id) {
             Log::warning("Tentative d'accès inter-tenant bloquée", [
                 'user_id' => $user->id,
                 'user_company' => $userCompany->slug,
-                'target_tenant' => $tenant->slug,
+                'target_company' => $company->slug,
                 'ip' => $request->ip(),
                 'url' => $request->fullUrl(),
             ]);
@@ -57,25 +58,19 @@ final class TenantMiddleware
             throw new NotFoundHttpException('Access denied.');
         }
 
-        // On écrase l'instance si le Listener l'avait déjà mise, pour être sûr d'avoir la version validée par le middleware
-        app()->instance('currentTenant', $tenant);
+        // Rendre le tenant disponible pour toute l'application
+        app()->instance('currentTenant', $company);
 
         // Injection dans toutes les vues
         if (! app()->runningInConsole()) {
-            View::share('currentTenant', $tenant);
+            View::share('currentTenant', $company);
         }
 
-        // Configurer les URLs pour ne plus avoir à passer ['tenant' => ...]
-        app('url')->defaults(['tenant' => $tenant]);
-
-        // Injecter la company tenant dans la requête pour le Route Model Binding
-        $request->route()->setParameter('tenant', $tenant);
-
-        // Mettre à jour la route pour le Route Model Binding suivant
-        $request->route()->setParameter('tenant', $tenant);
+        // Configurer les URLs pour ne plus avoir à passer ['company' => ...]
+        app('url')->defaults(['company' => $company]);
 
         // Contextualiser les Logs
-        Log::withContext(['tenant_slug' => $tenant->slug]);
+        Log::withContext(['tenant_slug' => $company->slug]);
 
         return $next($request);
     }

@@ -66,7 +66,7 @@ class Login extends Component
             return;
         }
 
-        return redirect()->intended(route('dashboard.index', ['tenant' => $user->member->company]));
+        return redirect()->intended(route('dashboard.index', ['company' => $user->member->company]));
     }
 
     public function render()

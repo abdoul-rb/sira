@@ -118,6 +118,12 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->hasOne(Member::class);
     }
 
+    // Get the company of the user à travers le member
+    public function company()
+    {
+        return $this->member()->company();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Méthodes utilitaires

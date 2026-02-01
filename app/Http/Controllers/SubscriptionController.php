@@ -21,9 +21,9 @@ class SubscriptionController extends Controller
             ->quantity($seatCount) // Tarification par utilisateur
             ->allowPromotionCodes()
             ->checkout([
-                'success_url' => route('dashboard.products.index', ['tenant' => $company->slug]) . '?checkout=success',
+                'success_url' => route('dashboard.products.index', ['company' => $company->slug]) . '?checkout=success',
                 'cancel_url' => url()->previous(),
-                'metadata' => ['tenant_id' => $company->id],
+                'metadata' => ['company_id' => $company->id],
                 'locale' => 'fr',
             ]);
     }

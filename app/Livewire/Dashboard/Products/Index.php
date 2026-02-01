@@ -18,7 +18,7 @@ class Index extends Component
 {
     use WithPagination;
 
-    public Company $tenant;
+    public Company $company;
 
     #[Url]
     public string $search = '';
@@ -34,14 +34,14 @@ class Index extends Component
         'page' => ['except' => 1],
     ]; */
 
-    public function mount(Company $tenant)
+    public function mount(Company $company)
     {
-        $this->tenant = $tenant;
+        $this->company = $company;
 
         if (request()->get('checkout') === 'success') {
             session()->flash('success', 'Abonnement activé avec succès ! Merci de votre confiance.');
 
-            return redirect()->route('dashboard.products.index', ['tenant' => $this->tenant->slug]);
+            return redirect()->route('dashboard.products.index', ['company' => $this->company->slug]);
         }
     }
 
@@ -65,11 +65,11 @@ class Index extends Component
      */
     public function getPublicShopUrl(): ?string
     {
-        if (! $this->tenant->shop || ! $this->tenant->shop->active) {
+        if (! $this->company->shop || ! $this->company->shop->active) {
             return null;
         }
 
-        return route('shop.public', [$this->tenant->slug, $this->tenant->shop->slug]);
+        return route('shop.public', [$this->company->slug, $this->company->shop->slug]);
     }
 
     /**
@@ -111,7 +111,7 @@ class Index extends Component
 
     public function render()
     {
-        $query = Product::where('company_id', $this->tenant->id)
+        $query = Product::where('company_id', $this->company->id)
             ->when($this->search, function (Builder $q) {
                 $q->where(function (Builder $q) {
                     $q->where('name', 'like', '%' . $this->search . '%')

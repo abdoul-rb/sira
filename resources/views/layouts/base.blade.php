@@ -29,6 +29,11 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    @if(app()->environment('production'))
+        <script defer src="https://cloud.umami.is/script.js"
+            data-website-id="463016e9-bbb3-4148-80ef-961f901705c9"></script>
+    @endif
 </head>
 
 <body>

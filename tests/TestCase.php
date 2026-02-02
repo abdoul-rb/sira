@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Actions\CreatePwaInstallation;
 use App\Models\Company;
 use App\Models\User;
 use App\Models\Warehouse;
@@ -19,6 +20,8 @@ abstract class TestCase extends BaseTestCase
     public User $user;
 
     public Warehouse $warehouse;
+
+    public CreatePwaInstallation $createPwaInstallation;
 
     protected function setUp(): void
     {

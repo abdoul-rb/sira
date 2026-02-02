@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasName
@@ -23,6 +24,7 @@ class User extends Authenticatable implements FilamentUser, HasName
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
 
+    use HasPushSubscriptions;
     use HasRoles;
     use Notifiable;
     // use SoftDeletes;

@@ -25,10 +25,13 @@ class Reset extends Component
 
     public string $password_confirmation = '';
 
+    public bool $isInvitation = false;
+
     public function mount(string $token): void
     {
         $this->email = request()->query('email', '');
         $this->token = $token;
+        $this->isInvitation = request()->query('ctxt') === 'invit';
     }
 
     public function resetPassword()

@@ -19,5 +19,13 @@
     "We can't find a user with that email address.": "Aucun utilisateur trouvé avec cette adresse email.",
     "Please wait before retrying.": "Veuillez patienter avant de réessayer.",
     "Your password has been reset.": "Votre mot de passe a été réinitialisé.",
-    "Your password has been reset!": "Votre mot de passe a été réinitialisé !"
+    "Your password has been reset!": "Votre mot de passe a été réinitialisé !",
+    "Invitation à rejoindre :company": "Invitation à rejoindre :company",
+    "Bonjour !": "Bonjour !",
+    "Vous avez été invité à rejoindre l'équipe de :company sur :app.": "Vous avez été invité à rejoindre l'équipe de :company sur :app.",
+    "Pour accéder à votre compte, veuillez définir votre mot de passe en cliquant sur le bouton ci-dessous.": "Pour accéder à votre compte, veuillez définir votre mot de passe en cliquant sur le bouton ci-dessous.",
+    "Définir mon mot de passe": "Définir mon mot de passe",
+    "Ce lien expirera dans :count minutes.": "Ce lien expirera dans :count minutes.",
+    "Si vous n'avez pas demandé cette invitation, vous pouvez ignorer cet email.": "Si vous n'avez pas demandé cette invitation, vous pouvez ignorer cet email.",
+    "Cordialement, l'équipe :app": "Cordialement, l'équipe :app"
 }

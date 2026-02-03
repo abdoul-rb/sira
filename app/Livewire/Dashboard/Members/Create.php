@@ -8,12 +8,10 @@ use App\Actions\Members\CreateMemberAction;
 use App\Enums\RoleEnum;
 use App\Http\Requests\Member\StoreMemberRequest;
 use App\Models\Company;
-use App\Models\User;
 use App\Notifications\MemberInvitation;
-use App\Notifications\NewMemberAccountCreated;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -65,7 +63,7 @@ class Create extends Component
             $member = $action->handle($validated);
 
             if ($member->user) {
-                $member->user->notify(new NewMemberAccountCreated($this->password));
+                $this->sendInvitationNotification($member->user);
             }
 
             $this->dispatch('close-modal', id: 'create-member');
@@ -81,16 +79,13 @@ class Create extends Component
         }
     }
 
-    private function sendInvitationNotification(User $user)
+    private function sendInvitationNotification(\App\Models\User $user): void
     {
-        // Générer un token sécurisé pour 7 jours
-        $setupUrl = URL::temporarySignedRoute(
-            'dashboard.members.setup-password',
-            now()->addDays(7),
-            ['tenant' => $this->tenant, 'user' => $user->id]
-        );
+        // Générer un token de reset password via le broker Laravel
+        $token = Password::broker()->createToken($user);
 
-        $user->notify(new MemberInvitation($this->tenant, $setupUrl));
+        // Envoyer la notification d'invitation avec le token
+        $user->notify(new MemberInvitation($this->tenant, $token));
     }
 
     public function render()

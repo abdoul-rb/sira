@@ -16,7 +16,7 @@ class MemberInvitation extends Notification implements ShouldQueue
 
     public function __construct(
         public Company $company,
-        public string $setupUrl
+        public string $token
     ) {}
 
     /**
@@ -34,15 +34,24 @@ class MemberInvitation extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $resetUrl = url(route('password.reset', [
+            'token' => $this->token,
+            'email' => $notifiable->getEmailForPasswordReset(),
+            'ctxt' => 'invit',
+        ], false));
+
         return (new MailMessage)
-            ->subject('Invitation à rejoindre ' . $this->company->name)
-            ->greeting('Bonjour !')
-            ->line("Vous avez été invité à rejoindre l'équipe de {$this->company->name}.")
-            ->line('Pour commencer à utiliser la plateforme, vous devez définir votre mot de passe.')
-            ->action('Définir mon mot de passe', $this->setupUrl)
-            ->line('Ce lien est valable pendant 7 jours.')
-            ->line("Si vous n'avez pas demandé cette invitation, vous pouvez ignorer cet email.")
-            ->salutation("Cordialement, l'équipe {$this->company->name}");
+            ->subject(__('Invitation à rejoindre :company', ['company' => $this->company->name]))
+            ->greeting(__('Bonjour !'))
+            ->line(__('Vous avez été invité à rejoindre l\'équipe de :company sur :app.', [
+                'company' => $this->company->name,
+                'app' => config('app.name'),
+            ]))
+            ->line(__('Pour accéder à votre compte, veuillez définir votre mot de passe en cliquant sur le bouton ci-dessous.'))
+            ->action(__('Définir mon mot de passe'), $resetUrl)
+            ->line(__('Ce lien expirera dans :count minutes.', ['count' => config('auth.passwords.users.expire')]))
+            ->line(__('Si vous n\'avez pas demandé cette invitation, vous pouvez ignorer cet email.'))
+            ->salutation(__('Cordialement, l\'équipe :app', ['app' => config('app.name')]));
     }
 
     /**
@@ -54,7 +63,6 @@ class MemberInvitation extends Notification implements ShouldQueue
     {
         return [
             'company_id' => $this->company->id,
-            'setup_url' => $this->setupUrl,
         ];
     }
 }

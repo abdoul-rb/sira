@@ -1,4 +1,4 @@
-@section('title', __('Réinitialiser le mot de passe'))
+@section('title', $isInvitation ? __('Définir votre mot de passe') : __('Réinitialiser le mot de passe'))
 
 <div class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
     <div class="w-full max-w-md">
@@ -13,11 +13,15 @@
 
             <!-- Title -->
             <h2 class="text-2xl font-bold text-gray-900 mb-3">
-                {{ __('Réinitialiser le mot de passe') }}
+                {{ $isInvitation ? __('Définir votre mot de passe') : __('Réinitialiser le mot de passe') }}
             </h2>
 
             <p class="text-sm text-gray-500 mb-8">
-                {{ __('Entrez votre nouveau mot de passe ci-dessous.') }}
+                @if ($isInvitation)
+                    {{ __('Bienvenue ! Définissez votre mot de passe pour accéder à votre compte.') }}
+                @else
+                    {{ __('Entrez votre nouveau mot de passe ci-dessous.') }}
+                @endif
             </p>
 
             <form wire:submit.prevent="resetPassword" class="space-y-6">
@@ -43,7 +47,7 @@
                             </path>
                         </svg>
                     </span>
-                    {{ __('Réinitialiser le mot de passe') }}
+                    {{ $isInvitation ? __('Définir mon mot de passe') : __('Réinitialiser le mot de passe') }}
                 </button>
             </form>
         </div>

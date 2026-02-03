@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Auth\Passwords;
 
 use Illuminate\Support\Facades\Password;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Illuminate\Contracts\Auth\PasswordBroker;
 
+#[Layout('layouts.auth')]
 class Email extends Component
 {
     /** @var string */
-    public $email;
+    public string $email = '';
 
     /** @var string|null */
-    public $emailSentMessage = false;
+    public string|bool $emailSentMessage = false;
 
     public function sendResetPasswordLink()
     {
@@ -35,13 +40,13 @@ class Email extends Component
      *
      * @return \Illuminate\Contracts\Auth\PasswordBroker
      */
-    public function broker()
+    public function broker(): PasswordBroker
     {
         return Password::broker();
     }
 
     public function render()
     {
-        return view('livewire.auth.passwords.email')->extends('layouts.auth');
+        return view('livewire.auth.passwords.email');
     }
 }

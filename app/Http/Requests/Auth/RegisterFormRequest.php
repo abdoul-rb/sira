@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\UnauthorizedEmailProviders;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -27,7 +28,7 @@ class RegisterFormRequest extends FormRequest
             'lastname' => 'required|string',
             'companyName' => ['required', 'string', Rule::unique('companies', 'name')],
             'phoneNumber' => 'required|string',
-            'email' => ['required', 'email', 'unique:users', 'lowercase', 'max:255'],
+            'email' => ['required', 'email', 'unique:users', 'lowercase', 'max:255', new UnauthorizedEmailProviders],
             'password' => ['required', Password::min(6)/* ->mixedCase() */],
             'terms' => 'required|accepted',
         ];

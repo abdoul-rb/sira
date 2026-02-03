@@ -2811,6 +2811,7 @@ class UnauthorizedEmailProviders implements ValidationRule
             'senseless-entertainment.com',
             'seosnaps.com',
             'server.ms',
+            'sepole.com',
             'services391.com',
             'sexforswingers.com',
             'sexical.com',

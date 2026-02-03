@@ -43,15 +43,15 @@ class MemberInvitation extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject(__('Invitation à rejoindre :company', ['company' => $this->company->name]))
             ->greeting(__('Bonjour !'))
-            ->line(__('Vous avez été invité à rejoindre l\'équipe de :company sur :app.', [
+            ->line(__("Vous avez été invité à rejoindre l'équipe de :company sur :app.", [
                 'company' => $this->company->name,
                 'app' => config('app.name'),
             ]))
             ->line(__('Pour accéder à votre compte, veuillez définir votre mot de passe en cliquant sur le bouton ci-dessous.'))
             ->action(__('Définir mon mot de passe'), $resetUrl)
             ->line(__('Ce lien expirera dans :count minutes.', ['count' => config('auth.passwords.users.expire')]))
-            ->line(__('Si vous n\'avez pas demandé cette invitation, vous pouvez ignorer cet email.'))
-            ->salutation(__('Cordialement, l\'équipe :app', ['app' => config('app.name')]));
+            ->line(__("Si vous n'avez pas demandé cette invitation, vous pouvez ignorer cet email."))
+            ->salutation(__("Cordialement, l'équipe :app", ['app' => config('app.name')]));
     }
 
     /**

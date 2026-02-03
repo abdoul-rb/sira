@@ -5,28 +5,24 @@ declare(strict_types=1);
 namespace App\Livewire\Auth\Passwords;
 
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Contracts\Auth\PasswordBroker;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Livewire\Component;
-use Illuminate\Contracts\Auth\StatefulGuard;
-use Illuminate\Contracts\Auth\PasswordBroker;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('layouts.auth')]
 class Reset extends Component
 {
-    /** @var string */
     public string $token = '';
 
-    /** @var string */
     public string $email = '';
 
-    /** @var string */
     public string $password = '';
 
-    /** @var string */
     public string $password_confirmation = '';
 
     public function mount(string $token): void
@@ -73,8 +69,6 @@ class Reset extends Component
 
     /**
      * Get the broker to be used during password reset.
-     *
-     * @return PasswordBroker
      */
     public function broker(): PasswordBroker
     {
@@ -83,8 +77,6 @@ class Reset extends Component
 
     /**
      * Get the guard to be used during password reset.
-     *
-     * @return StatefulGuard
      */
     protected function guard(): StatefulGuard
     {

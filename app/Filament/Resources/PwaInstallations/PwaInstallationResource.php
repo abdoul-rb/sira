@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PwaInstallations;
 
-use App\Filament\Resources\PwaInstallations\Pages;
 use App\Models\PwaInstallation;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;

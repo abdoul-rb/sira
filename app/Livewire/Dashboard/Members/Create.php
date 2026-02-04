@@ -8,10 +8,10 @@ use App\Actions\Members\CreateMemberAction;
 use App\Enums\RoleEnum;
 use App\Http\Requests\Member\StoreMemberRequest;
 use App\Models\Company;
-use App\Notifications\MemberInvitation;
+use App\Models\User;
+use App\Services\InvitationService;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -79,13 +79,9 @@ class Create extends Component
         }
     }
 
-    private function sendInvitationNotification(\App\Models\User $user): void
+    private function sendInvitationNotification(User $user): void
     {
-        // Générer un token de reset password via le broker Laravel
-        $token = Password::broker()->createToken($user);
-
-        // Envoyer la notification d'invitation avec le token
-        $user->notify(new MemberInvitation($this->tenant, $token));
+        app(InvitationService::class)->sendInvitation($user, $this->tenant);
     }
 
     public function render()

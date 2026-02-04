@@ -22,7 +22,6 @@
 
             <div class="mt-10">
                 <form wire:submit.prevent="authenticate" method="POST" class="space-y-6">
-
                     <x-form.input type="email" name="email" :label="__('Adresse email')" :wire="true" />
 
                     <x-form.input-password name="password" :label="__('Mot de passe')" :wire="true" />
@@ -37,7 +36,7 @@
                         </div>
 
                         <div class="text-sm leading-6">
-                            <a href="#{{-- {{ route('password.request') }} --}}" class="text-sm text-sky-600 hover:text-sky-500">
+                            <a href="{{ route('password.request') }}" class="text-sm text-sky-600 hover:text-sky-500">
                                 {{ __('Mot de passe oublié ?') }}
                             </a>
                         </div>

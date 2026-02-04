@@ -56,7 +56,7 @@ class ResetTest extends TestCase
         ])
             ->set('email', $user->email)
             ->set('password', 'new-password')
-            ->set('passwordConfirmation', 'new-password')
+            ->set('password_confirmation', 'new-password')
             ->call('resetPassword');
 
         $this->assertTrue(Auth::attempt([
@@ -69,8 +69,9 @@ class ResetTest extends TestCase
     public function token_is_required()
     {
         Livewire::test('auth.passwords.reset', [
-            'token' => null,
+            'token' => Str::random(16),
         ])
+            ->set('token', '')
             ->call('resetPassword')
             ->assertHasErrors(['token' => 'required']);
     }
@@ -126,8 +127,8 @@ class ResetTest extends TestCase
             'token' => Str::random(16),
         ])
             ->set('password', 'new-password')
-            ->set('passwordConfirmation', 'not-new-password')
+            ->set('password_confirmation', 'not-new-password')
             ->call('resetPassword')
-            ->assertHasErrors(['password' => 'same']);
+            ->assertHasErrors(['password' => 'confirmed']);
     }
 }

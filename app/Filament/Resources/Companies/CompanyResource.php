@@ -1,22 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Companies;
 
 use App\Filament\Resources\Companies\Pages\ManageCompanies;
 use App\Models\Company;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreAction;
+use Filament\Actions\RestoreBulkAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class CompanyResource extends Resource
 {
@@ -66,6 +76,8 @@ class CompanyResource extends Resource
                     ->label('ID'),
                 TextColumn::make('slug')
                     ->label('Slug'),
+                ImageColumn::make('logo_path')
+                    ->disk('public'),
                 TextColumn::make('name')
                     ->label('Nom')
                     ->searchable(),
@@ -79,14 +91,15 @@ class CompanyResource extends Resource
                     ->counts('members')
                     ->label('Membres'),
                 TextColumn::make('website')
-                    ->searchable(),
+                    ->label('Site')
+                    ->searchable()
+                    ->formatStateUsing(fn (string $state) => Str::limit($state, 20)),
                 IconColumn::make('active')
                     ->boolean(),
-                TextColumn::make('logo_path')
-                    ->searchable(),
                 TextColumn::make('address')
                     ->label('Adresse')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('city')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -107,15 +120,46 @@ class CompanyResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TrashedFilter::make(),
             ])
-            ->recordActions([
+            ->actions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make()
+                        ->label('Suppression douce')
+                        ->modalHeading("Mettre l'entreprise à la corbeille ?"),
+                    RestoreAction::make(),
+                    ForceDeleteAction::make()
+                        ->label('Suppression définitive')
+                        ->modalHeading("Supprimer définitivement l'entreprise et ses utilisateurs ?")
+                        ->visible(fn (Company $record) => true) // Force la visibilité même si non supprimé
+                        ->before(function (Company $record) {
+                            // Supprimer tous les utilisateurs rattachés aux membres de cette entreprise
+                            $record->members()->with('user')->get()->each(function ($member) {
+                                if ($member->user) {
+                                    $member->user->delete();
+                                }
+                            });
+                        }),
+                ])
+                    ->icon('heroicon-m-ellipsis-vertical')
+                    ->color('gray')
+                    ->iconButton(),
             ])
-            ->toolbarActions([
+            ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
+                    ForceDeleteBulkAction::make()
+                        ->before(function (\Illuminate\Support\Collection $records) {
+                            $records->each(function (Company $company) {
+                                $company->members()->with('user')->get()->each(function ($member) {
+                                    if ($member->user) {
+                                        $member->user->delete();
+                                    }
+                                });
+                            });
+                        }),
                 ]),
             ]);
     }

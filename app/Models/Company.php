@@ -12,17 +12,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 
 class Company extends Model
 {
     use Billable;
-
-    /** @use HasFactory<\Database\Factories\CompanyFactory> */
     use HasFactory;
-
     use HasSubscription;
+    use SoftDeletes;
 
     protected $fillable = [
         'uuid',

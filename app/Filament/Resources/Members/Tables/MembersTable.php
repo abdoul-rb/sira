@@ -51,7 +51,7 @@ class MembersTable
                 TextColumn::make('user.roles.name')
                     ->label('Rôles')
                     ->badge()
-                    ->formatStateUsing(fn (string $state): string => RoleEnum::tryFrom($state)?->label())
+                    ->formatStateUsing(fn (string $state): string => RoleEnum::tryFrom($state)?->label() ?? $state)
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

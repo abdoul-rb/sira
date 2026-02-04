@@ -66,7 +66,7 @@ class UserResource extends Resource
                     ->label('Rôles')
                     ->multiple()
                     ->relationship('roles', 'name')
-                    ->getOptionLabelFromRecordUsing(fn (Model $item) => RoleEnum::tryFrom($item->name)?->label())
+                    ->getOptionLabelFromRecordUsing(fn (Model $item) => RoleEnum::tryFrom($item->name)?->label() ?? $item->name)
                     ->preload()
                     ->searchable(),
             ]);
@@ -91,7 +91,7 @@ class UserResource extends Resource
                 TextColumn::make('roles.name')
                     ->label('Rôles')
                     ->badge()
-                    ->formatStateUsing(fn (string $state): string => RoleEnum::tryFrom($state)?->label()),
+                    ->formatStateUsing(fn (string $state): string => RoleEnum::tryFrom($state)?->label() ?? $state),
                 TextColumn::make('email_verified_at')
                     ->label('Vérifiée')
                     ->dateTime()

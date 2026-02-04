@@ -8,8 +8,10 @@ use App\Enums\RoleEnum;
 use App\Filament\Resources\Users\Pages\ManageUsers;
 use App\Models\Company;
 use App\Models\User;
+use App\Services\InvitationService;
 use BackedEnum;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -27,6 +29,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Password;
 use Spatie\Permission\Models\Role;
 use UnitEnum;
 
@@ -135,8 +138,42 @@ class UserResource extends Resource
                     ->query(fn (Builder $query): Builder => $query->whereNotNull('email_verified_at')),
             ], layout: FiltersLayout::AboveContent)
             ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
+                    Action::make('resend_invitation')
+                        ->label('Renvoyer l\'invitation')
+                        ->icon('heroicon-o-envelope')
+                        ->color('info')
+                        ->visible(fn (User $record) => $record->member !== null)
+                        ->requiresConfirmation()
+                        ->modalHeading("Renvoyer l'invitation")
+                        ->modalDescription("Un nouvel email d'invitation sera envoyé à cet utilisateur pour définir son mot de passe.")
+                        ->action(function (User $record) {
+                            app(InvitationService::class)->sendInvitation($record, $record->member->company);
+                        })
+                        ->successNotificationTitle('Invitation renvoyée avec succès'),
+                    Action::make('reset_password')
+                        ->label('Réinitialiser le mot de passe')
+                        ->icon('heroicon-o-key')
+                        ->color('warning')
+                        ->requiresConfirmation()
+                        ->modalHeading('Réinitialiser le mot de passe')
+                        ->modalDescription('Un email de réinitialisation de mot de passe sera envoyé à cet utilisateur.')
+                        ->action(function (User $record) {
+                            $token = Password::broker()->createToken($record);
+                            $resetUrl = url(route('password.reset', [
+                                'token' => $token,
+                                'email' => $record->email,
+                            ], false));
+
+                            $record->notify(new \Illuminate\Auth\Notifications\ResetPassword($token));
+                        })
+                        ->successNotificationTitle('Email de réinitialisation envoyé'),
+                ])
+                    ->icon('heroicon-m-ellipsis-vertical')
+                    ->color('gray')
+                    ->iconButton(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

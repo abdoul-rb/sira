@@ -4,6 +4,10 @@ namespace App\Filament\Resources\Members\Tables;
 
 use App\Enums\RoleEnum;
 use App\Models\Company;
+use App\Models\Member;
+use App\Services\InvitationService;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -82,7 +86,26 @@ class MembersTable
                     }),
             ])
             ->recordActions([
-                EditAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    Action::make('resend_invitation')
+                        ->label('Renvoyer l\'invitation')
+                        ->icon('heroicon-o-envelope')
+                        ->color('info')
+                        ->visible(fn (Member $record) => $record->user !== null)
+                        ->requiresConfirmation()
+                        ->modalHeading("Renvoyer l'invitation")
+                        ->modalDescription("Un nouvel email d'invitation sera envoyé au user de ce membre pour définir son mot de passe.")
+                        ->action(function (Member $record) {
+                            if ($record->user) {
+                                app(InvitationService::class)->sendInvitation($record->user, $record->company);
+                            }
+                        })
+                        ->successNotificationTitle('Invitation renvoyée avec succès'),
+                ])
+                    ->icon('heroicon-m-ellipsis-vertical')
+                    ->color('gray')
+                    ->iconButton(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

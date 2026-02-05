@@ -103,12 +103,12 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="text-sm/6 text-gray-600 hover:text-gray-900">
+                            <a href="{{ route('cgu') }}" class="text-sm/6 text-gray-600 hover:text-gray-900">
                                 Conditions d'utilisation
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="text-sm/6 text-gray-600 hover:text-gray-900">
+                            <a href="{{ route('privacy-policy') }}" class="text-sm/6 text-gray-600 hover:text-gray-900">
                                 Politique de confidentialité
                             </a>
                         </li>

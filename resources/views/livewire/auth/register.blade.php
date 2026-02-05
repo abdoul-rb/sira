@@ -43,12 +43,12 @@
                     <div class="col-span-full">
                         <p class="text-sm text-gray-600">
                             En vous inscrivant, vous acceptez
-                            <a href=""
+                            <a href="{{ route('cgu') }}"
                                class="font-medium text-sky-600 hover:underline">
                                 les conditions générales d’utilisation
                             </a>
                             et
-                            <a href=""
+                            <a href="{{ route('privacy-policy') }}"
                                class="font-medium text-sky-600 hover:underline">
                                 la politique de confidentialité
                             </a>

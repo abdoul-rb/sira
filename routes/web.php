@@ -29,6 +29,7 @@ Route::get('/', HomeController::class)->name('home');
 Route::view('mentions-legales', 'legals.terms')->name('terms');
 Route::view('condition-d-utilisation', 'legals.cgu')->name('cgu');
 Route::view('politique-de-confidentialite', 'legals.privacy-policy')->name('privacy-policy');
+
 require __DIR__ . '/auth.php';
 
 // domain('{tenant}.' . config('app.url')) Route::prefix('{tenant}/dashboard')->name('dashboard.')

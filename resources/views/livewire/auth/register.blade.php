@@ -40,17 +40,27 @@
                     <x-form.input-password class="col-span-full" name="password" label="Mot de passe"
                         :wire="true" />
 
-                    <div class="col-span-full flex items-center">
-                        <input wire:model.lazy="terms" id="terms" type="checkbox"
-                            class="h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-600">
-                        <label for="terms" class="ml-2 block text-sm leading-6 text-gray-700">
-                            {{ __("J'accepte les conditions générales d'utilisation") }}
-                        </label>
+                    <div class="col-span-full">
+                        <p class="text-sm text-gray-600">
+                            En vous inscrivant, vous acceptez
+                            <a href="{{ route('cgu') }}"
+                               class="font-medium text-sky-600 hover:underline">
+                                les conditions générales d’utilisation
+                            </a>
+                            et
+                            <a href="{{ route('privacy-policy') }}"
+                               class="font-medium text-sky-600 hover:underline">
+                                la politique de confidentialité
+                            </a>
+                        </p>
                     </div>
 
                     <div class="col-span-full">
                         <button type="submit"
-                            class="flexflex w-full justify-center rounded-md bg-gray-900 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm focus-visible:outline-offset-2 focus-visible:outline-black cursor-pointer">
+                            class="flex w-full justify-center rounded-md bg-gray-900 px-3 py-1.5
+                                   text-sm font-medium leading-6 text-white shadow-sm
+                                   hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 
+                                   focus-visible:outline-gray-900 cursor-pointer transition-colors">
                             {{ __('Créer mon compte') }}
                         </button>
                     </div>

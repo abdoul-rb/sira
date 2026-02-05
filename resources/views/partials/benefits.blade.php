@@ -49,7 +49,7 @@
             </div>
 
             <ul class="space-y-5">
-                @foreach (["Cahiers difficiles à suivre", "Données jamais à jour", "Ruptures de stock répétées", "Mauvaises décisions d'achat", "Aucune visibilité sur la marge réelle"] as $item)
+                @foreach (["Vue claire sur vos produits, vos ventes et votre stock", "Alertes lorsque le stock arrive au minimum", "Calcul automatique du chiffre d'affaires et de la rentabilité", "Enregistrement des ventes en quelques secondes", "Historique complet et suivi de performances"] as $item)
                     <li class="flex items-center">
                         <svg aria-hidden="true" class="h-6 w-6 flex-none fill-current stroke-current text-blue-400">
                             <path

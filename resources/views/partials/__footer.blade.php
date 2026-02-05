@@ -98,7 +98,7 @@
                     </h3>
                     <ul role="list" class="mt-6 space-y-3">
                         <li>
-                            <a href="#" class="text-sm/6 text-gray-600 hover:text-gray-900">
+                            <a href="{{ route('terms') }}" class="text-sm/6 text-gray-600 hover:text-gray-900">
                                 Mentions légales
                             </a>
                         </li>

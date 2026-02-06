@@ -26,7 +26,8 @@ class StoreMemberRequest extends FormRequest
         $rules = [
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'phoneNumber' => ['nullable', 'string', 'max:255'],
+            'countryCode' => ['required', 'string', 'in:CI,GN,SN,FR,ML,MA,BF'],
+            'phoneNumber' => ['required', 'string', 'max:20'],
             'email' => ['required_if_accepted:canLogin', 'email', Rule::unique('users', 'email')],
             'canLogin' => ['boolean'],
             'role' => [
@@ -44,6 +45,9 @@ class StoreMemberRequest extends FormRequest
         return [
             'firstname.required' => 'Le nom est obligatoire',
             'lastname.required' => 'Le prénom est obligatoire',
+            'countryCode.required' => 'Le code pays est obligatoire.',
+            'countryCode.in' => 'Le code pays sélectionné est invalide.',
+            'phoneNumber.required' => 'Le numéro de téléphone est obligatoire.',
         ];
     }
 }

@@ -7,6 +7,7 @@ namespace App\Livewire\Dashboard\Members;
 use App\Actions\Members\CreateMemberAction;
 use App\Enums\RoleEnum;
 use App\Http\Requests\Member\StoreMemberRequest;
+use App\Livewire\Traits\ManagesPhoneNumbers;
 use App\Models\Company;
 use App\Models\User;
 use App\Services\InvitationService;
@@ -17,6 +18,7 @@ use Livewire\Component;
 
 class Create extends Component
 {
+    use ManagesPhoneNumbers;
     public Company $tenant;
 
     public string $firstname = '';
@@ -32,6 +34,8 @@ class Create extends Component
     public bool $canLogin = false;
 
     public ?RoleEnum $role = null;
+
+    public string $countryCode = 'CI';
 
     public function mount(Company $tenant)
     {
@@ -58,6 +62,10 @@ class Create extends Component
     {
         $validated = $this->validate();
         $validated['company_id'] = $this->tenant->id;
+
+        // Format phone number to E.164
+        $validated['phoneNumber'] = $this->formatToE164($validated['phoneNumber'], $validated['countryCode']);
+        unset($validated['countryCode']); // Ne pas sauvegarder le code pays séparément
 
         try {
             $member = $action->handle($validated);

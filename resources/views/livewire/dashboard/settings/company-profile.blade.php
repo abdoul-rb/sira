@@ -13,8 +13,7 @@
                 </div>
             @elseif ($currentLogoPath)
                 <div class="flex items-center gap-x-4">
-                    <img src="{{ $currentLogoPath }}" alt="{{ $name }}"
-                        class="size-24 lg:size-32 object-cover rounded-md">
+                    <img src="{{ $currentLogoPath }}" alt="{{ $name }}" class="size-24 lg:size-32 object-cover rounded-md">
 
                     {{-- <button type="button" wire:click="#" wire:loading.attr="disabled"
                         class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-white border border-gray-300 px-2 py-1.5 text-xs text-black cursor-pointer">
@@ -27,9 +26,9 @@
                     <label for="logo"
                         class="flex flex-col items-center justify-center w-full h-28 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                         <div class="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-upload w-6 h-6 text-gray-400 mx-auto mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-upload w-6 h-6 text-gray-400 mx-auto mb-2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="17 8 12 3 7 8"></polyline>
                                 <line x1="12" x2="12" y1="3" y2="15">
@@ -49,8 +48,8 @@
         @enderror
     </div>
 
-    <x-form.input class="lg:col-span-4 cursor-not-allowed" name="name" label="Nom" :wire="true"
-        :required="true" :disabled="true" />
+    <x-form.input class="lg:col-span-4 cursor-not-allowed" name="name" label="Nom" :wire="true" :required="true"
+        :disabled="true" />
 
     {{-- <div class="lg:col-span-full">
         <x-form.label label="Description" id="description" />
@@ -60,7 +59,7 @@
         </div>
     </div> --}}
 
-    <x-form.input class="lg:col-span-3" name="phoneNumber" label="Téléphone" :wire="true" :required="true" />
+    <x-phone-input name="phoneNumber" label="Téléphone" :required="true" :countryCode="$countryCode" />
 
     <x-form.input class="lg:col-span-3" name="websiteUrl" label="Site web" :wire="true" />
 

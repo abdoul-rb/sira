@@ -3,7 +3,7 @@
 
     <x-form.input name="lastname" label="Nom" :wire="true" :required="true" />
 
-    <x-form.input name="phoneNumber" label="Numéro de téléphone" :wire="true" :required="true" />
+    <x-phone-input name="phoneNumber" label="Numéro de téléphone" :required="true" :countryCode="$countryCode" />
 
     <x-form.input class="col-span-full" type="email" name="email" label="Email" :wire="true" :required="true" />
 

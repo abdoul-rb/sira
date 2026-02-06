@@ -6,6 +6,7 @@ namespace App\Livewire\Dashboard\Settings;
 
 use App\Actions\Profile\UpdateCompanyAction;
 use App\Http\Requests\Profile\UpdateCompanyRequest;
+use App\Livewire\Traits\ManagesPhoneNumbers;
 use App\Models\Company;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -15,6 +16,7 @@ use Livewire\WithFileUploads;
 class CompanyProfile extends Component
 {
     use WithFileUploads;
+    use ManagesPhoneNumbers;
 
     public Company $tenant;
 
@@ -32,14 +34,19 @@ class CompanyProfile extends Component
 
     public ?string $address = '';
 
+    public string $countryCode = 'CI';
+
     public function mount(Company $tenant)
     {
         $this->tenant = $tenant;
 
+        // Extract country code from existing phone number
+        $this->countryCode = $this->extractCountryCodeFromPhone($this->tenant->phone_number);
+
         $this->fill([
             'name' => $this->tenant->name,
             'description' => $this->tenant->description,
-            'phoneNumber' => $this->tenant->phone_number,
+            'phoneNumber' => $this->extractLocalNumber($this->tenant->phone_number, $this->countryCode),
             'websiteUrl' => $this->tenant->website,
             'address' => $this->tenant->address,
         ]);
@@ -86,10 +93,15 @@ class CompanyProfile extends Component
     {
         $validated = $this->validate();
 
+        // Format phone number to E.164
+        $validated['phoneNumber'] = $this->formatToE164($validated['phoneNumber'], $validated['countryCode']);
+        unset($validated['countryCode']); // Ne pas sauvegarder le code pays séparément
+
         $action->handle($this->tenant, $validated);
 
         $this->dispatch('notify', 'Informations mis à jour !');
     }
+
 
     public function render()
     {

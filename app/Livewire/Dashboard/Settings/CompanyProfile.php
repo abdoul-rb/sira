@@ -15,8 +15,8 @@ use Livewire\WithFileUploads;
 
 class CompanyProfile extends Component
 {
-    use WithFileUploads;
     use ManagesPhoneNumbers;
+    use WithFileUploads;
 
     public Company $tenant;
 
@@ -101,7 +101,6 @@ class CompanyProfile extends Component
 
         $this->dispatch('notify', 'Informations mis à jour !');
     }
-
 
     public function render()
     {

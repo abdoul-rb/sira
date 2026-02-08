@@ -54,7 +54,8 @@ it('can update existing subscription', function () {
     $newP256dh = 'new-p256dh-key-' . uniqid();
 
     // Initial subscription
-    $this->actingAs($user)->postJson('/api/push-subscriptions', [
+    $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)
+        ->actingAs($user)->postJson('/api/push-subscriptions', [
         'endpoint' => $endpoint,
         'keys' => [
             'p256dh' => 'old-p256dh-key',
@@ -63,7 +64,8 @@ it('can update existing subscription', function () {
     ]);
 
     // Update subscription
-    $response = $this->actingAs($user)->postJson('/api/push-subscriptions', [
+    $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)
+        ->actingAs($user)->postJson('/api/push-subscriptions', [
         'endpoint' => $endpoint,
         'keys' => [
             'p256dh' => $newP256dh,
@@ -88,7 +90,8 @@ it('can delete push subscription', function () {
     $endpoint = 'https://push.example.com/' . uniqid();
 
     // Create subscription first
-    $this->actingAs($user)->postJson('/api/push-subscriptions', [
+    $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)
+        ->actingAs($user)->postJson('/api/push-subscriptions', [
         'endpoint' => $endpoint,
         'keys' => [
             'p256dh' => 'test-p256dh',

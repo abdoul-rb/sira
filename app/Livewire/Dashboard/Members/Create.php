@@ -19,6 +19,7 @@ use Livewire\Component;
 class Create extends Component
 {
     use ManagesPhoneNumbers;
+
     public Company $tenant;
 
     public string $firstname = '';

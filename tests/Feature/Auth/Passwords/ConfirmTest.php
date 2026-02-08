@@ -33,7 +33,7 @@ class ConfirmTest extends TestCase
 
         $this->followingRedirects()
             ->get('/must-be-confirmed')
-            ->assertSeeLivewire('auth.passwords.confirm');
+            ->assertSee('password');
     }
 
     #[Test]

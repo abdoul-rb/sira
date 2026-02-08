@@ -9,6 +9,7 @@
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.1",
         "filament/filament": "^4.0",
+        "giggsey/libphonenumber-for-php": "^8.13",
         "ladumor/laravel-pwa": "^0.0.5",
         "laravel-frontend-presets/tall": "^9.1",
         "laravel-notification-channels/webpush": "^10.0",

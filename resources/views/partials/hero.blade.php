@@ -6,7 +6,7 @@
         </span>
     </div>
     <h1 class="mx-auto max-w-5xl font-display text-4xl font-medium tracking-tight text-slate-900 lg:text-7xl">
-        L'outil simple et fiable pour
+        L'outil simple pour
         <span class="relative whitespace-nowrap text-blue-600">
             <svg aria-hidden="true" viewBox="0 0 418 42"
                 class="absolute top-2/3 left-0 h-[0.58em] w-full fill-blue-300/70" preserveAspectRatio="none">
@@ -16,7 +16,7 @@
             </svg>
             <span class="relative">gérer et développer</span>
         </span>
-        votre boutique en Afrique
+        votre boutique
     </h1>
 
     <p class="mx-auto mt-6 max-w-2xl lg:text-lg tracking-tight text-gray-600">
@@ -54,7 +54,16 @@
         @endforeach
     </div>
 
-    <div class="mt-20 lg:mt-44">
+    <!-- Cover image -->
+    <div class="mt-16 md:mt-24 max-w-5xl mx-auto animate-fade-in-up animation-delay-500">
+        <div class="relative shadow-2xl rounded-lg overflow-hidden border border-gray-100">
+            <img src="https://sira-your-business-simplified.vercel.app/assets/dashboard-preview-D1CVNeEM.png"
+                alt="Aperçu du tableau de bord Sira" class="w-full h-auto rounded-lg">
+        </div>
+    </div>
+
+    <!-- Companies trust -->
+    <div class="mt-16 md:mt-24">
         <p class="font-display text-base text-slate-900">
             {{ __('Plusieurs entreprises nous font déjà confiance') }}
         </p>

@@ -23,9 +23,9 @@ class UpdateShopRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
-            'facebook_url' => 'nullable|url|max:255',
-            'instagram_url' => 'nullable|url|max:255',
-            'new_logo' => 'nullable|image|max:1024', // 1MB max
+            'facebookUrl' => 'nullable|url|max:255',
+            'instagramUrl' => 'nullable|url|max:255',
+            'newLogo' => 'nullable|image|max:1024', // 1MB max
             'active' => 'boolean',
         ];
     }
@@ -36,10 +36,10 @@ class UpdateShopRequest extends FormRequest
             'name.required' => 'Le nom de la boutique est requis.',
             'name.max' => 'Le nom ne peut pas dépasser 255 caractères.',
             'description.max' => 'La description ne peut pas dépasser 1000 caractères.',
-            'facebook_url.url' => "L'URL Facebook n'est pas valide.",
-            'instagram_url.url' => "L'URL Instagram n'est pas valide.",
-            'new_logo.image' => 'Le fichier doit être une image.',
-            'new_logo.max' => "L'image ne peut pas dépasser 1MB.",
+            'facebookUrl.url' => "L'URL Facebook n'est pas valide.",
+            'instagramUrl.url' => "L'URL Instagram n'est pas valide.",
+            'newLogo.image' => 'Le fichier doit être une image.',
+            'newLogo.max' => "L'image ne peut pas dépasser 1MB.",
         ];
     }
 }

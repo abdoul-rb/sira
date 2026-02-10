@@ -5,32 +5,31 @@
             {{ __('Logo de la boutique') }}
         </label>
 
-        @if ($logo_path || $new_logo)
+        @if ($logoPath || $newLogo)
             <div class="flex items-center gap-4">
-                @if ($new_logo)
-                    <img src="{{ $new_logo->temporaryUrl() }}" alt="Nouveau logo"
+                @if ($newLogo)
+                    <img src="{{ $newLogo->temporaryUrl() }}" alt="Nouveau logo"
                         class="w-24 h-24 object-cover rounded-lg border border-gray-200">
-                @elseif ($logo_path)
+                @elseif ($logoPath)
                     <img src="{{ $shop->getLogoPath() }}" alt="Logo actuel"
                         class="w-24 h-24 object-cover rounded-lg border border-gray-200">
                 @endif
 
-                <button type="button" wire:click="$set('new_logo', null)"
-                    class="text-sm text-red-600 hover:text-red-800">
+                <button type="button" wire:click="$set('new_logo', null)" class="text-sm text-red-600 hover:text-red-800">
                     Supprimer
                 </button>
             </div>
         @endif
 
-        @if (!$new_logo && !$logo_path)
+        @if (!$newLogo && !$logoPath)
             <div class="relative">
-                <input type="file" accept="image/*" wire:model="new_logo" class="hidden" id="logo-upload">
+                <input type="file" accept="image/*" wire:model="newLogo" class="hidden" id="logo-upload">
                 <label for="logo-upload"
                     class="flex flex-col items-center justify-center w-full h-24 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                     <div class="text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-upload w-6 h-6 text-gray-400 mx-auto mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-upload w-6 h-6 text-gray-400 mx-auto mb-2">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="17 8 12 3 7 8"></polyline>
                             <line x1="12" x2="12" y1="3" y2="15"></line>
@@ -43,7 +42,7 @@
             </div>
         @endif
 
-        @error('new_logo')
+        @error('newLogo')
             <p class="text-sm text-red-600">{{ $message }}</p>
         @enderror
     </div>
@@ -70,10 +69,10 @@
         <h3 class="text-lg font-medium text-gray-900">{{ __('Réseaux sociaux') }}</h3>
 
         <div class="grid grid-cols-1 gap-4">
-            <x-form.input name="facebook_url" label="URL Facebook" type="url" :wire="true"
+            <x-form.input name="facebookUrl" label="URL Facebook" type="url" :wire="true"
                 placeholder="https://facebook.com/votre-page" />
 
-            <x-form.input name="instagram_url" label="URL Instagram" type="url" :wire="true"
+            <x-form.input name="instagramUrl" label="URL Instagram" type="url" :wire="true"
                 placeholder="https://instagram.com/votre-compte" />
         </div>
     </div>
@@ -90,12 +89,23 @@
     <!-- Boutons d'action -->
     <div class="flex justify-between gap-3 pt-4">
         <button type="button" @click="$dispatch('close-modal', { id: 'edit-shop' })"
-            class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-white border border-gray-300 px-3 py-2 text-sm text-black focus-visible:outline focus-visible:outline-offset-2 hover:bg-gray-100">
+            class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-white border border-gray-300 px-3 py-2 text-sm text-black focus-visible:outline focus-visible:outline-offset-2 hover:bg-gray-100 cursor-pointer">
             {{ __('Annuler') }}
         </button>
 
         <button type="submit"
-            class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-black hover:bg-gray-800">
+            class="w-full inline-flex items-center justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-black hover:bg-gray-800 cursor-pointer"
+            wire:loading.attr="disabled" wire:target="save">
+            <span wire:loading wire:target="save">
+                <svg class="animate-spin h-5 w-5 inline mr-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                    </circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+            </span>
             {{ $shop->exists ? __('Mettre à jour') : __('Créer') }}
         </button>
     </div>

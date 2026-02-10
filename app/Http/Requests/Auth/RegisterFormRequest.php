@@ -30,7 +30,7 @@ class RegisterFormRequest extends FormRequest
             'phoneNumber' => 'required|string',
             'email' => ['required', 'email', 'unique:users', 'lowercase', 'max:255', new UnauthorizedEmailProviders],
             'password' => ['required', Password::min(6)/* ->mixedCase() */],
-            'terms' => 'required|accepted',
+            // 'terms' => 'required|accepted',
         ];
     }
 
@@ -47,7 +47,7 @@ class RegisterFormRequest extends FormRequest
             'password.required' => 'Le mot de passe est requis.',
             'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',
             'password.mixed_case' => 'Le mot de passe doit contenir au moins une lettre majuscule et une lettre minuscule.',
-            'terms.accepted' => "Vous devez accepter les conditions générales d'utilisation.",
+            // 'terms.accepted' => "Vous devez accepter les conditions générales d'utilisation.",
         ];
     }
 }

@@ -35,7 +35,7 @@ class Register extends Component
     // public $passwordConfirmation = '';
 
     /** @var bool */
-    public $terms = false;
+    public $terms = true;
 
     protected function rules(): array
     {

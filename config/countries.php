@@ -19,23 +19,11 @@ return [
         'code' => 'SN',
         'flag' => '🇸🇳',
     ],
-    'FR' => [
-        'name' => 'France',
-        'dial_code' => '+33',
-        'code' => 'FR',
-        'flag' => '🇫🇷',
-    ],
     'ML' => [
         'name' => 'Mali',
         'dial_code' => '+223',
         'code' => 'ML',
         'flag' => '🇲🇱',
-    ],
-    'MA' => [
-        'name' => 'Maroc',
-        'dial_code' => '+212',
-        'code' => 'MA',
-        'flag' => '🇲🇦',
     ],
     'BF' => [
         'name' => 'Burkina Faso',
@@ -43,4 +31,10 @@ return [
         'code' => 'BF',
         'flag' => '🇧🇫',
     ],
+    /* 'FR' => [
+        'name' => 'France',
+        'dial_code' => '+33',
+        'code' => 'FR',
+        'flag' => '🇫🇷',
+    ], */
 ];

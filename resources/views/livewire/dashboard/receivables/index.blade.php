@@ -19,7 +19,7 @@
         <p class="text-gray-500 text-sm">Suivi des impayés clients</p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
         <x-ui.cards.trending-stat label="Nombre de créances" :value="$creditsOrdersCount">
             <x-slot:icon>
                 <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"

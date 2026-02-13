@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire\Dashboard\Shop;
 
+use App\Actions\Shop\UpdateOrCreateShopAction;
 use App\Http\Requests\Shop\UpdateShopRequest;
 use App\Models\Company;
 use App\Models\Shop;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -20,20 +21,20 @@ class Edit extends Component
     public Shop $shop;
 
     // Propriétés du formulaire
-    public $name = '';
+    public string $name = '';
 
-    public $description = '';
+    public string $description = '';
 
-    public $facebook_url = '';
+    public string $facebookUrl = '';
 
-    public $instagram_url = '';
+    public string $instagramUrl = '';
 
-    public $logo_path;
+    public string $logoPath = '';
 
-    public $active = true;
+    public bool $active = true;
 
     // Pour l'upload temporaire
-    public $new_logo;
+    public ?UploadedFile $newLogo = null;
 
     protected function rules(): array
     {
@@ -55,41 +56,31 @@ class Edit extends Component
         $this->fill([
             'name' => $this->shop->name ?? '',
             'description' => $this->shop->description ?? '',
-            'facebook_url' => $this->shop->facebook_url ?? '',
-            'instagram_url' => $this->shop->instagram_url ?? '',
-            'logo_path' => $this->shop->logo_path ?? '',
+            'facebookUrl' => $this->shop->facebook_url ?? '',
+            'instagramUrl' => $this->shop->instagram_url ?? '',
+            'logoPath' => $this->shop->logo_path ?? '',
             'active' => $this->shop->active ?? true,
         ]);
     }
 
-    public function save()
+    public function save(UpdateOrCreateShopAction $action)
     {
         $validated = $this->validate();
 
-        // Gérer l'upload du logo si un nouveau est fourni
-        if ($this->new_logo) {
-            $filename = $this->new_logo->getClientOriginalName();
-            $path = "{$this->tenant->id}/shop/";
-            $validated['logo_path'] = "{$path}{$filename}";
-
-            // Supprimer l'ancien logo s'il existe
-            if ($this->shop->logo_path) {
-                Storage::disk('public')->delete($this->shop->logo_path);
-            }
-
-            // Stocker le nouveau logo
-            $this->new_logo->storeAs($path, $filename, 'public');
+        // Ajouter le nouveau logo aux données si présent
+        if ($this->newLogo) {
+            $validated['newLogo'] = $this->newLogo;
         }
 
-        // Mettre à jour ou créer la boutique
-        if ($this->shop->exists) {
-            $this->shop->update($validated);
-            session()->flash('success', 'Boutique mise à jour avec succès.');
-        } else {
-            $validated['company_id'] = $this->tenant->id;
-            $this->shop = Shop::create($validated);
-            session()->flash('success', 'Boutique créée avec succès.');
-        }
+        // Déléguer la logique métier à l'Action
+        $isNewShop = ! $this->shop->exists;
+        $this->shop = $action->handle($this->tenant, $this->shop, $validated);
+
+        // Message de succès approprié
+        $message = $isNewShop
+            ? 'Boutique créée avec succès.'
+            : 'Boutique mise à jour avec succès.';
+        session()->flash('success', $message);
 
         // Rafraîchir la relation shop de l'entreprise
         $this->tenant->refresh();

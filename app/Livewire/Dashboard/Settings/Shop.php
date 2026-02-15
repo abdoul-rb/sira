@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Livewire\Dashboard\Settings;
 
 use App\Models\Company;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
+#[Layout('layouts.dashboard')]
 class Shop extends Component
 {
     public Company $tenant;
@@ -38,6 +40,6 @@ class Shop extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.settings.shop')->extends('layouts.dashboard');
+        return view('livewire.dashboard.settings.shop');
     }
 }

@@ -27,6 +27,7 @@ class ShopFactory extends Factory
             'description' => $this->faker->paragraph(),
             'facebook_url' => $this->faker->url(),
             'instagram_url' => $this->faker->url(),
+            'active' => true,
         ];
     }
 

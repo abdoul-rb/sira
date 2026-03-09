@@ -23,8 +23,8 @@
 
             <div>
                 <button type="button" @click="$dispatch('open-modal', { id: 'add-customer' })"
-                    class="mt-5 p-2.5 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden bg-black text-white ring-2 ring-black cursor-pointer">
-                    <span class="sr-only">Créer un nouveau fournisseur</span>
+                    class="mt-5 p-2 lg:p-2.5 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden bg-black text-white ring-2 ring-black cursor-pointer">
+                    <span class="sr-only">Nouveau client</span>
                     <svg class="size-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -111,9 +111,9 @@
                                 <div class="mt-1 py-3 flex items-end">
                                     <button type="button" wire:click="removeProductLine({{ $index }})"
                                         class="p-1 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden bg-gray-200 text-neutral-400 hover:bg-neutral-300 focus:bg-neutral-300">
-                                        <svg class="size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
-                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <svg class="size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M18 6 6 18"></path>
                                             <path d="m6 6 12 12"></path>
                                         </svg>

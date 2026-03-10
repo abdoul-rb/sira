@@ -55,8 +55,8 @@
     <!-- Modal de création de produit -->
     <x-ui.modals.create-order-modal :tenant="$tenant" />
 
-    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
-        <x-ui.cards.trending-stat class="col-span-1" label="Nombre de ventes" :value="$orders->count()">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+        <x-ui.cards.trending-stat label="Nombre de ventes" :value="$orders->count()">
             <x-slot:icon>
                 <svg class="size-5 text-blue-500" data-slot="icon" fill="none" stroke-width="2" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -67,7 +67,7 @@
                 </x-slot>
         </x-ui.cards.trending-stat>
 
-        <x-ui.cards.trending-stat class="col-span-1" label="Chiffres d'affaires" :value="Number::currency($totalSales, in: 'XOF', locale: 'fr')">
+        <x-ui.cards.trending-stat label="Chiffres d'affaires" :value="Number::currency($totalSales, in: 'XOF', locale: 'fr')">
             <x-slot:icon>
                 <svg class="size-5 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -78,7 +78,7 @@
                 </x-slot>
         </x-ui.cards.trending-stat>
 
-        <x-ui.cards.trending-stat class="col-span-1" label="Encaissé" :value="$orders->count()">
+        <x-ui.cards.trending-stat label="Encaissé" :value="$orders->count()">
             <x-slot:icon>
                 <svg class="size-5 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -89,7 +89,7 @@
                 </x-slot>
         </x-ui.cards.trending-stat>
 
-        <x-ui.cards.trending-stat class="col-span-1" label="Crédits" :value="$creditsOrdersCount">
+        <x-ui.cards.trending-stat label="Crédits" :value="$creditsOrdersCount">
             <x-slot:icon>
                 <svg class="size-5 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

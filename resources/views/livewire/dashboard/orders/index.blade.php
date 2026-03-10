@@ -67,7 +67,7 @@
                 </x-slot>
         </x-ui.cards.trending-stat>
 
-        <x-ui.cards.trending-stat label="Chiffres d'affaires" :value="Number::currency($totalSales, in: 'XOF', locale: 'fr')">
+        <x-ui.cards.trending-stat label="Chiffres d'affaires" :value="Number::currency($stats->revenue, in: 'XOF', locale: 'fr')">
             <x-slot:icon>
                 <svg class="size-5 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -78,7 +78,7 @@
                 </x-slot>
         </x-ui.cards.trending-stat>
 
-        <x-ui.cards.trending-stat label="Encaissé" :value="$orders->count()">
+        <x-ui.cards.trending-stat label="Encaissé" :value="Number::currency($stats->total_collected, in: 'XOF', locale: 'fr')">
             <x-slot:icon>
                 <svg class="size-5 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -89,7 +89,7 @@
                 </x-slot>
         </x-ui.cards.trending-stat>
 
-        <x-ui.cards.trending-stat label="Crédits" :value="$creditsOrdersCount">
+        <x-ui.cards.trending-stat label="Crédits" :value="Number::currency($stats->total_receivables, in: 'XOF', locale: 'fr')">
             <x-slot:icon>
                 <svg class="size-5 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

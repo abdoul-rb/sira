@@ -228,6 +228,7 @@
                 {{ __('Annuler') }}
             </button>
 
+            <!-- TODO: add loading state -->
             <x-ui.btn.primary class="w-full" type="submit" :icon="false">
                 {{ __('Enregistrer') }}
             </x-ui.btn.primary>

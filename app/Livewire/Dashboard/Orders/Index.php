@@ -171,8 +171,15 @@ class Index extends Component
 
         $orders = $query->paginate(10);
 
-        $creditsOrdersCount = DB::table('orders')->where('company_id', $this->tenant->id)->where('payment_status', PaymentStatus::CREDIT)->count();
-        $totalSales = DB::table('orders')->where('company_id', $this->tenant->id)->sum('total_amount');
+        // CA, encaissé, crédits
+        $stats = DB::table('orders')
+            ->where('company_id', $this->tenant->id)
+            ->selectRaw('
+                SUM(total_amount) as revenue,
+                SUM(CASE WHEN payment_status != ? THEN total_amount ELSE 0 END) as total_collected,
+                SUM(CASE WHEN payment_status = ? THEN total_amount ELSE 0 END) as total_receivables
+            ', [PaymentStatus::CREDIT, PaymentStatus::CREDIT])
+            ->first();
 
         $periods = [
             'all' => 'Toutes les périodes',
@@ -190,8 +197,7 @@ class Index extends Component
         return view('livewire.dashboard.orders.index', [
             'orders' => $orders,
             'statuses' => OrderStatus::cases(),
-            'creditsOrdersCount' => $creditsOrdersCount,
-            'totalSales' => $totalSales,
+            'stats' => $stats,
             'periods' => $periods,
         ]);
     }

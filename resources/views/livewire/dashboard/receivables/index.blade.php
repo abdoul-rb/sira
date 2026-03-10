@@ -20,7 +20,7 @@
     </div>
 
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
-        <x-ui.cards.trending-stat label="Nombre de créances" :value="$creditsOrdersCount">
+        <x-ui.cards.trending-stat label="Nombre de créances" :value="$orders->count()">
             <x-slot:icon>
                 <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -31,7 +31,7 @@
                 </x-slot>
         </x-ui.cards.trending-stat>
 
-        <x-ui.cards.trending-stat label="Total en attente" :value="Number::currency($totalCredits, in: 'XOF', locale: 'fr')">
+        <x-ui.cards.trending-stat label="Total en attente" :value="Number::currency($totalReceivables, in: 'XOF', locale: 'fr')">
             <x-slot:icon>
                 <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -78,7 +78,7 @@
                     <thead class="border-gray-100 border-y bg-gray-50">
                         <x-ui.tables.row>
                             <x-ui.tables.heading>
-                                <div x-data="{ checked: false }" class="flex items-center gap-3">
+                                <div x-data="{ checked: false }" class="flex items-center gap-1.5">
                                     <div @click="checked = !checked"
                                         class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white /0 border-gray-300 "
                                         :class="checked ? 'border-brand-500  bg-brand-500' :
@@ -92,9 +92,15 @@
                                         </svg>
                                     </div>
                                     <span class="block font-medium text-gray-500 text-xs">
-                                        N°
+                                        {{ __('Date de comm.') }}
                                     </span>
                                 </div>
+                            </x-ui.tables.heading>
+
+                            <x-ui.tables.heading>
+                                <span class="block font-medium text-gray-500 text-xs">
+                                    N°
+                                </span>
                             </x-ui.tables.heading>
 
                             <x-ui.tables.heading>
@@ -105,30 +111,24 @@
 
                             <x-ui.tables.heading>
                                 <span class="font-medium text-gray-500 text-xs">
-                                    {{ __('Montant total') }}
+                                    {{ __('Total') }}
                                 </span>
                             </x-ui.tables.heading>
 
                             <x-ui.tables.heading>
                                 <span class="font-medium text-gray-500 text-xs">
-                                    {{ __('Reste à payer') }}
+                                    {{ __('Avance') }}
                                 </span>
                             </x-ui.tables.heading>
 
                             <x-ui.tables.heading>
                                 <span class="font-medium text-gray-500 text-xs">
-                                    {{ __('Date de commande') }}
+                                    {{ __('Reste') }}
                                 </span>
                             </x-ui.tables.heading>
 
                             <x-ui.tables.heading>
-                                <span class="font-medium text-gray-500 text-xs">
-                                    {{ __('Statut') }}
-                                </span>
-                            </x-ui.tables.heading>
-
-                            <x-ui.tables.heading>
-                                <span class="font-medium text-gray-500 text-xs">
+                                <span class="sr-only">
                                     Action
                                 </span>
                             </x-ui.tables.heading>
@@ -153,10 +153,16 @@
                                                 </path>
                                             </svg>
                                         </div>
-                                        <span class="block font-medium text-gray-700 text-sm">
-                                            {{ $order->order_number }}
+                                        <span class="text-gray-700 text-sm">
+                                            {{ $order->created_at->format('d M. Y') }}
                                         </span>
                                     </div>
+                                </x-ui.tables.cell>
+
+                                <x-ui.tables.cell>
+                                    <span class="block font-medium text-gray-700 text-sm">
+                                        {{ $order->order_number }}
+                                    </span>
                                 </x-ui.tables.cell>
 
                                 <x-ui.tables.cell>
@@ -185,21 +191,21 @@
 
                                 <x-ui.tables.cell>
                                     <span class="text-gray-700 text-sm">
-                                        {{ Number::currency($order->remaining_amount, in: 'XOF', locale: 'fr') }}
+                                        {{ Number::currency($order->advance, in: 'XOF', locale: 'fr') }}
                                     </span>
                                 </x-ui.tables.cell>
 
                                 <x-ui.tables.cell>
                                     <span class="text-gray-700 text-sm">
-                                        {{ $order->created_at->format('d M. Y') }}
+                                        {{ Number::currency($order->remaining_amount, in: 'XOF', locale: 'fr') }}
                                     </span>
                                 </x-ui.tables.cell>
 
-                                <x-ui.tables.cell>
+                                {{-- <x-ui.tables.cell>
                                     <span class="{{ $order->payment_status->color() }} text-xs rounded-full px-2 py-0.5">
                                         {{ $order->payment_status->label() }}
                                     </span>
-                                </x-ui.tables.cell>
+                                </x-ui.tables.cell> --}}
 
                                 <x-ui.tables.cell>
                                     <div class="flex items-center gap-2">

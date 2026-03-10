@@ -11,9 +11,9 @@
                         {{ __('Tableau de bord') }}
                     </a>
 
-                    <a href="{{ route('dashboard.settings.shop') }}"
-                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.settings.shop') ? 'border-primary text-gray-900' : 'border-transparent' }}">
-                        {{ __('Boutique') }}
+                    <a href="{{ route('dashboard.orders.index') }}"
+                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.orders.*') ? 'border-primary text-gray-900' : 'border-transparent' }}">
+                        {{ __('Ventes') }}
                     </a>
 
                     <a href="{{ route('dashboard.products.index') }}"
@@ -21,14 +21,14 @@
                         {{ __('Stock') }}
                     </a>
 
-                    <a href="{{ route('dashboard.orders.index') }}"
-                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.orders.*') ? 'border-primary text-gray-900' : 'border-transparent' }}">
-                        {{ __('Ventes') }}
-                    </a>
-
                     <a href="{{ route('dashboard.customers.index') }}"
                         class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.customers.*') ? 'border-primary text-gray-900' : 'border-transparent' }}">
                         {{ __('Clients') }}
+                    </a>
+
+                    <a href="{{ route('dashboard.settings.shop') }}"
+                        class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ request()->routeIs('dashboard.settings.shop') ? 'border-primary text-gray-900' : 'border-transparent' }}">
+                        {{ __('Boutique') }}
                     </a>
                 </div>
             </div>

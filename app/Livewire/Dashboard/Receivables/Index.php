@@ -47,13 +47,11 @@ class Index extends Component
 
         $orders = $query->paginate(10);
 
-        $creditsOrdersCount = $orders->count();
-        $totalCredits = $orders->sum('total_amount');
+        $totalReceivables = $orders->sum('total_amount');
 
         return view('livewire.dashboard.receivables.index', [
             'orders' => $orders,
-            'creditsOrdersCount' => $creditsOrdersCount,
-            'totalCredits' => $totalCredits,
+            'totalReceivables' => $totalReceivables,
         ]);
     }
 }

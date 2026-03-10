@@ -28,7 +28,7 @@
                     </label>
                 </div>
 
-                @error($featuredImage)
+                @error('featuredImage')
                     <p class="mt-1 font-normal text-xs text-red-600">{{ $message }}</p>
                 @enderror
             </div>
@@ -56,24 +56,24 @@
             <div class="space-y-2">
                 <div class="flex items-center justify-between">
                     <h3 class="block text-sm font-medium text-gray-700">
-                        {{ __('Assignation aux entrepôts') }}
+                        {{ __('Répartition par entrepôt') }}
                     </h3>
 
                     <x-ui.btn.primary @click="$dispatch('open-modal', { id: 'create-warehouse' })">
-                        {{ __('Ajouter un entrepôt') }}
+                        {{ __('Nouvel entrepôt') }}
                     </x-ui.btn.primary>
                 </div>
 
                 <!-- Lignes d'entrepôts -->
                 @foreach ($warehouseLines as $index => $line)
-                    <div class="grid grid-cols-5 gap-2 items-center">
+                    <div class="grid grid-cols-5 gap-2 items-end p-3 border border-gray-200 rounded-lg">
                         <!-- Sélecteur d'entrepôt -->
                         <div class="col-span-2">
                             <x-form.label label="Entrepôt" id="warehouse-id-{{ $index }}" />
 
                             <select id="warehouse-id-{{ $index }}"
                                 wire:model.live="warehouseLines.{{ $index }}.warehouse_id"
-                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 text-gray-900 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm">
+                                class="mt-1 block w-full rounded-md border border-gray-300 py-1.5 text-gray-900 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-black text-sm">
                                 <option value="">{{ __('Sélectionner un entrepôt') }}</option>
                                 @foreach ($warehouses as $warehouse)
                                     <option value="{{ $warehouse->id }}">
@@ -84,6 +84,7 @@
                                     </option>
                                 @endforeach
                             </select>
+
                             @error("warehouseLines.{$index}.warehouse_id")
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                             @enderror
@@ -95,7 +96,7 @@
 
                             <input type="number" id="quantity-warehouse-{{ $index }}"
                                 wire:model.live.number="warehouseLines.{{ $index }}.quantity" min="0"
-                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm">
+                                class="mt-1 block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm">
                             @error("warehouseLines.{$index}.quantity")
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                             @enderror
@@ -103,19 +104,17 @@
 
                         <!-- Actions -->
                         <div class="col-span-1 flex items-end justify-end">
-                            @if (count($warehouseLines) > 1)
-                                <div class="mt-1 py-3 flex items-end">
-                                    <button type="button" wire:click="removeWarehouseLine({{ $index }})"
-                                        class="p-1 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden bg-gray-200 text-neutral-400 hover:bg-neutral-300 focus:bg-neutral-300">
-                                        <svg class="size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M18 6 6 18"></path>
-                                            <path d="m6 6 12 12"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            @endif
+                            <button type="button" wire:click="removeWarehouseLine({{ $index }})"
+                                class="p-1 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden"
+                                @disabled(count($warehouseLines) <= 1)>
+                                <svg class="size-5 shrink-0 text-red-600" data-slot="icon" fill="none" stroke-width="1.5"
+                                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                    aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0">
+                                    </path>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 @endforeach
@@ -124,7 +123,7 @@
             <!-- Bouton pour ajouter une ligne -->
             <div class="mt-4">
                 <button type="button" wire:click="addWarehouseLine"
-                    class="inline-flex items-center px-3 py-1.5 border border-dashed border-gray-300 text-xs font-medium rounded-full text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                    class="w-full inline-flex items-center justify-center px-3 py-1.5 border border-dashed border-gray-300 text-xs font-medium rounded-full text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
                     {{ __('+ Ajouter un entrepôt') }}
                 </button>
             </div>
@@ -155,7 +154,7 @@
                 {{ __('Annuler') }}
             </button>
 
-            <x-ui.btn.primary type="submit" class="w-full" :icon="false">
+            <x-ui.btn.primary type="submit" class="w-full" :icon="false" :loading="true">
                 {{ __('Enregistrer') }}
             </x-ui.btn.primary>
         </div>

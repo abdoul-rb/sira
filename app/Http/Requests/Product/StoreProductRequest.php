@@ -42,6 +42,8 @@ class StoreProductRequest extends FormRequest
             'price.required' => 'Le prix est obligatoire.',
             'price.numeric' => 'Le prix doit être un nombre.',
             'price.min' => 'Le prix doit être positif.',
+            'stockQuantity.required' => 'La quantité est obligatoire.',
+            'stockQuantity.integer' => 'La quantité doit être un nombre entier.',
             'sku.unique' => 'Le code produit doit être unique.',
             /* 'warehouse_id.required' => "L'entrepôt est obligatoire.",
             'warehouse_id.exists' => "L'entrepôt sélectionné n'existe pas.",

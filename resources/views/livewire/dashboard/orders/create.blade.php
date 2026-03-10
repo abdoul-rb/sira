@@ -72,7 +72,6 @@
                             <div class="flex items-center justify-between">
                                 <x-form.label label="Produit {{ $index + 1 }}" id="product-id" />
 
-                                <!-- Todo: Disabled when product not selected -->
                                 <button type="button" wire:click="removeProductLine({{ $index }})"
                                     class="p-1 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden"
                                     @disabled(count($productLines) <= 1)>

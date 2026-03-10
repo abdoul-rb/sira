@@ -17,7 +17,7 @@
 }">
     <div class="flex items-center justify-between gap-2">
         <h1 class="text-2xl font-bold text-black">
-            {{ __('Mes produits') }}
+            {{ __('Stock / Produits') }}
         </h1>
 
         @can('create-product')

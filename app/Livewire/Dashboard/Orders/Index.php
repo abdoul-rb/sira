@@ -174,11 +174,11 @@ class Index extends Component
         // CA, encaissé, crédits
         $stats = DB::table('orders')
             ->where('company_id', $this->tenant->id)
-            ->selectRaw("
+            ->selectRaw('
                 SUM(total_amount) as revenue,
                 SUM(CASE WHEN payment_status != ? THEN total_amount ELSE 0 END) as total_collected,
                 SUM(CASE WHEN payment_status = ? THEN total_amount ELSE 0 END) as total_receivables
-            ", [PaymentStatus::CREDIT, PaymentStatus::CREDIT])
+            ', [PaymentStatus::CREDIT, PaymentStatus::CREDIT])
             ->first();
 
         $periods = [

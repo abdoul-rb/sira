@@ -20,7 +20,7 @@
     </div>
 
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
-        <x-ui.cards.trending-stat label="Nombre de créances" :value="$creditsOrdersCount">
+        <x-ui.cards.trending-stat label="Nombre de créances" :value="$orders->count()">
             <x-slot:icon>
                 <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -31,7 +31,7 @@
                 </x-slot>
         </x-ui.cards.trending-stat>
 
-        <x-ui.cards.trending-stat label="Total en attente" :value="Number::currency($totalCredits, in: 'XOF', locale: 'fr')">
+        <x-ui.cards.trending-stat label="Total en attente" :value="Number::currency($totalReceivables, in: 'XOF', locale: 'fr')">
             <x-slot:icon>
                 <svg class="size-6 text-blue-500" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

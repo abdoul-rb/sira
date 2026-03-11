@@ -1,4 +1,4 @@
-<x-ui.modals.base id="add-customer" size="md">
+<x-ui.modals.base id="add-customer" size="lg">
     <x-slot:title>
         {{ __('Nouveau client') }}
     </x-slot:title>

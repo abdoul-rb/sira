@@ -6,6 +6,7 @@ namespace App\Livewire\Dashboard\Customers;
 
 use App\Enums\CustomerType;
 use App\Http\Requests\Customer\UpdateCustomerRequest;
+use App\Livewire\Traits\ManagesPhoneNumbers;
 use App\Models\Company;
 use App\Models\Customer;
 use Livewire\Attributes\On;
@@ -13,6 +14,8 @@ use Livewire\Component;
 
 class Edit extends Component
 {
+    use ManagesPhoneNumbers;
+
     public Company $tenant;
 
     public Customer $customer;
@@ -25,9 +28,11 @@ class Edit extends Component
 
     public string $email = '';
 
-    public string $phoneNumber = '';
+    public string $phone_number = '';
 
     public string $address = '';
+
+    public string $countryCode = 'CI';
 
     protected function rules(): array
     {
@@ -55,7 +60,7 @@ class Edit extends Component
             'firstname' => $this->customer->firstname,
             'lastname' => $this->customer->lastname,
             'email' => $this->customer->email,
-            'phoneNumber' => $this->customer->phone_number,
+            'phone_number' => $this->customer->phone_number,
             'address' => $this->customer->address,
         ]);
 
@@ -66,9 +71,13 @@ class Edit extends Component
     {
         // $this->authorize('create', Customer::class);
         $validated = $this->validate();
+        
+        $validated['phone_number'] = $this->formatToE164($validated['phone_number'], $validated['countryCode']);
+        unset($validated['countryCode']); // Ne pas sauvegarder le code pays séparément
+
         $this->customer->update($validated);
 
-        $this->reset('type', 'firstname', 'lastname', 'email', 'phoneNumber', 'address');
+        $this->reset('type', 'firstname', 'lastname', 'email', 'phone_number', 'address');
 
         $this->dispatch('customer-updated');
         $this->dispatch('notify', 'Client mis à jour avec succès !');

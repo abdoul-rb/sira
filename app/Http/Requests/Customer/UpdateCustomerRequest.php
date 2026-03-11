@@ -27,7 +27,8 @@ class UpdateCustomerRequest extends FormRequest
             'firstname' => ['required', 'string', 'max:50'],
             'lastname' => ['required', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:100'],
-            'phoneNumber' => ['nullable', 'string', 'max:30'],
+            'phone_number' => ['nullable', 'string', 'max:30'],
+            'countryCode' => ['required', 'string', 'in:CI,GN,SN,FR,ML,MA,BF'],
             'address' => ['nullable', 'string', 'max:255'],
             // 'type' => ['required', 'in:lead,customer'],
         ];

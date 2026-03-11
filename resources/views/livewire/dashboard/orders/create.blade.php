@@ -1,5 +1,5 @@
 <div>
-    <x-ui.modals.create-customer-modal :tenant="$tenant" />
+    <livewire:dashboard.customers.create :tenant="$tenant" :key="'add-customer-' . time()" />
 
     <form wire:submit.prevent="save" class="grid grid-cols-2 gap-x-2 gap-y-4" enctype="multipart/form-data" novalidate>
         <div class="col-span-full flex items-center gap-x-2">

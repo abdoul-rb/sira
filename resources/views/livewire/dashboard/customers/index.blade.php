@@ -21,7 +21,7 @@
         </x-ui.btn.primary>
     </div>
 
-    <x-ui.modals.create-customer-modal :tenant="$tenant" />
+    <livewire:dashboard.customers.create :tenant="$tenant" />
 
     <div class="mt-3 space-y-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

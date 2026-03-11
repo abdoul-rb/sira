@@ -80,9 +80,8 @@
                             <x-ui.tables.heading>
                                 <div x-data="{ checked: false }" class="flex items-center gap-1.5">
                                     <div @click="checked = !checked"
-                                        class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white /0 border-gray-300 "
-                                        :class="checked ? 'border-brand-500  bg-brand-500' :
-                                            'bg-white /0 border-gray-300 '">
+                                        class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md border-[1.25px] bg-white border-gray-300"
+                                        :class="checked ? 'border-gray-500 bg-gray-500' : 'bg-white border-gray-300'">
                                         <svg :class="checked ? 'block' : 'hidden'" width="14" height="14"
                                             viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                                             class="hidden">

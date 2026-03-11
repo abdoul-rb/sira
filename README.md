@@ -175,3 +175,24 @@ Automatiser la publication des assets via GitHub Actions lors du déploiement
 **Autorisation avec Spatie permissions**
 -- [https://github.com/opcodesio/log-viewer/discussions/16](https://github.com/opcodesio/log-viewer/discussions/16)
 -- [https://saasykit.com/blog/laravel-ci-cd-pipelines-every-laravel-app-should-use](https://saasykit.com/blog/laravel-ci-cd-pipelines-every-laravel-app-should-use)
+
+## Composants UI
+
+### Input Téléphone (`x-phone-input`)
+
+Le composant `x-phone-input` dépend du trait `App\Livewire\Traits\ManagesPhoneNumbers`. 
+
+**Tout composant Livewire utilisant cet input doit impérativement utiliser ce trait.**
+
+Ce trait fournit la liste des pays (`$countries`) et les indicatifs nécessaires au bon fonctionnement de l'interface.
+
+Exemple :
+```php
+use App\Livewire\Traits\ManagesPhoneNumbers;
+
+class CreateCustomer extends Component 
+{
+    use ManagesPhoneNumbers;
+    // ...
+}
+```

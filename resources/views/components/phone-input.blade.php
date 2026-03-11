@@ -42,7 +42,8 @@
 
         <!-- Phone Number Input -->
         <div class="flex-1">
-            <input type="tel" :name="$name" wire:model.live="{{ $name }}" :id="$name" placeholder="01 02 03 04 05"
+            <input type="tel" name="{{ $name }}" wire:model.live="{{ $name }}" id="{{ $name }}"
+                placeholder="01 02 03 04 05"
                 class="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black text-sm bg-white">
         </div>
     </div>
@@ -50,6 +51,7 @@
     @error($name)
         <p class="mt-1 font-normal text-xs text-red-600">{{ $message }}</p>
     @enderror
+
     @error('countryCode')
         <p class="mt-1 font-normal text-xs text-red-600">{{ $message }}</p>
     @enderror

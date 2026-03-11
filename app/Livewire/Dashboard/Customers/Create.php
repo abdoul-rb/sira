@@ -6,12 +6,15 @@ namespace App\Livewire\Dashboard\Customers;
 
 use App\Enums\CustomerType;
 use App\Http\Requests\Customer\StoreCustomerRequest;
+use App\Livewire\Traits\ManagesPhoneNumbers;
 use App\Models\Company;
 use App\Models\Customer;
 use Livewire\Component;
 
 class Create extends Component
 {
+    use ManagesPhoneNumbers;
+
     public Company $tenant;
 
     public $type = 'lead';
@@ -25,6 +28,8 @@ class Create extends Component
     public string $phone_number = '';
 
     public string $address = '';
+
+    public string $countryCode = 'CI';
 
     protected function rules(): array
     {
@@ -46,6 +51,10 @@ class Create extends Component
         // $this->authorize('create', Customer::class);
         $validated = $this->validate();
         $validated['company_id'] = $this->tenant->id;
+
+        // TODO: externaliser
+        $validated['phone_number'] = $this->formatToE164($validated['phone_number'], $validated['countryCode']);
+        unset($validated['countryCode']); // Ne pas sauvegarder le code pays séparément
 
         Customer::create($validated);
 

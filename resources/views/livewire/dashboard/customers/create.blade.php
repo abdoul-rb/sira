@@ -7,7 +7,8 @@
         <x-form.input class="col-span-1" name="firstname" label="Prénom" :wire="true" :required="true" />
         <x-form.input class="col-span-1" name="lastname" label="Nom" :wire="true" :required="true" />
 
-        <x-form.input class="col-span-full" name="phone_number" label="Téléphone" :wire="true" :required="true" />
+        <x-phone-input class="col-span-full" name="phone_number" label="Téléphone" :required="true"
+            :countryCode="$countryCode" />
 
         <!-- Boutons d'action -->
         <div class="col-span-full flex justify-between gap-3 pt-2">

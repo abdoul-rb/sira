@@ -25,6 +25,7 @@ class StoreCustomerRequest extends FormRequest
             'firstname' => ['required', 'string', 'max:50'],
             'lastname' => ['required', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:100'],
+            'countryCode' => ['required', 'string', 'in:CI,GN,SN,FR,ML,MA,BF'],
             'phone_number' => ['required', 'string', 'max:30'],
             'address' => ['nullable', 'string', 'max:255'],
         ];

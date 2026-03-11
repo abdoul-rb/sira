@@ -151,27 +151,6 @@
             </div>
         </div>
 
-        <div class="col-span-1">
-            <x-form.label label="Remise" id="discount" />
-
-            <input type="number" wire:model.live.number="discount" id="discount"
-                class="mt-1 block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm">
-            @error('discount')
-                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <!-- TODO: create small input component -->
-        <div class="col-span-1">
-            <x-form.label label="Avance payé" id="advance" />
-
-            <input type="number" wire:model.live.number="advance" id="advance"
-                class="mt-1 block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm">
-            @error('advance')
-                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
-
         <div class="col-span-full">
             <h3 class="block text-xs text-gray-600">
                 {{ __('Mode de paiement') }}
@@ -190,6 +169,27 @@
                     </div>
                 @endforeach
             </div>
+        </div>
+
+        {{-- <div class="col-span-1">
+            <x-form.label label="Remise" id="discount" />
+
+            <input type="number" wire:model.live.number="discount" id="discount"
+                class="mt-1 block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm">
+            @error('discount')
+            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+            @enderror
+        </div> --}}
+
+        <!-- TODO: create small input component -->
+        <div class="col-span-1">
+            <x-form.label label="Avance payé" id="advance" />
+
+            <input type="number" wire:model.live.number="advance" id="advance"
+                class="mt-1 block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm">
+            @error('advance')
+                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Totaux -->

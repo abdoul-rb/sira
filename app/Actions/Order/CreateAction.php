@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions\Order;
 
+use App\Enums\CreditStatus;
+use App\Enums\PaymentStatus;
+use App\Models\Credit;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Warehouse;
@@ -35,6 +38,16 @@ final class CreateAction
 
             // Attacher les produits à la commande et décrémenter les stocks
             $this->attachProductsToOrder($order, $products, $warehouse);
+
+            // Si la commande est à crédit, créer automatiquement la créance associée
+            if ($order->payment_status === PaymentStatus::CREDIT) {
+                Credit::create([
+                    'company_id' => $order->company_id,
+                    'order_id' => $order->id,
+                    'status' => CreditStatus::PENDING,
+                    'due_date' => null,
+                ]);
+            }
 
             return $order;
         });

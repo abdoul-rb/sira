@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Models\Company;
 
-// require __DIR__ . '/format.php';
+require __DIR__ . '/messages.php';
 
 if (! function_exists('current_tenant')) {
     function current_tenant(): ?Company

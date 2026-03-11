@@ -25,6 +25,7 @@ class StoreCustomerRequest extends FormRequest
             'firstname' => ['required', 'string', 'max:50'],
             'lastname' => ['required', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:100'],
+            'countryCode' => ['required', 'string', 'in:CI,GN,SN,FR,ML,MA,BF'],
             'phone_number' => ['required', 'string', 'max:30'],
             'address' => ['nullable', 'string', 'max:255'],
         ];
@@ -36,6 +37,8 @@ class StoreCustomerRequest extends FormRequest
             'firstname.required' => 'Le prénom est requis.',
             'lastname.required' => 'Le nom est requis.',
             'email.email' => "L'email doit être une adresse email valide.",
+            'countryCode.required' => 'Le code pays est obligatoire.',
+            'countryCode.in' => 'Le code pays sélectionné est invalide.',
             'phone_number.required' => 'Le téléphone est requis.',
             'address.string' => "L'adresse doit être une chaîne de caractères.",
         ];

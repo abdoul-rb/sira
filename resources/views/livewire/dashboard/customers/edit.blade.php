@@ -1,4 +1,4 @@
-<x-ui.modals.base id="edit-customer" size="xl">
+<x-ui.modals.base id="edit-customer" size="lg">
     <x-slot:title>
         {{ __('Modifier le client') }}
     </x-slot:title>
@@ -8,9 +8,9 @@
         <x-form.input class="col-span-1" name="lastname" label="Nom" :wire="true" :required="true" />
 
         <x-form.input class="col-span-full" name="email" label="Email" :wire="true" type="email" />
-        <x-form.input class="col-span-full" name="phoneNumber" label="Téléphone" :wire="true" :required="true" />
 
-        <x-form.input class="col-span-full" name="address" label="Localisation" :wire="true" />
+        <x-phone-input class="col-span-full" name="phone_number" label="Téléphone" :required="true"
+            :countryCode="$countryCode" />
 
         <!-- Boutons d'action -->
         <div class="col-span-full flex justify-between gap-3 pt-2">
@@ -32,9 +32,9 @@
         <select wire:model.live="type" name="type" id="type"
             class="mt-1 w-full rounded-md border-gray-300 text-sm focus:ring-teal-600">
             @foreach ($types as $enum)
-                <option value="{{ $enum->value }}" @selected($type == $enum->value)>
-                    {{ $enum->label() }}
-                </option>
+            <option value="{{ $enum->value }}" @selected($type==$enum->value)>
+                {{ $enum->label() }}
+            </option>
             @endforeach
         </select>
     </div> --}}

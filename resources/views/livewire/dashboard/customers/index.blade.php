@@ -21,7 +21,7 @@
         </x-ui.btn.primary>
     </div>
 
-    <x-ui.modals.create-customer-modal :tenant="$tenant" />
+    <livewire:dashboard.customers.create :tenant="$tenant" />
 
     <div class="mt-3 space-y-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -172,7 +172,7 @@
             </div> --}}
         </div>
 
-        <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul role="list" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             @forelse($customers as $customer)
                 <x-ui.cards.customer-details :customer="$customer" />
 

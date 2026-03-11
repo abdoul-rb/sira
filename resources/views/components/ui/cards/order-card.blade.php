@@ -92,7 +92,7 @@
 
     <div class="mt-3 rounded-lg text-gray-500 p-4 -mx-2 bg-white cursor-pointer">
         @if ($showCustomerDetails)
-            <div class="space-y-1 mb-5 border-b border-gray-200 pb-5">
+            <div class="mb-5 border-b border-gray-200 pb-5">
                 <div class="flex items-center gap-2 text-sm text-gray-600">
                     <svg class="w-5 h-5 shrink-0" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor"
                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -102,8 +102,8 @@
                     </svg>
                     <span>{{ $order->customer?->fullname ?? '-' }}</span>
                 </div>
-                <div class="text-xs text-gray-500 ml-6">
-                    {{ $order->customer?->email ?? '-' }} / {{ $order->customer?->phone_number ?? '-' }}
+                <div class="text-xs text-gray-500 ml-7">
+                    {{ $order->customer?->phone_number ?? '-' }}
                 </div>
             </div>
         @endif

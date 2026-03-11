@@ -71,7 +71,7 @@ class Edit extends Component
     {
         // $this->authorize('create', Customer::class);
         $validated = $this->validate();
-        
+
         $validated['phone_number'] = $this->formatToE164($validated['phone_number'], $validated['countryCode']);
         unset($validated['countryCode']); // Ne pas sauvegarder le code pays séparément
 

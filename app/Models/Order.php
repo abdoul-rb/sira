@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ScopedBy([TenantScope::class])]
@@ -145,6 +146,16 @@ class Order extends Model
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    /**
+     * Le crédit associé à cette commande (si paiement à crédit).
+     *
+     * @return HasOne<Credit, Order>
+     */
+    public function creditRecord(): HasOne
+    {
+        return $this->hasOne(Credit::class);
     }
 
     /*
@@ -325,11 +336,20 @@ class Order extends Model
     }
 
     /**
-     * Calcule le montant restant à payer
+     * Calcule le montant restant à payer.
+     * Inclut les versements partiels enregistrés dans credit_payments si un crédit existe.
      */
     public function getRemainingAmountAttribute(): float
     {
-        return max(0, $this->total_amount - $this->advance);
+        $creditPaymentsSum = 0;
+
+        if ($this->relationLoaded('creditRecord') && $this->creditRecord !== null) {
+            $creditPaymentsSum = $this->creditRecord->relationLoaded('payments')
+                ? (float) $this->creditRecord->payments->sum('amount')
+                : (float) $this->creditRecord->payments()->sum('amount');
+        }
+
+        return max(0, (float) $this->total_amount - (float) $this->advance - $creditPaymentsSum);
     }
 
     /**

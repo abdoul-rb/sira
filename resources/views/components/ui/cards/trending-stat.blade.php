@@ -5,7 +5,7 @@
 
     <!-- le placer en bottom -->
     <div class="mt-auto pt-2 lg:pt-0 flex items-end justify-between">
-        <h4 class="text-lg font-semibold text-gray-800">
+        <h4 class="lg:text-lg font-semibold text-gray-800">
             {{ $value }}
         </h4>
 

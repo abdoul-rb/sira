@@ -465,4 +465,6 @@
             </div>
         </div> --}}
     </div>
+
+    <livewire:dashboard.onboarding-wizard />
 @endsection

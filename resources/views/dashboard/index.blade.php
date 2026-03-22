@@ -13,8 +13,12 @@
                 </div>
                 <div class="lg:pt-1 text-left">
                     <p class="text-sm font-medium text-gray-600">Welcome back,</p>
-                    <p class="text-xl font-bold text-gray-900 lg:text-2xl">{{ auth()->user()->name }}</p>
-                    <p class="text-sm font-medium text-gray-600">{{ Auth::user()->roleLabels() }}</p>
+                    <p class="text-xl font-bold text-gray-900 lg:text-2xl">
+                        {{ auth()->user()->name }}
+                    </p>
+                    <p class="text-sm font-medium text-gray-600">
+                        {{ Auth::user()->roleLabels() }}
+                    </p>
                 </div>
             </div>
             {{-- <div class="mt-5 flex lg:justify-center lg:mt-0">
@@ -465,6 +469,4 @@
             </div>
         </div> --}}
     </div>
-
-    <livewire:dashboard.onboarding-wizard />
 @endsection

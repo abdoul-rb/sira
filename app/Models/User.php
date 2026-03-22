@@ -35,6 +35,7 @@ class User extends Authenticatable implements FilamentUser, HasName
     protected $fillable = [
         'uuid',
         'name',
+        'phone_number',
         'email',
         'password',
         'last_login_at',
@@ -131,7 +132,7 @@ class User extends Authenticatable implements FilamentUser, HasName
      */
     public function getInitialsAttribute(): string
     {
-        return strtoupper(substr($this->name, 0, 1));
+        return strtoupper(substr($this->name ?? '?', 0, 1));
     }
 
     /**

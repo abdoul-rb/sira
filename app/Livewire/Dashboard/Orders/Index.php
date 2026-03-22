@@ -175,9 +175,9 @@ class Index extends Component
         $stats = DB::table('orders')
             ->where('company_id', $this->tenant->id)
             ->selectRaw('
-                SUM(total_amount) as revenue,
-                SUM(CASE WHEN payment_status != ? THEN total_amount ELSE 0 END) as total_collected,
-                SUM(CASE WHEN payment_status = ? THEN total_amount ELSE 0 END) as total_receivables
+                COALESCE(SUM(total_amount), 0) as revenue,
+                COALESCE(SUM(CASE WHEN payment_status != ? THEN total_amount ELSE 0 END), 0) as total_collected,
+                COALESCE(SUM(CASE WHEN payment_status = ? THEN total_amount ELSE 0 END), 0) as total_receivables
             ', [PaymentStatus::CREDIT, PaymentStatus::CREDIT])
             ->first();
 

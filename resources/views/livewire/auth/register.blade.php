@@ -24,40 +24,30 @@
 
             <div class="mt-10">
                 <form wire:submit.prevent="register" method="POST" class="mt-10 grid grid-cols-2 gap-x-2 gap-y-4">
-                    <x-form.input type="text" name="firstname" label="Prénom" :wire="true" />
+                    <x-form.input class="col-span-full" type="text" name="name" label="Nom complet" :wire="true"
+                        :required="true" />
 
-                    <x-form.input type="text" name="lastname" label="Nom" :wire="true" />
+                    <x-phone-input class="col-span-full" name="phoneNumber" label="Numéro WhattsApp"
+                        :countryCode="$countryCode" :required="true" />
 
-                    <x-form.input class="col-span-full" type="text" name="companyName" label="Nom de l'entreprise"
-                        :wire="true" />
-
-                    <x-form.input class="col-span-full" type="text" name="phoneNumber" label="Téléphone"
-                        :wire="true" />
-
-                    <x-form.input class="col-span-full" type="email" name="email" label="Adresse email"
-                        :wire="true" />
-
-                    <x-form.input-password class="col-span-full" name="password" label="Mot de passe"
-                        :wire="true" />
+                    <x-form.input-password class="col-span-full" name="password" label="Mot de passe" :wire="true"
+                        :required="true" />
 
                     <div class="col-span-full">
                         <p class="text-sm text-gray-600">
                             En vous inscrivant, vous acceptez
-                            <a href="{{ route('cgu') }}"
-                               class="font-medium text-sky-600 hover:underline">
+                            <a href="{{ route('cgu') }}" class="font-medium text-sky-600 hover:underline">
                                 les conditions générales d’utilisation
                             </a>
                             et
-                            <a href="{{ route('privacy-policy') }}"
-                               class="font-medium text-sky-600 hover:underline">
+                            <a href="{{ route('privacy-policy') }}" class="font-medium text-sky-600 hover:underline">
                                 la politique de confidentialité
                             </a>
                         </p>
                     </div>
 
                     <div class="col-span-full">
-                        <button type="submit"
-                            class="flex w-full justify-center rounded-md bg-gray-900 px-3 py-1.5
+                        <button type="submit" class="flex w-full justify-center rounded-md bg-gray-900 px-3 py-1.5
                                    text-sm font-medium leading-6 text-white shadow-sm
                                    hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 
                                    focus-visible:outline-gray-900 cursor-pointer transition-colors">

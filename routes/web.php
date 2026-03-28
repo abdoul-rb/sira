@@ -33,7 +33,7 @@ Route::view('politique-de-confidentialite', 'legals.privacy-policy')->name('priv
 
 require __DIR__ . '/auth.php';
 
-Route::name('dashboard.')->group(function () {
+Route::name('dashboard.')->middleware(['guest'])->group(function () {
     Route::get('dashboard', OnboardHome::class)->name('onboarding');
 });
 

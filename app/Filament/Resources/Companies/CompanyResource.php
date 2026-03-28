@@ -48,22 +48,24 @@ class CompanyResource extends Resource
                     ->label('Nom')
                     ->required()
                     ->columnSpanFull(),
-                TextInput::make('email')
-                    ->label('Email')
-                    ->email()
-                    ->required(),
-                TextInput::make('phone_number')
-                    ->label('Téléphone')
-                    ->tel(),
-                TextInput::make('website')
-                    ->label('Site web')
-                    ->url(),
+                TextInput::make('country')
+                    ->label('Pays'),
                 Toggle::make('active')
                     ->required(),
-                TextInput::make('logo_path'),
-                TextInput::make('address'),
-                // TextInput::make('city'),
-                // TextInput::make('country'),
+                TextInput::make('logo_path')
+                    ->label('Logo (chemin)'),
+                TextInput::make('facebook_url')
+                    ->label('Facebook')
+                    ->url()
+                    ->placeholder('https://facebook.com/...'),
+                TextInput::make('instagram_url')
+                    ->label('Instagram')
+                    ->url()
+                    ->placeholder('https://instagram.com/...'),
+                TextInput::make('tiktok_url')
+                    ->label('TikTok')
+                    ->url()
+                    ->placeholder('https://tiktok.com/@...'),
             ]);
     }
 
@@ -81,31 +83,27 @@ class CompanyResource extends Resource
                 TextColumn::make('name')
                     ->label('Nom')
                     ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email')
-                    ->searchable(),
-                TextColumn::make('phone_number')
-                    ->label('Téléphone')
-                    ->searchable(),
+                TextColumn::make('country')
+                    ->label('Pays')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('members_count')
                     ->counts('members')
                     ->label('Membres'),
-                TextColumn::make('website')
-                    ->label('Site')
-                    ->searchable()
-                    ->formatStateUsing(fn (string $state) => Str::limit($state, 20)),
+                TextColumn::make('facebook_url')
+                    ->label('Facebook')
+                    ->formatStateUsing(fn (?string $state) => $state ? Str::limit($state, 30) : '—')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('instagram_url')
+                    ->label('Instagram')
+                    ->formatStateUsing(fn (?string $state) => $state ? Str::limit($state, 30) : '—')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('tiktok_url')
+                    ->label('TikTok')
+                    ->formatStateUsing(fn (?string $state) => $state ? Str::limit($state, 30) : '—')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('active')
                     ->boolean(),
-                TextColumn::make('address')
-                    ->label('Adresse')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('city')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('country')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

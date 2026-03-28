@@ -196,3 +196,13 @@ class CreateCustomer extends Component
     // ...
 }
 ```
+
+Dans register
+
+```php
+$user->load(['member' => function ($query) {
+    $query->withoutGlobalScope(\App\Models\Scopes\TenantScope::class);
+}]);
+
+return redirect()->intended(route('dashboard.index', ['tenant' => $user->member->company]));
+```

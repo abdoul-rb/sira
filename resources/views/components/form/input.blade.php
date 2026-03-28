@@ -25,15 +25,17 @@
     };
 @endphp
 
+       
+       
 <div {{ $attributes }}>
     @if (isset($label) && !empty($label))
-        <x-form.label :label="__($label)" :id="$slug" :required="$required" />
+        <x-form.label :label="$label" :id="$slug" :required="$required" />
     @endif
 
-    <input type="{{ $type }}" @class([
-        'mt-1' => isset($label) && !empty($label),
-        'block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm',
-    ]) name="{{ $name }}" id="{{ $slug }}"
+<input type="{{ $type }}" @class([
+    'mt-1' => isset($label) && !empty($label),
+    'block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm',
+]) name="{{ $name }}" id="{{ $slug }}"
         value="{{ old($name, $value) }}" @if ($wire) wire:model.lazy="{{ $name }}" @endif
         @if ($searchable && !$wire) wire:model.live.debounce.300ms="{{ $name }}" @endif
         @if ($live && !$wire) wire:model.live.debounce.300ms="{{ $name }}" @endif

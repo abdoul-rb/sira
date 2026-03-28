@@ -10,12 +10,11 @@
     @endif
 
     <div class="relative mt-2">
-        <input :type="showPassword ? 'text' : 'password'" id="{{ $slug }}"
-            @if (!$wire) name="{{ $name }}" @endif
-            @if (isset($wire) && !empty($wire)) wire:model.lazy="{{ $name }}" @endif @class([
-                'block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm',
-            ])
-            @if (isset($placeholder) && !empty($placeholder)) placeholder="{{ $placeholder }}" @endif>
+        <input :type="showPassword ? 'text' : 'password'" id="{{ $slug }}" @if (!$wire) name="{{ $name }}" @endif
+           @if (isset($wire) && !empty($wire)) wire:model.lazy="{{ $name }}" @endif @class([
+            'block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm',
+        ]) @if (isset($placeholder) && !empty($placeholder))
+        placeholder="{{ $placeholder }}" @endif>
 
         <button @click="showPassword = !showPassword" type="button"
             class="absolute inset-y-0 right-0 flex items-center pr-3">

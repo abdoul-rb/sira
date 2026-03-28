@@ -1,67 +1,8 @@
 <form wire:submit.prevent="save" class="space-y-6" enctype="multipart/form-data" novalidate>
-    <!-- Logo de la boutique -->
-    <div class="space-y-4">
-        <label class="block text-sm font-medium text-gray-700">
-            {{ __('Logo de la boutique') }}
-        </label>
-
-        @if ($logoPath || $newLogo)
-            <div class="flex items-center gap-4">
-                @if ($newLogo)
-                    <img src="{{ $newLogo->temporaryUrl() }}" alt="Nouveau logo"
-                        class="w-24 h-24 object-cover rounded-lg border border-gray-200">
-                @elseif ($logoPath)
-                    <img src="{{ $shop->getLogoPath() }}" alt="Logo actuel"
-                        class="w-24 h-24 object-cover rounded-lg border border-gray-200">
-                @endif
-
-                <button type="button" wire:click="$set('new_logo', null)" class="text-sm text-red-600 hover:text-red-800">
-                    Supprimer
-                </button>
-            </div>
-        @endif
-
-        @if (!$newLogo && !$logoPath)
-            <div class="relative">
-                <input type="file" accept="image/*" wire:model="newLogo" class="hidden" id="logo-upload">
-                <label for="logo-upload"
-                    class="flex flex-col items-center justify-center w-full h-24 border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
-                    <div class="text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-upload w-6 h-6 text-gray-400 mx-auto mb-2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="17 8 12 3 7 8"></polyline>
-                            <line x1="12" x2="12" y1="3" y2="15"></line>
-                        </svg>
-                        <span class="text-sm text-gray-500">
-                            {{ __('Ajouter un logo') }}
-                        </span>
-                    </div>
-                </label>
-            </div>
-        @endif
-
-        @error('newLogo')
-            <p class="text-sm text-red-600">{{ $message }}</p>
-        @enderror
-    </div>
 
     <!-- Informations générales -->
     <div class="grid grid-cols-1 gap-3">
         <x-form.input name="name" label="Nom de la boutique" type="text" :wire="true" :required="true" />
-
-        <div>
-            <label for="description" class="block text-sm font-medium text-gray-700">
-                {{ __('Description') }}
-            </label>
-            <textarea wire:model="description" id="description" name="description" rows="4"
-                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-2 focus:ring-black focus:ring-opacity-50 text-sm"
-                placeholder="Décrivez votre boutique..."></textarea>
-            @error('description')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
     </div>
 
     <!-- Réseaux sociaux -->
@@ -74,6 +15,9 @@
 
             <x-form.input name="instagramUrl" label="URL Instagram" type="url" :wire="true"
                 placeholder="https://instagram.com/votre-compte" />
+
+            <x-form.input name="tiktokUrl" label="URL TikTok" type="url" :wire="true"
+                placeholder="https://tiktok.com/@votre-compte" />
         </div>
     </div>
 
@@ -106,7 +50,7 @@
                     </path>
                 </svg>
             </span>
-            {{ $shop->exists ? __('Mettre à jour') : __('Créer') }}
+            {{ __('Mettre à jour') }}
         </button>
     </div>
 </form>

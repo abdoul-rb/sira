@@ -49,6 +49,10 @@
 <body>
     @yield('body')
 
+    @isset($slot)
+        {{ $slot }}
+    @endisset
+
     <!-- Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {

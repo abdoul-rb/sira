@@ -38,84 +38,55 @@ class RegisterTest extends TestCase
     function a_user_can_register()
     {
         // Create role manually to ensure it exists
-        \Spatie\Permission\Models\Role::create(['name' => \App\Enums\RoleEnum::MANAGER->value]);
+        \Spatie\Permission\Models\Role::firstOrCreate(['name' => \App\Enums\RoleEnum::MANAGER->value]);
         
         Event::fake([Registered::class]);
 
         Livewire::test(Register::class)
-            ->set('firstname', 'John')
-            ->set('lastname', 'Doe')
-            ->set('companyName', 'Acme Corp')
-            ->set('phoneNumber', '1234567890')
-            ->set('email', 'john@example.com')
+            ->set('name', 'John Doe')
+            ->set('countryCode', 'CI')
+            ->set('phoneNumber', '0102030405')
             ->set('password', 'password')
             ->set('terms', true)
             ->call('register')
             ->assertHasNoErrors();
 
-        $this->assertTrue(User::whereEmail('john@example.com')->exists());
-        $this->assertEquals('john@example.com', Auth::user()->email);
+        $this->assertTrue(User::where('phone_number', '+2250102030405')->exists());
+        $this->assertEquals('+2250102030405', Auth::user()->phone_number);
         
         // Verify redirect to dashboard
         $user = Auth::user();
-        $this->assertNotNull($user->member);
-        $this->assertNotNull($user->member->company);
+        $this->assertNull($user->member);
     }
 
     #[Test]
-    function firstname_is_required()
+    function name_is_required()
     {
         Livewire::test(Register::class)
-            ->set('firstname', '')
+            ->set('name', '')
             ->call('register')
-            ->assertHasErrors(['firstname' => 'required']);
+            ->assertHasErrors(['name' => 'required']);
     }
 
     #[Test]
-    function lastname_is_required()
+    function phone_number_is_required()
     {
         Livewire::test(Register::class)
-            ->set('lastname', '')
+            ->set('phoneNumber', '')
             ->call('register')
-            ->assertHasErrors(['lastname' => 'required']);
+            ->assertHasErrors(['phoneNumber' => 'required']);
     }
 
     #[Test]
-    function company_name_is_required()
+    function phone_number_hasnt_been_taken_already()
     {
-        Livewire::test(Register::class)
-            ->set('companyName', '')
-            ->call('register')
-            ->assertHasErrors(['companyName' => 'required']);
-    }
-
-    #[Test]
-    function email_is_required()
-    {
-        Livewire::test(Register::class)
-            ->set('email', '')
-            ->call('register')
-            ->assertHasErrors(['email' => 'required']);
-    }
-
-    #[Test]
-    function email_is_valid_email()
-    {
-        Livewire::test(Register::class)
-            ->set('email', 'invalid-email')
-            ->call('register')
-            ->assertHasErrors(['email' => 'email']);
-    }
-
-    #[Test]
-    function email_hasnt_been_taken_already()
-    {
-        User::factory()->create(['email' => 'john@example.com']);
+        User::factory()->create(['phone_number' => '+2250102030405']);
 
         Livewire::test(Register::class)
-            ->set('email', 'john@example.com')
+            ->set('countryCode', 'CI')
+            ->set('phoneNumber', '0102030405')
             ->call('register')
-            ->assertHasErrors(['email' => 'unique']);
+            ->assertHasErrors(['phoneNumber' => 'unique']);
     }
 
     #[Test]

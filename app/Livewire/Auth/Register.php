@@ -6,36 +6,32 @@ namespace App\Livewire\Auth;
 
 use App\Actions\Auth\RegisterAction;
 use App\Http\Requests\Auth\RegisterFormRequest;
+use App\Livewire\Traits\ManagesPhoneNumbers;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts.auth')]
 class Register extends Component
 {
-    /** @var string */
-    public $firstname = '';
+    use ManagesPhoneNumbers;
 
-    /** @var string */
-    public $lastname = '';
+    public string $name = '';
 
-    /** @var string */
-    public $companyName = '';
+    // public string $email = '';
 
-    /** @var string */
-    public $email = '';
+    public string $phoneNumber = '';
 
-    /** @var string */
-    public $phoneNumber = '';
+    public string $countryCode = 'CI';
 
-    /** @var string */
-    public $password = '';
+    public string $password = '';
 
     // public $passwordConfirmation = '';
 
-    /** @var bool */
-    public $terms = true;
+    public bool $terms = true;
 
     protected function rules(): array
     {
@@ -49,7 +45,20 @@ class Register extends Component
 
     public function register(RegisterAction $action)
     {
-        $validated = $this->validate();
+        $originalPhoneNumber = $this->phoneNumber;
+
+        if (! empty($this->phoneNumber)) {
+            $this->phoneNumber = $this->formatToE164($this->phoneNumber, $this->countryCode);
+        }
+
+        try {
+            $validated = $this->validate();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->phoneNumber = $originalPhoneNumber;
+            throw $e;
+        }
+
+        unset($validated['countryCode']);
 
         try {
             $user = $action->handle($validated);
@@ -57,24 +66,24 @@ class Register extends Component
             event(new Registered($user));
             Auth::login($user, true);
 
-            $user->load(['member' => function ($query) {
-                $query->withoutGlobalScope(\App\Models\Scopes\TenantScope::class);
-            }]);
-
-            return redirect()->intended(route('dashboard.index', ['tenant' => $user->member->company]));
+            // Pas de tenant existant encore, on redirige vers l'index pour onboarder
+            return redirect()->intended(route('dashboard.onboarding'));
         } catch (Exception $e) {
+            $this->phoneNumber = $originalPhoneNumber;
+
             Log::error('Registration failed', [
-                'email' => $validated['email'],
+                // 'email' => $validated['email'],
+                'phoneNumber' => $validated['phoneNumber'],
                 'error' => $e->getMessage(),
             ]);
 
-            $this->addError('email', __("Erreur lors de la création de l'utilisateur"));
+            $this->addError('phoneNumber', __("Erreur lors de la création de l'utilisateur"));
         }
     }
 
     public function render()
     {
         // @phpstan-ignore file
-        return view('livewire.auth.register')->extends('layouts.auth');
+        return view('livewire.auth.register');
     }
 }

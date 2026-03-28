@@ -26,11 +26,9 @@ class UpdateCompanyRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'], // 2MB
-            'description' => ['nullable', 'string'],
-            'countryCode' => ['required', 'string', 'in:CI,GN,SN,FR,ML,MA,BF'],
-            'phoneNumber' => ['required', 'string', 'max:20'],
-            'websiteUrl' => ['nullable', 'url', 'max:255'],
-            'address' => ['nullable', 'string', 'max:255'],
+            'facebookUrl' => ['nullable', 'url', 'max:255'],
+            'instagramUrl' => ['nullable', 'url', 'max:255'],
+            'tiktokUrl' => ['nullable', 'url', 'max:255'],
         ];
     }
 
@@ -41,10 +39,9 @@ class UpdateCompanyRequest extends FormRequest
             'logo.image' => 'Le logo doit être une image valide.',
             'logo.mimes' => 'Formats acceptés : jpg, jpeg, png, webp.',
             'logo.max' => 'Le logo ne peut pas dépasser 2 Mo.',
-            'countryCode.required' => 'Le code pays est obligatoire.',
-            'countryCode.in' => 'Le code pays sélectionné est invalide.',
-            'phoneNumber.required' => 'Le numéro de téléphone est obligatoire.',
-            'websiteUrl.url' => "L'URL du site web doit être valide.",
+            'facebookUrl.url' => "L'URL Facebook n'est pas valide.",
+            'instagramUrl.url' => "L'URL Instagram n'est pas valide.",
+            'tiktokUrl.url' => "L'URL TikTok n'est pas valide.",
         ];
     }
 }

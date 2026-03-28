@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Livewire\Dashboard\Shop;
 
-use App\Actions\Shop\UpdateOrCreateShopAction;
-use App\Http\Requests\Shop\UpdateShopRequest;
+use App\Actions\Profile\UpdateCompanyAction;
 use App\Models\Company;
-use App\Models\Shop;
-use Illuminate\Http\UploadedFile;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -18,73 +15,71 @@ class Edit extends Component
 
     public Company $tenant;
 
-    public Shop $shop;
-
     // Propriétés du formulaire
     public string $name = '';
-
-    public string $description = '';
 
     public string $facebookUrl = '';
 
     public string $instagramUrl = '';
 
-    public string $logoPath = '';
+    public string $tiktokUrl = '';
 
     public bool $active = true;
 
-    // Pour l'upload temporaire
-    public ?UploadedFile $newLogo = null;
-
     protected function rules(): array
     {
-        return (new UpdateShopRequest)->rules();
+        return [
+            'name' => 'required|string|max:255',
+            'facebookUrl' => 'nullable|url|max:255',
+            'instagramUrl' => 'nullable|url|max:255',
+            'tiktokUrl' => 'nullable|url|max:255',
+            'active' => 'boolean',
+        ];
     }
 
     protected function messages(): array
     {
-        return (new UpdateShopRequest)->messages();
+        return [
+            'name.required' => 'Le nom de la boutique est requis.',
+            'name.max' => 'Le nom ne peut pas dépasser 255 caractères.',
+            'facebookUrl.url' => "L'URL Facebook n'est pas valide.",
+            'instagramUrl.url' => "L'URL Instagram n'est pas valide.",
+            'tiktokUrl.url' => "L'URL TikTok n'est pas valide.",
+        ];
     }
 
     public function mount(Company $tenant)
     {
         $this->tenant = $tenant;
 
-        // Récupérer ou créer la boutique
-        $this->shop = $tenant->shop ?? new Shop;
-
         $this->fill([
-            'name' => $this->shop->name ?? '',
-            'description' => $this->shop->description ?? '',
-            'facebookUrl' => $this->shop->facebook_url ?? '',
-            'instagramUrl' => $this->shop->instagram_url ?? '',
-            'logoPath' => $this->shop->logo_path ?? '',
-            'active' => $this->shop->active ?? true,
+            'name' => $this->tenant->name ?? '',
+            'facebookUrl' => $this->tenant->facebook_url ?? '',
+            'instagramUrl' => $this->tenant->instagram_url ?? '',
+            'tiktokUrl' => $this->tenant->tiktok_url ?? '',
+            'active' => $this->tenant->active ?? true,
         ]);
     }
 
-    public function save(UpdateOrCreateShopAction $action)
+    public function save(UpdateCompanyAction $action)
     {
         $validated = $this->validate();
 
-        // Ajouter le nouveau logo aux données si présent
-        if ($this->newLogo) {
-            $validated['newLogo'] = $this->newLogo;
-        }
+        // Prepare data for UpdateCompanyAction
+        $data = [
+            'name' => $validated['name'],
+            'facebookUrl' => $validated['facebookUrl'] ?? null,
+            'instagramUrl' => $validated['instagramUrl'] ?? null,
+            'tiktokUrl' => $validated['tiktokUrl'] ?? null,
+        ];
 
         // Déléguer la logique métier à l'Action
-        $isNewShop = ! $this->shop->exists;
-        $this->shop = $action->handle($this->tenant, $this->shop, $validated);
+        $this->tenant = $action->handle($this->tenant, $data);
 
-        // Message de succès approprié
-        $message = $isNewShop
-            ? 'Boutique créée avec succès.'
-            : 'Boutique mise à jour avec succès.';
-        session()->flash('success', $message);
-
-        // Rafraîchir la relation shop de l'entreprise
+        // Rafraîchir
         $this->tenant->refresh();
-        $this->tenant->load('shop');
+
+        session()->flash('success', 'Boutique mise à jour avec succès.');
 
         // Fermer la modal
         $this->dispatch('close-modal', id: 'edit-shop');

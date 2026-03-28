@@ -51,19 +51,16 @@
     <x-form.input class="lg:col-span-4 cursor-not-allowed" name="name" label="Nom" :wire="true" :required="true"
         :disabled="true" />
 
-    {{-- <div class="lg:col-span-full">
-        <x-form.label label="Description" id="description" />
-        <div class="mt-1">
-            <textarea rows="4" name="description" wire:model.live="description" id="description"
-                class="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-900 placeholder:text-gray-400 focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-50 text-sm bg-white"></textarea>
-        </div>
-    </div> --}}
+    <div class="lg:col-span-full gap-4 grid grid-cols-1 md:grid-cols-2">
+        <x-form.input name="facebookUrl" label="URL Facebook" type="url" :wire="true"
+            placeholder="https://facebook.com/votre-page" />
 
-    <x-phone-input name="phoneNumber" label="Téléphone" :required="true" :countryCode="$countryCode" />
-
-    <x-form.input class="lg:col-span-3" name="websiteUrl" label="Site web" :wire="true" />
-
-    <x-form.input class="lg:col-span-full" name="address" label="Adresse" :wire="true" />
+        <x-form.input name="instagramUrl" label="URL Instagram" type="url" :wire="true"
+            placeholder="https://instagram.com/votre-compte" />
+            
+        <x-form.input name="tiktokUrl" label="URL TikTok" type="url" :wire="true"
+            placeholder="https://tiktok.com/@votre-compte" />
+    </div>
 
     <div class="col-span-full flex justify-between gap-3">
         <x-ui.btn.primary type="submit" :icon="false">

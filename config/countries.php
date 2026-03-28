@@ -2,7 +2,7 @@
 
 return [
     'CI' => [
-        'name' => 'Côte d\'Ivoire',
+        'name' => "Côte d'Ivoire",
         'dial_code' => '+225',
         'code' => 'CI',
         'flag' => '🇨🇮',

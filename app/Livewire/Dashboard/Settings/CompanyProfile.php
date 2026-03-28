@@ -6,7 +6,6 @@ namespace App\Livewire\Dashboard\Settings;
 
 use App\Actions\Profile\UpdateCompanyAction;
 use App\Http\Requests\Profile\UpdateCompanyRequest;
-use App\Livewire\Traits\ManagesPhoneNumbers;
 use App\Models\Company;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +14,6 @@ use Livewire\WithFileUploads;
 
 class CompanyProfile extends Component
 {
-    use ManagesPhoneNumbers;
     use WithFileUploads;
 
     public Company $tenant;
@@ -26,32 +24,24 @@ class CompanyProfile extends Component
 
     public ?string $currentLogoPath = null;
 
-    public ?string $description = '';
+    public ?string $facebookUrl = '';
 
-    public ?string $phoneNumber = '';
+    public ?string $instagramUrl = '';
 
-    public ?string $websiteUrl = '';
-
-    public ?string $address = '';
-
-    public string $countryCode = 'CI';
+    public ?string $tiktokUrl = '';
 
     public function mount(Company $tenant)
     {
         $this->tenant = $tenant;
 
-        // Extract country code from existing phone number
-        $this->countryCode = $this->extractCountryCodeFromPhone($this->tenant->phone_number);
-
         $this->fill([
             'name' => $this->tenant->name,
-            'description' => $this->tenant->description,
-            'phoneNumber' => $this->extractLocalNumber($this->tenant->phone_number, $this->countryCode),
-            'websiteUrl' => $this->tenant->website,
-            'address' => $this->tenant->address,
+            'facebookUrl' => $this->tenant->facebook_url,
+            'instagramUrl' => $this->tenant->instagram_url,
+            'tiktokUrl' => $this->tenant->tiktok_url,
         ]);
 
-        $this->currentLogoPath = $this->tenant->logo_path ? Storage::disk('public')->url($this->tenant->logo_path) : null;
+        $this->currentLogoPath = $this->tenant->logo_path ? \Illuminate\Support\Facades\Storage::url($this->tenant->logo_path) : null;
 
     }
 
@@ -63,13 +53,6 @@ class CompanyProfile extends Component
     protected function messages(): array
     {
         return (new UpdateCompanyRequest)->messages();
-    }
-
-    public function updatedWebsiteUrl()
-    {
-        if ($this->websiteUrl && ! str_starts_with($this->websiteUrl, 'http://')) {
-            $this->websiteUrl = 'https://' . $this->websiteUrl;
-        }
     }
 
     public function removeTempLogo()
@@ -92,10 +75,6 @@ class CompanyProfile extends Component
     public function update(UpdateCompanyAction $action)
     {
         $validated = $this->validate();
-
-        // Format phone number to E.164
-        $validated['phoneNumber'] = $this->formatToE164($validated['phoneNumber'], $validated['countryCode']);
-        unset($validated['countryCode']); // Ne pas sauvegarder le code pays séparément
 
         $action->handle($this->tenant, $validated);
 

@@ -5,5 +5,5 @@
         {{ __('Gérer la boutique') }}
     </x-slot:title>
 
-    @livewire('dashboard.shop.edit', ['tenant' => $tenant], key('edit-shop-' . now()))
+    @livewire('dashboard.shop.edit', ['tenant' => $tenant])
 </x-ui.modals.base>

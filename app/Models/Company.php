@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
@@ -27,14 +26,12 @@ class Company extends Model
         'uuid',
         'slug',
         'name',
-        'email',
-        'phone_number',
-        'website',
         'active',
         'logo_path',
-        'address',
-        'city',
         'country',
+        'facebook_url',
+        'instagram_url',
+        'tiktok_url',
         'stripe_id',
         'pm_type',
         'pm_last_four',
@@ -55,13 +52,32 @@ class Company extends Model
         parent::boot();
 
         static::creating(function (Company $company) {
-            $company->slug = Str::slug($company->name);
+            $company->slug = static::generateUniqueSlug($company->name);
             $company->uuid = Str::uuid();
         });
 
         static::updating(function (Company $company) {
-            $company->slug = Str::slug($company->name);
+            if ($company->isDirty('name')) {
+                $company->slug = static::generateUniqueSlug($company->name, $company->id);
+            }
         });
+    }
+
+    /**
+     * Génère un slug unique pour l'entreprise
+     */
+    protected static function generateUniqueSlug(string $name, ?int $ignoreId = null): string
+    {
+        $slug = Str::slug($name);
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (static::where('slug', $slug)->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))->exists()) {
+            $slug = "{$originalSlug}-{$counter}";
+            $counter++;
+        }
+
+        return $slug;
     }
 
     /*
@@ -163,16 +179,6 @@ class Company extends Model
     }
 
     /**
-     * Get the company's shop.
-     *
-     * @return HasOne<Shop, Company>
-     */
-    public function shop(): HasOne
-    {
-        return $this->hasOne(Shop::class);
-    }
-
-    /**
      * Get all of the company's quotations.
      *
      * @return HasMany<Quotation, Company>
@@ -206,8 +212,6 @@ class Company extends Model
 
     /**
      * Get the company's default warehouse.
-     *
-     * @return HasOne<Warehouse, Company>
      */
     public function defaultWarehouse(): ?Warehouse
     {
@@ -216,8 +220,6 @@ class Company extends Model
 
     /**
      * Get the company's main supplier.
-     *
-     * @return HasOne<Supplier, Company>
      */
     public function mainSupplier(): ?Supplier
     {

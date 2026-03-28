@@ -26,7 +26,6 @@ class Shop extends Component
     public function refreshShop()
     {
         $this->tenant->refresh();
-        $this->tenant->load('shop');
     }
 
     public function getPublicShopUrl(): ?string

@@ -15,16 +15,15 @@ final class UpdateCompanyAction
     {
         return DB::transaction(function () use ($company, $data) {
             $company->update([
-                'name' => $data['name'],
-                'description' => $data['description'],
-                'phone_number' => $data['phoneNumber'],
-                'website' => $data['websiteUrl'],
-                'address' => $data['address'],
+                'name' => $data['name'] ?? $company->name,
+                'facebook_url' => $data['facebookUrl'] ?? $company->facebook_url,
+                'instagram_url' => $data['instagramUrl'] ?? $company->instagram_url,
+                'tiktok_url' => $data['tiktokUrl'] ?? $company->tiktok_url,
             ]);
 
-            if ($data['logo'] instanceof UploadedFile && ! $data['logo']->getError()) {
-                if ($company->logo && Storage::disk('public')->exists($company->logo)) {
-                    Storage::disk('public')->delete($company->logo);
+            if (isset($data['logo']) && $data['logo'] instanceof UploadedFile && ! $data['logo']->getError()) {
+                if ($company->logo_path && Storage::disk('public')->exists($company->logo_path)) {
+                    Storage::disk('public')->delete($company->logo_path);
                 }
 
                 // Sauver le nouveau fichier

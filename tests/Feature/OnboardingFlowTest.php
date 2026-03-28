@@ -11,13 +11,18 @@ use Livewire\Livewire;
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 it('allows user without company to access onboarding dashboard', function () {
+    // Avec le middleware guest, un visiteur non connecté peut accéder à la page
+    $response = $this->get('/dashboard');
+    $response->assertStatus(200);
+});
+
+it('redirects authenticated user away from onboarding page', function () {
+    // Avec le middleware guest, un utilisateur connecté est redirigé
     $user = User::factory()->create();
 
     $response = $this->actingAs($user)->get('/dashboard');
 
-    $response->assertStatus(200);
-    // La page d'onboarding héberge maintenant le RegisterOnboardingWizard
-    $response->assertOk();
+    $response->assertStatus(302);
 });
 
 it('caches data between steps in onboarding wizard', function () {

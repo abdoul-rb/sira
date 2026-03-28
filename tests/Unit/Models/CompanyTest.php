@@ -20,13 +20,8 @@ test('Category: array expected columns', function () {
         'uuid',
         'slug',
         'name',
-        'email',
-        'phone_number',
-        'website',
         'active',
         'logo_path',
-        'address',
-        'city',
         'country',
         'created_at',
         'updated_at',
@@ -34,7 +29,10 @@ test('Category: array expected columns', function () {
         'stripe_id',
         'pm_type',
         'pm_last_four',
-        'trial_ends_at'
+        'trial_ends_at',
+        'facebook_url',
+        'instagram_url',
+        'tiktok_url',
     ]);
 });
 

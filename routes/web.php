@@ -9,6 +9,7 @@ use App\Livewire\Auth\SetupPassword;
 use App\Livewire\Dashboard\Agent\Index as AgentIndex;
 use App\Livewire\Dashboard\Customers\Index as CustomerIndex;
 use App\Livewire\Dashboard\Members\Index as MemberIndex;
+use App\Livewire\Dashboard\OnboardHome;
 use App\Livewire\Dashboard\Orders\Edit as OrderEdit;
 use App\Livewire\Dashboard\Orders\Index as OrderIndex;
 use App\Livewire\Dashboard\Products\Index as ProductIndex;
@@ -31,6 +32,10 @@ Route::view('condition-d-utilisation', 'legals.cgu')->name('cgu');
 Route::view('politique-de-confidentialite', 'legals.privacy-policy')->name('privacy-policy');
 
 require __DIR__ . '/auth.php';
+
+Route::name('dashboard.')->group(function () {
+    Route::get('dashboard', OnboardHome::class)->name('onboarding');
+});
 
 // domain('{tenant}.' . config('app.url')) Route::prefix('{tenant}/dashboard')->name('dashboard.')
 Route::prefix('{tenant}')

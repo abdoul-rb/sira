@@ -2,7 +2,7 @@
 
 <div class="flex min-h-screen bg-white">
     <div
-        class="w-1/2 flex flex-1 flex-col justify-center px-5 py-12 sm:px-6 lg:flex-none lg:px-12 overflow-y-scroll min-h-screen">
+        class="w-1/2 flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 overflow-y-scroll min-h-screen">
         <div class="mx-auto w-full">
             <div class="">
                 <a href="{{ route('home') }}" class="">
@@ -24,32 +24,22 @@
 
             <div class="mt-10">
                 <form wire:submit.prevent="register" method="POST" class="mt-10 grid grid-cols-2 gap-x-2 gap-y-4">
-                    <x-form.input type="text" name="firstname" label="Prénom" :wire="true" />
+                    <x-form.input class="col-span-full" type="text" name="name" label="Nom complet" :wire="true" />
 
-                    <x-form.input type="text" name="lastname" label="Nom" :wire="true" />
+                    <x-phone-input class="col-span-full" name="phoneNumber" label="Numéro WhattsApp"
+                        :countryCode="$countryCode" :required="true" />
 
-                    <x-form.input class="col-span-full" type="text" name="companyName" label="Nom de l'entreprise"
-                        :wire="true" />
-
-                    <x-form.input class="col-span-full" type="text" name="phoneNumber" label="Téléphone"
-                        :wire="true" />
-
-                    <x-form.input class="col-span-full" type="email" name="email" label="Adresse email"
-                        :wire="true" />
-
-                    <x-form.input-password class="col-span-full" name="password" label="Mot de passe"
-                        :wire="true" />
+                    <x-form.input-password class="col-span-full" name="password" label="Mot de passe" :wire="true"
+                        :required="true" />
 
                     <div class="col-span-full">
                         <p class="text-sm text-gray-600">
                             En vous inscrivant, vous acceptez
-                            <a href="{{ route('cgu') }}"
-                               class="font-medium text-sky-600 hover:underline">
-                                les conditions générales d’utilisation
+                            <a href="{{ route('cgu') }}" class="font-medium text-sky-600 hover:underline">
+                                les conditions générales d'utilisation
                             </a>
                             et
-                            <a href="{{ route('privacy-policy') }}"
-                               class="font-medium text-sky-600 hover:underline">
+                            <a href="{{ route('privacy-policy') }}" class="font-medium text-sky-600 hover:underline">
                                 la politique de confidentialité
                             </a>
                         </p>
@@ -57,10 +47,19 @@
 
                     <div class="col-span-full">
                         <button type="submit"
-                            class="flex w-full justify-center rounded-md bg-gray-900 px-3 py-1.5
-                                   text-sm font-medium leading-6 text-white shadow-sm
-                                   hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 
-                                   focus-visible:outline-gray-900 cursor-pointer transition-colors">
+                            class="flex w-full justify-center rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 transition cursor-pointer"
+                            wire:loading.attr="disabled" wire:target="register">
+                            <span wire:loading wire:target="register">
+                                <svg class="animate-spin h-5 w-5 inline mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4">
+                                    </circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                    </path>
+                                </svg>
+                            </span>
                             {{ __('Créer mon compte') }}
                         </button>
                     </div>

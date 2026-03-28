@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->prefix('auth')->name('auth.')->group(function () {
     Route::get('login', Login::class)->middleware(['throttle:6,1'])->name('login');
-    Route::get('register', Register::class)->name('register');
+    Route::get('register', Register::class)->name('register')/* ->middleware('throttle:3,10') */;
 });
 
 // Route::domain('{tenant}.' . config('app.url'))->group(function () {

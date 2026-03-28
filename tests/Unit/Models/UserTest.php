@@ -14,6 +14,7 @@ test('User: array expected columns', function () {
         'uuid',
         'name',
         'email',
+        'phone_number',
         'email_verified_at',
         'created_at',
         'updated_at',

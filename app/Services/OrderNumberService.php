@@ -9,7 +9,7 @@ use App\Models\Order;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class OrderNumberService
+final class OrderNumberService
 {
     /**
      * Génère un numéro de commande unique pour une entreprise
